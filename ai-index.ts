@@ -19,8 +19,11 @@ function read(rel: string) {
   return readFileSync(resolve(__dirname, rel), 'utf-8')
 }
 
+const SHARED = 'three-d/_shared.ts'
+
 function doc(m: (typeof META)[number]) {
   const src = read(`src/patterns/${m.file}`)
+  const usesShared = src.includes('_shared')
   return [
     `# ${m.title}`,
     '',
@@ -47,6 +50,12 @@ function doc(m: (typeof META)[number]) {
     '```tsx',
     src.trimEnd(),
     '```',
+    usesShared ? `
+## Helper it imports: \`src/patterns/${SHARED}\`
+
+\`\`\`ts
+${read(`src/patterns/${SHARED}`).trimEnd()}
+\`\`\`` : '',
     '',
   ]
     .filter((l) => l !== '')
@@ -104,6 +113,7 @@ function files(): Record<string, string> {
     ),
     'raw/tokens/tokens.css': read('src/tokens/tokens.css'),
     'raw/index.css': read('src/index.css'),
+    [`raw/${SHARED}`]: read(`src/patterns/${SHARED}`),
   }
   for (const m of META) {
     out[`docs/${m.slug}.md`] = doc(m)
