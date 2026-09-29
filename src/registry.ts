@@ -4,6 +4,8 @@ import Buttons from './patterns/components/Buttons'
 import ScrollReveal from './patterns/motion/ScrollReveal'
 import ViewTransitionGrid from './patterns/motion/ViewTransitionGrid'
 import CountUp from './patterns/motion/CountUp'
+import CommandPalette from './patterns/components/CommandPalette'
+import MeshGradient from './patterns/recipes/MeshGradient'
 
 export const CATEGORIES = [
   'Foundations',
@@ -89,5 +91,25 @@ export const PATTERNS: Pattern[] = [
     file: 'motion/CountUp.tsx',
     source: { label: 'For fancier digit rolls: number-flow', url: 'https://github.com/barvian/number-flow' },
     Component: CountUp,
+  },
+  {
+    slug: 'command-palette',
+    title: 'Command palette',
+    category: 'Components',
+    summary: 'Ctrl/⌘K launcher on the native <dialog>: focus trap, Esc and backdrop for free, arrow-key navigation.',
+    when: ['Any app with more than a handful of pages or actions', 'Power-user shortcut on top of normal nav, never instead of it'],
+    file: 'components/CommandPalette.tsx',
+    source: { label: 'Heavier alternative: cmdk', url: 'https://github.com/pacocoursey/cmdk' },
+    Component: CommandPalette,
+  },
+  {
+    slug: 'mesh-gradient',
+    title: 'Animated mesh gradient',
+    category: 'Recipes',
+    summary: 'Three blurred blobs drifting on offset loops, plus SVG grain. Pure CSS hero background.',
+    when: ['Hero and section backgrounds', 'Set --mesh-a/b/c to rebrand; pair with big display type'],
+    file: 'recipes/MeshGradient.tsx',
+    source: { label: 'Generator alternative: Mesh Gradient', url: 'https://www.meshgradient.com/' },
+    Component: MeshGradient,
   },
 ]
