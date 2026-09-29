@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ComponentType } from 'react'
 import { flushSync } from 'react-dom'
 import { CATEGORIES, PATTERNS, type Pattern } from './registry'
 import { PREVIEWS } from './previews'
@@ -72,7 +72,15 @@ function TopBar({ theme, onTheme, onSearch }: { theme: Theme; onTheme: () => voi
         <button onClick={onSearch} className="rounded-md p-2 text-fg-muted hover:text-fg sm:hidden" aria-label="Search">
           ⌕
         </button>
-        <a href={REPO} target="_blank" rel="noreferrer" className="text-sm text-fg-muted hover:text-fg">
+        <a
+          href="/llms.txt"
+          target="_blank"
+          className="rounded-md border border-border px-2 py-1 font-mono text-[11px] text-fg-muted hover:text-fg"
+          title="Machine-readable index for AI agents"
+        >
+          llms.txt
+        </a>
+        <a href={REPO} target="_blank" rel="noreferrer" className="hidden text-sm text-fg-muted hover:text-fg sm:inline">
           GitHub
         </a>
         <button
@@ -102,6 +110,26 @@ function Stat({ value, label, suffix = '' }: { value: number; label: string; suf
   )
 }
 
+/** Fallback thumbnail: the real demo, scaled down, mounted only when visible, inert. */
+function LivePreview({ Component }: { Component: ComponentType }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [show, setShow] = useState(false)
+  useEffect(() => {
+    const io = new IntersectionObserver(([e]) => setShow(e.isIntersecting), { rootMargin: '200px' })
+    io.observe(ref.current!)
+    return () => io.disconnect()
+  }, [])
+  return (
+    <div ref={ref} className="absolute inset-0 overflow-hidden" inert aria-hidden>
+      {show && (
+        <div className="pointer-events-none absolute top-0 left-0 w-[250%] origin-top-left scale-[0.4] p-10">
+          <Component />
+        </div>
+      )}
+    </div>
+  )
+}
+
 function PatternCard({ p, i }: { p: Pattern; i: number }) {
   const Preview = PREVIEWS[p.slug]
   return (
@@ -110,7 +138,7 @@ function PatternCard({ p, i }: { p: Pattern; i: number }) {
         className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-surface transition-[border-color,transform] duration-300 ease-out-expo group-hover:-translate-y-1 group-hover:border-accent/50"
         style={{ viewTransitionName: `stage-${p.slug}` }}
       >
-        {Preview && <Preview />}
+        {Preview ? <Preview /> : <LivePreview Component={p.Component} />}
       </div>
       <div className="mt-3 flex items-baseline justify-between gap-3">
         <h3 className="font-medium">{p.title}</h3>
@@ -125,6 +153,8 @@ function PatternCard({ p, i }: { p: Pattern; i: number }) {
 
 function Home() {
   const filled = CATEGORIES.filter((c) => PATTERNS.some((p) => p.category === c))
+  const [filter, setFilter] = useState<string>('All')
+  const shown = filter === 'All' ? PATTERNS : PATTERNS.filter((p) => p.category === filter)
   return (
     <>
       <section className="relative overflow-hidden border-b border-border/60">
@@ -165,12 +195,30 @@ function Home() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-        <div className="mb-10 flex items-baseline justify-between border-b border-border/60 pb-3">
+        <div className="mb-6 flex items-baseline justify-between border-b border-border/60 pb-3">
           <h2 className="font-display text-4xl italic">The collection</h2>
-          <span className="font-mono text-xs text-fg-muted">{String(PATTERNS.length).padStart(2, '0')} live</span>
+          <span className="font-mono text-xs text-fg-muted">{String(shown.length).padStart(2, '0')} live</span>
+        </div>
+        <div className="mb-10 flex flex-wrap gap-2" role="radiogroup" aria-label="Filter by category">
+          {['All', ...filled].map((c) => (
+            <button
+              key={c}
+              role="radio"
+              aria-checked={filter === c}
+              onClick={() => setFilter(c)}
+              className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                filter === c ? 'border-fg bg-fg text-bg' : 'border-border text-fg-muted hover:text-fg'
+              }`}
+            >
+              {c}
+              <span className="ml-1.5 font-mono text-[10px] opacity-60">
+                {c === 'All' ? PATTERNS.length : PATTERNS.filter((p) => p.category === c).length}
+              </span>
+            </button>
+          ))}
         </div>
         <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {PATTERNS.map((p, i) => (
+          {shown.map((p, i) => (
             <PatternCard key={p.slug} p={p} i={i} />
           ))}
         </div>
@@ -243,6 +291,15 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
           <p className="font-mono text-xs uppercase tracking-wider text-accent">{pattern.category}</p>
           <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{pattern.title}</h1>
           <p className="max-w-2xl text-lg text-fg-muted">{pattern.summary}</p>
+          {pattern.tags && (
+            <ul className="flex flex-wrap gap-1.5" aria-label="Tags">
+              {pattern.tags.map((t) => (
+                <li key={t} className="rounded-full border border-border px-2 py-0.5 font-mono text-[11px] text-fg-muted">
+                  {t}
+                </li>
+              ))}
+            </ul>
+          )}
         </header>
 
         <section
@@ -281,6 +338,13 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
           )}
         </section>
 
+        {pattern.a11y && (
+          <section className="rounded-xl border border-border bg-surface/50 p-4">
+            <h2 className="mb-1 font-mono text-[11px] tracking-wider text-fg-muted uppercase">Accessibility</h2>
+            <p className="text-sm">{pattern.a11y}</p>
+          </section>
+        )}
+
         <section className="grid gap-8 sm:grid-cols-2 [&>*]:min-w-0">
           <div>
             <h2 className="mb-3 font-mono text-[11px] uppercase tracking-wider text-fg-muted">When to use</h2>
@@ -296,6 +360,14 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
           <div>
             <h2 className="mb-3 font-mono text-[11px] uppercase tracking-wider text-fg-muted">File</h2>
             <code className="break-all font-mono text-sm">src/patterns/{pattern.file}</code>
+            <p className="mt-3 flex flex-wrap gap-3 text-sm">
+              <a href={`/docs/${pattern.slug}.md`} target="_blank" className="text-accent hover:underline">
+                AI doc (.md) ↗
+              </a>
+              <a href={`/raw/${pattern.file}`} target="_blank" className="text-accent hover:underline">
+                Raw source ↗
+              </a>
+            </p>
             {pattern.source && (
               <p className="mt-3 text-sm">
                 <a href={pattern.source.url} target="_blank" rel="noreferrer" className="text-accent hover:underline">
@@ -342,7 +414,7 @@ export default function App() {
   const commands = useMemo<Command[]>(
     () => [
       { id: '', label: 'Home', group: 'Go to' },
-      ...PATTERNS.map((p) => ({ id: p.slug, label: p.title, group: p.category })),
+      ...PATTERNS.map((p) => ({ id: p.slug, label: p.title, group: p.category, hint: p.tags?.join(' ') })),
     ],
     [],
   )

@@ -73,6 +73,21 @@ Icons: [Iconify](https://icon-sets.iconify.design/) · [Phosphor](https://phosph
 
 [Godly](https://godly.website/) · [Refero Styles](https://styles.refero.design/) · [Mobbin](https://mobbin.com/) · Pinterest (reel 2) · [Spline](https://spline.design/) (3D)
 
+## 8. Site teardowns
+
+**Scrolltide** (scrolltide.co), studied 2026-09-30. A paid library of AI-prompt templates.
+- Stack: Next.js; Bricolage Grotesque + Inter + Space Mono; WebGL hero; ~99 looping preview videos.
+- Catalog: 97 cinematic templates, 26 components (3D carousels, liquid glass, text effects), 55 shaders (about 7 families × palettes, dithered), 18 sections, 14 dashboard screens.
+- What makes it look good: huge heavy display type with one gradient word, warm-to-cool dark glows + grain, mono micro-labels, video previews for every item.
+- Accessibility: good (single h1, sane heading order, alt on all images, named controls, some reduced-motion rules). Missing: skip link, focus-visible styles, labels on videos.
+- Rebuilt here in our own code: shader backgrounds (all families), liquid glass button, focus reveal, ring carousel, coverflow, expanding cards, morph pill card, fan deck, dot grid warp, particle globe, pricing / footer / contact sections, analytics dashboard.
+
+**Alche** (alche.studio), studied 2026-09-30. A Japanese immersive/metaverse studio.
+- Stack: Astro + Lenis smooth scroll, 3 WebGL canvases, Adobe Fonts (JP + Latin mix).
+- Signature moves: blueprint line-draw logo intro, text scramble, asks before sound, intro shrinking into a framed window on scroll.
+- Accessibility: asks before audio (good), lang="ja"; no reduced-motion handling, one image missing alt.
+- Rebuilt here: blueprint intro, scramble text, sound opt-in.
+
 ---
 
 ## Sources

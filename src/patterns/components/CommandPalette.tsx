@@ -50,7 +50,7 @@ export function CommandPalette({
   const results = useMemo(() => {
     const words = query.toLowerCase().split(/\s+/).filter(Boolean)
     return commands.filter((c) => {
-      const hay = `${c.label} ${c.group ?? ''}`.toLowerCase()
+      const hay = `${c.label} ${c.group ?? ''} ${c.hint ?? ''}`.toLowerCase()
       return words.every((w) => hay.includes(w))
     })
   }, [commands, query])
