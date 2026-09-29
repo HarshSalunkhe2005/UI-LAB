@@ -6,6 +6,12 @@ import ViewTransitionGrid from './patterns/motion/ViewTransitionGrid'
 import CountUp from './patterns/motion/CountUp'
 import CommandPalette from './patterns/components/CommandPalette'
 import MeshGradient from './patterns/recipes/MeshGradient'
+import Toast from './patterns/components/Toast'
+import Drawer from './patterns/components/Drawer'
+import BentoGrid from './patterns/layouts/BentoGrid'
+import Timeline from './patterns/dataviz/Timeline'
+import Marquee from './patterns/recipes/Marquee'
+import SpotlightCard from './patterns/motion/SpotlightCard'
 
 export const CATEGORIES = [
   'Foundations',
@@ -31,7 +37,7 @@ export type Pattern = {
   Component: ComponentType
 }
 
-export const PATTERNS: Pattern[] = [
+const ALL: Pattern[] = [
   {
     slug: 'tokens',
     title: 'Design tokens',
@@ -112,4 +118,64 @@ export const PATTERNS: Pattern[] = [
     source: { label: 'Generator alternative: Mesh Gradient', url: 'https://www.meshgradient.com/' },
     Component: MeshGradient,
   },
+  {
+    slug: 'toast',
+    title: 'Toasts',
+    category: 'Components',
+    summary: 'Provider + useToast() hook. Stacks up to four, auto-dismisses, springs in, announced via aria-live.',
+    when: ['Confirming a background action (saved, sent, copied)', 'Never for errors the user must act on; use inline errors'],
+    file: 'components/Toast.tsx',
+    source: { label: 'Fuller alternative: Sonner', url: 'https://sonner.emilkowal.ski/' },
+    Component: Toast,
+  },
+  {
+    slug: 'drawer',
+    title: 'Drawer',
+    category: 'Components',
+    summary: 'Left or right sheet on the native <dialog>, with animated exit and backdrop fade.',
+    when: ['Filters, settings, detail panes that keep list context', 'Mobile navigation'],
+    file: 'components/Drawer.tsx',
+    Component: Drawer,
+  },
+  {
+    slug: 'spotlight-card',
+    title: 'Spotlight card',
+    category: 'Motion',
+    summary: 'Cursor-following glow and slight 3D tilt, driven by CSS variables so React never re-renders.',
+    when: ['Feature grids and pricing cards on landing pages', 'Sparingly: one group per page'],
+    file: 'motion/SpotlightCard.tsx',
+    Component: SpotlightCard,
+  },
+  {
+    slug: 'bento-grid',
+    title: 'Bento grid',
+    category: 'Layouts',
+    summary: 'Six-column grid with mixed tile spans and dense packing. Collapses to one column on phones.',
+    when: ['Feature overviews and dashboard summaries', 'Landing sections that need hierarchy without a long list'],
+    file: 'layouts/BentoGrid.tsx',
+    Component: BentoGrid,
+  },
+  {
+    slug: 'timeline',
+    title: 'Event timeline',
+    category: 'Data viz',
+    summary: 'Vertical rail with aligned mono timestamps and confidence-coloured dots. Rows reveal on scroll.',
+    when: ['Activity feeds, audit logs, reconstructed days (MemoryShards)', 'Order and delivery tracking'],
+    file: 'dataviz/Timeline.tsx',
+    Component: Timeline,
+  },
+  {
+    slug: 'marquee',
+    title: 'Infinite marquee',
+    category: 'Recipes',
+    summary: 'Seamless looping strip with faded edges, pause on hover, any speed and direction.',
+    when: ['Logo walls, tech stacks, testimonials', 'Keep it decorative; nothing essential should scroll away'],
+    file: 'recipes/Marquee.tsx',
+    Component: Marquee,
+  },
 ]
+
+/** Sorted by category so the grid and prev/next follow the sidebar order. */
+export const PATTERNS: Pattern[] = ALL.map((p, i) => ({ p, i }))
+  .sort((a, b) => CATEGORIES.indexOf(a.p.category) - CATEGORIES.indexOf(b.p.category) || a.i - b.i)
+  .map(({ p }) => p)

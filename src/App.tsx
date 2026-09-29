@@ -5,6 +5,7 @@ import { PREVIEWS } from './previews'
 import { MeshGradient } from './patterns/recipes/MeshGradient'
 import { CommandPalette, type Command } from './patterns/components/CommandPalette'
 import { useCountUp } from './patterns/motion/CountUp'
+import { CodeBlock, CopyButton } from './CodeBlock'
 
 const SOURCES = import.meta.glob('./patterns/**/*.tsx', { query: '?raw', import: 'default', eager: true }) as Record<
   string,
@@ -228,6 +229,8 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
   const idx = PATTERNS.indexOf(pattern)
   const prev = PATTERNS[idx - 1]
   const next = PATTERNS[idx + 1]
+  const [tab, setTab] = useState<'preview' | 'code'>('preview')
+  useEffect(() => setTab('preview'), [pattern.slug])
 
   return (
     <div className="mx-auto flex max-w-7xl gap-10 px-4 sm:px-6">
@@ -243,10 +246,39 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
         </header>
 
         <section
-          className="rounded-2xl border border-border bg-surface/50 p-5 sm:p-10"
+          className="overflow-hidden rounded-2xl border border-border bg-surface/50"
           style={{ viewTransitionName: `stage-${pattern.slug}` }}
         >
-          <Component />
+          <div className="flex items-center gap-1 border-b border-border px-3 py-2">
+            {(['preview', 'code'] as const).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={`rounded-md px-3 py-1 text-sm capitalize transition-colors ${
+                  tab === t ? 'bg-surface-2 font-medium text-fg' : 'text-fg-muted hover:text-fg'
+                }`}
+              >
+                {t}
+              </button>
+            ))}
+            <div className="flex-1" />
+            {code && <CopyButton text={code} />}
+            <a
+              href={`${REPO}/blob/main/src/patterns/${pattern.file}`}
+              target="_blank"
+              rel="noreferrer"
+              className="ml-1 rounded-md border border-border bg-surface px-2.5 py-1 font-mono text-[11px] text-fg-muted hover:text-fg"
+            >
+              GitHub ↗
+            </a>
+          </div>
+          {tab === 'preview' || !code ? (
+            <div className="p-5 sm:p-10">
+              <Component />
+            </div>
+          ) : (
+            <CodeBlock code={code} />
+          )}
         </section>
 
         <section className="grid gap-8 sm:grid-cols-2 [&>*]:min-w-0">
@@ -273,15 +305,6 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
             )}
           </div>
         </section>
-
-        {code && (
-          <details className="rounded-xl border border-border bg-surface">
-            <summary className="cursor-pointer select-none px-4 py-3 text-sm font-medium">Source</summary>
-            <pre className="max-h-[32rem] overflow-auto border-t border-border p-4 font-mono text-xs leading-relaxed">
-              <code>{code}</code>
-            </pre>
-          </details>
-        )}
 
         <nav className="grid grid-cols-2 gap-4 border-t border-border/60 pt-8">
           {prev ? (
