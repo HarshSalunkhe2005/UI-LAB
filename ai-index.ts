@@ -5,12 +5,14 @@
  *   /patterns.json            structured metadata (slug, tags, file, urls…)
  *   /docs/<slug>.md           one markdown doc per pattern: metadata + source
  *   /raw/<path>.tsx           raw source file, plain text
+ *   /resources.md             curated external galleries, studios, repos, libraries, tools
  * Served in dev by middleware, emitted as static files on build.
  */
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import type { Plugin } from 'vite'
 import { CATEGORIES, META } from './src/meta'
+import { RESOURCE_KINDS, RESOURCES } from './src/resources'
 
 const SITE = 'https://ui-lab-gzfw.onrender.com'
 const REPO = 'https://github.com/HarshSalunkhe2005/UI-LAB'
@@ -77,6 +79,7 @@ function llms() {
     `  via the @theme block in ${SITE}/raw/index.css.`,
     '- Every motion pattern respects prefers-reduced-motion. Keep that when adapting.',
     `- Machine-readable index: ${SITE}/patterns.json. Everything in one file: ${SITE}/llms-full.txt`,
+    `- Outside references (galleries, studios, open-source demo repos, libraries, tools): ${SITE}/resources.md`,
     '',
   ]
   for (const cat of CATEGORIES) {
@@ -91,9 +94,22 @@ function llms() {
   return lines.join('\n')
 }
 
+function resourcesMd() {
+  const out = ['# UI Lab: external resources', '', '> Curated references for building frontends: where to look, what to study, what to install.', '']
+  for (const k of RESOURCE_KINDS) {
+    const items = RESOURCES.filter((r) => r.kind === k)
+    if (!items.length) continue
+    out.push(`## ${k}`, '')
+    for (const r of items) out.push(`- [${r.name}](${r.url}): ${r.note}${r.tags?.length ? ` [${r.tags.join(', ')}]` : ''}`)
+    out.push('')
+  }
+  return out.join('\n')
+}
+
 function files(): Record<string, string> {
   const out: Record<string, string> = {
     'llms.txt': llms(),
+    'resources.md': resourcesMd(),
     'patterns.json': JSON.stringify(
       {
         name: 'UI Lab',
@@ -137,7 +153,7 @@ export function aiIndex(): Plugin {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const path = decodeURIComponent((req.url ?? '').split('?')[0]).replace(/^\//, '')
-        if (!/^(llms(-full)?\.txt|patterns\.json|docs\/|raw\/)/.test(path)) return next()
+        if (!/^(llms(-full)?\.txt|patterns\.json|resources\.md|docs\/|raw\/)/.test(path)) return next()
         const body = files()[path]
         if (body === undefined) return next()
         res.setHeader('Content-Type', TYPES[path.split('.').pop()!] ?? 'text/plain')

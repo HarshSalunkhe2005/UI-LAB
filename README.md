@@ -30,7 +30,8 @@ src/
     dataviz/             # charts, timelines
     recipes/             # small copy-paste CSS tricks
 ai-index.ts              # Vite plugin: generates llms.txt, patterns.json, docs/*.md, raw/*
-RESOURCES.md             # external libraries, tools, inspiration and site teardowns
+RESOURCES.md             # site teardowns and research notes
+src/resources.ts         # curated link directory -> #/resources page + /resources.md
 ```
 
 ## Adding a pattern

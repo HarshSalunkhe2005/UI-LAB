@@ -6,6 +6,7 @@ import { MeshGradient } from './patterns/recipes/MeshGradient'
 import { CommandPalette, type Command } from './patterns/components/CommandPalette'
 import { useCountUp } from './patterns/motion/CountUp'
 import { CodeBlock, CopyButton } from './CodeBlock'
+import ResourcesPage from './ResourcesPage'
 
 const SOURCES = import.meta.glob('./patterns/**/*.tsx', { query: '?raw', import: 'default', eager: true }) as Record<
   string,
@@ -72,6 +73,9 @@ function TopBar({ theme, onTheme, onSearch }: { theme: Theme; onTheme: () => voi
         <button onClick={onSearch} className="rounded-md p-2 text-fg-muted hover:text-fg sm:hidden" aria-label="Search">
           ⌕
         </button>
+        <a href="#/resources" className="hidden text-sm text-fg-muted hover:text-fg md:inline">
+          Resources
+        </a>
         <a
           href="/llms.txt"
           target="_blank"
@@ -414,6 +418,7 @@ export default function App() {
   const commands = useMemo<Command[]>(
     () => [
       { id: '', label: 'Home', group: 'Go to' },
+      { id: 'resources', label: 'Resources directory', group: 'Go to', hint: 'links sites repos libraries inspiration' },
       ...PATTERNS.map((p) => ({ id: p.slug, label: p.title, group: p.category, hint: p.tags?.join(' ') })),
     ],
     [],
@@ -425,7 +430,7 @@ export default function App() {
   return (
     <>
       <TopBar theme={theme} onTheme={cycleTheme} onSearch={() => setSearchOpen(true)} />
-      <main>{pattern ? <PatternPage pattern={pattern} /> : <Home />}</main>
+      <main>{slug === 'resources' ? <ResourcesPage /> : pattern ? <PatternPage pattern={pattern} /> : <Home />}</main>
       <CommandPalette commands={commands} open={searchOpen} onOpenChange={setSearchOpen} onRun={go} />
     </>
   )
