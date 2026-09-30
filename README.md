@@ -25,6 +25,7 @@ src/
     text/                # text effects
     backgrounds/         # shaders, canvas and CSS backgrounds
     three-d/             # CSS 3D and canvas 3D
+    motion3d/            # real 3D with three.js / React Three Fiber (code-split, lazy)
     layouts/ sections/   # grids and full landing-page bands
     screens/             # complete app screens (dashboards)
     dataviz/             # charts, timelines

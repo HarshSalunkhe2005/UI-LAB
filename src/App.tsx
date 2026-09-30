@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ComponentType } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState, type ComponentType } from 'react'
 import { flushSync } from 'react-dom'
 import { CATEGORIES, PATTERNS, type Pattern } from './registry'
 import { PREVIEWS } from './previews'
@@ -158,7 +158,7 @@ function LivePreview({ Component, category }: { Component: ComponentType; catego
           className="pointer-events-none absolute top-1/2 left-0 p-8"
           style={{ width: `${100 / zoom}%`, transform: `translateY(-50%) scale(${zoom})`, transformOrigin: '0 50%' }}
         >
-          <Component />
+          <Suspense fallback={null}><Component /></Suspense>
         </div>
       )}
     </div>
@@ -168,7 +168,9 @@ function LivePreview({ Component, category }: { Component: ComponentType; catego
 function PatternCard({ p, i }: { p: Pattern; i: number }) {
   const Preview = PREVIEWS[p.slug]
   return (
-    <a href={`#/${p.slug}`} className="reveal group block" style={{ animationDelay: `${(i % 3) * 60}ms` }}>
+    // Stretched-link card: the title link's ::after covers the card, so previews
+    // that contain their own links never end up nested inside another <a>.
+    <article className="reveal group relative" style={{ animationDelay: `${(i % 3) * 60}ms` }}>
       <div
         className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-surface transition-[border-color,transform] duration-300 ease-out-expo group-hover:-translate-y-1 group-hover:border-accent/50"
         style={{ viewTransitionName: `stage-${p.slug}` }}
@@ -176,13 +178,17 @@ function PatternCard({ p, i }: { p: Pattern; i: number }) {
         {Preview ? <Preview /> : <LivePreview Component={p.Component} category={p.category} />}
       </div>
       <div className="mt-3 flex items-baseline justify-between gap-3">
-        <h3 className="font-medium">{p.title}</h3>
+        <h3 className="font-medium">
+          <a href={`#/${p.slug}`} className="after:absolute after:inset-0 after:rounded-xl after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:outline-[var(--ring)]">
+            {p.title}
+          </a>
+        </h3>
         <span className="font-mono text-[11px] uppercase tracking-wider text-fg-muted transition-colors group-hover:text-accent">
           {p.category}
         </span>
       </div>
       <p className="mt-1 line-clamp-2 text-sm text-fg-muted">{p.summary}</p>
-    </a>
+    </article>
   )
 }
 
@@ -366,7 +372,7 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
           </div>
           {tab === 'preview' || !code ? (
             <div className="p-5 sm:p-10">
-              <Component />
+              <Suspense fallback={<p className="font-mono text-xs text-fg-muted">Loading 3D…</p>}><Component /></Suspense>
             </div>
           ) : (
             <CodeBlock code={code} />
