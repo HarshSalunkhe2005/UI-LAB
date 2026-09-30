@@ -93,6 +93,17 @@ export const RESOURCES: Resource[] = [
   { name: 'Rive', url: 'https://rive.app/', kind: 'Motion & 3D libraries', note: 'Interactive vector animations with state machines.', tags: ['animation', 'interactive'] },
   { name: 'Lottie', url: 'https://airbnb.io/lottie/', kind: 'Motion & 3D libraries', note: 'After Effects animations as JSON.', tags: ['animation'] },
 
+  { name: 'three.js examples: glTF models', url: 'https://github.com/mrdoob/three.js/tree/dev/examples/models/gltf', kind: 'Motion & 3D libraries', note: 'Includes RobotExpressive (CC0, 14 animations) used by our robot mascot. Check each model\'s licence.', tags: ['models', 'gltf', 'characters'] },
+  { name: 'Khronos glTF Sample Assets', url: 'https://github.com/KhronosGroup/glTF-Sample-Assets', kind: 'Motion & 3D libraries', note: 'Reference models incl. the animated Fox (CC0 model, CC-BY 4.0 rig).', tags: ['models', 'gltf'] },
+  { name: 'Gobkit freebies', url: 'https://gobkit.com/freebies', kind: 'Motion & 3D libraries', note: '79 CC0 GLB models, 38 rigged + animated characters, no attribution.', tags: ['models', 'cc0', 'characters'] },
+  { name: 'Poly Pizza', url: 'https://poly.pizza/', kind: 'Motion & 3D libraries', note: 'Thousands of low-poly models (CC0 / CC-BY), GLB download.', tags: ['models', 'low poly'] },
+  { name: 'Quaternius', url: 'https://quaternius.com/', kind: 'Motion & 3D libraries', note: 'CC0 animated character and prop packs.', tags: ['models', 'cc0', 'characters'] },
+  { name: 'Kenney', url: 'https://kenney.nl/assets', kind: 'Motion & 3D libraries', note: 'Huge CC0 game-asset library incl. 3D kits.', tags: ['models', 'cc0'] },
+  { name: 'Mixamo', url: 'https://www.mixamo.com/', kind: 'Motion & 3D libraries', note: 'Auto-rig a character and add animations (free Adobe account).', tags: ['rigging', 'animation'] },
+  { name: 'gltfjsx', url: 'https://github.com/pmndrs/gltfjsx', kind: 'Motion & 3D libraries', note: 'Turns a GLB into a typed R3F component; compresses models.', tags: ['r3f', 'gltf', 'tooling'] },
+  { name: 'sbcode: R3F look at mouse', url: 'https://sbcode.net/react-three-fiber/look-at-mouse/', kind: 'Shaders & WebGL', note: 'Tutorial for objects that look at the cursor.', tags: ['r3f', 'cursor', 'learning'] },
+  { name: 'Codrops: interactive instancing mouse effect', url: 'https://tympanus.net/codrops/2023/12/13/creating-an-interactive-mouse-effect-with-instancing-in-three-js/', kind: 'Shaders & WebGL', note: 'InstancedMesh cursor effects, the basis of grid ripples.', tags: ['instancing', 'cursor', 'three.js'] },
+
   // Awesome lists
   { name: 'terkelg/awesome-creative-coding', url: 'https://github.com/terkelg/awesome-creative-coding', kind: 'Awesome lists', note: 'Generative art, shaders, creative coding resources.', tags: ['creative coding'] },
   { name: 'AxiomeCG/awesome-threejs', url: 'https://github.com/AxiomeCG/awesome-threejs', kind: 'Awesome lists', note: 'Three.js resources.', tags: ['three.js'] },
