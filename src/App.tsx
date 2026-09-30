@@ -115,18 +115,49 @@ function Stat({ value, label, suffix = '' }: { value: number; label: string; suf
 }
 
 /** Fallback thumbnail: the real demo, scaled down, mounted only when visible, inert. */
-function LivePreview({ Component }: { Component: ComponentType }) {
+const BIG_PREVIEW = new Set(['3D', 'Motion', 'Backgrounds', 'Text'])
+
+function LivePreview({ Component, category }: { Component: ComponentType; category: string }) {
   const ref = useRef<HTMLDivElement>(null)
   const [show, setShow] = useState(false)
+  const zoom = BIG_PREVIEW.has(category) ? 0.55 : 0.4
+
   useEffect(() => {
     const io = new IntersectionObserver(([e]) => setShow(e.isIntersecting), { rootMargin: '200px' })
     io.observe(ref.current!)
     return () => io.disconnect()
   }, [])
+
+  // Scroll-driven demos only come alive when something scrolls them: ping-pong
+  // every scrollable box inside the thumbnail while it is on screen.
+  useEffect(() => {
+    if (!show || matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let raf = 0
+    let t = 0
+    const tick = () => {
+      t += 1
+      ref.current?.querySelectorAll<HTMLElement>('*').forEach((el) => {
+        const max = el.scrollHeight - el.clientHeight
+        if (max > 20 && /(auto|scroll)/.test(getComputedStyle(el).overflowY)) {
+          el.scrollTop = ((1 - Math.cos((t / 480) * Math.PI * 2)) / 2) * max
+        }
+      })
+      raf = requestAnimationFrame(tick)
+    }
+    const start = setTimeout(() => (raf = requestAnimationFrame(tick)), 400)
+    return () => {
+      clearTimeout(start)
+      cancelAnimationFrame(raf)
+    }
+  }, [show])
+
   return (
     <div ref={ref} className="absolute inset-0 overflow-hidden" inert aria-hidden>
       {show && (
-        <div className="pointer-events-none absolute top-0 left-0 w-[250%] origin-top-left scale-[0.4] p-10">
+        <div
+          className="pointer-events-none absolute top-1/2 left-0 p-8"
+          style={{ width: `${100 / zoom}%`, transform: `translateY(-50%) scale(${zoom})`, transformOrigin: '0 50%' }}
+        >
           <Component />
         </div>
       )}
@@ -142,7 +173,7 @@ function PatternCard({ p, i }: { p: Pattern; i: number }) {
         className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-surface transition-[border-color,transform] duration-300 ease-out-expo group-hover:-translate-y-1 group-hover:border-accent/50"
         style={{ viewTransitionName: `stage-${p.slug}` }}
       >
-        {Preview ? <Preview /> : <LivePreview Component={p.Component} />}
+        {Preview ? <Preview /> : <LivePreview Component={p.Component} category={p.category} />}
       </div>
       <div className="mt-3 flex items-baseline justify-between gap-3">
         <h3 className="font-medium">{p.title}</h3>

@@ -1,6 +1,15 @@
 /* Shared helpers for 3D demos. Kept tiny so each pattern stays copy-pasteable (inline these if you copy one file). */
 
-export const img = (seed: number | string, w = 400, h = 500) => `https://picsum.photos/seed/uilab${seed}/${w}/${h}`
+/**
+ * Demo image by seed. Serves one of 48 self-hosted WebPs from /public/img (fast, same-origin
+ * so canvas/WebGL can read them). When copying a pattern into another project, replace img()
+ * with your own image URLs, or use the remote fallback: `https://picsum.photos/seed/${seed}/${w}/${h}`.
+ */
+export const IMG_COUNT = 48
+export const img = (seed: number | string, _w = 400, _h = 500) => {
+  const n = typeof seed === 'number' ? seed : [...seed].reduce((a, c) => a + c.charCodeAt(0), 0)
+  return `/img/${((n % IMG_COUNT) + IMG_COUNT) % IMG_COUNT}.webp`
+}
 
 export const reducedMotion = () => typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
 

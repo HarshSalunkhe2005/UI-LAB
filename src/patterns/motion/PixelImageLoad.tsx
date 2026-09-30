@@ -5,7 +5,7 @@ import { img } from '../three-d/_shared'
  * Pixelated image reveal: when the image scrolls into view it is drawn to a
  * canvas at tiny resolution (imageSmoothing off, so blocks stay crisp) and
  * the resolution steps up 4 → 8 → 16 → … → full over ~1s, then the real
- * <img> takes over. Needs CORS-friendly images (picsum sends the header).
+ * <img> takes over. Needs same-origin or CORS-enabled images.
  */
 
 export function PixelImage({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
