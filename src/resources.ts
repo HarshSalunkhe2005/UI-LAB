@@ -104,6 +104,12 @@ export const RESOURCES: Resource[] = [
   { name: 'sbcode: R3F look at mouse', url: 'https://sbcode.net/react-three-fiber/look-at-mouse/', kind: 'Shaders & WebGL', note: 'Tutorial for objects that look at the cursor.', tags: ['r3f', 'cursor', 'learning'] },
   { name: 'Codrops: interactive instancing mouse effect', url: 'https://tympanus.net/codrops/2023/12/13/creating-an-interactive-mouse-effect-with-instancing-in-three-js/', kind: 'Shaders & WebGL', note: 'InstancedMesh cursor effects, the basis of grid ripples.', tags: ['instancing', 'cursor', 'three.js'] },
 
+  { name: 'Codrops: square lens effect (2026)', url: 'https://tympanus.net/codrops/2026/08/25/building-a-mouse-following-square-lens-effect-with-three-js-and-glsl/', kind: 'Shaders & WebGL', note: 'Mouse-following lens with RGB shift, basis of our square lens.', tags: ['shader', 'cursor', 'lens'] },
+  { name: 'Codrops: wave propagation cube grid (2026)', url: 'https://tympanus.net/codrops/2026/07/09/building-an-interactive-wave-propagation-cube-grid-with-three-js/', kind: 'Shaders & WebGL', note: 'Instanced cube grid with wave envelopes.', tags: ['instancing', 'grid', 'wave'] },
+  { name: 'Codrops hub: React Three Fiber demos', url: 'https://tympanus.net/codrops/hub/tag/react-three-fiber/', kind: 'Open-source demo repos', note: 'Open-source R3F experiments with tutorials.', tags: ['r3f', 'demos'] },
+  { name: 'R3F examples', url: 'https://r3f.docs.pmnd.rs/getting-started/examples', kind: 'Motion & 3D libraries', note: 'Official showcase: portals, configurators, physics, scroll scenes.', tags: ['r3f', 'examples'] },
+  { name: 'Best three.js websites 2026 (Utsubo)', url: 'https://www.utsubo.com/blog/best-threejs-websites-2026', kind: 'Inspiration galleries', note: 'Breakdown of standout 3D sites and their techniques.', tags: ['three.js', 'inspiration'] },
+
   // Awesome lists
   { name: 'terkelg/awesome-creative-coding', url: 'https://github.com/terkelg/awesome-creative-coding', kind: 'Awesome lists', note: 'Generative art, shaders, creative coding resources.', tags: ['creative coding'] },
   { name: 'AxiomeCG/awesome-threejs', url: 'https://github.com/AxiomeCG/awesome-threejs', kind: 'Awesome lists', note: 'Three.js resources.', tags: ['three.js'] },

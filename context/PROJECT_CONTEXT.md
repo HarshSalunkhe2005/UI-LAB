@@ -1,6 +1,6 @@
 # UI Lab: project context
 
-_Last updated: 2026-10-01 · head `7ef54fb`_
+_Last updated: 2026-10-02_
 
 ## What it is
 
@@ -15,7 +15,7 @@ file with a live demo, tags, "when to use" notes, accessibility notes and copyab
 
 ## Current state
 
-**108 patterns across 13 categories:**
+**134 patterns across 13 categories:**
 
 | Category | Count | Highlights |
 |---|---|---|
@@ -25,7 +25,7 @@ file with a live demo, tags, "when to use" notes, accessibility notes and copyab
 | Motion | 23 | Scroll reveal, view transitions, pixel/wipe page transitions, cursor effects, preloader |
 | Backgrounds | 8 | WebGL shader engine (7 families, 16 presets), liquid slideshow, starfield, dot grid |
 | 3D | 15 | CSS-3D galleries: helix (spiral of pictures), DNA, sphere, wave, tunnel, coverflow, ring |
-| 3D Motion | 14 | Real 3D (three.js / R3F): rigged robot mascot, fox follow, glass torus, particle morph, ripple grid, water, product viewer |
+| 3D Motion | 40 | Real 3D (three.js / R3F): rigged robot mascot, fox follow, lanyard badge (Verlet rope), raymarched metaballs, neon sign (bloom), portal card, boids, galaxy, particle text, puzzle cube, Newton's cradle, terrain flyover, audio-reactive ring, solar system, glass shatter, holo card, and more |
 | Layouts / Sections / Screens | 1 / 6 / 4 | Bento, pricing, footer, contact, hero; dashboard, auth, kanban, chat |
 | Data viz / Recipes | 2 / 1 | SVG charts (line, heatmap, radar), timeline; marquee |
 
@@ -35,7 +35,7 @@ Codrops demo repos, component/motion/3D libraries, CC0 model sources, awesome li
 ## Architecture
 
 - **Stack:** Vite 8, React 19, TypeScript 7, Tailwind CSS v4, sugar-high (code highlighting),
-  three + @react-three/fiber + @react-three/drei (3D Motion only).
+  three + @react-three/fiber + @react-three/drei + @react-three/postprocessing (3D Motion only).
 - **`src/meta.ts`**: single source of truth. Plain data (no React) describing every pattern:
   slug, title, category, summary, when[], file, tags[], a11y, deps[]. Read by the app AND the build.
 - **`src/registry.ts`**: attaches components via `import.meta.glob`. Everything is eager except
@@ -74,6 +74,7 @@ Codrops demo repos, component/motion/3D libraries, CC0 model sources, awesome li
 ## Possible next steps
 
 - Loading placeholder for 3D Motion thumbnails (three.js chunk takes a few seconds on first load).
-- More rigged characters (Gobkit / Quaternius CC0 packs), physics (rapier) demos, 3D text.
+- More rigged characters (Gobkit / Quaternius CC0 packs), rapier physics demos.
+- Synthetic pointer events don't trigger R3F onClick in automated checks; verify click demos with a real click.
 - MemoryShards patterns (hero video, view transitions) not yet ported.
 - CI (typecheck + build on push) and a README screenshot.
