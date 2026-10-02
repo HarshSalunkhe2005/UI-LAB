@@ -7,8 +7,10 @@ import { CommandPalette, type Command } from './patterns/components/CommandPalet
 import { useCountUp } from './patterns/motion/CountUp'
 import { CodeBlock, CopyButton } from './CodeBlock'
 import ResourcesPage from './ResourcesPage'
+import PlaybookPage from './PlaybookPage'
+import { SiteLauncher, SiteStage, SiteSources } from './SiteViews'
 
-const SOURCES = import.meta.glob('./patterns/**/*.tsx', { query: '?raw', import: 'default', eager: true }) as Record<
+const SOURCES = import.meta.glob(['./patterns/**/*.tsx', '!./patterns/sites/**'], { query: '?raw', import: 'default', eager: true }) as Record<
   string,
   string
 >
@@ -22,9 +24,14 @@ function useHashSlug() {
   const read = () => location.hash.replace(/^#\/?/, '')
   const [slug, setSlug] = useState(read)
   useEffect(() => {
+    let prev = read()
     const onHash = () => {
       const next = read()
-      if (!document.startViewTransition) return setSlug(next)
+      // Full-screen site demos (#/live/...) are heavy first renders and run their own WebGL; the morph transition
+      // would hang on a blocked main thread, so routes into and out of them swap instantly.
+      const plain = next.startsWith('live/') || prev.startsWith('live/')
+      prev = next
+      if (plain || !document.startViewTransition) return setSlug(next)
       document.startViewTransition(() => flushSync(() => setSlug(next)))
     }
     addEventListener('hashchange', onHash)
@@ -73,6 +80,9 @@ function TopBar({ theme, onTheme, onSearch }: { theme: Theme; onTheme: () => voi
         <button onClick={onSearch} className="rounded-md p-2 text-fg-muted hover:text-fg sm:hidden" aria-label="Search">
           ⌕
         </button>
+        <a href="#/playbook" className="hidden text-sm text-fg-muted hover:text-fg md:inline">
+          Playbook
+        </a>
         <a href="#/resources" className="hidden text-sm text-fg-muted hover:text-fg md:inline">
           Resources
         </a>
@@ -175,7 +185,7 @@ function PatternCard({ p, i }: { p: Pattern; i: number }) {
         className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-surface transition-[border-color,transform] duration-300 ease-out-expo group-hover:-translate-y-1 group-hover:border-accent/50"
         style={{ viewTransitionName: `stage-${p.slug}` }}
       >
-        {Preview ? <Preview /> : <LivePreview Component={p.Component} category={p.category} />}
+        {Preview ? <Preview /> : p.category === 'Sites' ? <img src={`/thumbs/${p.slug}.jpg`} alt="" loading="lazy" className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]" /> : <LivePreview Component={p.Component} category={p.category} />}
       </div>
       <div className="mt-3 flex items-baseline justify-between gap-3">
         <h3 className="font-medium">
@@ -360,9 +370,9 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
               </button>
             ))}
             <div className="flex-1" />
-            {code && <CopyButton text={code} />}
+            {code && pattern.category !== 'Sites' && <CopyButton text={code} />}
             <a
-              href={`${REPO}/blob/main/src/patterns/${pattern.file}`}
+              href={`${REPO}/${pattern.files ? 'tree' : 'blob'}/main/src/patterns/${pattern.files ? pattern.file.replace(/\/index\.tsx$/, '') : pattern.file}`}
               target="_blank"
               rel="noreferrer"
               className="ml-1 rounded-md border border-border bg-surface px-2.5 py-1 font-mono text-[11px] text-fg-muted hover:text-fg"
@@ -370,7 +380,9 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
               GitHub ↗
             </a>
           </div>
-          {tab === 'preview' || !code ? (
+          {pattern.category === 'Sites' ? (
+            tab === 'preview' ? <SiteLauncher pattern={pattern} /> : <SiteSources files={pattern.files ?? [pattern.file]} />
+          ) : tab === 'preview' || !code ? (
             <div className="p-5 sm:p-10">
               <Suspense fallback={<p className="font-mono text-xs text-fg-muted">Loading 3D…</p>}><Component /></Suspense>
             </div>
@@ -455,6 +467,7 @@ export default function App() {
   const commands = useMemo<Command[]>(
     () => [
       { id: '', label: 'Home', group: 'Go to' },
+      { id: 'playbook', label: 'Design playbook', group: 'Go to', hint: 'process worlds inspiration verify how to design start here' },
       { id: 'resources', label: 'Resources directory', group: 'Go to', hint: 'links sites repos libraries inspiration' },
       ...PATTERNS.map((p) => ({ id: p.slug, label: p.title, group: p.category, hint: p.tags?.join(' ') })),
     ],
@@ -464,10 +477,14 @@ export default function App() {
     location.hash = `/${c.id}`
   }, [])
 
+  // Full-screen route for whole-site demos: #/live/<slug>. UI Lab's own chrome steps out of the way.
+  const live = slug.startsWith('live/') ? PATTERNS.find((p) => p.slug === slug.slice(5) && p.category === 'Sites') : undefined
+  if (live) return <SiteStage pattern={live} />
+
   return (
     <>
       <TopBar theme={theme} onTheme={cycleTheme} onSearch={() => setSearchOpen(true)} />
-      <main>{slug === 'resources' ? <ResourcesPage /> : pattern ? <PatternPage pattern={pattern} /> : <Home />}</main>
+      <main>{slug === 'playbook' || slug.startsWith('playbook/') ? <PlaybookPage doc={slug.split('/')[1]} /> : slug === 'resources' ? <ResourcesPage /> : pattern ? <PatternPage pattern={pattern} /> : <Home />}</main>
       <CommandPalette commands={commands} open={searchOpen} onOpenChange={setSearchOpen} onRun={go} />
     </>
   )

@@ -14,6 +14,7 @@ export const CATEGORIES = [
   'Layouts',
   'Sections',
   'Screens',
+  'Sites',
   'Data viz',
   'Recipes',
 ] as const
@@ -27,8 +28,10 @@ export type PatternMeta = {
   summary: string
   /** When to reach for this. Every entry needs at least one. */
   when: string[]
-  /** Source file under src/patterns, shown in the code panel. */
+  /** Source file under src/patterns, shown in the code panel. For multi-file patterns this is the entry (index.tsx). */
   file: string
+  /** Multi-file patterns (whole sites): every file, relative to src/patterns. Shown as tabs; all are emitted to /docs. */
+  files?: string[]
   source?: { label: string; url: string }
   /** Search keywords for humans and AI: technique names, use cases, look. */
   tags?: string[]
@@ -1457,6 +1460,88 @@ const ALL: PatternMeta[] = [
     tags: ["shatter", "glass", "shards", "click", "physics", "image"],
     a11y: "Decorative; avoid using it on essential content.",
     deps: ["three", "@react-three/fiber", "@react-three/drei", "motion3d/_pointer.ts (window pointer hook)", "public/img/*.webp"],
+  },
+  {
+    slug: "site-solar",
+    title: "Site: SOLAR (3D product scroll)",
+    category: "Sites",
+    summary: "A complete product site. One procedural 3D can spins through three flavors as you scroll; label, palette and copy swap on every turn.",
+    when: ["A physical product with one hero object (drink, shoe, headphones)", "Reference for the master-timeline pattern: 1 GSAP time unit = 1px of scroll, a mutable rig read in useFrame"],
+    file: "sites/solar/index.tsx",
+    files: [
+      "sites/solar/index.tsx",
+      "sites/solar/Scene.tsx",
+      "sites/solar/label.ts",
+      "sites/solar/rig.ts",
+      "sites/solar/flavors.ts",
+      "sites/solar/styles.css",
+    ],
+    tags: ["site", "full page", "product", "3d", "scroll", "gsap", "scrolltrigger", "lenis", "react three fiber", "can", "palette", "pinned"],
+    a11y: "Decorative canvas is aria-hidden; flavor names are exposed through a visually hidden heading. Smooth scroll, sparkles and the intro are off under reduced motion; keyboard focus rings and 44px targets throughout.",
+    deps: ["gsap", "lenis", "three", "@react-three/fiber", "@react-three/drei", "@fontsource/anton", "@fontsource-variable/bricolage-grotesque", "sites/_shared.ts"],
+  },
+  {
+    slug: "site-mare",
+    title: "Site: MARE (editorial luxury)",
+    category: "Sites",
+    summary: "A slow-travel quarterly. A framed photograph opens to full bleed, a pinned horizontal photo essay slides sideways, and the contents list previews images at the cursor.",
+    when: ["Fashion, hospitality, architecture, anything premium and image-led", "Reference for clip-path reveals, pinned horizontal scroll and cursor-following previews"],
+    file: "sites/mare/index.tsx",
+    files: [
+      "sites/mare/index.tsx",
+      "sites/mare/styles.css",
+    ],
+    tags: ["site", "full page", "editorial", "serif", "luxury", "horizontal scroll", "pin", "clip-path", "parallax", "gsap", "lenis", "cursor preview"],
+    a11y: "Reduced motion drops the pin and stacks the essay vertically. Index rows are real links with focus-triggered previews; footer form has a visible label.",
+    deps: ["gsap", "lenis", "@fontsource/instrument-serif", "@fontsource-variable/geist", "sites/_shared.ts", "public/img/*.webp"],
+  },
+  {
+    slug: "site-lattice",
+    title: "Site: Lattice (technical dark)",
+    category: "Sites",
+    summary: "A developer-database landing page. A scroll-scrubbed terminal drives a live canvas edge network that reacts to the pointer, plus a working Ctrl K palette and a latency race.",
+    when: ["Developer tools, infra, AI products, any pitch that is best shown by watching it work", "Reference for scroll-driven state with canvas, a command palette and a mono-only-for-code type system"],
+    file: "sites/lattice/index.tsx",
+    files: [
+      "sites/lattice/index.tsx",
+      "sites/lattice/network.ts",
+      "sites/lattice/styles.css",
+    ],
+    tags: ["site", "full page", "dark", "developer", "terminal", "canvas", "network", "command palette", "scrolltrigger", "gsap", "lenis"],
+    a11y: "Terminal is labelled per step; the palette is a modal dialog with arrow/enter/escape; city picker is a radiogroup; typing and packets stop under reduced motion.",
+    deps: ["gsap", "lenis", "@fontsource-variable/geist", "@fontsource-variable/jetbrains-mono", "sites/_shared.ts"],
+  },
+  {
+    slug: "site-hotmess",
+    title: "Site: HOT MESS (neo-brutalist)",
+    category: "Sites",
+    summary: "A coffee roaster with attitude. A pile of stickers you can grab and throw (hand-rolled pointer physics), hard offset shadows, marquees and a live bag configurator.",
+    when: ["Indie brands, zines, creative tools, anything that should not look corporate", "Reference for a tiny rAF physics integrator, drag with inertia and arrow-key nudging, flat-colour print styling"],
+    file: "sites/hotmess/index.tsx",
+    files: [
+      "sites/hotmess/index.tsx",
+      "sites/hotmess/Stickers.tsx",
+      "sites/hotmess/styles.css",
+    ],
+    tags: ["site", "full page", "brutalist", "zine", "stickers", "drag", "physics", "pointer events", "configurator", "marquee", "shop"],
+    a11y: "Stickers are focusable and move with arrow keys; throw momentum is disabled under reduced motion; slider and grind picker are native controls with visible labels.",
+    deps: ["@fontsource/archivo-black", "@fontsource/space-mono", "sites/_shared.ts"],
+  },
+  {
+    slug: "site-abyss",
+    title: "Site: ABYSS (cinematic descent)",
+    category: "Sites",
+    summary: "An ocean descent where scroll is depth. One full-screen fragment shader draws light shafts, marine snow and bioluminescence; a depth gauge and a pointer lantern complete it.",
+    when: ["Immersive storytelling, launches, anything where progress through the page is the story", "Reference for a single-shader scene driven by scroll, with ink colour that adapts to the water behind it"],
+    file: "sites/abyss/index.tsx",
+    files: [
+      "sites/abyss/index.tsx",
+      "sites/abyss/shader.ts",
+      "sites/abyss/styles.css",
+    ],
+    tags: ["site", "full page", "cinematic", "immersive", "webgl", "glsl", "shader", "scroll", "depth", "three", "lenis"],
+    a11y: "Canvas is aria-hidden; all content is real text with readable ink at every depth. Reduced motion slows the shader and removes smooth scrolling.",
+    deps: ["three", "lenis", "@fontsource-variable/unbounded", "@fontsource-variable/hanken-grotesk", "sites/_shared.ts"],
   },
 ]
 

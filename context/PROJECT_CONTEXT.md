@@ -1,6 +1,6 @@
 # UI Lab: project context
 
-_Last updated: 2026-10-02_
+_Last updated: 2026-10-03_
 
 ## What it is
 
@@ -31,6 +31,15 @@ file with a live demo, tags, "when to use" notes, accessibility notes and copyab
 
 Plus a **Resources directory** (`#/resources`, 93 curated links): inspiration galleries, award-level studios,
 Codrops demo repos, component/motion/3D libraries, CC0 model sources, awesome lists, tools.
+
+## Playbook layer (added 2026-10-03)
+
+Patterns are parts; `playbook/` is the judgement that stops generic output. `00-start-here.md` (procedure: brief, real
+inspiration, direction card, assets, vertical slice, bounded verification), `worlds.md` (8 design directions), `inspiration.md`
+(teardown + synthesis method), `verify.md` (loop + catalogue of real bugs), `scroll-3d-recipe.md`. Also: `tools/site-stack.mjs` (detects a site's libraries), `skills/ui-lab/SKILL.md` (the playbook as a Claude skill,
+copied to `~/.claude/skills/ui-lab/`), `CLAUDE.md`. Five whole sites (one design world each) are patterns in the **Sites** category: `src/patterns/sites/{solar,mare,lattice,hotmess,abyss}` (slugs `site-*`, lazy-loaded; deps gsap, lenis, more Fontsource fonts). The pattern page is a launcher card plus per-file source tabs; the demo runs full screen at `#/live/<slug>` (`SiteStage` in `src/SiteViews.tsx`: UI Lab chrome hidden, Esc returns; routes into and out of `live/` skip the View Transition because it hangs on the heavy first render). Per-site CSS is scoped under `.site-<name>` with `tools/scope-css.py`; shared hook `sites/_shared.ts` (`useSiteScroll`). Thumbnails `public/thumbs/site-*.jpg`. Rendered at `#/playbook`; served to agents at `/playbook/*.md`,
+`/tools/site-stack.mjs` and listed first in `/llms.txt`. Dev middleware must skip URLs with a query
+(Vite `?raw` imports of the .md files).
 
 ## Architecture
 
