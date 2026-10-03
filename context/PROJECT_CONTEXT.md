@@ -8,7 +8,7 @@ A live, runnable reference library of UI patterns, built primarily so coding age
 and copy proven frontend patterns when building sites. Every pattern is one self-contained React + Tailwind
 file with a live demo, tags, "when to use" notes, accessibility notes and copyable source.
 
-- **Live site:** https://ui-lab-gzfw.onrender.com (Render static site, auto-deploys on push to `main`)
+- **Live site:** https://ui-lab-weld.vercel.app (Vercel, auto-deploys on push to `main`)
 - **Repo:** https://github.com/HarshSalunkhe2005/UI-LAB (sole author: HarshSalunkhe2005)
 - **Machine-readable entry points:** `/llms.txt`, `/llms-full.txt`, `/patterns.json`, `/resources.md`,
   `/docs/<slug>.md`, `/raw/<file>`

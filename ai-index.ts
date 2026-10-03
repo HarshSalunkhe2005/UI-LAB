@@ -14,7 +14,7 @@ import type { Plugin } from 'vite'
 import { CATEGORIES, META } from './src/meta'
 import { RESOURCE_KINDS, RESOURCES } from './src/resources'
 
-const SITE = 'https://ui-lab-gzfw.onrender.com'
+const SITE = 'https://ui-lab-weld.vercel.app'
 const REPO = 'https://github.com/HarshSalunkhe2005/UI-LAB'
 
 function read(rel: string) {

@@ -1,6 +1,6 @@
 # UI Lab
 
-**Live:** https://ui-lab-gzfw.onrender.com · **For AI agents:** [`/llms.txt`](https://ui-lab-gzfw.onrender.com/llms.txt) · [`/patterns.json`](https://ui-lab-gzfw.onrender.com/patterns.json) · [AGENTS.md](AGENTS.md)
+**Live:** https://ui-lab-weld.vercel.app · **For AI agents:** [`/llms.txt`](https://ui-lab-weld.vercel.app/llms.txt) · [`/patterns.json`](https://ui-lab-weld.vercel.app/patterns.json) · [AGENTS.md](AGENTS.md)
 
 A reference library of UI patterns, built mainly for AI coding agents (and humans) to pull from when building frontends.
 Every entry is a working demo with tags, "when to use" notes, accessibility notes and copyable source.

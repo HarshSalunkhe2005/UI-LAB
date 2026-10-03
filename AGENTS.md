@@ -12,7 +12,7 @@ The same procedure is packaged as a Claude skill in `skills/ui-lab/SKILL.md` (co
 
 ## Using it as a reference (from another project)
 
-1. Read the index: https://ui-lab-gzfw.onrender.com/llms.txt (or `/patterns.json` for structured data, `/llms-full.txt` for everything in one file).
+1. Read the index: https://ui-lab-weld.vercel.app/llms.txt (or `/patterns.json` for structured data, `/llms-full.txt` for everything in one file).
 2. Pick patterns by `tags`, `category` and `when`. Fetch `/docs/<slug>.md` for metadata + full source, or `/raw/<file>` for the bare file.
 3. Copy `src/tokens/tokens.css` into the target project first. Patterns use its CSS variables; Tailwind utilities (`bg-surface`, `text-fg-muted`, `border-border`, `text-accent`, …) map to them via the `@theme` block in `src/index.css`.
 4. Keep each pattern's `prefers-reduced-motion` handling and a11y notes when adapting.

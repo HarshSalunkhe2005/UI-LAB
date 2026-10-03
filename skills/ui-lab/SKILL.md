@@ -5,7 +5,7 @@ description: Use whenever you build, redesign, restyle or polish any website, la
 
 # UI Lab: design with judgement, not defaults
 
-UI Lab is Harsh's reference library, kept at `C:\Users\Harsh\Projects\UI-Lab` and live at https://ui-lab-gzfw.onrender.com.
+UI Lab is Harsh's reference library, kept at `C:\Users\Harsh\Projects\UI-Lab` and live at https://ui-lab-weld.vercel.app.
 It has parts (patterns, templates) and judgement (the playbook). Use both. Most "mid, buggy" output comes from skipping the
 judgement and the verification, not from lack of capability.
 
