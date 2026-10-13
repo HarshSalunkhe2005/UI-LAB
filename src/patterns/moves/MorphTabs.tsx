@@ -2,8 +2,8 @@ import { useLayoutEffect, useRef, useState } from 'react'
 
 /*
  * Signature move (Arc): a tab bar whose highlight is one shape that moves and changes colour, not a class
- * that toggles. The pill's left and width are measured from the active tab and transitioned; each tab
- * carries a colour the pill takes on. Proper tablist semantics with arrow-key navigation (roving tabindex).
+ * that toggles. The pill covers the whole bar and a clip-path window (measured from the active tab) is what
+ * slides, so only paint changes, never layout; each tab carries a colour the pill takes on. Proper tablist semantics with arrow-key navigation (roving tabindex).
  * Reduced motion: the pill jumps.
  */
 
@@ -17,11 +17,13 @@ const TABS = [
 export default function MorphTabs() {
   const [active, setActive] = useState(0)
   const refs = useRef<(HTMLButtonElement | null)[]>([])
-  const [pill, setPill] = useState({ left: 0, width: 0 })
+  const list = useRef<HTMLDivElement>(null)
+  const [clip, setClip] = useState('inset(4px 100% 4px 0 round 9999px)')
 
   useLayoutEffect(() => {
     const el = refs.current[active]
-    if (el) setPill({ left: el.offsetLeft, width: el.offsetWidth })
+    const box = list.current
+    if (el && box) setClip(`inset(4px ${box.clientWidth - el.offsetLeft - el.offsetWidth}px 4px ${el.offsetLeft}px round 9999px)`)
   }, [active])
 
   const onKey = (e: React.KeyboardEvent, i: number) => {
@@ -34,11 +36,11 @@ export default function MorphTabs() {
 
   return (
     <div className="mx-auto max-w-xl">
-      <div role="tablist" aria-label="Arc features" className="relative flex gap-1 rounded-full border border-border bg-surface p-1">
+      <div ref={list} role="tablist" aria-label="Arc features" className="relative flex gap-1 rounded-full border border-border bg-surface p-1">
         <span
           aria-hidden
-          className="absolute top-1 bottom-1 rounded-full motion-reduce:transition-none"
-          style={{ left: pill.left, width: pill.width, background: TABS[active].color, transition: 'left 380ms var(--ease-out-expo), width 380ms var(--ease-out-expo), background 380ms' }}
+          className="absolute inset-0 motion-reduce:transition-none"
+          style={{ clipPath: clip, background: TABS[active].color, transition: 'clip-path 380ms var(--ease-out-expo), background 380ms' }}
         />
         {TABS.map((t, i) => (
           <button

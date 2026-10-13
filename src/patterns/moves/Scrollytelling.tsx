@@ -38,9 +38,19 @@ export default function Scrollytelling() {
         <svg viewBox="0 0 300 120" className="h-full w-full" role="img" aria-label={`Share of viewing: ${LABELS.map((l, i) => `${l} ${bars[i]} percent`).join(', ')}`}>
           {bars.map((b, i) => (
             <g key={i}>
-              <rect x={20 + i * 95} y={100 - b} width="70" height={b} rx="4" fill={i === 2 ? 'var(--accent)' : 'var(--border)'} style={{ transition: 'y 700ms var(--ease-out-expo), height 700ms var(--ease-out-expo)' }} />
+              <rect
+                x={20 + i * 95}
+                y="0"
+                width="70"
+                height="100"
+                rx="4"
+                fill={i === 2 ? 'var(--accent)' : 'var(--border)'}
+                style={{ transformBox: 'fill-box', transformOrigin: 'bottom', transform: `scaleY(${b / 100})`, transition: 'transform 700ms var(--ease-out-expo)' }}
+              />
               <text x={55 + i * 95} y="114" textAnchor="middle" fontSize="9" fill="var(--fg-muted)">{LABELS[i]}</text>
-              <text x={55 + i * 95} y={94 - b} textAnchor="middle" fontSize="11" fill="var(--fg)" fontFamily="var(--font-mono)">{b}%</text>
+              <text x={55 + i * 95} y="94" textAnchor="middle" fontSize="11" fill="var(--fg)" fontFamily="var(--font-mono)" style={{ transform: `translateY(${-b}px)`, transition: 'transform 700ms var(--ease-out-expo)' }}>
+                {b}%
+              </text>
             </g>
           ))}
         </svg>
