@@ -24,7 +24,7 @@ const CSS = `
 
 export default function Scroll3DGrid() {
   return (
-    <div className="h-96 overflow-y-auto rounded-xl border border-border bg-bg" tabIndex={0} aria-label="3D grid, scroll inside">
+    <div className="h-96 overflow-y-auto rounded-xl border border-border bg-bg" tabIndex={0} role="region" aria-label="3D grid, scroll inside">
       <style>{CSS}</style>
       <div className="g3 grid grid-cols-3 gap-4 p-6 py-40">
         {Array.from({ length: 18 }, (_, i) => (

@@ -21,7 +21,7 @@ export default function ScrollRevealCss() {
   return (
     <div className="overflow-hidden rounded-xl border border-border">
       <style>{CSS}</style>
-      <div className="sdr-box" tabIndex={0} aria-label="Scrollable list, cards reveal as they enter">
+      <div className="sdr-box" tabIndex={0} role="region" aria-label="Scrollable list, cards reveal as they enter">
         {['One', 'Two', 'Three', 'Four', 'Five', 'Six'].map((n) => (
           <article key={n} className="sdr-card">
             <h3>Card {n}</h3>

@@ -52,7 +52,7 @@ export default function Preloader() {
               <span className="-mt-16 font-mono text-8xl font-light tabular-nums" role="progressbar" aria-valuenow={n} aria-valuemin={0} aria-valuemax={100} aria-label="Loading">
                 {String(n).padStart(3, '0')}
               </span>
-              <span className="mb-2 font-mono text-xs text-neutral-500">loading assets</span>
+              <span className="mb-2 font-mono text-xs text-neutral-400">loading assets</span>
             </div>
           )}
           {side === 'top' && <div className="absolute bottom-0 left-0 h-px bg-white transition-[width] duration-150" style={{ width: `${n}%` }} />}

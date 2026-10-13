@@ -53,7 +53,7 @@ export default function ParticleButtonDemo() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-6 py-10">
       <ParticleButton>Celebrate 🎉</ParticleButton>
-      <ParticleButton className="!bg-pink-500 !text-white">♥ Like</ParticleButton>
+      <ParticleButton className="!bg-pink-700 !text-white">♥ Like</ParticleButton>
     </div>
   )
 }

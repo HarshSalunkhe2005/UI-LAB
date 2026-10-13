@@ -34,7 +34,7 @@ export default function StackingCards() {
           >
             <span className="font-mono text-xs opacity-80">0{i + 1}</span>
             <div>
-              <h4 className="font-display text-4xl italic">{c.t}</h4>
+              <h3 className="font-display text-4xl italic">{c.t}</h3>
               <p className="mt-1 text-sm opacity-90">{c.d}</p>
             </div>
           </article>

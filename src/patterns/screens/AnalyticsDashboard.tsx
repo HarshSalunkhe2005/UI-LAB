@@ -98,7 +98,7 @@ export default function AnalyticsDashboard() {
           </a>
         ))}
       </nav>
-      <main className="min-w-0 flex-1 space-y-4 p-4">
+      <div className="min-w-0 flex-1 space-y-4 p-4">
         <header className="flex items-center justify-between">
           <h3 className="text-lg font-semibold">Overview</h3>
           <span className="rounded-md border border-border px-2 py-1 font-mono text-xs text-fg-muted">Last 7 days</span>
@@ -168,7 +168,7 @@ export default function AnalyticsDashboard() {
             </table>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   )
 }

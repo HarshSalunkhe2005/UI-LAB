@@ -18,13 +18,12 @@ const ITEMS = [
 export default function ExpandingCards() {
   const [active, setActive] = useState(0)
   return (
-    <div className="flex h-80 gap-2" role="list">
+    <div className="flex h-80 gap-2" role="group" aria-label="Destinations">
       {ITEMS.map((it, i) => {
         const on = i === active
         return (
           <button
             key={it.title}
-            role="listitem"
             aria-expanded={on}
             onMouseEnter={() => setActive(i)}
             onFocus={() => setActive(i)}

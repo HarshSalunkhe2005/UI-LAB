@@ -13,7 +13,7 @@ export default function LogoCloud() {
       <p id="lc-h" className="text-center font-mono text-xs tracking-wider text-fg-muted uppercase">Trusted by teams at</p>
       <ul className="grid grid-cols-2 gap-6 sm:grid-cols-4">
         {LOGOS.map((l, i) => (
-          <li key={l} className="text-center text-xl font-semibold tracking-tight text-fg-muted/60 transition-colors hover:text-fg" style={{ fontStyle: i % 3 === 0 ? 'italic' : undefined, fontFamily: i % 2 ? 'var(--font-display)' : undefined }}>
+          <li key={l} className="text-center text-xl font-semibold tracking-tight text-fg-muted transition-colors hover:text-fg" style={{ fontStyle: i % 3 === 0 ? 'italic' : undefined, fontFamily: i % 2 ? 'var(--font-display)' : undefined }}>
             {l}
           </li>
         ))}

@@ -13,7 +13,7 @@ const CARDS = [
   { t: 'Design', c: '#84cc16' },
   { t: 'Build', c: '#06b6d4' },
   { t: 'Launch', c: '#8b5cf6' },
-  { t: 'Grow', c: '#ec4899' },
+  { t: 'Grow', c: '#f472b6' },
 ]
 
 export default function FanDeck() {
@@ -44,7 +44,7 @@ export default function FanDeck() {
               zIndex: on ? 10 : i,
             }}
           >
-            <span className="font-mono text-[11px] opacity-70">0{i + 1}</span>
+            <span className="font-mono text-[11px]">0{i + 1}</span>
             <span className="font-display text-3xl italic">{card.t}</span>
           </button>
         )

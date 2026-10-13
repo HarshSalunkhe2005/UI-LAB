@@ -52,7 +52,7 @@ export default function SpotlightDemo() {
     <div className="grid gap-4 sm:grid-cols-3">
       {FEATURES.map(([t, d]) => (
         <SpotlightCard key={t}>
-          <h4 className="font-medium">{t}</h4>
+          <h3 className="font-medium">{t}</h3>
           <p className="mt-2 text-sm text-fg-muted">{d}</p>
         </SpotlightCard>
       ))}

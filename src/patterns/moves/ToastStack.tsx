@@ -21,7 +21,7 @@ export default function ToastStack() {
   return (
     <div className="relative h-80 overflow-hidden rounded-xl border border-border bg-surface">
       <button onClick={add} className="absolute top-4 left-4 min-h-11 rounded-md bg-fg px-4 text-sm font-medium text-bg">Show toast</button>
-      <ul
+      <div
         role="status"
         aria-live="polite"
         className="absolute right-4 bottom-4 h-16 w-72"
@@ -35,17 +35,17 @@ export default function ToastStack() {
           const y = fanned ? -depth * 72 : -depth * 10
           const scale = fanned ? 1 : 1 - depth * 0.05
           return (
-            <li
+            <div
               key={t.id}
               className="absolute inset-x-0 bottom-0 flex min-h-14 items-center justify-between gap-2 rounded-xl border border-border bg-surface-2 px-4 text-sm shadow-lg transition-all duration-300 motion-reduce:transition-none"
               style={{ transform: `translateY(${y}px) scale(${scale})`, opacity: fanned ? 1 : Math.max(0, 1 - depth * 0.28), zIndex: i, transformOrigin: 'bottom center' }}
             >
               {t.text}
               <button onClick={() => remove(t.id)} aria-label={`Dismiss: ${t.text}`} className="grid size-9 place-items-center rounded-md text-fg-muted hover:bg-bg hover:text-fg">×</button>
-            </li>
+            </div>
           )
         })}
-      </ul>
+      </div>
       {toasts.length === 0 && <p className="absolute right-4 bottom-6 font-mono text-[11px] text-fg-muted">Press the button a few times</p>}
     </div>
   )

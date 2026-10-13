@@ -57,7 +57,7 @@ export default function SeedPacket() {
         <div className="overflow-x-auto">
           <table className="mt-2 w-full min-w-80 border-collapse text-center font-mono text-xs" aria-label="Planting calendar by month">
             <thead>
-              <tr><th className="text-left font-normal" />{MONTHS.map((m, i) => <th key={i} scope="col" className="w-7 py-1 font-normal">{m}</th>)}</tr>
+              <tr><th scope="col" className="text-left font-normal"><span className="sr-only">Crop</span></th>{MONTHS.map((m, i) => <th key={i} scope="col" className="w-7 py-1 font-normal">{m}</th>)}</tr>
             </thead>
             <tbody>
               {([['Sow', SOW], ['Grow', GROW], ['Harvest', HARVEST]] as const).map(([row, on]) => (

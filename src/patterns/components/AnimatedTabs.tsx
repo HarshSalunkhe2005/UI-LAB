@@ -56,7 +56,7 @@ export default function AnimatedTabs() {
       </div>
       {TABS.map(([id, label, body], n) => (
         <div key={id} role="tabpanel" id={`panel-${id}`} aria-labelledby={`tab-${id}`} hidden={i !== n} className="mt-4 rounded-xl border border-border p-5">
-          <h4 className="font-medium">{label}</h4>
+          <h3 className="font-medium">{label}</h3>
           <p className="mt-1 text-sm text-fg-muted">{body}</p>
         </div>
       ))}

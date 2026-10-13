@@ -21,7 +21,7 @@ export function Timeline({ events }: { events: Event[] }) {
             {e.time}
           </time>
           <span className={`absolute top-1.5 -left-[5px] h-2.5 w-2.5 rounded-full ring-4 ring-bg ${DOT[e.confidence]}`} />
-          <h4 className="font-medium">{e.title}</h4>
+          <h3 className="font-medium">{e.title}</h3>
           <p className="mt-0.5 text-sm text-fg-muted">{e.detail}</p>
         </li>
       ))}

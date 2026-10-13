@@ -47,7 +47,7 @@ export default function LiveCss() {
             <input type="range" min={min} max={max} value={val} onChange={(e) => set(Number(e.target.value))} className="mt-1 h-8 w-full accent-[var(--accent)]" />
           </label>
         ))}
-        <pre className="overflow-auto rounded-lg bg-bg p-3 font-mono text-[12px] leading-5"><code>{css}</code></pre>
+        <pre tabIndex={0} role="region" aria-label="Generated CSS" className="overflow-auto rounded-lg bg-bg p-3 font-mono text-[12px] leading-5"><code>{css}</code></pre>
       </div>
     </div>
   )

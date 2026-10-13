@@ -52,12 +52,12 @@ export default function DraftingRules() {
 
   return (
     <div className="overflow-hidden rounded-xl border border-border">
-      <div ref={box} tabIndex={0} aria-label="Scroll to draw the elevation" className="overflow-y-auto" style={{ height: 360 }}>
+      <div ref={box} tabIndex={0} role="region" aria-label="Scroll to draw the elevation" className="overflow-y-auto" style={{ height: 360 }}>
         <div style={{ height: 960 }}>
           <div className="sticky top-0 grid place-items-center overflow-hidden bg-[#f1eee6] text-[#2a2622]" style={{ height: 360 }}>
-            <div ref={ruleA} className="absolute inset-x-0 top-[4%] h-px bg-[#d4553a]/70" aria-hidden />
-            <div ref={ruleB} className="absolute inset-x-0 bottom-[4%] h-px bg-[#d4553a]/70" aria-hidden />
-            <p className="absolute top-3 right-4 font-mono text-[10px] tracking-widest text-[#d4553a] uppercase">Sheet 02 / Elevation</p>
+            <div ref={ruleA} className="absolute inset-x-0 top-[4%] h-px bg-[#b3391f]/70" aria-hidden />
+            <div ref={ruleB} className="absolute inset-x-0 bottom-[4%] h-px bg-[#b3391f]/70" aria-hidden />
+            <p className="absolute top-3 right-4 font-mono text-[10px] tracking-widest text-[#b3391f] uppercase">Sheet 02 / Elevation</p>
             <svg viewBox="0 0 240 230" className="h-[78%]" role="img" aria-label="Pencil elevation of a two-block house, drawn as you scroll">
               {LINES.map((d, i) => (
                 <path
@@ -72,7 +72,7 @@ export default function DraftingRules() {
                   style={{ strokeDasharray: 1000, strokeDashoffset: 1000 }}
                 />
               ))}
-              <circle cx="150" cy="30" r="2.5" fill="#d4553a" />
+              <circle cx="150" cy="30" r="2.5" fill="#b3391f" />
             </svg>
           </div>
         </div>

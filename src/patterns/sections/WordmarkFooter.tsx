@@ -22,13 +22,13 @@ export default function WordmarkFooter({ brand = 'tidewave' }: { brand?: string 
             <label htmlFor="footer-email" className="sr-only">
               Email address
             </label>
-            <input id="footer-email" type="email" required placeholder="you@studio.com" className="min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placeholder:text-neutral-500" />
+            <input id="footer-email" type="email" required placeholder="you@studio.com" className="min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placeholder:text-neutral-400" />
             <button className="rounded-full bg-white px-4 py-1.5 text-sm font-medium text-black">Join</button>
           </div>
         </form>
         {Object.entries(COLS).map(([h, links]) => (
           <nav key={h} aria-label={h}>
-            <p className="mb-3 font-mono text-[11px] tracking-wider text-neutral-500 uppercase">{h}</p>
+            <p className="mb-3 font-mono text-[11px] tracking-wider text-neutral-400 uppercase">{h}</p>
             <ul className="space-y-2 text-sm">
               {links.map((l) => (
                 <li key={l}>
@@ -41,7 +41,7 @@ export default function WordmarkFooter({ brand = 'tidewave' }: { brand?: string 
           </nav>
         ))}
       </div>
-      <div className="flex justify-between px-6 font-mono text-[11px] text-neutral-500 sm:px-10">
+      <div className="flex justify-between px-6 font-mono text-[11px] text-neutral-400 sm:px-10">
         <span>© 2026 {brand}</span>
         <span>Made with care</span>
       </div>

@@ -21,7 +21,7 @@ export default function ScrollProgress() {
         <div className="progress-bar h-full bg-accent" aria-hidden />
       </div>
       <article className="prose-sm max-w-none space-y-4 p-6 text-fg-muted">
-        <h4 className="text-xl font-semibold text-fg">Reading progress</h4>
+        <h3 className="text-xl font-semibold text-fg">Reading progress</h3>
         {Array.from({ length: 8 }, (_, i) => (
           <p key={i}>
             Paragraph {i + 1}. The bar above tracks how far through this box you have scrolled, using a scroll timeline so

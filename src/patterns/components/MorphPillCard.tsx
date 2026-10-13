@@ -12,20 +12,20 @@ export default function MorphPillCard() {
   return (
     <div className="grid h-80 place-items-center">
       <div
-        tabIndex={0}
-        role="button"
-        aria-expanded={open}
+        role="group"
         aria-label="Maya Chen, product designer"
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
         onFocus={() => setOpen(true)}
         onBlur={() => setOpen(false)}
-        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setOpen((o) => !o)}
-        className="relative cursor-pointer overflow-hidden border border-border bg-surface shadow-md transition-all duration-500 ease-out-expo"
+        className="relative overflow-hidden border border-border bg-surface shadow-md transition-all duration-500 ease-out-expo"
         style={{ width: open ? 300 : 190, height: open ? 260 : 52, borderRadius: open ? 20 : 999 }}
       >
-        <div
-          className="absolute flex items-center gap-3 transition-all duration-500 ease-out-expo"
+        <button
+          type="button"
+          aria-expanded={open}
+          onClick={() => setOpen((o) => !o)}
+          className="absolute flex items-center gap-3 text-left transition-all duration-500 ease-out-expo"
           style={{ top: open ? 20 : 8, left: open ? 20 : 8 }}
         >
           <div
@@ -36,7 +36,7 @@ export default function MorphPillCard() {
             <p className="text-sm font-medium whitespace-nowrap">Maya Chen</p>
             <p className="text-xs whitespace-nowrap text-fg-muted">Product designer</p>
           </div>
-        </div>
+        </button>
         <div
           className="absolute inset-x-5 bottom-5 space-y-4 transition-all duration-500"
           style={{ opacity: open ? 1 : 0, transform: open ? 'none' : 'translateY(10px)', transitionDelay: open ? '150ms' : '0ms' }}

@@ -103,7 +103,7 @@ export default function ProductViewer() {
         ))}
       </div>
       <div className="space-y-3">
-        <h4 className="font-display text-3xl italic">{WAYS[w].name}</h4>
+        <h3 className="font-display text-3xl italic">{WAYS[w].name}</h3>
         <p className="text-sm text-fg-muted">Drag to spin. Pick a flavour:</p>
         <div className="flex gap-2" role="radiogroup" aria-label="Flavour">
           {WAYS.map((way, i) => (

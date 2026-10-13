@@ -15,7 +15,7 @@ const BANDS = [
 export default function DifferenceNav() {
   return (
     <div className="overflow-hidden rounded-xl border border-border">
-      <div tabIndex={0} aria-label="Scroll: the header inverts against each band" className="relative isolate overflow-y-auto" style={{ height: 340 }}>
+      <div tabIndex={0} role="region" aria-label="Scroll: the header inverts against each band" className="relative isolate overflow-y-auto" style={{ height: 340 }}>
         <header className="sticky top-0 z-10 flex items-center justify-between px-5 py-4 text-white mix-blend-difference">
           <a href="#diff" onClick={(e) => e.preventDefault()} className="text-lg font-semibold tracking-tight">studio</a>
           <nav aria-label="Demo" className="flex gap-5 text-sm">

@@ -34,7 +34,7 @@ export default function ProgressButton() {
         onClick={run}
         disabled={s !== 'idle'}
         aria-busy={s === 'busy'}
-        className={`relative h-12 overflow-hidden rounded-full font-medium text-white transition-all duration-500 ease-out-expo ${
+        className={`relative h-12 overflow-hidden rounded-full font-medium text-accent-fg transition-all duration-500 ease-out-expo ${
           s === 'done' ? 'w-12 bg-success' : 'w-52 bg-accent'
         }`}
       >

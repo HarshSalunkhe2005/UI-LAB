@@ -41,7 +41,7 @@ export default function ElasticColumns() {
   }, [])
 
   return (
-    <div ref={box} className="h-96 overflow-y-auto rounded-xl border border-border" tabIndex={0} aria-label="Elastic grid, scroll fast inside">
+    <div ref={box} className="h-96 overflow-y-auto rounded-xl border border-border" tabIndex={0} role="region" aria-label="Elastic grid, scroll fast inside">
       <div className="grid grid-cols-3 gap-3 p-4">
         {LAGS.map((_, c) => (
           <div key={c} ref={(el) => { cols.current[c] = el }} className="space-y-3 will-change-transform">

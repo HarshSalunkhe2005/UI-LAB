@@ -53,8 +53,8 @@ export default function ShortcutInbox() {
   })
 
   return (
-    <div ref={box} tabIndex={0} role="listbox" aria-label="Inbox. j and k move, e archives, s stars, u undoes." aria-activedescendant={mail[sel] ? `si-${mail[sel].id}` : undefined} className="mx-auto max-w-xl rounded-xl border border-border bg-surface outline-offset-4">
-      <ul>
+    <div ref={box} className="mx-auto max-w-xl rounded-xl border border-border bg-surface outline-offset-4">
+      <ul tabIndex={0} role="listbox" aria-label="Inbox. j and k move, e archives, s stars, u undoes." aria-activedescendant={mail[sel] ? `si-${mail[sel].id}` : undefined} className="outline-offset-4">
         {mail.map((m, i) => (
           <li
             key={m.id}
@@ -69,8 +69,8 @@ export default function ShortcutInbox() {
             <span className="truncate text-sm text-fg-muted">{m.subject}</span>
           </li>
         ))}
-        {mail.length === 0 && <li className="px-4 py-10 text-center text-sm text-fg-muted">Inbox zero. Press u to bring one back.</li>}
       </ul>
+      {mail.length === 0 && <p className="px-4 py-10 text-center text-sm text-fg-muted">Inbox zero. Press u to bring one back.</p>}
       <div className="flex flex-wrap gap-2 border-t border-border p-2">
         {[
           ['Archive', 'e', archive],

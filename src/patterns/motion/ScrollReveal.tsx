@@ -39,7 +39,7 @@ export default function ScrollReveal() {
         {ITEMS.map(([title, body], i) => (
           <article key={title} className="reveal rounded-lg border border-border bg-surface p-6 shadow-sm">
             <span className="font-mono text-xs text-accent">0{i + 1}</span>
-            <h4 className="mt-1 text-xl font-semibold">{title}</h4>
+            <h3 className="mt-1 text-xl font-semibold">{title}</h3>
             <p className="mt-1 text-fg-muted">{body}</p>
           </article>
         ))}

@@ -35,7 +35,8 @@ export function FocusReveal({ text, interval = 1100 }: { text: string; interval?
   const corner = 'absolute h-3 w-3 border-accent'
 
   return (
-    <p className="relative" aria-label={text}>
+    <p className="relative">
+      <span className="sr-only">{text}</span>
       {words.map((w, n) => (
         <span key={n} aria-hidden>
           <span

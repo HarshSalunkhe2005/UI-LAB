@@ -84,7 +84,7 @@ export default function ScrollModel() {
           <section key={h} className={`flex h-96 items-center px-8 ${i % 2 ? 'justify-end text-right' : ''}`}>
             <div className="max-w-[45%]">
               <p className="font-mono text-xs text-fg-muted">0{i + 1}</p>
-              <h4 className="font-display text-4xl italic">{h}</h4>
+              <h3 className="font-display text-4xl italic">{h}</h3>
               <p className="mt-2 text-sm text-fg-muted">{p}</p>
             </div>
           </section>

@@ -80,7 +80,7 @@ export default function CommandDemo() {
             className={`flex min-h-11 cursor-pointer items-center justify-between rounded-lg px-3 text-sm ${i === active ? 'bg-accent-soft text-fg' : 'text-fg-muted'}`}
           >
             {it.name}
-            <span className="font-mono text-[11px] opacity-70">{it.hint}</span>
+            <span className="font-mono text-[11px]">{it.hint}</span>
           </li>
         ))}
         {results.length === 0 && <li className="px-3 py-6 text-center text-sm text-fg-muted">No results</li>}

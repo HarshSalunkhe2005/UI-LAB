@@ -28,7 +28,7 @@ export default function PlateCallouts() {
         @media (prefers-reduced-motion: reduce) { .pc-line { animation: none; } }
       `}</style>
       <figure>
-        <svg viewBox="0 0 420 430" className="mx-auto w-full max-w-md" role="img" aria-label="Botanical plate of a flowering plant with five numbered parts">
+        <svg viewBox="0 0 420 430" className="mx-auto w-full max-w-md" role="group" aria-label="Botanical plate of a flowering plant with five numbered parts">
           <rect x="6" y="6" width="408" height="418" rx="2" fill="none" stroke="#2b2418" strokeWidth="1" />
           <rect x="14" y="14" width="392" height="402" rx="1" fill="none" stroke="#2b2418" strokeWidth="0.5" />
           {PARTS.map((p) => (

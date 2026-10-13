@@ -43,7 +43,7 @@ export default function GlitchTextDemo() {
     <div className="grid h-56 place-items-center rounded-xl bg-black text-white">
       <div className="text-center">
         <p className="font-mono text-6xl font-bold tracking-tight sm:text-7xl"><GlitchText text="SIGNAL" /></p>
-        <p className="mt-3 font-mono text-xs text-neutral-500">hover the word</p>
+        <p className="mt-3 font-mono text-xs text-neutral-400">hover the word</p>
       </div>
     </div>
   )

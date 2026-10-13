@@ -8,7 +8,7 @@ import { useState } from 'react'
 
 const BOOKS = [
   { title: 'High Growth Handbook', by: 'Elad Gil', color: '#2d4a6b', w: 92 },
-  { title: 'Maintenance', by: 'Stewart Brand', color: '#b8893a', w: 100 },
+  { title: 'Maintenance', by: 'Stewart Brand', color: '#8a6320', w: 100 },
   { title: 'The Dream Machine', by: 'M. Mitchell Waldrop', color: '#7a2e3a', w: 88 },
   { title: 'Scaling People', by: 'Claire Hughes Johnson', color: '#3a6b52', w: 96 },
   { title: 'Poor Charlie’s Almanack', by: 'Charles T. Munger', color: '#1f2a44', w: 100 },
@@ -31,7 +31,7 @@ export default function BookStack() {
                 style={{ background: b.color, boxShadow: isOut ? '0 12px 24px rgb(0 0 0 / 0.5)' : '0 2px 4px rgb(0 0 0 / 0.4)' }}
               >
                 <span className="font-display text-base italic">{b.title}</span>
-                <span className="font-mono text-[10px] opacity-70">{b.by}</span>
+                <span className="font-mono text-[10px]">{b.by}</span>
               </button>
             </li>
           )

@@ -399,7 +399,7 @@ function Home() {
 
 function Sidebar({ active }: { active: string }) {
   return (
-    <nav className="space-y-6">
+    <nav className="space-y-6" aria-label="All patterns">
       {CATEGORIES.map((cat) => {
         const items = PATTERNS.filter((p) => p.category === cat)
         return (
@@ -464,7 +464,9 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
         <section
           className="overflow-hidden rounded-2xl border border-border bg-surface/50"
           style={{ viewTransitionName: `stage-${pattern.slug}` }}
+          aria-labelledby="demo-h"
         >
+          <h2 id="demo-h" className="sr-only">Live demo and source</h2>
           <div className="flex items-center gap-1 border-b border-border px-3 py-2">
             {(['preview', 'code'] as const).map((t) => (
               <button
@@ -539,7 +541,7 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
           </div>
         </section>
 
-        <nav className="grid grid-cols-2 gap-4 border-t border-border/60 pt-8">
+        <nav className="grid grid-cols-2 gap-4 border-t border-border/60 pt-8" aria-label="Previous and next pattern">
           {prev ? (
             <a href={`#/${prev.slug}`} className="group rounded-xl border border-border p-4 hover:border-accent/50">
               <span className="font-mono text-[11px] text-fg-muted">← Previous</span>

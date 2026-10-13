@@ -52,7 +52,7 @@ export default function FocusWords() {
 
   return (
     <div className="overflow-hidden rounded-xl border border-border">
-      <div ref={box} tabIndex={0} aria-label="Scroll to bring the sentence into focus" className="overflow-y-auto" style={{ height: 340 }}>
+      <div ref={box} tabIndex={0} role="region" aria-label="Scroll to bring the sentence into focus" className="overflow-y-auto" style={{ height: 340 }}>
         <div style={{ height: 900 }}>
           <div className="sticky top-0 grid place-items-center overflow-hidden bg-[#f6f6f4] px-8 text-[#15151a]" style={{ height: 340 }}>
             <p className="relative max-w-xl text-center text-2xl leading-snug font-medium sm:text-3xl">

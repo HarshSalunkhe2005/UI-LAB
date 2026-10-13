@@ -43,7 +43,7 @@ export default function KanbanBoard() {
             onDrop={(e) => { move(Number(e.dataTransfer.getData('text')), col); setOver(null) }}
             className={`min-h-48 rounded-xl border p-3 transition-colors ${over === col ? 'border-accent bg-accent-soft/40' : 'border-border bg-surface/50'}`}
           >
-            <h4 className="mb-3 flex justify-between text-sm font-medium">{col}<span className="font-mono text-xs text-fg-muted">{board[col].length}</span></h4>
+            <h3 className="mb-3 flex justify-between text-sm font-medium">{col}<span className="font-mono text-xs text-fg-muted">{board[col].length}</span></h3>
             <ul className="space-y-2">
               {board[col].map((c) => (
                 <li key={c.id} draggable onDragStart={(e) => e.dataTransfer.setData('text', String(c.id))} className="cursor-grab rounded-lg border border-border bg-surface p-3 shadow-sm active:cursor-grabbing">

@@ -48,7 +48,7 @@ export default function PerforatedReveal() {
 
   return (
     <div className="overflow-hidden rounded-xl border border-border">
-      <div ref={box} tabIndex={0} aria-label="Scroll to tear the sheet open" className="relative overflow-y-auto" style={{ height: H }}>
+      <div ref={box} tabIndex={0} role="region" aria-label="Scroll to tear the sheet open" className="relative overflow-y-auto" style={{ height: H }}>
         <div style={{ height: H * 3 }}>
           <div className="sticky top-0 overflow-hidden" style={{ height: H }}>
             <div className="absolute inset-0 grid place-content-center bg-[#f4efe6] px-8 text-center text-[#17120f]">
