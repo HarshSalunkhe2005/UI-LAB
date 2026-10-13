@@ -7,6 +7,8 @@ Every entry is a working demo with tags, "when to use" notes, accessibility note
 
 **New: the Playbook.** Patterns are parts; [`playbook/`](playbook/00-start-here.md) is the judgement: a design procedure, 8 worlds to start from,
 an inspiration/teardown method, a verification loop with a catalogue of real bugs, and a scroll-driven 3D recipe.
+**Also new: fifty reference sites, taken apart.** [`src/references.ts`](src/references.ts): 30 world-class websites and 20 vibe-coded UIs, each with its signature moment, how it is built, measured fonts and colours, and what to take and leave (page `#/references`, also `/references.md` and `/references.json`). The techniques are rebuilt as 39 patterns in the **Signature moves** category ([`src/patterns/moves/`](src/patterns/moves)); the synthesis is in [`playbook/reference-sites.md`](playbook/reference-sites.md).
+
 Five whole sites in five design worlds, as the **Sites** category inside the library ([`src/patterns/sites/`](src/patterns/sites)): SOLAR, MARE, Lattice, HOT MESS, ABYSS. Open any pattern page and press *Launch full screen*. Claude skill in [`skills/ui-lab`](skills/ui-lab/SKILL.md).
 
 ```bash

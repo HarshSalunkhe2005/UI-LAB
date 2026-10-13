@@ -15,6 +15,7 @@ export const CATEGORIES = [
   'Sections',
   'Screens',
   'Sites',
+  'Signature moves',
   'Data viz',
   'Recipes',
 ] as const
@@ -40,6 +41,8 @@ export type PatternMeta = {
   /** Runtime deps beyond React + Tailwind. Empty = copy the file and go. */
   deps?: string[]
 }
+
+import { MOVES } from './meta-moves'
 
 const ALL: PatternMeta[] = [
   {
@@ -1543,6 +1546,7 @@ const ALL: PatternMeta[] = [
     a11y: "Canvas is aria-hidden; all content is real text with readable ink at every depth. Reduced motion slows the shader and removes smooth scrolling.",
     deps: ["three", "lenis", "@fontsource-variable/unbounded", "@fontsource-variable/hanken-grotesk", "sites/_shared.ts"],
   },
+  ...MOVES,
 ]
 
 /** Sorted by category so the grid and prev/next follow the sidebar order. */

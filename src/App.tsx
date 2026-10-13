@@ -7,6 +7,7 @@ import { CommandPalette, type Command } from './patterns/components/CommandPalet
 import { useCountUp } from './patterns/motion/CountUp'
 import { CodeBlock, CopyButton } from './CodeBlock'
 import ResourcesPage from './ResourcesPage'
+import ReferencesPage from './ReferencesPage'
 import PlaybookPage from './PlaybookPage'
 import { SiteLauncher, SiteStage, SiteSources } from './SiteViews'
 
@@ -82,6 +83,9 @@ function TopBar({ theme, onTheme, onSearch }: { theme: Theme; onTheme: () => voi
         </button>
         <a href="#/playbook" className="hidden text-sm text-fg-muted hover:text-fg md:inline">
           Playbook
+        </a>
+        <a href="#/references" className="hidden text-sm text-fg-muted hover:text-fg md:inline">
+          References
         </a>
         <a href="#/resources" className="hidden text-sm text-fg-muted hover:text-fg md:inline">
           Resources
@@ -468,6 +472,7 @@ export default function App() {
     () => [
       { id: '', label: 'Home', group: 'Go to' },
       { id: 'playbook', label: 'Design playbook', group: 'Go to', hint: 'process worlds inspiration verify how to design start here' },
+      { id: 'references', label: 'Reference sites (50 teardowns)', group: 'Go to', hint: 'references teardown world class vibe coded v0 awwwards studies' },
       { id: 'resources', label: 'Resources directory', group: 'Go to', hint: 'links sites repos libraries inspiration' },
       ...PATTERNS.map((p) => ({ id: p.slug, label: p.title, group: p.category, hint: p.tags?.join(' ') })),
     ],
@@ -484,7 +489,7 @@ export default function App() {
   return (
     <>
       <TopBar theme={theme} onTheme={cycleTheme} onSearch={() => setSearchOpen(true)} />
-      <main>{slug === 'playbook' || slug.startsWith('playbook/') ? <PlaybookPage doc={slug.split('/')[1]} /> : slug === 'resources' ? <ResourcesPage /> : pattern ? <PatternPage pattern={pattern} /> : <Home />}</main>
+      <main>{slug === 'playbook' || slug.startsWith('playbook/') ? <PlaybookPage doc={slug.split('/')[1]} /> : slug === 'resources' ? <ResourcesPage /> : slug === 'references' ? <ReferencesPage /> : pattern ? <PatternPage pattern={pattern} /> : <Home />}</main>
       <CommandPalette commands={commands} open={searchOpen} onOpenChange={setSearchOpen} onRun={go} />
     </>
   )

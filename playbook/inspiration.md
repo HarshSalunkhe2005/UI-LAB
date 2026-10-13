@@ -70,3 +70,15 @@ After the direction card exists, look things up instead of improvising:
 
 When you finish a project, add what you learned to this playbook (a new world, a bug in the catalogue, a technique
 in a recipe). The library only gets better if each project leaves it a little smarter than it found it.
+
+## Teardown field notes (from the fifty-site study, 2026-10-14)
+
+Things that cost time and how to avoid them:
+
+- **Measure, don't squint.** A 30-line probe run in the page (computed `font-family` and size of the visible text, the most common background colours, counts of `canvas`, `video`, `position: sticky`, `backdrop-filter`, `mask-image`, `clip-path`, `mix-blend-mode`, running `animation-name`) gave better facts in seconds than screenshots did. Keep the probe; paste it into each page.
+- **The stack scan can lie.** `tools/site-stack.mjs` matches words, so a site that merely contains the string "rapier" or "barba" gets flagged. Treat its output as a lead and confirm in DevTools (for Lenis: look for the `lenis` class on `<html>`).
+- **Canvas-only and WebGL2-only sites hide from the DOM.** Bruno Simon and Resn have almost no DOM text at load; Igloo shows its own "WebGL2 is not supported" notice in the built-in browser pane. Record those as *partial* instead of guessing what the scene looks like.
+- **Heavy WebGL pages time out screenshots in a software-rendered pane.** Use the computed-style probe instead, and take a screenshot only for light pages.
+- **Bot walls.** Some sites (Locomotive, Aesop) answer with a Cloudflare security check. Do not try to bypass it; swap in another reference and note why.
+- **Template galleries show their popularity.** v0's template pages list two counts per template; sorting by them gives an objective "most used" list for vibe-coded UIs. Previews often need a sign-in, so describe from the listing and mark it *listing*.
+- **Don't let the tool think for you.** The most useful lines were the plain ones: "one font size on the whole site" (Are.na, Emil Kowalski), "720px headings" (Rauno), "the hero is the class list" (Tailwind).

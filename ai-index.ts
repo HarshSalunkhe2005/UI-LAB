@@ -6,6 +6,7 @@
  *   /docs/<slug>.md           one markdown doc per pattern: metadata + source
  *   /raw/<path>.tsx           raw source file, plain text
  *   /resources.md             curated external galleries, studios, repos, libraries, tools
+ *   /references.md|.json      50 teardowns: 30 world-class sites and 20 vibe-coded UIs, each linked to the pattern that rebuilds it
  * Served in dev by middleware, emitted as static files on build.
  */
 import { readdirSync, readFileSync } from 'node:fs'
@@ -13,6 +14,7 @@ import { resolve } from 'node:path'
 import type { Plugin } from 'vite'
 import { CATEGORIES, META } from './src/meta'
 import { RESOURCE_KINDS, RESOURCES } from './src/resources'
+import { REFERENCES, REF_NOTES, VIBE, WORLD, type Ref } from './src/references'
 
 const SITE = 'https://ui-lab-weld.vercel.app'
 const REPO = 'https://github.com/HarshSalunkhe2005/UI-LAB'
@@ -95,6 +97,7 @@ function llms() {
     '- Every motion pattern respects prefers-reduced-motion. Keep that when adapting.',
     `- Machine-readable index: ${SITE}/patterns.json. Everything in one file: ${SITE}/llms-full.txt`,
     `- Outside references (galleries, studios, open-source demo repos, libraries, tools): ${SITE}/resources.md`,
+    `- 50 reference teardowns (30 world-class sites, 20 vibe-coded UIs) with the pattern that rebuilds each: ${SITE}/references.md (JSON: ${SITE}/references.json)`,
     '',
     '## START HERE: the design procedure',
     '',
@@ -128,10 +131,54 @@ function resourcesMd() {
   return out.join('\n')
 }
 
+function refBlock(r: Ref) {
+  const moves = (r.moves ?? []).map((s) => `[${s}](${SITE}/docs/${s}.md)`).join(', ')
+  return [
+    `### [${r.name}](${r.url})`,
+    '',
+    `- **Idea:** ${r.idea}`,
+    `- **Technique:** ${r.technique}`,
+    `- **Look:** ${r.look}`,
+    `- **Take:** ${r.take}`,
+    `- **Leave:** ${r.leave}`,
+    `- **Mode / evidence:** ${r.mode} / ${r.evidence}`,
+    r.tool ? `- **Built with:** ${r.tool}${r.author ? ` by ${r.author}` : ''}; counts shown by v0: ${r.counts?.join(' and ')} (larger is most likely forks)` : '',
+    moves ? `- **Rebuilt as:** ${moves}` : '',
+    `- **Tags:** ${r.tags.join(', ')}`,
+    '',
+  ].filter((l) => l !== '')
+}
+
+function referencesMd() {
+  const out = [
+    '# UI Lab: reference sites',
+    '',
+    '> 30 world-class websites and 20 vibe-coded UIs, taken apart with the method in /playbook/inspiration.md. Measured ' + REF_NOTES.measuredOn + ' at 1440x900.',
+    '> "inspected" = rendered and measured; "partial" = a canvas or WebGL2 experience we could only partly see; "listing" = read from the vendor page.',
+    '> Techniques are re-implemented in our own code (category "Signature moves"); nothing is copied. Read /playbook/reference-sites.md for what the fifty have in common.',
+    '',
+    '## World-class (30)',
+    '',
+    ...WORLD.flatMap((r) => [...refBlock(r), '']),
+    '## Vibe-coded (20)',
+    '',
+    REF_NOTES.vibeMethod,
+    '',
+    ...VIBE.flatMap((r) => [...refBlock(r), '']),
+    '## Left out',
+    '',
+    ...REF_NOTES.excluded.map((e) => `- [${e.name}](${e.url}): ${e.why}`),
+    '',
+  ]
+  return out.join('\n')
+}
+
 function files(): Record<string, string> {
   const out: Record<string, string> = {
     'llms.txt': llms(),
     'resources.md': resourcesMd(),
+    'references.md': referencesMd(),
+    'references.json': JSON.stringify({ name: 'UI Lab reference sites', site: SITE, measuredOn: REF_NOTES.measuredOn, notes: REF_NOTES, references: REFERENCES.map((r) => ({ ...r, patterns: (r.moves ?? []).map((s) => `${SITE}/docs/${s}.md`) })) }, null, 2),
     'patterns.json': JSON.stringify(
       {
         name: 'UI Lab',
@@ -181,7 +228,7 @@ export function aiIndex(): Plugin {
         // Vite's own module requests (e.g. /playbook/x.md?raw) carry a query: let Vite answer those.
         if ((req.url ?? '').includes('?')) return next()
         const path = decodeURIComponent((req.url ?? '').split('?')[0]).replace(/^\//, '')
-        if (!/^(llms(-full)?\.txt|patterns\.json|resources\.md|docs\/|raw\/|playbook\/|tools\/)/.test(path)) return next()
+        if (!/^(llms(-full)?\.txt|patterns\.json|resources\.md|references\.(md|json)|docs\/|raw\/|playbook\/|tools\/)/.test(path)) return next()
         const body = files()[path]
         if (body === undefined) return next()
         res.setHeader('Content-Type', TYPES[path.split('.').pop()!] ?? 'text/plain')
