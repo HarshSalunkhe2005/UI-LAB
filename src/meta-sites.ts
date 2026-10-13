@@ -77,4 +77,19 @@ export const NEW_SITES: PatternMeta[] = [
     a11y: 'The chart has a text alternative that states time, tide, limiting depth and the verdict; the same information is in the readout and a role=status sentence; draft is a radio group; time is a native range with aria-valuetext; the tide table is a real table; the form has labels, aria-invalid and an alert.',
     deps: ['@fontsource-variable/newsreader', '@fontsource/ibm-plex-mono', 'sites/_shared.ts'],
   },
+  {
+    slug: 'site-salt-road',
+    title: 'Site: THE SALT ROAD (museum exhibition)',
+    category: 'Sites',
+    summary: 'An exhibition site where the object leads: six drawn artefacts, each with a proper wall placard, a Large print switch that scales every label, and an audio-guide keypad that jumps to a stop, shows its transcript and plays a soft tone.',
+    when: [
+      'Museums, galleries, heritage sites and any page that is mostly objects with captions',
+      'Reference for a label hierarchy set like a curator would, a text-size switch via one CSS variable, and a keypad that drives scrolling and a floor plan',
+    ],
+    file: 'sites/salt-road/index.tsx',
+    files: ['sites/salt-road/index.tsx', 'sites/salt-road/objects.tsx', 'sites/salt-road/styles.css'],
+    tags: ['site', 'full page', 'niche world', 'museum', 'placard', 'exhibition', 'audio guide', 'large print', 'svg', 'experience'],
+    a11y: 'Each object is an article with an accessible name and an SVG with a description; Large print is a switch that scales all label text; the keypad is real buttons with aria-pressed and a labelled number field; the transcript is a role=status region; sound plays only after a key press, briefly and quietly.',
+    deps: ['@fontsource-variable/newsreader', '@fontsource-variable/libre-franklin', 'sites/_shared.ts'],
+  },
 ]
