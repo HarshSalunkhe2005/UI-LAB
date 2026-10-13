@@ -97,10 +97,10 @@ export default function DeparturesSite() {
             <p>Select a route to see it drawn and the board resolve again.</p>
           </div>
           <div className="routes-grid">
-            <ul className="route-list" role="listbox" aria-label="Routes">
+            <ul className="route-list" aria-label="Routes">
               {ROUTES.map((r, i) => (
-                <li key={r.id} role="option" aria-selected={i === sel}>
-                  <button className={i === sel ? 'on' : ''} onClick={() => setSel(i)}>
+                <li key={r.id}>
+                  <button className={i === sel ? 'on' : ''} aria-pressed={i === sel} onClick={() => setSel(i)}>
                     <span className="r-time">{r.dep}</span>
                     <span className="r-name">{r.from} → {r.to}</span>
                     <span className="r-dur">{r.dur}</span>

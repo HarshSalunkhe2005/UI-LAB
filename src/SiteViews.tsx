@@ -77,13 +77,13 @@ export function SiteStage({ pattern }: { pattern: Pattern }) {
       <Suspense fallback={<div className="grid min-h-dvh place-items-center bg-bg font-mono text-xs text-fg-muted">Loading {pattern.title}…</div>}>
         <Component />
       </Suspense>
-      <a
+      <nav aria-label="Back to UI Lab"><a
         href={back}
         className="fixed bottom-4 left-4 z-[1000] flex items-center gap-2 rounded-full border border-white/20 bg-black/70 px-3.5 py-2 font-mono text-[11px] text-white shadow-lg backdrop-blur-md hover:bg-black/85"
       >
         <span aria-hidden>←</span> UI Lab
         <kbd className="rounded border border-white/25 px-1 text-[10px] text-white/70">Esc</kbd>
-      </a>
+      </a></nav>
     </>
   )
 }

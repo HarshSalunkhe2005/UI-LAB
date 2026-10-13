@@ -143,7 +143,8 @@ export default function MareSite() {
         </section>
 
         <section className="statement">
-          <p aria-label={STATEMENT}>
+          <p>
+            <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' }}>{STATEMENT}</span>
             {STATEMENT.split(' ').map((w, i) => (
               <span key={i} className="w" aria-hidden="true">{w}{' '}</span>
             ))}
