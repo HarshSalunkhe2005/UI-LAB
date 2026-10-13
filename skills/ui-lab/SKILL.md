@@ -1,6 +1,6 @@
 ---
 name: ui-lab
-description: Use whenever you build, redesign, restyle or polish any website, landing page, web app UI, component, animation, scroll experience or 3D/WebGL frontend, or when the user wants "premium", "awwwards-level", "not generic" or inspired-by-a-site design. Gives the design procedure (brief, real inspiration, direction card, assets, vertical slice, bounded verification), 8 design worlds, a scroll-driven 3D template, 130+ copyable patterns, and a catalogue of bugs already solved. Not for backend-only work.
+description: Use whenever you build, redesign, restyle or polish any website, landing page, web app UI, component, animation, scroll experience or 3D/WebGL frontend, or when the user wants "premium", "awwwards-level", "not generic" or inspired-by-a-site design. Gives the design procedure (brief, real inspiration, direction card, assets, vertical slice, bounded verification), 20 design worlds (8 general, 12 niche), a scroll-driven 3D template, 130+ copyable patterns, and a catalogue of bugs already solved. Not for backend-only work.
 ---
 
 # UI Lab: design with judgement, not defaults
@@ -16,19 +16,23 @@ Prefer the local checkout when it exists; otherwise fetch the same paths from th
 | What | Local | Live |
 |---|---|---|
 | Procedure (read first) | `playbook/00-start-here.md` | `/playbook/00-start-here.md` |
-| Design worlds | `playbook/worlds.md` | `/playbook/worlds.md` |
+| Router: brief to world, proof and techniques (read first) | `src/router.ts` | `/for-claude.md` |
+| Design worlds (1 to 8) | `playbook/worlds.md` | `/playbook/worlds.md` |
+| Niche worlds (9 to 20: departures board, botanical plate, hi-fi deck, broadsheet, CRT, museum placard, seed packet, BBS, tarot, clinical label, specimen, nautical chart) | `playbook/niche-worlds.md` | `/playbook/niche-worlds.md` |
+| How to write the brief | `playbook/briefs.md` | `/playbook/briefs.md` |
 | Inspiration method | `playbook/inspiration.md` | `/playbook/inspiration.md` |
 | Verification loop + bug catalogue | `playbook/verify.md` | `/playbook/verify.md` |
 | Scroll-driven 3D recipe | `playbook/scroll-3d-recipe.md` | `/playbook/scroll-3d-recipe.md` |
 | Reference sites: 50 teardowns (30 world-class, 20 vibe-coded) + synthesis | `src/references.ts`, `playbook/reference-sites.md` | `/references.md`, `/references.json`, `/playbook/reference-sites.md`, page `#/references` |
 | Signature moves: one pattern per studied site's technique (39) | `src/patterns/moves/`, slugs `move-*` | `/docs/move-<name>.md`, category "Signature moves" |
-| Finished reference sites (5 worlds) | `src/patterns/sites/<name>/`, run at `#/live/site-<name>` | `/docs/site-<name>.md` (all files), `#/site-<name>` |
+| Finished reference sites (9: solar, mare, lattice, hotmess, abyss, departures, herbarium, tape, ledger) | `src/patterns/sites/<name>/`, run at `#/live/site-<name>` | `/docs/site-<name>.md` (all files), `#/site-<name>` |
 | 130+ patterns (index) | `src/meta.ts` | `/patterns.json`, `/llms.txt`, `/docs/<slug>.md` |
 | Site-stack detector | `tools/site-stack.mjs` | `/tools/site-stack.mjs` |
 | External references | `src/resources.ts` | `/resources.md` |
 
 ## Procedure (summary; the playbook is authoritative)
 
+0. **Route.** Open `src/router.ts` (or `/for-claude.md`): find the row your brief matches, open its proof site, note its technique.
 1. **Brief.** Write 5 lines: who/where/mood, mode (Persuade / Operate / Read / Experience), the ONE memorable moment, real content, constraints.
    Ask the user one sharp question if you cannot. Never guess a whole site.
 2. **Inspiration, for real.** Skim `playbook/reference-sites.md` and `/references.md` (50 teardowns, each linked to a `move-*` pattern that rebuilds its technique). Then look at UI Lab's five finished sites to see what committed design looks like. Then open at least 3 outside reference sites in a browser; scroll them slowly; run `node tools/site-stack.mjs <url>`.

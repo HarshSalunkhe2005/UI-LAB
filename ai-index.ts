@@ -14,6 +14,7 @@ import { resolve } from 'node:path'
 import type { Plugin } from 'vite'
 import { CATEGORIES, META } from './src/meta'
 import { RESOURCE_KINDS, RESOURCES } from './src/resources'
+import { REFUSE_UNTIL_CLEAR, ROUTES, TOOLBOX } from './src/router'
 import { REFERENCES, REF_NOTES, VIBE, WORLD, type Ref } from './src/references'
 
 const SITE = 'https://ui-lab-weld.vercel.app'
@@ -96,6 +97,7 @@ function llms() {
     `  via the @theme block in ${SITE}/raw/index.css.`,
     '- Every motion pattern respects prefers-reduced-motion. Keep that when adapting.',
     `- Machine-readable index: ${SITE}/patterns.json. Everything in one file: ${SITE}/llms-full.txt`,
+    `- **Claude: read ${SITE}/for-claude.md first.** It is the brief-to-build router (worlds, proof sites, techniques, refusals).`,
     `- Outside references (galleries, studios, open-source demo repos, libraries, tools): ${SITE}/resources.md`,
     `- 50 reference teardowns (30 world-class sites, 20 vibe-coded UIs) with the pattern that rebuilds each: ${SITE}/references.md (JSON: ${SITE}/references.json)`,
     '',
@@ -173,9 +175,67 @@ function referencesMd() {
   return out.join('\n')
 }
 
+function forClaude() {
+  const known = new Set(META.map((m) => m.slug))
+  const check = (slug: string) => {
+    if (!known.has(slug)) throw new Error(`router.ts references unknown pattern "${slug}"`)
+    return `[${slug}](${SITE}/docs/${slug}.md)`
+  }
+  const lines = [
+    '# For Claude: how to use UI Lab',
+    '',
+    '> You are about to build or change a UI. This page is the shortest route from a brief to a good result. Read it fully, then follow the links.',
+    '',
+    '## The loop (do not skip steps)',
+    '',
+    '1. **Brief in five lines**: who and where, mode, the one memorable moment, real content, constraints. If you cannot write them, ask the user one sharp question.',
+    '2. **Pick a world** from the router below. If nothing fits, invent one and write its card.',
+    '3. **Look at the proof** for that world (a whole site or a pattern). Open it, read its source, run it.',
+    '4. **Take apart three outside references**, 5 lines each: idea, technique, palette and type, take, leave. Never copy code, text or assets.',
+    '5. **Direction card** (name, metaphor, palette roles, type pair, motion language, signature moment, three refusals), then the swap test.',
+    '6. **Vertical slice** of the signature moment first, then build outward.',
+    '7. **Verify once, in batch**: fresh load, console clean, every section at 1440 and 375, reduced motion, keyboard. Fix everything, confirm once, stop.',
+    '8. **Hand off honestly**: the URL, what you rendered, what you could not test, what is placeholder.',
+    '',
+    `Full procedure: ${SITE}/playbook/00-start-here.md. Bug catalogue to read before verifying: ${SITE}/playbook/verify.md.`,
+    '',
+    '## Router: what the brief smells like, what to build from',
+    '',
+    '| Brief | Mode | World | Proof | The move |',
+    '|---|---|---|---|---|',
+    ...ROUTES.map((r) => `| ${r.brief} | ${r.mode} | [${r.world}](${SITE}/playbook/${r.card}) | ${r.proof.map(check).join(', ')} | ${r.move} |`),
+    '',
+    '## Toolbox: techniques that rebuild studied sites',
+    '',
+    ...TOOLBOX.map((t) => `- ${t.want}: ${check(t.slug)}`),
+    '',
+    `The full set is the "Signature moves" category in ${SITE}/llms.txt; the teardown of each studied site is in ${SITE}/references.md.`,
+    '',
+    '## Send the brief back when',
+    '',
+    ...REFUSE_UNTIL_CLEAR.map((x) => `- ${x}`),
+    '',
+    '## Always on',
+    '',
+    '- Fonts self-hosted (Fontsource). No system font as the display voice. Draw icons; no emoji as icons.',
+    '- Contrast 4.5:1 for body text, 44px touch targets, `100svh`, no horizontal scroll at 375px, `prefers-reduced-motion` honoured, keyboard reachable with visible focus.',
+    '- Animate transform, opacity, clip-path; not layout properties.',
+    '- Refuse unless the brief earns them: identical icon-heading-text card grids, hero-metric rows as filler, eyebrow labels, gradient text, decorative glass, identical fade-up on every block.',
+    "- Do not reuse a studied site's code, copy or assets.",
+    '',
+    '## Machine-readable',
+    '',
+    `- ${SITE}/llms.txt (index), ${SITE}/patterns.json, ${SITE}/llms-full.txt (everything), ${SITE}/references.json`,
+    `- Each pattern: ${SITE}/docs/<slug>.md. Each whole site includes every file in its folder.`,
+    '',
+  ]
+  return lines.join('\n')
+}
+
 function files(): Record<string, string> {
   const out: Record<string, string> = {
     'llms.txt': llms(),
+    'for-claude.md': forClaude(),
     'resources.md': resourcesMd(),
     'references.md': referencesMd(),
     'references.json': JSON.stringify({ name: 'UI Lab reference sites', site: SITE, measuredOn: REF_NOTES.measuredOn, notes: REF_NOTES, references: REFERENCES.map((r) => ({ ...r, patterns: (r.moves ?? []).map((s) => `${SITE}/docs/${s}.md`) })) }, null, 2),
@@ -228,7 +288,7 @@ export function aiIndex(): Plugin {
         // Vite's own module requests (e.g. /playbook/x.md?raw) carry a query: let Vite answer those.
         if ((req.url ?? '').includes('?')) return next()
         const path = decodeURIComponent((req.url ?? '').split('?')[0]).replace(/^\//, '')
-        if (!/^(llms(-full)?\.txt|patterns\.json|resources\.md|references\.(md|json)|docs\/|raw\/|playbook\/|tools\/)/.test(path)) return next()
+        if (!/^(llms(-full)?\.txt|for-claude\.md|patterns\.json|resources\.md|references\.(md|json)|docs\/|raw\/|playbook\/|tools\/)/.test(path)) return next()
         const body = files()[path]
         if (body === undefined) return next()
         res.setHeader('Content-Type', TYPES[path.split('.').pop()!] ?? 'text/plain')

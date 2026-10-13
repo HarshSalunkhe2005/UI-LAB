@@ -54,7 +54,7 @@ product's content. Never copy code, copy text, brand assets or exact layouts. Re
 
 ### 3. Commit to a world
 
-Pick or invent a direction from [worlds.md](worlds.md) and write a **direction card** (6 lines):
+Pick or invent a direction from [worlds.md](worlds.md) (general) or [niche-worlds.md](niche-worlds.md) (physical and editorial forms; brief help in [briefs.md](briefs.md)) and write a **direction card** (6 lines):
 
 ```
 Name:        e.g. "Solar" - saturated flat colour that changes per product

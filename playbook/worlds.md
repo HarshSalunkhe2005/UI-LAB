@@ -108,3 +108,5 @@ real if you've shipped something in it. Link the project or pattern that proves 
 | "friendly", "for everyone", "app" | 6 Soft Playful |
 | "report", "numbers", "trust" | 7 Swiss Grid |
 | "natural", "handmade", "local" | 8 Warm Organic |
+
+Narrower directions that borrow the look and logic of a real object or printed form (departures board, botanical plate, hi-fi deck, broadsheet, and eight more) live in [niche-worlds.md](niche-worlds.md), worlds 9 to 20. `src/router.ts` maps briefs to both sets.

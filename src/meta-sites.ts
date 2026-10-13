@@ -1,0 +1,65 @@
+import type { PatternMeta } from './meta'
+
+/* Whole-site demos added after the first five (see AGENTS.md, "Adding a whole site"). Category: Sites. */
+export const NEW_SITES: PatternMeta[] = [
+  {
+    slug: 'site-departures',
+    title: 'Site: MERIDIAN NIGHT RAIL (departures board)',
+    category: 'Sites',
+    summary: 'A night-train brand set as a station departure hall. A split-flap board that resolves letter by letter, a route map whose line draws itself with a train riding it, a berth comparison table and a ticket that prints.',
+    when: [
+      'Travel, transit, events and schedule-driven brands',
+      'Reference for a split-flap component, SVG route drawing with CSS offset-path, and a form whose result is an object (the ticket)',
+    ],
+    file: 'sites/departures/index.tsx',
+    files: ['sites/departures/index.tsx', 'sites/departures/Board.tsx', 'sites/departures/styles.css'],
+    tags: ['site', 'full page', 'niche world', 'departures board', 'split flap', 'transit', 'timetable', 'svg map', 'offset-path', 'ticket', 'signage'],
+    a11y: 'The board is role=img with a visually hidden table of the same data; the route list is a listbox of buttons; the comparison is a real table with scoped headers; the ticket result is a polite live region; flaps, line-draw, train and ticket print are all disabled under reduced motion.',
+    deps: ['@fontsource/barlow-condensed', '@fontsource-variable/hanken-grotesk', '@fontsource-variable/jetbrains-mono', 'sites/_shared.ts'],
+  },
+  {
+    slug: 'site-herbarium',
+    title: 'Site: HEDGEROW PRESS (field notebook)',
+    category: 'Sites',
+    summary: 'A pressed-plant print shop set as an open field notebook: a taped plate with numbered callouts and handwritten notes, a specimen index, and a plant press you turn with a slider to watch a flower dry and flatten over fourteen days.',
+    when: [
+      'Craft, nature, archive, museum and slow-commerce brands',
+      'Reference for procedural SVG illustration driven by one number, paper texture without images, and handwriting used only for annotation',
+    ],
+    file: 'sites/herbarium/index.tsx',
+    files: ['sites/herbarium/index.tsx', 'sites/herbarium/Plant.tsx', 'sites/herbarium/styles.css'],
+    tags: ['site', 'full page', 'niche world', 'herbarium', 'field notebook', 'botanical', 'paper', 'handwriting', 'procedural svg', 'slider', 'craft'],
+    a11y: 'Callout pins are buttons that respond to hover and focus with the note in a live region; the index is a real table with scoped headers; the press slider is a native range with aria-valuetext and a handwritten status line; reveal-on-scroll is disabled under reduced motion.',
+    deps: ['@fontsource-variable/fraunces', '@fontsource/caveat', '@fontsource-variable/jetbrains-mono', 'sites/_shared.ts'],
+  },
+  {
+    slug: 'site-tape',
+    title: 'Site: KESTREL K-1 (cassette deck)',
+    category: 'Sites',
+    summary: 'A product page where the product plays: a cassette deck whose generated drum-and-bass loop runs through a switchable tape stage (saturation, roll-off, wobble), with VU needles that read the real signal, turning reels and a tape counter. Finish chooser re-skins the panel.',
+    when: [
+      'Audio, hardware and instrument brands; any product whose pitch is how it sounds or feels',
+      'Reference for WebAudio scheduling (look-ahead loop), an AnalyserNode driving UI, and CSS-variable theming per product finish',
+    ],
+    file: 'sites/tape/index.tsx',
+    files: ['sites/tape/index.tsx', 'sites/tape/engine.ts', 'sites/tape/styles.css'],
+    tags: ['site', 'full page', 'niche world', 'hi-fi', 'tape deck', 'webaudio', 'analyser', 'vu meter', 'hardware', 'product', 'skeuomorphic'],
+    a11y: 'Audio starts only when Play is pressed, at a low level; transport buttons are real buttons with pressed state; faders are native ranges with aria-valuetext; the tape stage is a switch; meters are role=meter; the counter is a timer; reels do not spin under reduced motion.',
+    deps: ['@fontsource/oswald', '@fontsource/ibm-plex-mono', 'sites/_shared.ts'],
+  },
+  {
+    slug: 'site-ledger',
+    title: 'Site: THE LEDGER (broadsheet newsletter)',
+    category: 'Sites',
+    summary: 'A finance newsletter set as a broadsheet: masthead, ruled columns, a markets table with sign-and-arrow change, a long essay with justified hyphenated text, marginal sidenotes, a reading progress rule and a text-size control.',
+    when: [
+      'Publications, newsletters, journals, long-form and reference products where the job is reading',
+      'Reference for sidenotes that sit in the margin on wide screens and inline on narrow ones, a transform-driven progress rule, and a table that does not rely on colour',
+    ],
+    file: 'sites/ledger/index.tsx',
+    files: ['sites/ledger/index.tsx', 'sites/ledger/styles.css'],
+    tags: ['site', 'full page', 'niche world', 'broadsheet', 'editorial', 'newspaper', 'reading', 'sidenotes', 'table', 'newsletter', 'serif'],
+    a11y: 'Real headings and landmarks; sidenotes are linked asides; text size is a radio group; the markets table has caption, scoped headers and states change with sign and arrow, not colour; the form has a label, aria-invalid and a live status; the progress rule is decorative.',
+    deps: ['@fontsource-variable/newsreader', '@fontsource-variable/libre-franklin', 'sites/_shared.ts'],
+  },
+]

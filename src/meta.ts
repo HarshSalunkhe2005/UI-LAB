@@ -16,6 +16,7 @@ export const CATEGORIES = [
   'Screens',
   'Sites',
   'Signature moves',
+  'Niche worlds',
   'Data viz',
   'Recipes',
 ] as const
@@ -43,6 +44,8 @@ export type PatternMeta = {
 }
 
 import { MOVES } from './meta-moves'
+import { NICHE } from './meta-niche'
+import { NEW_SITES } from './meta-sites'
 
 const ALL: PatternMeta[] = [
   {
@@ -1547,6 +1550,8 @@ const ALL: PatternMeta[] = [
     deps: ["three", "lenis", "@fontsource-variable/unbounded", "@fontsource-variable/hanken-grotesk", "sites/_shared.ts"],
   },
   ...MOVES,
+  ...NICHE,
+  ...NEW_SITES,
 ]
 
 /** Sorted by category so the grid and prev/next follow the sidebar order. */

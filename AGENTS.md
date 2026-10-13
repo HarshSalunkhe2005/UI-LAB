@@ -6,8 +6,8 @@ Guide for AI coding agents using or extending UI Lab.
 
 Patterns are parts; the **playbook** is the judgement that stops generic output. Before building any UI, read
 `playbook/00-start-here.md` (live: `/playbook/00-start-here.md`): brief, real inspiration, direction card, assets, vertical slice,
-bounded verification. Then `worlds.md` (8 design directions), `inspiration.md`, `verify.md` (bug catalogue), `scroll-3d-recipe.md`.
-Five finished whole sites live *inside* the library as the **Sites** category (`src/patterns/sites/<name>/`: solar, mare, lattice, hotmess, abyss; slugs `site-<name>`). Each runs full screen at `#/live/<slug>` and has per-file source tabs. Site-stack detector: `node tools/site-stack.mjs <url>`.
+bounded verification. Start with `src/router.ts` (`/for-claude.md` live): brief to world to proof. Then `worlds.md` (8 general directions), `niche-worlds.md` (12 narrower ones), `briefs.md`, `inspiration.md`, `verify.md` (bug catalogue), `scroll-3d-recipe.md`.
+Nine finished whole sites live *inside* the library as the **Sites** category (`src/patterns/sites/<name>/`: solar, mare, lattice, hotmess, abyss, departures, herbarium, tape, ledger; slugs `site-<name>`). Twelve smaller **Niche worlds** patterns (`src/patterns/niche/`, `meta-niche.ts`, slugs `niche-*`) prove the rest of the narrow directions. Each runs full screen at `#/live/<slug>` and has per-file source tabs. Site-stack detector: `node tools/site-stack.mjs <url>`.
 The same procedure is packaged as a Claude skill in `skills/ui-lab/SKILL.md` (copy to `~/.claude/skills/ui-lab/` to load it in every session).
 
 ## Using it as a reference (from another project)
@@ -42,6 +42,8 @@ Adding a teardown: measure it in a browser at 1440x900 (computed fonts, colours,
 
 ## Rules
 
+- Project slash commands live in `.claude/commands/`: `/brief`, `/build-site`, `/teardown`, `/verify`, `/add-pattern`, `/add-world`.
+- Adding a route: edit `src/router.ts`; every slug is validated at build time and the table is emitted as `/for-claude.md`.
 - Learned something building a site? Add it back: a bug to `playbook/verify.md`, a world to `worlds.md`, a recipe, or a pattern.
 
 - One self-contained file per pattern. No new runtime dependencies without listing them in `deps`.

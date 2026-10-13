@@ -9,7 +9,11 @@ Every entry is a working demo with tags, "when to use" notes, accessibility note
 an inspiration/teardown method, a verification loop with a catalogue of real bugs, and a scroll-driven 3D recipe.
 **Also new: fifty reference sites, taken apart.** [`src/references.ts`](src/references.ts): 30 world-class websites and 20 vibe-coded UIs, each with its signature moment, how it is built, measured fonts and colours, and what to take and leave (page `#/references`, also `/references.md` and `/references.json`). The techniques are rebuilt as 39 patterns in the **Signature moves** category ([`src/patterns/moves/`](src/patterns/moves)); the synthesis is in [`playbook/reference-sites.md`](playbook/reference-sites.md).
 
-Five whole sites in five design worlds, as the **Sites** category inside the library ([`src/patterns/sites/`](src/patterns/sites)): SOLAR, MARE, Lattice, HOT MESS, ABYSS. Open any pattern page and press *Launch full screen*. Claude skill in [`skills/ui-lab`](skills/ui-lab/SKILL.md).
+**Built for Claude.** [`src/router.ts`](src/router.ts) maps a brief to a world, a proof site and the techniques to take; it is published as [`/for-claude.md`](https://ui-lab-weld.vercel.app/for-claude.md) and validated at build time. Project slash commands (`/brief`, `/build-site`, `/teardown`, `/verify`, `/add-pattern`, `/add-world`) live in [`.claude/commands/`](.claude/commands), and [`playbook/briefs.md`](playbook/briefs.md) shows how to write the five-line brief.
+
+**Niche worlds.** Twelve narrow directions (departures board, botanical plate, hi-fi deck, broadsheet, CRT, museum placard, seed packet, BBS, tarot, clinical label, type specimen, nautical chart) are written up in [`playbook/niche-worlds.md`](playbook/niche-worlds.md) and proven by the **Niche worlds** patterns plus four more whole sites.
+
+Nine whole sites in nine design worlds, as the **Sites** category inside the library ([`src/patterns/sites/`](src/patterns/sites)): SOLAR, MARE, Lattice, HOT MESS, ABYSS, MERIDIAN (departures), Hedgerow Press (herbarium), KESTREL K-1 (tape deck), THE LEDGER (broadsheet). Open any pattern page and press *Launch full screen*. Claude skill in [`skills/ui-lab`](skills/ui-lab/SKILL.md).
 
 ```bash
 npm install

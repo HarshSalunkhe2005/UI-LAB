@@ -1,0 +1,125 @@
+.site-departures { position: relative; min-height: 100svh; overflow-x: clip; }
+.site-departures {
+  --night: #0a0e18;
+  --night-2: #121826;
+  --board: #16130e;
+  --cream: #f4e9c8;
+  --signal: #ffd23f;
+  --alarm: #ff6a55;
+  --steel: #9aa6bd;
+  --sign: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --body: 'Hanken Grotesk Variable', system-ui, sans-serif;
+  --mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+}
+.site-departures * { box-sizing: border-box; margin: 0; padding: 0; }
+.site-departures, .site-departures { background: var(--night); color: var(--cream); font-family: var(--body); -webkit-font-smoothing: antialiased; }
+.site-departures a { color: inherit; text-decoration: none; }
+.site-departures button, .site-departures select, .site-departures input { font: inherit; color: inherit; }
+.site-departures button { cursor: pointer; }
+.site-departures :focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+.site-departures .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.site-departures h1, .site-departures h2 { font-family: var(--sign); font-weight: 700; text-transform: uppercase; line-height: 0.92; letter-spacing: 0.01em; }
+.site-departures .nav { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; gap: 28px; padding: 12px clamp(16px, 4vw, 48px); background: var(--night); border-bottom: 2px solid var(--signal); }
+.site-departures .logo { font-family: var(--sign); font-weight: 700; font-size: 24px; letter-spacing: 0.06em; }
+.site-departures .logo span { margin-left: 10px; color: var(--signal); font-weight: 500; font-size: 14px; letter-spacing: 0.22em; }
+.site-departures .nav nav { display: flex; gap: 8px; margin-left: auto; font-family: var(--sign); font-weight: 500; font-size: 19px; letter-spacing: 0.1em; text-transform: uppercase; }
+.site-departures .nav nav a { display: grid; place-items: center; min-height: 44px; padding: 0 14px; }
+.site-departures .nav nav a:hover { color: var(--signal); }
+.site-departures .cta-sm { background: var(--signal); color: var(--night); }
+.site-departures .cta-sm:hover { color: var(--night) !important; background: #ffe27a; }
+.site-departures .clock { font-family: var(--mono); font-size: 18px; color: var(--signal); min-width: 5ch; }
+.site-departures .hero { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr); gap: clamp(24px, 4vw, 64px); align-items: center; min-height: calc(100svh - 64px); padding: clamp(32px, 6vw, 80px) clamp(16px, 4vw, 48px); }
+.site-departures .tag { font-family: var(--sign); font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: var(--signal); font-size: 17px; }
+.site-departures .hero h1 { margin-top: 14px; font-size: clamp(64px, 9vw, 132px); }
+.site-departures .lede { margin-top: 22px; max-width: 34ch; font-size: 18px; line-height: 1.5; color: var(--steel); }
+.site-departures .cta { display: inline-grid; place-items: center; min-height: 52px; margin-top: 30px; padding: 0 30px; background: var(--signal); color: var(--night); border: 0; border-radius: 2px; font-family: var(--sign); font-weight: 700; font-size: 22px; letter-spacing: 0.12em; text-transform: uppercase; }
+.site-departures .cta:hover { background: #ffe27a; }
+.site-departures .cta:active { transform: translateY(2px); }
+.site-departures .board { display: inline-block; max-width: 100%; padding: 22px 24px; background: var(--board); border: 2px solid #2a2418; border-radius: 6px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.04); container-type: inline-size; }
+.site-departures .hero-board .board { display: block; }
+.site-departures .board-row { display: flex; gap: 0.9em; margin-bottom: 6px; justify-content: space-between; }
+.site-departures .board-grp { display: flex; gap: 2px; }
+.site-departures .flap { position: relative; display: inline-block; width: 1.02em; height: 1.55em; font: 600 clamp(5px, 2.55cqw, 28px) / 1.55 var(--mono); color: var(--cream); perspective: 300px; }
+.site-departures .flap-top, .site-departures .flap-bot { position: absolute; left: 0; right: 0; height: 50%; overflow: hidden; background: #211d16; border-radius: 3px; text-align: center; }
+.site-departures .flap-top { top: 0; transform-origin: bottom; border-bottom: 1px solid #000; }
+.site-departures .flap-bot { bottom: 0; transform-origin: top; }
+.site-departures .flap-top b, .site-departures .flap-bot b { display: block; font-weight: 600; }
+.site-departures .flap-bot b { transform: translateY(-50%); }
+.site-departures .flap-fall { animation: departures-flap-fall 60ms ease-in forwards; z-index: 2; }
+.site-departures .flap-rise { animation: departures-flap-rise 60ms ease-out 60ms both; z-index: 1; }
+@keyframes departures-flap-fall { to { transform: rotateX(-90deg); } }
+@keyframes departures-flap-rise { from { transform: rotateX(90deg); } to { transform: rotateX(0); } }
+.site-departures .routes { padding: clamp(48px, 8vw, 110px) clamp(16px, 4vw, 48px); background: var(--night-2); border-top: 2px solid #1e2740; }
+.site-departures .routes-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px 32px; margin-bottom: 36px; }
+.site-departures .routes h2, .site-departures .berths h2, .site-departures .book h2 { font-size: clamp(48px, 7vw, 96px); }
+.site-departures .routes-head p { color: var(--steel); max-width: 38ch; }
+.site-departures .routes-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr); gap: clamp(20px, 4vw, 56px); }
+.site-departures .route-list { list-style: none; display: grid; gap: 6px; align-content: start; }
+.site-departures .route-list button { display: grid; grid-template-columns: 5ch 1fr auto; gap: 14px; align-items: baseline; width: 100%; min-height: 56px; padding: 10px 16px; text-align: left; background: transparent; border: 1px solid #2a3350; border-radius: 3px; }
+.site-departures .route-list button:hover { border-color: var(--steel); }
+.site-departures .route-list button.on { background: var(--signal); border-color: var(--signal); color: var(--night); }
+.site-departures .r-time { font-family: var(--mono); font-size: 16px; }
+.site-departures .r-name { font-family: var(--sign); font-weight: 700; font-size: 24px; letter-spacing: 0.06em; }
+.site-departures .r-dur { font-family: var(--mono); font-size: 13px; opacity: 0.8; }
+.site-departures .map-wrap { display: grid; gap: 22px; }
+.site-departures .map { width: 100%; height: auto; background: #0d1321; border: 1px solid #1e2740; border-radius: 4px; }
+.site-departures .line { fill: none; stroke: #2b3555; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.site-departures .line.sel { stroke: var(--signal); stroke-width: 3.5; stroke-dasharray: 1; stroke-dashoffset: 0; animation: departures-draw 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+@keyframes departures-draw { from { stroke-dashoffset: 1; } }
+.site-departures .stn circle { fill: #0d1321; stroke: var(--steel); stroke-width: 2; }
+.site-departures .stn text { fill: var(--steel); font: 500 11px var(--sign); letter-spacing: 0.14em; }
+.site-departures .stn.on circle { fill: var(--signal); stroke: var(--signal); }
+.site-departures .stn.on text { fill: var(--cream); font-size: 13px; }
+.site-departures .train { fill: var(--cream); offset-rotate: 0deg; animation: departures-ride 3.2s cubic-bezier(0.5, 0, 0.3, 1) both; }
+@keyframes departures-ride { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+.site-departures .detail { display: grid; gap: 14px; }
+.site-departures .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.site-departures .facts div { padding: 12px 0; border-top: 2px solid var(--signal); }
+.site-departures .facts dt { font-family: var(--sign); letter-spacing: 0.2em; text-transform: uppercase; font-size: 14px; color: var(--steel); }
+.site-departures .facts dd { margin-top: 4px; font-family: var(--mono); font-size: 22px; }
+.site-departures .facts .late { color: var(--alarm); }
+.site-departures .berths { padding: clamp(48px, 8vw, 110px) clamp(16px, 4vw, 48px); }
+.site-departures .table-scroll { margin-top: 36px; overflow-x: auto; }
+.site-departures .cmp { width: 100%; min-width: 640px; border-collapse: collapse; }
+.site-departures .cmp th, .site-departures .cmp td { padding: 16px 18px; text-align: left; border-bottom: 1px solid #243052; vertical-align: top; }
+.site-departures .cmp thead th { padding: 0 0 14px; }
+.site-departures .cmp thead button { width: 100%; min-height: 56px; background: transparent; border: 2px solid #2a3350; border-radius: 3px; font-family: var(--sign); font-weight: 700; font-size: 26px; letter-spacing: 0.08em; text-transform: uppercase; }
+.site-departures .cmp thead button.on { background: var(--cream); color: var(--night); border-color: var(--cream); }
+.site-departures .cmp tbody th { font-family: var(--sign); font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--steel); width: 12ch; }
+.site-departures .cmp td.hl { background: rgba(255, 210, 63, 0.09); }
+.site-departures .cmp td.price { font-family: var(--mono); font-size: 26px; }
+.site-departures .note { margin-top: 14px; color: var(--steel); font-size: 14px; }
+.site-departures .book { padding: clamp(48px, 8vw, 110px) clamp(16px, 4vw, 48px); background: var(--night-2); border-top: 2px solid #1e2740; }
+.site-departures .book-form { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: end; margin-top: 32px; max-width: 1100px; }
+.site-departures .book-form label { display: grid; gap: 8px; font-family: var(--sign); letter-spacing: 0.2em; text-transform: uppercase; font-size: 14px; color: var(--steel); }
+.site-departures .book-form select, .site-departures .book-form input { min-height: 52px; padding: 0 12px; background: #0d1321; border: 1px solid #2a3350; border-radius: 2px; font-family: var(--mono); font-size: 15px; color-scheme: dark; letter-spacing: 0; text-transform: none; }
+.site-departures .book-form .cta { margin-top: 0; }
+.site-departures .slot { margin-top: 40px; padding-top: 10px; border-top: 6px solid #000; min-height: 190px; }
+.site-departures .ticket { display: grid; grid-template-columns: 1fr auto; max-width: 760px; background: var(--cream); color: #1a1710; border-radius: 4px; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); animation: departures-print 0.9s steps(14) both; }
+@keyframes departures-print { from { transform: translateY(-110%); } }
+.site-departures .t-main { padding: 22px 26px; }
+.site-departures .t-tag { font-family: var(--sign); letter-spacing: 0.26em; font-size: 14px; }
+.site-departures .t-route { margin-top: 8px; font-family: var(--sign); font-weight: 700; font-size: clamp(34px, 5vw, 56px); text-transform: uppercase; line-height: 1; }
+.site-departures .t-route span { color: #b78a00; }
+.site-departures .t-meta { margin-top: 10px; font-family: var(--mono); font-size: 14px; }
+.site-departures .t-stub { display: grid; gap: 4px; align-content: center; justify-items: center; padding: 18px 26px; border-left: 3px dashed #1a1710; font-family: var(--sign); letter-spacing: 0.2em; }
+.site-departures .t-stub b { font-family: var(--mono); font-size: 34px; letter-spacing: 0; }
+.site-departures .foot { padding: 40px clamp(16px, 4vw, 48px) 56px; border-top: 2px solid var(--signal); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; font-family: var(--sign); letter-spacing: 0.14em; text-transform: uppercase; font-size: 20px; }
+.site-departures .count { font-family: var(--mono); color: var(--signal); letter-spacing: 0; font-weight: 500; }
+.site-departures .fine { font-family: var(--body); text-transform: none; letter-spacing: 0; font-size: 14px; color: var(--steel); }
+@media (max-width: 860px) {
+.site-departures .nav { gap: 8px; }
+.site-departures .nav nav { gap: 0; font-size: 15px; letter-spacing: 0.06em; }
+.site-departures .nav nav a { padding: 0 8px; }
+.site-departures .nav .clock, .site-departures .nav .count { display: none; }
+.site-departures .board { padding: 14px 12px; }
+.site-departures .logo span { display: none; }
+.site-departures .hero, .site-departures .routes-grid { grid-template-columns: minmax(0, 1fr); }
+.site-departures .book-form { grid-template-columns: minmax(0, 1fr); }
+.site-departures .ticket { grid-template-columns: 1fr; }
+.site-departures .t-stub { border-left: 0; border-top: 3px dashed #1a1710; grid-auto-flow: column; justify-content: space-between; }
+}
+@media (prefers-reduced-motion: reduce) {
+.site-departures .line.sel, .site-departures .train, .site-departures .ticket { animation: none; }
+.site-departures .flap-fall, .site-departures .flap-rise { animation: none; }
+}
