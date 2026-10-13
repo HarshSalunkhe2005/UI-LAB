@@ -4,11 +4,11 @@ import { CATEGORIES, PATTERNS, type Pattern } from './registry'
 import { PREVIEWS } from './previews'
 import { MeshGradient } from './patterns/recipes/MeshGradient'
 import { CommandPalette, type Command } from './patterns/components/CommandPalette'
-import { useCountUp } from './patterns/motion/CountUp'
 import { CodeBlock, CopyButton } from './CodeBlock'
 import ResourcesPage from './ResourcesPage'
 import ReferencesPage from './ReferencesPage'
 import PlaybookPage from './PlaybookPage'
+import { CATEGORY_INFO, START_PATHS, HOW_IT_WORKS } from './categories'
 import { SiteLauncher, SiteStage, SiteSources } from './SiteViews'
 
 const SOURCES = import.meta.glob(['./patterns/**/*.tsx', '!./patterns/sites/**'], { query: '?raw', import: 'default', eager: true }) as Record<
@@ -81,6 +81,14 @@ function TopBar({ theme, onTheme, onSearch }: { theme: Theme; onTheme: () => voi
         <button onClick={onSearch} className="rounded-md p-2 text-fg-muted hover:text-fg sm:hidden" aria-label="Search">
           ⌕
         </button>
+        <details className="relative md:hidden">
+          <summary className="cursor-pointer list-none rounded-md border border-border px-2.5 py-1 text-sm text-fg-muted marker:content-none">Menu</summary>
+          <div className="absolute right-0 mt-2 flex w-44 flex-col rounded-lg border border-border bg-surface p-1 shadow-lg">
+            {[['#/playbook', 'Playbook'], ['#/references', 'References'], ['#/resources', 'Resources'], ['/for-claude.md', 'For Claude']].map(([h, l]) => (
+              <a key={h} href={h} className="rounded-md px-3 py-2 text-sm hover:bg-surface-2">{l}</a>
+            ))}
+          </div>
+        </details>
         <a href="#/playbook" className="hidden text-sm text-fg-muted hover:text-fg md:inline">
           Playbook
         </a>
@@ -114,19 +122,6 @@ function TopBar({ theme, onTheme, onSearch }: { theme: Theme; onTheme: () => voi
 }
 
 /* ---------- home ---------- */
-
-function Stat({ value, label, suffix = '' }: { value: number; label: string; suffix?: string }) {
-  const [ref, n] = useCountUp(value, 1400)
-  return (
-    <div ref={ref as React.Ref<HTMLDivElement>}>
-      <div className="font-display text-4xl tabular-nums sm:text-5xl">
-        {Math.round(n)}
-        {suffix}
-      </div>
-      <div className="mt-1 text-sm text-fg-muted">{label}</div>
-    </div>
-  )
-}
 
 /** Fallback thumbnail: the real demo, scaled down, mounted only when visible, inert. */
 const BIG_PREVIEW = new Set(['3D', 'Motion', 'Backgrounds', 'Text'])
@@ -209,82 +204,191 @@ function PatternCard({ p, i }: { p: Pattern; i: number }) {
 function Home() {
   const filled = CATEGORIES.filter((c) => PATTERNS.some((p) => p.category === c))
   const [filter, setFilter] = useState<string>('All')
-  const shown = filter === 'All' ? PATTERNS : PATTERNS.filter((p) => p.category === filter)
+  const [q, setQ] = useState('')
+  const collection = useRef<HTMLElement>(null)
+  const search = useRef<HTMLInputElement>(null)
+  const needle = q.trim().toLowerCase()
+  const shown = PATTERNS.filter(
+    (p) =>
+      (filter === 'All' || p.category === filter) &&
+      (!needle || `${p.title} ${p.summary} ${p.category} ${(p.tags ?? []).join(' ')}`.toLowerCase().includes(needle)),
+  )
+  const sites = PATTERNS.filter((p) => p.category === 'Sites')
+  const toCollection = (after?: () => void) => {
+    after?.()
+    collection.current?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+  }
+  const info = CATEGORY_INFO[filter]
   return (
     <>
       <section className="relative overflow-hidden border-b border-border/60">
         <MeshGradient />
         <div className="relative mx-auto max-w-7xl px-4 pt-24 pb-20 sm:px-6 sm:pt-36 sm:pb-28">
           <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-bg/40 px-3 py-1 font-mono text-xs text-fg-muted backdrop-blur">
-            <span className="h-1.5 w-1.5 rounded-full bg-success" /> every pattern is a live demo
+            <span className="h-1.5 w-1.5 rounded-full bg-success" /> every example runs live in your browser
           </p>
           <h1 className="max-w-4xl text-5xl leading-[1.02] font-semibold tracking-tight sm:text-7xl">
-            Patterns worth <span className="font-display font-normal italic text-accent">stealing</span>.
+            See it. Try it. <span className="font-display font-normal italic text-accent">Copy it.</span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-fg-muted">
-            A running library of the tokens, components and motion I reach for when starting a frontend. Open one, see it
-            work, copy the source.
+          <p className="mt-6 max-w-2xl text-lg text-fg">
+            UI Lab is a collection of {PATTERNS.length} working website designs and building blocks, plus a guide to choosing
+            between them. Made for designers, developers and AI assistants who want a site that looks authored, not generic.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
-            <a
-              href={`#/${PATTERNS[0].slug}`}
+            <button
+              onClick={() => toCollection(() => setFilter('Sites'))}
               className="rounded-md bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-transform active:scale-[0.97]"
             >
-              Start browsing
-            </a>
-            <a
-              href={REPO}
-              target="_blank"
-              rel="noreferrer"
+              See finished websites
+            </button>
+            <button
+              onClick={() => toCollection(() => search.current?.focus({ preventScroll: true }))}
               className="rounded-md border border-border bg-bg/40 px-5 py-2.5 text-sm font-medium backdrop-blur hover:bg-surface"
             >
-              View source
+              Search the collection
+            </button>
+            <a
+              href="#/playbook"
+              className="rounded-md border border-border bg-bg/40 px-5 py-2.5 text-sm font-medium backdrop-blur hover:bg-surface"
+            >
+              Read the design guide
             </a>
-          </div>
-          <div className="mt-20 grid max-w-2xl grid-cols-3 gap-8">
-            <Stat value={PATTERNS.length} label="patterns" />
-            <Stat value={filled.length} label="categories" />
-            <Stat value={100} suffix="%" label="copy-pasteable" />
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-        <div className="mb-6 flex items-baseline justify-between border-b border-border/60 pb-3">
-          <h2 className="font-display text-4xl italic">The collection</h2>
-          <span className="font-mono text-xs text-fg-muted">{String(shown.length).padStart(2, '0')} live</span>
+      <section className="mx-auto max-w-7xl px-4 pt-16 sm:px-6" aria-labelledby="start">
+        <h2 id="start" className="font-display text-3xl italic sm:text-4xl">Where do you want to start?</h2>
+        <ul className="mt-6 grid gap-4 md:grid-cols-3">
+          {START_PATHS.map((s) => (
+            <li key={s.title} className="flex flex-col rounded-xl border border-border bg-surface/50 p-5">
+              <h3 className="text-lg font-medium">{s.title}</h3>
+              <p className="mt-2 flex-1 text-sm text-fg-muted">{s.body}</p>
+              {s.href.startsWith('#') ? (
+                <button
+                  onClick={() => toCollection(() => (s.title.startsWith('I want to see') ? setFilter('Sites') : search.current?.focus({ preventScroll: true })))}
+                  className="mt-4 self-start text-sm font-medium text-accent hover:underline"
+                >
+                  {s.cta} →
+                </button>
+              ) : (
+                <a href={s.href} target="_blank" rel="noreferrer" className="mt-4 self-start text-sm font-medium text-accent hover:underline">
+                  {s.cta} ↗
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pt-16 sm:px-6" aria-labelledby="featured">
+        <div className="flex items-baseline justify-between gap-4">
+          <h2 id="featured" className="font-display text-3xl italic sm:text-4xl">Finished websites</h2>
+          <button onClick={() => toCollection(() => setFilter('Sites'))} className="text-sm text-accent hover:underline">All {sites.length} →</button>
         </div>
-        <div className="mb-10 flex flex-wrap gap-2" role="radiogroup" aria-label="Filter by category">
+        <p className="mt-2 max-w-2xl text-sm text-fg-muted">Each one is a whole site in its own style. Open it full screen and scroll.</p>
+        <ul className="mt-6 flex snap-x gap-4 overflow-x-auto pb-4 [scrollbar-width:thin]" tabIndex={0} aria-label="Finished websites, scroll sideways">
+          {sites.map((p) => (
+            <li key={p.slug} className="relative w-64 shrink-0 snap-start sm:w-72">
+              <div className="aspect-[16/10] overflow-hidden rounded-lg border border-border bg-surface">
+                <img src={`/thumbs/${p.slug}.jpg`} alt="" loading="lazy" className="h-full w-full object-cover object-top" />
+              </div>
+              <a href={`#/${p.slug}`} className="mt-2 block text-sm font-medium after:absolute after:inset-0 after:content-['']">
+                {p.title.replace(/^Site:\s*/, '')}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section ref={collection} id="collection" className="mx-auto max-w-7xl scroll-mt-16 px-4 py-16 sm:px-6" aria-labelledby="coll">
+        <div className="mb-6 flex items-baseline justify-between border-b border-border/60 pb-3">
+          <h2 id="coll" className="font-display text-4xl italic">The collection</h2>
+          <span className="font-mono text-xs text-fg-muted" aria-live="polite">{shown.length} shown</span>
+        </div>
+        <label className="mb-5 block">
+          <span className="sr-only">Search the collection</span>
+          <input
+            ref={search}
+            type="search"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search by what you need: pricing, scroll, newspaper, 3D, form…"
+            className="w-full max-w-xl rounded-md border border-border bg-surface/60 px-4 py-2.5 text-sm placeholder:text-fg-muted focus:border-accent"
+          />
+        </label>
+        <div className="mb-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Filter by category">
           {['All', ...filled].map((c) => (
             <button
               key={c}
               role="radio"
               aria-checked={filter === c}
               onClick={() => setFilter(c)}
-              className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+              className={`rounded-full border px-3 py-1.5 text-sm transition-colors ${
                 filter === c ? 'border-fg bg-fg text-bg' : 'border-border text-fg-muted hover:text-fg'
               }`}
             >
               {c}
-              <span className="ml-1.5 font-mono text-[10px] opacity-60">
+              <span className="ml-1.5 font-mono text-[10px] opacity-70">
                 {c === 'All' ? PATTERNS.length : PATTERNS.filter((p) => p.category === c).length}
               </span>
             </button>
           ))}
         </div>
-        <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {shown.map((p, i) => (
-            <PatternCard key={p.slug} p={p} i={i} />
-          ))}
+        <p className="mb-10 min-h-6 max-w-2xl text-sm text-fg-muted">
+          {info ? (
+            <>
+              {info.plain} <span className="text-fg">Use it to: {info.for.charAt(0).toLowerCase() + info.for.slice(1)}</span>
+            </>
+          ) : (
+            'Everything, in the order it was added. Pick a category to see what it is for.'
+          )}
+        </p>
+        {shown.length === 0 ? (
+          <div className="rounded-xl border border-border p-8 text-center">
+            <p className="font-medium">Nothing matches “{q}”.</p>
+            <p className="mt-1 text-sm text-fg-muted">Try a shorter word, or clear the search.</p>
+            <button onClick={() => { setQ(''); setFilter('All') }} className="mt-4 rounded-md border border-border px-3 py-1.5 text-sm hover:bg-surface">Clear search and filter</button>
+          </div>
+        ) : (
+          <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+            {shown.map((p, i) => (
+              <PatternCard key={p.slug} p={p} i={i} />
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="border-t border-border/60" aria-labelledby="how">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+          <h2 id="how" className="font-display text-3xl italic sm:text-4xl">How a pattern page works</h2>
+          <ol className="mt-6 grid gap-6 md:grid-cols-3">
+            {HOW_IT_WORKS.map((h) => (
+              <li key={h.n} className="flex gap-4">
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-border font-mono text-sm" aria-hidden>{h.n}</span>
+                <div>
+                  <h3 className="font-medium">{h.t}</h3>
+                  <p className="mt-1 text-sm text-fg-muted">{h.d}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-8 max-w-2xl text-sm text-fg-muted">
+            New to design words? A <strong className="font-medium text-fg">pattern</strong> is one reusable piece. A <strong className="font-medium text-fg">world</strong> is a whole consistent style (colours, type, motion). The <a className="text-accent hover:underline" href="#/playbook/worlds">design guide</a> explains how to choose one.
+          </p>
         </div>
       </section>
 
       <footer className="border-t border-border/60">
         <div className="mx-auto flex max-w-7xl flex-wrap justify-between gap-4 px-4 py-8 text-sm text-fg-muted sm:px-6">
           <span>UI Lab. Built with its own patterns.</span>
-          <a href={REPO} target="_blank" rel="noreferrer" className="hover:text-fg">
-            github.com/HarshSalunkhe2005/UI-LAB
-          </a>
+          <nav aria-label="Footer" className="flex flex-wrap gap-4">
+            <a href="#/playbook" className="hover:text-fg">Playbook</a>
+            <a href="#/references" className="hover:text-fg">References</a>
+            <a href="#/resources" className="hover:text-fg">Resources</a>
+            <a href="/for-claude.md" className="hover:text-fg">For Claude</a>
+            <a href={REPO} target="_blank" rel="noreferrer" className="hover:text-fg">GitHub</a>
+          </nav>
         </div>
       </footer>
     </>
@@ -488,8 +592,9 @@ export default function App() {
 
   return (
     <>
+      <a href="#main" onClick={(e) => { e.preventDefault(); document.getElementById('main')?.focus() }} className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[200] focus:rounded-md focus:bg-fg focus:px-3 focus:py-2 focus:text-bg">Skip to content</a>
       <TopBar theme={theme} onTheme={cycleTheme} onSearch={() => setSearchOpen(true)} />
-      <main>{slug === 'playbook' || slug.startsWith('playbook/') ? <PlaybookPage doc={slug.split('/')[1]} /> : slug === 'resources' ? <ResourcesPage /> : slug === 'references' ? <ReferencesPage /> : pattern ? <PatternPage pattern={pattern} /> : <Home />}</main>
+      <main id="main" tabIndex={-1} className="outline-none">{slug === 'playbook' || slug.startsWith('playbook/') ? <PlaybookPage doc={slug.split('/')[1]} /> : slug === 'resources' ? <ResourcesPage /> : slug === 'references' ? <ReferencesPage /> : pattern ? <PatternPage pattern={pattern} /> : <Home />}</main>
       <CommandPalette commands={commands} open={searchOpen} onOpenChange={setSearchOpen} onRun={go} />
     </>
   )
