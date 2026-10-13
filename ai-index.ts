@@ -6,7 +6,7 @@
  *   /docs/<slug>.md           one markdown doc per pattern: metadata + source
  *   /raw/<path>.tsx           raw source file, plain text
  *   /resources.md             curated external galleries, studios, repos, libraries, tools
- *   /references.md|.json      50 teardowns: 30 world-class sites and 20 vibe-coded UIs, each linked to the pattern that rebuilds it
+ *   /references.md|.json      teardowns of world-class sites, vibe-coded UIs and recent award winners, each linked to the pattern that rebuilds it
  * Served in dev by middleware, emitted as static files on build.
  */
 import { readdirSync, readFileSync } from 'node:fs'
@@ -15,7 +15,7 @@ import type { Plugin } from 'vite'
 import { CATEGORIES, META } from './src/meta'
 import { RESOURCE_KINDS, RESOURCES } from './src/resources'
 import { REFUSE_UNTIL_CLEAR, ROUTES, TOOLBOX } from './src/router'
-import { REFERENCES, REF_NOTES, VIBE, WORLD, type Ref } from './src/references'
+import { RECENT, REFERENCES, REF_NOTES, VIBE, WORLD, type Ref } from './src/references'
 
 const SITE = 'https://ui-lab-weld.vercel.app'
 const REPO = 'https://github.com/HarshSalunkhe2005/UI-LAB'
@@ -99,7 +99,7 @@ function llms() {
     `- Machine-readable index: ${SITE}/patterns.json. Everything in one file: ${SITE}/llms-full.txt`,
     `- **Claude: read ${SITE}/for-claude.md first.** It is the brief-to-build router (worlds, proof sites, techniques, refusals).`,
     `- Outside references (galleries, studios, open-source demo repos, libraries, tools): ${SITE}/resources.md`,
-    `- 50 reference teardowns (30 world-class sites, 20 vibe-coded UIs) with the pattern that rebuilds each: ${SITE}/references.md (JSON: ${SITE}/references.json)`,
+    `- ${REFERENCES.length} reference teardowns (${WORLD.length} world-class, ${VIBE.length} vibe-coded, ${REFERENCES.length - WORLD.length - VIBE.length} recent award winners) with the pattern that rebuilds each: ${SITE}/references.md (JSON: ${SITE}/references.json)`,
     '',
     '## START HERE: the design procedure',
     '',
@@ -155,18 +155,21 @@ function referencesMd() {
   const out = [
     '# UI Lab: reference sites',
     '',
-    '> 30 world-class websites and 20 vibe-coded UIs, taken apart with the method in /playbook/inspiration.md. Measured ' + REF_NOTES.measuredOn + ' at 1440x900.',
+    `> ${WORLD.length} world-class websites, ${VIBE.length} vibe-coded UIs and ${REFERENCES.length - WORLD.length - VIBE.length} recent award winners, taken apart with the method in /playbook/inspiration.md. Measured ${REF_NOTES.measuredOn} at 1440x900.`,
     '> "inspected" = rendered and measured; "partial" = a canvas or WebGL2 experience we could only partly see; "listing" = read from the vendor page.',
-    '> Techniques are re-implemented in our own code (category "Signature moves"); nothing is copied. Read /playbook/reference-sites.md for what the fifty have in common.',
+    '> Techniques are re-implemented in our own code (category "Signature moves"); nothing is copied. Read /playbook/reference-sites.md for what the studied sites have in common.',
     '',
-    '## World-class (30)',
+    `## World-class (${WORLD.length})`,
     '',
     ...WORLD.flatMap((r) => [...refBlock(r), '']),
-    '## Vibe-coded (20)',
+    `## Vibe-coded (${VIBE.length})`,
     '',
     REF_NOTES.vibeMethod,
     '',
     ...VIBE.flatMap((r) => [...refBlock(r), '']),
+    `## Recent award winners (${RECENT.length})`,
+    '',
+    ...RECENT.flatMap((r) => [...refBlock(r), '']),
     '## Left out',
     '',
     ...REF_NOTES.excluded.map((e) => `- [${e.name}](${e.url}): ${e.why}`),

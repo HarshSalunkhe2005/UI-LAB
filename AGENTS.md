@@ -36,7 +36,7 @@ A site is a *pattern*, not a separate app. Folder `src/patterns/sites/<name>/` w
 
 ## Reference sites and Signature moves
 
-`src/references.ts` holds 50 teardowns (30 world-class sites, 20 vibe-coded UIs); the **References** page, `/references.md` and `/references.json` are generated from it, and `playbook/reference-sites.md` is the synthesis. Each technique we took is a pattern in the **Signature moves** category (`src/patterns/moves/`, entries in `src/meta-moves.ts`, slugs `move-*`).
+`src/references.ts` holds 57 teardowns (30 world-class sites, 20 vibe-coded UIs, 7 recent Awwwards winners); the **References** page, `/references.md` and `/references.json` are generated from it, and `playbook/reference-sites.md` is the synthesis. Each technique we took is a pattern in the **Signature moves** category (`src/patterns/moves/`, entries in `src/meta-moves.ts`, slugs `move-*`).
 
 Adding a teardown: measure it in a browser at 1440x900 (computed fonts, colours, canvas/video/sticky counts, `node tools/site-stack.mjs <url>`), write the entry in `references.ts` with an honest `evidence` level (`inspected`, `partial`, `listing`), and link `moves` to the pattern that rebuilds it. Adding a move: a self-contained file in `src/patterns/moves/` with a default-exported demo, an entry in `meta-moves.ts` (summary, when, tags, a11y, `source` pointing at the studied site), keyboard and reduced-motion handled. Never copy a site's code, text or assets; re-implement the technique.
 

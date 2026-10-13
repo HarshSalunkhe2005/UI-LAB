@@ -49,6 +49,15 @@ export const TOOLBOX: { want: string; slug: string }[] = [
   { want: 'a live command palette demo', slug: 'move-command-demo' },
   { want: 'a toast stack', slug: 'move-toast-stack' },
   { want: 'an image-sequence scrub', slug: 'move-frame-scrub' },
+  { want: 'a cover that tears open to reveal content', slug: 'move-perforated-reveal' },
+  { want: 'a drawing that completes as you scroll', slug: 'move-drafting-rules' },
+  { want: 'a header that stays readable over any background', slug: 'move-difference-nav' },
+  { want: 'a sentence that sharpens word by word', slug: 'move-focus-words' },
+  { want: 'an instrument-panel list with status lights', slug: 'move-status-modules' },
+  { want: 'a portfolio index with two layouts', slug: 'move-scatter-grid' },
+  { want: 'a branded preloader', slug: 'move-counter-wordmark' },
+  { want: 'scroll effects without JavaScript', slug: 'css-scroll-reveal' },
+  { want: 'menus and tooltips without a positioning library', slug: 'css-popover-starting' },
 ]
 
 /** Briefs worth refusing or sending back for one sharp question. */

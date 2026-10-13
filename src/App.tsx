@@ -578,7 +578,9 @@ export default function App() {
     () => [
       { id: '', label: 'Home', group: 'Go to' },
       { id: 'playbook', label: 'Design playbook', group: 'Go to', hint: 'process worlds inspiration verify how to design start here' },
-      { id: 'references', label: 'Reference sites (50 teardowns)', group: 'Go to', hint: 'references teardown world class vibe coded v0 awwwards studies' },
+      { id: 'references', label: 'Reference sites (teardowns)', group: 'Go to', hint: 'references teardown world class vibe coded v0 awwwards studies' },
+      { id: 'playbook/accessibility', label: 'Accessibility checklist', group: 'Go to', hint: 'a11y wcag keyboard contrast screen reader reduced motion' },
+      { id: 'playbook/glossary', label: 'Glossary (design words in plain language)', group: 'Go to', hint: 'terms meaning what is a pattern world hero' },
       { id: 'resources', label: 'Resources directory', group: 'Go to', hint: 'links sites repos libraries inspiration' },
       ...PATTERNS.map((p) => ({ id: p.slug, label: p.title, group: p.category, hint: p.tags?.join(' ') })),
     ],
