@@ -62,4 +62,19 @@ export const NEW_SITES: PatternMeta[] = [
     a11y: 'Real headings and landmarks; sidenotes are linked asides; text size is a radio group; the markets table has caption, scoped headers and states change with sign and arrow, not colour; the form has a label, aria-invalid and a live status; the progress rule is decorative.',
     deps: ['@fontsource-variable/newsreader', '@fontsource-variable/libre-franklin', 'sites/_shared.ts'],
   },
+  {
+    slug: 'site-tidewater',
+    title: 'Site: HARROW SOUND (tide and pilotage)',
+    category: 'Sites',
+    summary: 'A harbour authority page where the chart is the tool: pick a vessel draft, scrub the time of day, and a generated seabed redraws as the tide moves. Land dries, shallows turn hazard-pink, and a plain sentence says whether the channel is safe to enter.',
+    when: [
+      'Operate-mode pages for utilities, transport and field services where a small calculator decides the visit',
+      'Reference for a canvas tint field under SVG contours (marching squares), a tide model, and a verdict written in words and symbols',
+    ],
+    file: 'sites/tidewater/index.tsx',
+    files: ['sites/tidewater/index.tsx', 'sites/tidewater/chart.ts', 'sites/tidewater/styles.css'],
+    tags: ['site', 'full page', 'niche world', 'nautical chart', 'tide', 'canvas', 'marching squares', 'operate', 'form', 'data'],
+    a11y: 'The chart has a text alternative that states time, tide, limiting depth and the verdict; the same information is in the readout and a role=status sentence; draft is a radio group; time is a native range with aria-valuetext; the tide table is a real table; the form has labels, aria-invalid and an alert.',
+    deps: ['@fontsource-variable/newsreader', '@fontsource/ibm-plex-mono', 'sites/_shared.ts'],
+  },
 ]
