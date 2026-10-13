@@ -92,4 +92,19 @@ export const NEW_SITES: PatternMeta[] = [
     a11y: 'Each object is an article with an accessible name and an SVG with a description; Large print is a switch that scales all label text; the keypad is real buttons with aria-pressed and a labelled number field; the transcript is a role=status region; sound plays only after a key press, briefly and quietly.',
     deps: ['@fontsource-variable/newsreader', '@fontsource-variable/libre-franklin', 'sites/_shared.ts'],
   },
+  {
+    slug: 'site-pebble',
+    title: 'Site: PEBBLE (terminal portfolio)',
+    category: 'Sites',
+    summary: 'A systems engineer’s portfolio as a terminal that really works: help, ls, cat, projects, open, theme, history, tab completion and arrow-key recall, over real content. One button swaps it for an ordinary page with the same content.',
+    when: [
+      'Developer and infrastructure portfolios that want a conversational interface without hiding the content',
+      'Reference for a log-region terminal with a labelled input, command parsing, themes via CSS variables, and an accessible plain-page twin',
+    ],
+    file: 'sites/pebble/index.tsx',
+    files: ['sites/pebble/index.tsx', 'sites/pebble/content.ts', 'sites/pebble/styles.css'],
+    tags: ['site', 'full page', 'niche world', 'terminal', 'bbs', 'portfolio', 'keyboard', 'command line', 'theme', 'developer'],
+    a11y: 'Output is a role=log region; the prompt is a real input with a visible label; suggested commands are buttons; the plain page shows identical content with ordinary headings and links, one switch away; no boot sequence, no flashing, and themes keep body contrast above 4.5:1.',
+    deps: ['@fontsource/ibm-plex-mono', '@fontsource-variable/newsreader', 'sites/_shared.ts'],
+  },
 ]

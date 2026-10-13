@@ -13,7 +13,7 @@ an inspiration/teardown method, a verification loop with a catalogue of real bug
 
 **Niche worlds.** Twelve narrow directions (departures board, botanical plate, hi-fi deck, broadsheet, CRT, museum placard, seed packet, BBS, tarot, clinical label, type specimen, nautical chart) are written up in [`playbook/niche-worlds.md`](playbook/niche-worlds.md) and proven by the **Niche worlds** patterns plus four more whole sites.
 
-Nine whole sites in nine design worlds, as the **Sites** category inside the library ([`src/patterns/sites/`](src/patterns/sites)): SOLAR, MARE, Lattice, HOT MESS, ABYSS, MERIDIAN (departures), Hedgerow Press (herbarium), KESTREL K-1 (tape deck), THE LEDGER (broadsheet). Open any pattern page and press *Launch full screen*. Claude skill in [`skills/ui-lab`](skills/ui-lab/SKILL.md).
+Twelve whole sites in twelve design worlds, as the **Sites** category inside the library ([`src/patterns/sites/`](src/patterns/sites)): SOLAR, MARE, Lattice, HOT MESS, ABYSS, MERIDIAN (departures), Hedgerow Press (herbarium), KESTREL K-1 (tape deck), THE LEDGER (broadsheet), HARROW SOUND (tide planner), THE SALT ROAD (museum exhibition), PEBBLE (terminal portfolio). Open any pattern page and press *Launch full screen*. Claude skill in [`skills/ui-lab`](skills/ui-lab/SKILL.md).
 
 ```bash
 npm install

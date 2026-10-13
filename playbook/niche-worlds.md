@@ -69,7 +69,7 @@ communicates), then rebuild it for the content in front of you.
 **Refuse:** barrel distortion on text, rainbow glitch, flicker above three flashes a second.
 
 ## 14. Museum Placard
-**Proof:** pattern `niche-museum-placard`.
+**Proof:** site `site-salt-road`, pattern `niche-museum-placard`.
 **Use for:** galleries, exhibitions, heritage sites, cultural institutions, anywhere a thing needs a caption.
 **Metaphor:** the label beside the object. The object is the page; the label is quiet.
 **Palette:** gallery white `#f6f4ee`, charcoal text `#1f1d1a`, one muted institutional colour for rules.
@@ -91,7 +91,7 @@ communicates), then rebuild it for the content in front of you.
 **Refuse:** cartoon vegetables, gradient backgrounds, a table without headers.
 
 ## 16. Terminal BBS
-**Proof:** pattern `niche-terminal-bbs`.
+**Proof:** site `site-pebble`, pattern `niche-terminal-bbs`.
 **Use for:** portfolios and developer sites that want a conversational, text-first interface.
 **Metaphor:** a bulletin-board system: you log in, you type, it answers.
 **Palette:** one dark background, one light foreground, one highlight; no gradients.
@@ -135,7 +135,7 @@ communicates), then rebuild it for the content in front of you.
 **Refuse:** lorem ipsum, centred layouts, a specimen with one weight.
 
 ## 20. Nautical Chart
-**Proof:** pattern `niche-nautical-chart`.
+**Proof:** site `site-tidewater`, pattern `niche-nautical-chart`.
 **Use for:** maps, data with depth or elevation, travel, science, anything with a continuous surface.
 **Metaphor:** an Admiralty chart: contours, soundings, a compass rose.
 **Palette:** chart paper `#efe9d6`, sea blues in steps, one magenta for hazards and labels.
