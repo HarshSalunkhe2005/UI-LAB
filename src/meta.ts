@@ -17,6 +17,7 @@ export const CATEGORIES = [
   'Sites',
   'Signature moves',
   'Niche worlds',
+  'Modern CSS',
   'Data viz',
   'Recipes',
 ] as const
@@ -45,6 +46,7 @@ export type PatternMeta = {
 
 import { MOVES } from './meta-moves'
 import { NICHE } from './meta-niche'
+import { MODERN_CSS } from './meta-css'
 import { NEW_SITES } from './meta-sites'
 
 const ALL: PatternMeta[] = [
@@ -1550,7 +1552,7 @@ const ALL: PatternMeta[] = [
     deps: ["three", "lenis", "@fontsource-variable/unbounded", "@fontsource-variable/hanken-grotesk", "sites/_shared.ts"],
   },
   ...MOVES,
-  ...NICHE,
+  ...NICHE, ...MODERN_CSS,
   ...NEW_SITES,
 ]
 

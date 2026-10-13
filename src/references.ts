@@ -11,7 +11,7 @@
  * Techniques are re-implemented in our own code (src/patterns/moves); nothing is copied.
  */
 
-export type RefGroup = 'World-class' | 'Vibe-coded'
+export type RefGroup = 'World-class' | 'Vibe-coded' | 'Recent winners'
 export type RefMode = 'Persuade' | 'Operate' | 'Read' | 'Experience'
 export type RefEvidence = 'inspected' | 'partial' | 'listing'
 
@@ -459,7 +459,47 @@ export const VIBE: Ref[] = [
   },
 ]
 
-export const REFERENCES: Ref[] = [...WORLD, ...VIBE]
+/** Recent Awwwards Sites of the Day, inspected live on 2026-10-14. Evidence is what a screenshot and the DOM showed. */
+export const RECENT: Ref[] = [
+  {
+    id: 'neutomni', name: 'Neutomni', url: 'https://neutomni.com', group: 'Recent winners', mode: 'Persuade',
+    idea: 'A Webflow studio whose poster-sized wordmark is a sheet you cut open: a dashed "cut along line" runs through the hero and scrolling slits it.',
+    technique: 'Measured: 1 canvas, 1 video, 7 sticky elements, Lenis smooth scroll, 13 clip-path elements, a 18.8k px page. The halves and the band that opens read as clipped layers moved on scroll.',
+    look: 'One flat red (rgb 207 24 48), white, near-black blocks. Custom geometric wordmark; body in a local serif; mono labels (Fira Code).',
+    take: 'Tear the cover, not the content: two clipped halves of one hero move apart (move-perforated-reveal).',
+    leave: 'A cookie wall that covers the first screen; the red hero is a single idea held to the limit, so it needs equal courage elsewhere.',
+    evidence: 'inspected', tags: ['hero', 'clip-path', 'scroll', 'webflow', 'wordmark'], moves: ['move-perforated-reveal'],
+  },
+  {
+    id: 'heron-ai', name: 'Heron AI', url: 'https://heronaiapp.com', group: 'Recent winners', mode: 'Persuade',
+    idea: 'An AI tool for architects presented as a drafting sheet: a pencil elevation, hairline red rules and tiny registration marks.',
+    technique: 'Screenshots only (no DOM probe): thin horizontal rules that shift between scroll positions, a raster pencil illustration centred on paper, a monospaced red "CONTACT US" top right.',
+    look: 'Warm off-white paper, graphite, one vermilion for rules and markers. Monospace labels.',
+    take: 'The page as an instrument: construction lines that close in while a drawing completes (move-drafting-rules, drawn in SVG rather than raster).',
+    leave: 'A raster illustration as the whole hero; text was almost absent on first view.',
+    evidence: 'partial', tags: ['drafting', 'blueprint', 'paper', 'rules', 'illustration'], moves: ['move-drafting-rules'],
+  },
+  {
+    id: 'twks', name: 'twks', url: 'https://twks.ch/en', group: 'Recent winners', mode: 'Persuade',
+    idea: 'A Geneva agency whose header text stays legible over everything by inverting against what is behind it.',
+    technique: 'A fixed header whose type visibly inverts over the hero video and then over white sections (a blend-mode difference effect, seen in screenshots). Editorial sections use a hairline rule, a small label and a two-column paragraph beside link rows with arrows.',
+    look: 'Large grotesque headlines (tight leading), black and white with the hero video supplying colour.',
+    take: 'A header that is always readable with no per-section logic (move-difference-nav) and the rule-label-paragraph row.',
+    leave: 'Over mid-grey backgrounds an inverted header loses contrast; the demo says so.',
+    evidence: 'partial', tags: ['header', 'blend-mode', 'editorial', 'agency'], moves: ['move-difference-nav'],
+  },
+  {
+    id: 'butter-video', name: 'Butter', url: 'https://www.butter.video', group: 'Recent winners', mode: 'Persuade',
+    idea: 'A video-editor landing page whose opening statement comes into focus word by word while app-icon stickers drift across it.',
+    technique: 'The statement is blurred and faded at first and sharpens as you scroll; rounded icon chips travel over it. Seen in two screenshots; implementation not inspected.',
+    look: 'Light grey to white gradient, near-black UI chips, vivid tile colours, a script wordmark.',
+    take: 'Focus-pull on a sentence, driven by one progress number (move-focus-words).',
+    leave: 'The hero was a blank gradient for several seconds on first load.',
+    evidence: 'partial', tags: ['text', 'blur', 'scroll', 'saas', 'stickers'], moves: ['move-focus-words'],
+  },
+]
+
+export const REFERENCES: Ref[] = [...WORLD, ...VIBE, ...RECENT]
 export const REF_NOTES = {
   measuredOn: '2026-10-14',
   excluded: [

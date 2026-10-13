@@ -13,6 +13,7 @@ export const CATEGORY_INFO: Record<string, { plain: string; for: string }> = {
   Sites: { plain: 'Complete websites, each in its own design style. Open one full screen and scroll it like a visitor.', for: 'See what a committed design looks like, and borrow its structure.' },
   'Signature moves': { plain: 'One striking technique each, rebuilt from award-winning and popular sites we studied.', for: 'Add a memorable moment to your own page.' },
   'Niche worlds': { plain: 'Designs for specific kinds of subject: timetables, plants, audio gear, newspapers, medicine labels.', for: 'Match the look to what you are selling or saying.' },
+  'Modern CSS': { plain: 'Browser features that replace JavaScript: scroll-driven animation, popovers, anchor positioning.', for: 'Ship less code, with a safe fallback.' },
   'Data viz': { plain: 'Charts and data displays built to be read at a glance.', for: 'Show numbers without a charting library.' },
   Recipes: { plain: 'Small techniques you combine: gradients, masks, glass, shadows.', for: 'Learn a trick and reuse it.' },
 }

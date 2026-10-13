@@ -10,7 +10,7 @@ const EVIDENCE: Record<RefEvidence, { label: string; hint: string }> = {
   listing: { label: 'listing', hint: 'Read from the public listing; the live preview was not opened' },
 }
 
-const GROUPS: (RefGroup | 'All')[] = ['All', 'World-class', 'Vibe-coded']
+const GROUPS: (RefGroup | 'All')[] = ['All', 'World-class', 'Vibe-coded', 'Recent winners']
 
 function Card({ r }: { r: Ref }) {
   const [open, setOpen] = useState(false)
