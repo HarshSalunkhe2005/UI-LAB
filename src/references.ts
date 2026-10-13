@@ -497,6 +497,33 @@ export const RECENT: Ref[] = [
     leave: 'The hero was a blank gradient for several seconds on first load.',
     evidence: 'partial', tags: ['text', 'blur', 'scroll', 'saas', 'stickers'], moves: ['move-focus-words'],
   },
+  {
+    id: 'pensatori-irrazionali', name: 'Pensatori Irrazionali', url: 'https://pensatori-irrazionali.com', group: 'Recent winners', mode: 'Experience',
+    idea: 'A studio presented as system documentation: numbered modules with IDs on the left, a column of ACTIVE status lights on the right, a turning globe between.',
+    technique: 'Seen in two screenshots: dense monospace labels, module rows that dim and brighten as you scroll, status lines whose lights turn on in sequence, a monochrome globe centred. DOM not probed.',
+    look: 'Near-black ground, off-white and grey monospace, a single green status colour.',
+    take: 'Navigation as an instrument panel: the active module and its lights are one piece of state (move-status-modules).',
+    leave: 'Very small grey type on black; legibility is the price of the look.',
+    evidence: 'partial', tags: ['monospace', 'status', 'documentation', 'globe', 'studio'], moves: ['move-status-modules'],
+  },
+  {
+    id: 'gil-huybrecht', name: 'Gil Huybrecht', url: 'https://gilhuybrecht.com', group: 'Recent winners', mode: 'Experience',
+    idea: 'A designer portfolio whose project thumbnails lie scattered on a black table; a toggle at the bottom switches the layout.',
+    technique: 'Seen in screenshots: a loading percentage, then project tiles with index numbers placed freely, a Grid/Gallery switch and a Normal/perspective switch bottom corners; awards listed as plain text top centre.',
+    look: 'Pure black, white small text, project imagery supplying all colour.',
+    take: 'Two layouts for one list, switched by transforms only (move-scatter-grid).',
+    leave: 'Tiny text and no visible hierarchy on first view; keep the list real in the DOM.',
+    evidence: 'partial', tags: ['portfolio', 'gallery', 'layout toggle', 'grid'], moves: ['move-scatter-grid'],
+  },
+  {
+    id: 'edolus', name: 'EDOLUS', url: 'https://edolus.com', group: 'Recent winners', mode: 'Experience',
+    idea: 'The preloader is the first brand moment: a tiny counter in the dark, then a wide-set wordmark with the percentage beneath it.',
+    technique: 'Seen in two screenshots (the counter at 7% in the dark, the wordmark with 81% beneath it). Implementation not inspected.',
+    look: 'Black, white, a wide-tracked geometric wordmark with a custom O.',
+    take: 'A counter that hands over to the wordmark, letters rising in order (move-counter-wordmark).',
+    leave: 'Making visitors wait to see the brand; the demo can be replayed and is instant under reduced motion.',
+    evidence: 'partial', tags: ['preloader', 'wordmark', 'counter', 'brand'], moves: ['move-counter-wordmark'],
+  },
 ]
 
 export const REFERENCES: Ref[] = [...WORLD, ...VIBE, ...RECENT]
