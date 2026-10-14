@@ -66,6 +66,22 @@ export const TOOLBOX: { want: string; slug: string }[] = [
   { want: 'menus and tooltips without a positioning library', slug: 'css-popover-starting' },
 ]
 
+/** Everyday parts nearly every site needs, built to the accessibility baseline. */
+export const EVERYDAY: { want: string; slug: string }[] = [
+  { want: 'a header with a mobile menu', slug: 'site-nav' },
+  { want: 'a FAQ', slug: 'faq-section' },
+  { want: 'cookie consent', slug: 'cookie-banner' },
+  { want: 'an email sign-up', slug: 'newsletter-form' },
+  { want: 'a table people can sort and filter', slug: 'data-table' },
+  { want: 'a blog or docs article', slug: 'article-layout' },
+  { want: 'a shop and basket', slug: 'shop-cart' },
+  { want: 'a settings page', slug: 'settings-screen' },
+  { want: 'a 404 page', slug: 'not-found-page' },
+  { want: 'a pricing section', slug: 'pricing-tiers' },
+  { want: 'a contact section', slug: 'contact-section' },
+  { want: 'a login screen', slug: 'auth-screen' },
+]
+
 /** Briefs worth refusing or sending back for one sharp question. */
 export const REFUSE_UNTIL_CLEAR = [
   'No real content. A site with lorem ipsum cannot be designed, only decorated. Ask for the actual words, numbers and images.',

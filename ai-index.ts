@@ -14,7 +14,7 @@ import { resolve } from 'node:path'
 import type { Plugin } from 'vite'
 import { CATEGORIES, META } from './src/meta'
 import { RESOURCE_KINDS, RESOURCES } from './src/resources'
-import { REFUSE_UNTIL_CLEAR, ROUTES, TOOLBOX } from './src/router'
+import { EVERYDAY, REFUSE_UNTIL_CLEAR, ROUTES, TOOLBOX } from './src/router'
 import { RECENT, REFERENCES, REF_NOTES, VIBE, WORLD, type Ref } from './src/references'
 
 const SITE = 'https://ui-lab-weld.vercel.app'
@@ -213,6 +213,10 @@ function forClaude() {
     ...TOOLBOX.map((t) => `- ${t.want}: ${check(t.slug)}`),
     '',
     `The full set is the "Signature moves" category in ${SITE}/llms.txt; the teardown of each studied site is in ${SITE}/references.md.`,
+    '',
+    '## Everyday parts (already built to the accessibility baseline)',
+    '',
+    ...EVERYDAY.map((t) => `- ${t.want}: ${check(t.slug)}`),
     '',
     '## Send the brief back when',
     '',
