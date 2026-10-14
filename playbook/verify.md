@@ -49,6 +49,17 @@ Check for these first; they cost hours when found late.
 | `Invalid hook call` / two Reacts after adding deps in dev | Vite's pre-bundled dependency cache is stale | Stop the dev server, delete `node_modules/.vite`, restart |
 | Sticky or pinned sections stop working inside the wrapper | `overflow-x: hidden` on an ancestor makes it a scroll container | Use `overflow-x: clip` |
 | `scrollIntoView` as effect body returns a Promise | Newer Chromium | Wrap in braces so the effect returns nothing |
+| Classes toggled on the site's root (`.large`, `.show-grid`) stop working after scoping | `scope-css.py` rewrites `.x` as a descendant of the wrapper, not as a second class on the wrapper itself | Drive state with an inline CSS variable or inline style on the root, or put the class on an inner element |
+| Brand text and a styled span stack vertically in a header | `display: grid` on a flex or inline container turns each text node and child into its own grid item | Use `display: flex; gap` for inline lockups |
+| In-page links land under a sticky header | The target scrolls to the very top, behind the header | `scroll-margin-top` on the targets (about the header height plus 16px) |
+| `Cannot access 'X' before initialization` from a module-level helper | A top-level IIFE used a `const` declared below it | Declare dependencies first, or compute inside a function |
+| The home grid or registry throws "Pattern file missing" after changing globs | A negative `import.meta.glob` pattern applies to the whole list, so a later positive pattern is removed too | Use separate globs and merge the results |
+| Screenshots show half-drawn lines and unmoved counters | The browser pane is hidden or throttled, so transitions and `requestAnimationFrame` stall | Call `document.getAnimations().forEach(a => a.finish())` before the screenshot; set `document.startViewTransition = undefined` when crawling routes |
+| axe: `aria-label` on a div, p or pre | `aria-label` is not allowed on elements with no role | Give the element a role (`region`, `group`) or use visible or hidden text instead |
+| axe: `role="status"` on a `<dl>` or `<ul>` | The role is not allowed on those elements, and removing the list semantics breaks the children | Wrap the list in a `<div role="status">` |
+| axe: `aria-selected` on a button inside a grid | `aria-selected` belongs on the `gridcell` or `option`, not on the button inside it | Put it on the cell |
+| A centred popover opens in the page corner | A top-layer popover is positioned against the viewport, not its trigger | Set `top` and `left` from the trigger's rect when it opens |
+| The first load is huge | Every pattern and every source file was imported eagerly | Lazy-load patterns with `React.lazy` over `import.meta.glob` and load sources on demand |
 
 ## Smoke checklist (copy into the final report)
 
