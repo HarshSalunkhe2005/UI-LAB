@@ -167,4 +167,19 @@ export const NEW_SITES: PatternMeta[] = [
     a11y: 'Each drawing has a text description; availability is stated in words and symbols; quantity steppers are labelled buttons with a live total; the order form has labels, aria-invalid and an alert; hours are a real table; the floating arch and the drawn underline are static under reduced motion.',
     deps: ['@fontsource-variable/fraunces', '@fontsource-variable/hanken-grotesk', 'sites/_shared.ts'],
   },
+  {
+    slug: 'site-blueprint',
+    title: 'Site: FENWICK & ODE (blueprint engineering)',
+    category: 'Sites',
+    summary: 'A structural engineering practice set as a drawing sheet: title block, grid paper, dimension lines, a truss that draws itself, and a working quick beam check whose diagram bends as you change span, load and material. Sums are the textbook ones, labelled indicative.',
+    when: [
+      'Engineering, architecture, construction, surveying and any trade whose product is a drawing or a calculation',
+      'Reference for SVG line-drawing on load, an interactive diagram driven by real formulas, and a dark paper palette that keeps text above 4.5:1',
+    ],
+    file: 'sites/blueprint/index.tsx',
+    files: ['sites/blueprint/index.tsx', 'sites/blueprint/styles.css'],
+    tags: ['site', 'full page', 'niche world', 'blueprint', 'engineering', 'drawing', 'svg', 'calculator', 'grid paper', 'operate'],
+    a11y: 'Both drawings have text descriptions and the beam diagram description updates with the inputs; results are in a status region with units written out; sliders are native ranges with spoken values; the form has labels, aria-invalid and an alert; the line drawing is skipped under reduced motion.',
+    deps: ['@fontsource/barlow-condensed', '@fontsource/ibm-plex-mono', 'sites/_shared.ts'],
+  },
 ]

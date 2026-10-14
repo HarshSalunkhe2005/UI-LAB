@@ -21,7 +21,7 @@ export const CATEGORY_INFO: Record<string, { plain: string; for: string }> = {
 export const START_PATHS = [
   {
     title: 'I want to see finished websites',
-    body: 'Sixteen complete sites, each in a different design style. Open one full screen and scroll it.',
+    body: 'Seventeen complete sites, each in a different design style. Open one full screen and scroll it.',
     kind: 'sites',
     href: '',
     cta: 'Browse the sites',

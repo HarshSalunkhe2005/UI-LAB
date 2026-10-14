@@ -1,6 +1,6 @@
 # Niche worlds: when the product has a physical or editorial home
 
-`worlds.md` holds the eight general directions. These thirteen are narrower. Each one borrows the look and the logic of a
+`worlds.md` holds the eight general directions. These fourteen are narrower. Each one borrows the look and the logic of a
 real object or printed form, and it only works when the brief genuinely lives there: a departures board for a rail
 company, a clinical label for a medicine. Use one when the content already belongs to it. A skin applied to unrelated
 content is a gimmick, and the swap test will catch it.
@@ -156,6 +156,17 @@ communicates), then rebuild it for the content in front of you.
 **Needs:** real, current data, and the discipline to leave things out.
 **Refuse:** a text chart without a table, colour as the only signal, images "for warmth", decorative boxes around data.
 
+## 22. Blueprint
+**Proof:** site `site-blueprint`, move `move-drafting-rules`.
+**Use for:** engineering, architecture, construction, surveying, workshops, anything whose product is a drawing or a calculation.
+**Metaphor:** a drawing sheet pinned to the wall: title block, grid, dimension lines.
+**Palette:** blueprint blue `#0d2b52`, drafting white `#e9f4ff`, cyan for dimensions `#7fd4ff`, one amber `#ffd37a` for the thing to act on.
+**Type:** a condensed drafting face for titles (Barlow Condensed), a monospace for notes and numbers (IBM Plex Mono).
+**Motion:** lines draw themselves once on arrival; diagrams respond to input; nothing loops.
+**Signature:** a working diagram: change the span and the beam bends, with the sums written beside it.
+**Needs:** a real formula or process behind the picture, and a label saying how far to trust it.
+**Refuse:** blue as decoration without a grid, fake dimensions, a calculator that does not state its limits, thin light-blue text on dark blue below 4.5:1.
+
 ---
 
 ## Choosing between a niche world and a general one
@@ -174,6 +185,7 @@ communicates), then rebuild it for the content in front of you.
 | type, design system | 19 Type Specimen |
 | depth, terrain, travel | 20 Nautical Chart |
 | status, forecast, scores, prices | 21 Plain Text Sheet |
+| engineering, drawings, calculations | 22 Blueprint |
 
 If nothing here fits, do not force it: go back to `worlds.md` or invent a world. Add a niche world by copying the card
 shape, building something that proves it, and registering the proof under category `Niche worlds` or `Sites`.
