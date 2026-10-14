@@ -83,6 +83,7 @@ Hex values are starting points; shift them to the brand, keep the **roles**.
 **Refuse:** decoration, shadows, rounded corners, more than one accent.
 
 ## 8. Warm Organic
+**Proof:** site `site-crumb`.
 **Use for:** food, wellness, craft, sustainability, local business.
 **Metaphor:** a hand-made label on good paper.
 **Palette:** earth tones (terracotta, sage, oat, deep brown), subtle grain (SVG noise, 4-6% opacity).
@@ -96,7 +97,7 @@ Hex values are starting points; shift them to the brand, keep the **roles**.
 ## Adding a world
 
 Copy the shape above (Use for / Metaphor / Palette / Type / Motion / Signature / Needs / Refuse). A world is only
-real if you've shipped something in it. Link the project or pattern that proves it (worlds 6 to 8 are still unproven: build one before trusting the card).
+real if you've shipped something in it. Link the project or pattern that proves it (all eight general worlds now have a proof site).
 
 ## Choosing quickly
 

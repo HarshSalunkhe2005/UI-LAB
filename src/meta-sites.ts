@@ -152,4 +152,19 @@ export const NEW_SITES: PatternMeta[] = [
     a11y: 'Each chart has a text description and a real data table in a disclosure; the giant number has a spoken sentence equivalent; the grid toggle is a switch; direct labels carry the series names so colour is not the only key; reveal motion is off under reduced motion.',
     deps: ['@fontsource-variable/hanken-grotesk', 'sites/_shared.ts'],
   },
+  {
+    slug: 'site-crumb',
+    title: 'Site: CRUMB & CO. (neighbourhood bakery)',
+    category: 'Sites',
+    summary: 'A local bakery in the Warm Organic world: hand-drawn bakes in arch frames on grainy oat paper, a stamp, and a line that draws under the headline. It also works: bakes show ready, sold out or not yet baked at a chosen hour, the order form totals live, and open-now comes from the real hours.',
+    when: [
+      'Food, wellness, craft, sustainability and any local business',
+      'Reference for SVG noise grain, arch cropping with border-radius, a drawn underline via pathLength, and a small order form with live totals and honest availability',
+    ],
+    file: 'sites/crumb/index.tsx',
+    files: ['sites/crumb/index.tsx', 'sites/crumb/bakes.tsx', 'sites/crumb/styles.css'],
+    tags: ['site', 'full page', 'warm organic', 'bakery', 'local business', 'grain', 'arch', 'hand-drawn', 'order form', 'food'],
+    a11y: 'Each drawing has a text description; availability is stated in words and symbols; quantity steppers are labelled buttons with a live total; the order form has labels, aria-invalid and an alert; hours are a real table; the floating arch and the drawn underline are static under reduced motion.',
+    deps: ['@fontsource-variable/fraunces', '@fontsource-variable/hanken-grotesk', 'sites/_shared.ts'],
+  },
 ]
