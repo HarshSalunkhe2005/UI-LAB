@@ -170,7 +170,7 @@ function referencesMd() {
     `## Recent award winners (${RECENT.length})`,
     '',
     ...RECENT.flatMap((r) => [...refBlock(r), '']),
-    `## Community picks (${COMMUNITY.length}): liked on Hacker News Show HN`,
+    `## Community picks (${COMMUNITY.length}): chosen by communities (Hacker News Show HN, One Page Love)`,
     '',
     ...COMMUNITY.flatMap((r) => [...refBlock(r), '']),
     '## Left out',

@@ -37,7 +37,7 @@ Write these before anything else. If you can't, ask the user one sharp question;
 
 ### 2. Inspiration (real, not remembered)
 
-Before that, skim [`reference-sites.md`](reference-sites.md): sixty-five teardowns (30 world-class sites, 20 vibe-coded UIs, 12 recent award winners, 3 community picks) with the measured facts and a **Signature moves** pattern for each technique we took; pick 2-3 whose signature moment matches your content.
+Before that, skim [`reference-sites.md`](reference-sites.md): sixty-seven teardowns (30 world-class sites, 20 vibe-coded UIs, 12 recent award winners, 5 community picks) with the measured facts and a **Signature moves** pattern for each technique we took; pick 2-3 whose signature moment matches your content.
 
 Then start with UI Lab's own five finished sites (category **Sites**: `site-solar`, `site-mare`, `site-lattice`, `site-hotmess`, `site-abyss`; open each full screen from its pattern page): each is a different world with a different signature moment, so you can see what "committed" looks like before studying outside references.
 

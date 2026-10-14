@@ -23,8 +23,8 @@ Prefer the local checkout when it exists; otherwise fetch the same paths from th
 | Inspiration method | `playbook/inspiration.md` | `/playbook/inspiration.md` |
 | Verification loop + bug catalogue | `playbook/verify.md` | `/playbook/verify.md` |
 | Scroll-driven 3D recipe | `playbook/scroll-3d-recipe.md` | `/playbook/scroll-3d-recipe.md` |
-| Reference sites: 65 teardowns (30 world-class, 20 vibe-coded, 12 recent award winners, 3 community picks) + synthesis | `src/references.ts`, `playbook/reference-sites.md` | `/references.md`, `/references.json`, `/playbook/reference-sites.md`, page `#/references` |
-| Signature moves: one pattern per studied site's technique (51) | `src/patterns/moves/`, slugs `move-*` | `/docs/move-<name>.md`, category "Signature moves" |
+| Reference sites: 67 teardowns (30 world-class, 20 vibe-coded, 12 recent award winners, 5 community picks) + synthesis | `src/references.ts`, `playbook/reference-sites.md` | `/references.md`, `/references.json`, `/playbook/reference-sites.md`, page `#/references` |
+| Signature moves: one pattern per studied site's technique (53) | `src/patterns/moves/`, slugs `move-*` | `/docs/move-<name>.md`, category "Signature moves" |
 | Finished reference sites (18: solar, mare, lattice, hotmess, abyss, departures, herbarium, tape, ledger, tidewater, salt-road, pebble, plain-forecast, pip, commute-report, crumb, blueprint, till-roll) | `src/patterns/sites/<name>/`, run at `#/live/site-<name>` | `/docs/site-<name>.md` (all files), `#/site-<name>` |
 | 130+ patterns (index) | `src/meta.ts` | `/patterns.json`, `/llms.txt`, `/docs/<slug>.md` |
 | Site-stack detector | `tools/site-stack.mjs` | `/tools/site-stack.mjs` |
@@ -35,7 +35,7 @@ Prefer the local checkout when it exists; otherwise fetch the same paths from th
 0. **Route.** Open `src/router.ts` (or `/for-claude.md`): find the row your brief matches, open its proof site, note its technique.
 1. **Brief.** Write 5 lines: who/where/mood, mode (Persuade / Operate / Read / Experience), the ONE memorable moment, real content, constraints.
    Ask the user one sharp question if you cannot. Never guess a whole site.
-2. **Inspiration, for real.** Skim `playbook/reference-sites.md` and `/references.md` (65 teardowns, each linked to a `move-*` pattern that rebuilds its technique). Then look at UI Lab's five finished sites to see what committed design looks like. Then open at least 3 outside reference sites in a browser; scroll them slowly; run `node tools/site-stack.mjs <url>`.
+2. **Inspiration, for real.** Skim `playbook/reference-sites.md` and `/references.md` (67 teardowns, each linked to a `move-*` pattern that rebuilds its technique). Then look at UI Lab's five finished sites to see what committed design looks like. Then open at least 3 outside reference sites in a browser; scroll them slowly; run `node tools/site-stack.mjs <url>`.
    Write a 5-line teardown each (idea, technique, palette/type, take/leave). Then *cross* them around this product's content.
    Never copy code, copy text, assets or exact layouts; re-implement techniques.
 3. **Commit to a world.** Pick from `worlds.md` or invent one; write the direction card (name, metaphor, palette roles, type pair,

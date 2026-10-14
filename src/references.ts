@@ -571,7 +571,7 @@ export const RECENT: Ref[] = [
   },
 ]
 
-/** Sites that did well on Hacker News "Show HN" in 2025 and 2026. A different signal from awards: people liked using them. */
+/** Sites picked by communities rather than juries: Hacker News "Show HN" in 2025 and 2026, and the One Page Love gallery. A different signal from awards: people liked using them. */
 export const COMMUNITY: Ref[] = [
   {
     id: 'brolly', name: 'Brolly', url: 'https://brolly.sh', group: 'Community picks', mode: 'Operate',
@@ -599,6 +599,24 @@ export const COMMUNITY: Ref[] = [
     take: 'A three-column editor shell (rail, canvas, properties) that stays out of the way of the work.',
     leave: 'Dense panels need keyboard shortcuts and labelled regions to be usable without a mouse.',
     evidence: 'inspected', tags: ['editor', 'app shell', 'slides', 'dark', 'hn'],
+  },
+  {
+    id: 'tim-van-damme', name: 'Tim Van Damme', url: 'https://timvandamme.com', group: 'Community picks', mode: 'Experience',
+    idea: 'A designer\u2019s personal page built as a zine: a halftone portrait with coral doodles over it, an outlined name and a marker-script alias.',
+    technique: 'Inspected in screenshots: dark ground, a dotted halftone photograph with hand-drawn coral doodles (horns, moustache, sketch lines), the name in stroke-only capitals, "Max Voltar" in a coral handwritten face, then a two-column About with small "ED. NOTE" marginalia. Found through One Page Love.',
+    look: 'Near-black, off-white, one coral (#ff7a66 range); a condensed display face, a marker script and a readable serif or grotesque for the text.',
+    take: 'Outlined display type plus one script word plus doodles on a halftone image (move-outline-lockup).',
+    leave: 'Stroke-only type needs huge sizes and a strong stroke; at body sizes it is unreadable.',
+    evidence: 'partial', tags: ['zine', 'halftone', 'outline type', 'script', 'doodles', 'portfolio', 'one page love'], moves: ['move-outline-lockup', 'move-halftone-split'],
+  },
+  {
+    id: 'office-commun', name: 'Office Commun', url: 'https://officecommun.com', group: 'Community picks', mode: 'Experience',
+    idea: 'A design studio index with no cards: each project is a label line above one horizontal strip of screens, like a contact sheet.',
+    technique: 'Inspected in screenshots: a near-white page, a short studio statement, then rows labelled "Figure · AI shopping assistant", "Public · Contemporary art auction platform" and so on, each row a strip of grey placeholder tiles of varied width that fill with images. Found through One Page Love.',
+    look: 'Near-white, small neutral grotesque, light grey placeholders, one dark navy project colour.',
+    take: 'Row labels plus variable-width strips instead of a grid of cards (move-contact-sheet), with buttons and keyboard scrolling added.',
+    leave: 'Placeholder-grey loading states can read as emptiness; give tiles a colour or content early.',
+    evidence: 'partial', tags: ['index', 'contact sheet', 'strips', 'studio', 'minimal', 'one page love'], moves: ['move-contact-sheet'],
   },
 ]
 
