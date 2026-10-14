@@ -203,6 +203,8 @@ function forClaude() {
     '7. **Verify once, in batch**: fresh load, console clean, every section at 1440 and 375, reduced motion, keyboard. Fix everything, confirm once, stop.',
     '8. **Hand off honestly**: the URL, what you rendered, what you could not test, what is placeholder.',
     '',
+    `For the common kinds of site (business, app, portfolio, publication, report, shop, event, status page, dashboard), the usual section order is in ${SITE}/playbook/site-types.md.`,
+    '',
     `Full procedure: ${SITE}/playbook/00-start-here.md. Bug catalogue to read before verifying: ${SITE}/playbook/verify.md.`,
     '',
     '## Router: what the brief smells like, what to build from',
@@ -253,6 +255,10 @@ function validate() {
     if (m.category === 'Sites' && !existsSync(resolve(__dirname, `public/thumbs/${m.slug}.jpg`))) problems.push(`${m.slug}: missing thumbnail public/thumbs/${m.slug}.jpg`)
     if (!m.when?.length) problems.push(`${m.slug}: needs at least one "when" line`)
     if (!m.a11y) problems.push(`${m.slug}: needs an a11y note`)
+  }
+  // Pattern slugs written in backticks in the playbook must exist, so the guidance cannot point at a renamed pattern.
+  for (const f of playbookNames()) {
+    for (const t of read(`playbook/${f}`).matchAll(/`((?:site|move|niche|css)-[a-z0-9-]+)`/g)) if (!seen.has(t[1])) problems.push(`playbook/${f} mentions unknown pattern ${t[1]}`)
   }
   if (problems.length) throw new Error(`Pattern metadata problems:\n - ${problems.join('\n - ')}`)
 }
