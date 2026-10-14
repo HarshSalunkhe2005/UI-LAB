@@ -290,6 +290,7 @@ function files(): Record<string, string> {
       2,
     ),
     'tools/site-stack.mjs': read('tools/site-stack.mjs'),
+    'tools/axe-crawl.js': read('tools/axe-crawl.js'),
     'raw/tokens/tokens.css': read('src/tokens/tokens.css'),
     'raw/index.css': read('src/index.css'),
     [`raw/${SHARED}`]: read(`src/patterns/${SHARED}`),

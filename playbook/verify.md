@@ -18,6 +18,10 @@ The loop is **bounded**: it is not an invitation to polish forever.
 5. **One confirming round.** Then stop.
 6. **Report honestly**: what you rendered, at what sizes, what you could not test (real GPU, Safari, touch hardware).
 
+## Automated accessibility sweep
+
+`tools/axe-crawl.js` (also served at `/tools/axe-crawl.js`) is a console script that runs axe-core over every pattern and site and prints the violations by rule. Paste it into the console of a visible tab. Fix anything serious or critical; contrast hits on elements that are mid-animation are false positives (check the settled state). This is how UI Lab itself is kept at zero known violations.
+
 ## Environment caveats
 
 - The built-in browser pane renders WebGL in software. First load of a 3D scene can take 10+ seconds and frame rate is low.
