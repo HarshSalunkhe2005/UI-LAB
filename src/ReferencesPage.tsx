@@ -84,8 +84,8 @@ export default function ReferencesPage() {
         <p className="text-lg text-fg-muted">
           World-class websites, vibe-coded UIs and the latest Awwwards winners, each with its signature moment, how it is built, what we measured, what we take and what we leave.
           Every technique we took is rebuilt in our own code as a pattern. Also at{' '}
-          <a href="/references.md" target="_blank" className="font-mono text-sm text-accent hover:underline">/references.md</a> and{' '}
-          <a href="/references.json" target="_blank" className="font-mono text-sm text-accent hover:underline">/references.json</a> for AI agents.
+          <a href="/references.md" target="_blank" className="font-mono text-sm text-accent underline underline-offset-2">/references.md</a> and{' '}
+          <a href="/references.json" target="_blank" className="font-mono text-sm text-accent underline underline-offset-2">/references.json</a> for AI agents.
         </p>
         <p className="text-sm text-fg-muted">
           Measured on {REF_NOTES.measuredOn} at 1440x900. “Inspected” means rendered and measured; “partial” means a WebGL canvas we could only partly see; “listing” means read from the vendor’s page.
@@ -103,7 +103,7 @@ export default function ReferencesPage() {
               className={`rounded-full border px-3 py-1 text-sm transition-colors ${group === g ? 'border-fg bg-fg text-bg' : 'border-border text-fg-muted hover:text-fg'}`}
             >
               {g}
-              <span className="ml-1.5 font-mono text-[10px] opacity-60">{g === 'All' ? REFERENCES.length : REFERENCES.filter((r) => r.group === g).length}</span>
+              <span className="ml-1.5 font-mono text-[10px]">{g === 'All' ? REFERENCES.length : REFERENCES.filter((r) => r.group === g).length}</span>
             </button>
           ))}
         </div>
@@ -130,7 +130,7 @@ export default function ReferencesPage() {
           <ul className="mt-2 space-y-2 text-sm text-fg-muted">
             {REF_NOTES.excluded.map((e) => (
               <li key={e.name}>
-                <a href={e.url} target="_blank" rel="noreferrer" className="text-fg hover:text-accent">{e.name}</a>: {e.why}
+                <a href={e.url} target="_blank" rel="noreferrer" className="text-fg underline underline-offset-2 hover:text-accent">{e.name}</a>: {e.why}
               </li>
             ))}
           </ul>

@@ -25,7 +25,7 @@ export default function StylesPage() {
       </h1>
       <p className="mt-4 max-w-2xl text-lg text-fg">
         A style (we call it a world) is a whole consistent look: colours, type, movement and what it refuses to do. Each card names what it suits and links to a finished site or a pattern that proves it.
-        {' '}<a href="#/playbook/worlds" className="text-accent underline-offset-2 hover:underline">How to choose one</a>.
+        {' '}<a href="#/playbook/worlds" className="text-accent underline underline-offset-2">How to choose one</a>.
       </p>
 
       <div className="mt-8 flex flex-wrap items-center gap-2" role="radiogroup" aria-label="Filter by what the visitor is doing">
@@ -48,7 +48,7 @@ export default function StylesPage() {
                 {site ? (
                   <img src={`/thumbs/${site}.jpg`} alt="" loading="lazy" className="h-full w-full object-cover object-top" />
                 ) : (
-                  <div className="grid h-full place-items-center font-display text-7xl text-fg-muted/40 italic" aria-hidden>{num}</div>
+                  <div className="grid h-full place-items-center font-display text-7xl text-fg-muted italic" aria-hidden>{num}</div>
                 )}
               </div>
               <div className="flex flex-1 flex-col p-4">

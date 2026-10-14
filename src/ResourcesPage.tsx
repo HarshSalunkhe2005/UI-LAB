@@ -20,7 +20,7 @@ export default function ResourcesPage() {
         </h1>
         <p className="text-lg text-fg-muted">
           Galleries, award-level studios, open-source demo repos, libraries and tools. {RESOURCES.length} hand-picked links. Also at{' '}
-          <a href="/resources.md" target="_blank" className="font-mono text-sm text-accent hover:underline">/resources.md</a> for AI agents.
+          <a href="/resources.md" target="_blank" className="font-mono text-sm text-accent underline underline-offset-2">/resources.md</a> for AI agents.
         </p>
       </header>
 
@@ -35,7 +35,7 @@ export default function ResourcesPage() {
               className={`rounded-full border px-3 py-1 text-sm transition-colors ${kind === k ? 'border-fg bg-fg text-bg' : 'border-border text-fg-muted hover:text-fg'}`}
             >
               {k}
-              <span className="ml-1.5 font-mono text-[10px] opacity-60">{k === 'All' ? RESOURCES.length : RESOURCES.filter((r) => r.kind === k).length}</span>
+              <span className="ml-1.5 font-mono text-[10px]">{k === 'All' ? RESOURCES.length : RESOURCES.filter((r) => r.kind === k).length}</span>
             </button>
           ))}
         </div>

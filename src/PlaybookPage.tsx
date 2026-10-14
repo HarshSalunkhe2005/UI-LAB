@@ -51,7 +51,7 @@ function inline(text: string): ReactNode[] {
       const external = /^https?:/.test(href)
       const doc = href.match(/^([\w-]+)\.md$/)?.[1]
       parts.push(
-        <a key={i++} href={doc ? `#/playbook/${doc}` : href} {...(external ? { target: '_blank', rel: 'noreferrer' } : {})} className="text-accent underline-offset-2 hover:underline">
+        <a key={i++} href={doc ? `#/playbook/${doc}` : href} {...(external ? { target: '_blank', rel: 'noreferrer' } : {})} className="text-accent underline underline-offset-2">
           {label}
         </a>,
       )
@@ -75,7 +75,7 @@ function Markdown({ src }: { src: string }) {
         i++
         while (i < lines.length && !lines[i].startsWith('```')) buf.push(lines[i++])
         i++
-        out.push(<pre key={k++} className="my-5 overflow-x-auto rounded-xl border border-border bg-surface-2 p-4 font-mono text-[13px] leading-relaxed">{buf.join('\n')}</pre>)
+        out.push(<pre key={k++} tabIndex={0} role="region" aria-label="Code or diagram, scrolls sideways" className="my-5 overflow-x-auto rounded-xl border border-border bg-surface-2 p-4 font-mono text-[13px] leading-relaxed">{buf.join('\n')}</pre>)
       } else if (/^#{1,4}\s/.test(line)) {
         const level = line.match(/^#+/)![0].length
         const text = line.replace(/^#+\s+/, '')

@@ -362,7 +362,7 @@ function Home() {
               }`}
             >
               {c}
-              <span className="ml-1.5 font-mono text-[10px] opacity-70">
+              <span className="ml-1.5 font-mono text-[10px]">
                 {c === 'All' ? PATTERNS.length : PATTERNS.filter((p) => p.category === c).length}
               </span>
             </button>
@@ -407,7 +407,7 @@ function Home() {
             ))}
           </ol>
           <p className="mt-8 max-w-2xl text-sm text-fg-muted">
-            New to design words? A <strong className="font-medium text-fg">pattern</strong> is one reusable piece. A <strong className="font-medium text-fg">world</strong> is a whole consistent style (colours, type, motion). The <a className="text-accent hover:underline" href="#/playbook/worlds">design guide</a> explains how to choose one, the <a className="text-accent hover:underline" href="#/playbook/glossary">glossary</a> explains the rest, and the <a className="text-accent hover:underline" href="#/playbook/accessibility">accessibility checklist</a> shows how every pattern is checked.
+            New to design words? A <strong className="font-medium text-fg">pattern</strong> is one reusable piece. A <strong className="font-medium text-fg">world</strong> is a whole consistent style (colours, type, motion). The <a className="text-accent underline underline-offset-2" href="#/playbook/worlds">design guide</a> explains how to choose one, the <a className="text-accent underline underline-offset-2" href="#/playbook/glossary">glossary</a> explains the rest, and the <a className="text-accent underline underline-offset-2" href="#/playbook/accessibility">accessibility checklist</a> shows how every pattern is checked.
           </p>
         </div>
       </section>
