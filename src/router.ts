@@ -57,6 +57,11 @@ export const TOOLBOX: { want: string; slug: string }[] = [
   { want: 'an instrument-panel list with status lights', slug: 'move-status-modules' },
   { want: 'a portfolio index with two layouts', slug: 'move-scatter-grid' },
   { want: 'a branded preloader', slug: 'move-counter-wordmark' },
+  { want: 'a marquee that reacts to scrolling', slug: 'move-band-ticker' },
+  { want: 'a playful creature that follows the cursor', slug: 'move-feed-the-bee' },
+  { want: 'halftone imagery without image files', slug: 'move-halftone-split' },
+  { want: 'a headline with one handwritten word', slug: 'move-script-accent' },
+  { want: 'pictures inside a sentence', slug: 'move-inline-chips' },
   { want: 'scroll effects without JavaScript', slug: 'css-scroll-reveal' },
   { want: 'menus and tooltips without a positioning library', slug: 'css-popover-starting' },
 ]

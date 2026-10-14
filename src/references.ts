@@ -551,6 +551,24 @@ export const RECENT: Ref[] = [
     leave: 'Strong contrast filters can band on some screens; the demo is decorative and the words carry the message.',
     evidence: 'partial', tags: ['halftone', 'split screen', 'poster', 'finance', 'css'], moves: ['move-halftone-split'],
   },
+  {
+    id: 'boc-studio', name: 'Boc.Studio', url: 'https://boc.studio', group: 'Recent winners', mode: 'Experience',
+    idea: 'A Barcelona brand studio: one flat orange band across a glassy 3D shape carries the logo and a line of facts on repeat.',
+    technique: 'Seen in screenshots: a rendered green-glass form behind a full-width orange strip; the strip repeats the wordmark, "Creative brand studio" and coordinates and moved between screenshots as the page scrolled. A cookie notice sits bottom right.',
+    look: 'Soft grey-blue ground, pale green glass, one hot orange (#ff4a1c range), white type in a clean grotesque.',
+    take: 'A single band whose speed and direction follow scroll velocity (move-band-ticker).',
+    leave: 'The facts live only in a moving strip, so keep a static copy for readers.',
+    evidence: 'partial', tags: ['marquee', 'band', 'scroll velocity', '3d', 'brand studio'], moves: ['move-band-ticker'],
+  },
+  {
+    id: 'leo-parpeix', name: 'Leo Parpeix', url: 'https://www.leoparpeix.com', group: 'Recent winners', mode: 'Experience',
+    idea: 'A portfolio with a toy in it: a bee that flies around the page and eats what you click.',
+    technique: 'Seen in screenshots: a white-washed 3D room as an intro, then a centred bio, a very large "FRENCH" word cut by the next section, a small bee with the caption "Click to feed the bee".',
+    look: 'White, deep green display type, a yellow accent from the bee, small centred body copy.',
+    take: 'A creature that follows the pointer with lag and can be fed, as a harmless extra (move-feed-the-bee).',
+    leave: 'Anything decorative must never block the work; the demo has a button and a reduced-motion mode.',
+    evidence: 'partial', tags: ['playful', 'cursor', 'creature', 'portfolio', 'easter egg'], moves: ['move-feed-the-bee'],
+  },
 ]
 
 export const REFERENCES: Ref[] = [...WORLD, ...VIBE, ...RECENT]
