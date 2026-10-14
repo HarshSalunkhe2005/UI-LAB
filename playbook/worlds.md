@@ -63,6 +63,7 @@ Hex values are starting points; shift them to the brand, keep the **roles**.
 **Refuse:** nav bars with 7 links, long paragraphs over moving imagery, effects that don't serve the story.
 
 ## 6. Soft Playful
+**Proof:** site `site-pip`.
 **Use for:** consumer apps, kids/education, wellness with humour, community products.
 **Metaphor:** a sticker sheet that reacts when you touch it.
 **Palette:** pastel field + 2 saturated pops; generous white space; friendly dark ink (not pure black).

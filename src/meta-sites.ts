@@ -122,4 +122,19 @@ export const NEW_SITES: PatternMeta[] = [
     a11y: 'ASCII charts are hidden from assistive technology and each has a real table or sentence with the same numbers; day, unit and place controls are native buttons and a select; the current hour is marked in the table, not by colour alone; light and dark follow the system, with 4.5:1 text contrast in both.',
     deps: ['@fontsource/ibm-plex-mono', 'sites/_shared.ts'],
   },
+  {
+    slug: 'site-pip',
+    title: 'Site: PIP (tiny-habits app)',
+    category: 'Sites',
+    summary: 'A friendly app landing page in the Soft Playful world: a mascot whose eyes follow you and who changes mood as you tick habits in a live demo, pastel fields with two hot pops, big rounded shapes and springy easing.',
+    when: [
+      'Consumer apps, kids and education, wellness with humour, community products',
+      'Reference for a reactive character (pointer-tracked eyes, squash on press), overshoot easing as a CSS curve, and cheerful design that still meets contrast and touch-target rules',
+    ],
+    file: 'sites/pip/index.tsx',
+    files: ['sites/pip/index.tsx', 'sites/pip/Mascot.tsx', 'sites/pip/styles.css'],
+    tags: ['site', 'full page', 'soft playful', 'mascot', 'app landing', 'consumer', 'rounded', 'spring', 'pastel', 'persuade'],
+    a11y: 'The mascot has a text description that changes with its mood; the demo checklist uses real checkboxes with visible focus and a status sentence; type is large with checked contrast; 48 to 60px targets; springy motion, floating scores and the squash are off under reduced motion.',
+    deps: ['@fontsource-variable/bricolage-grotesque', 'sites/_shared.ts'],
+  },
 ]
