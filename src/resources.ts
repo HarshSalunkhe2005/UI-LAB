@@ -22,6 +22,9 @@ export type Resource = { name: string; url: string; kind: ResourceKind; note: st
 
 export const RESOURCES: Resource[] = [
   // Inspiration galleries
+  { name: 'One Page Love', url: 'https://onepagelove.com/', kind: 'Inspiration galleries', note: 'Curated one-page sites since 2008, with section examples. Good for smaller, human-scale work.', tags: ['one page', 'portfolio'] },
+  { name: 'Recent (formerly Godly)', url: 'https://recent.design/', kind: 'Inspiration galleries', note: 'Daily design inspiration across web, interface, branding and motion.', tags: ['web', 'motion'] },
+  { name: 'Modern CSS Code Snippets', url: 'https://modern-css.com/', kind: 'Tools', note: 'Modern CSS replacements for old JavaScript and hacks, with browser support.', tags: ['css', 'reference'] },
   { name: 'Awwwards: 3D websites', url: 'https://www.awwwards.com/websites/3d/', kind: 'Inspiration galleries', note: 'Award-winning 3D/WebGL sites, filterable.', tags: ['3d', 'webgl'] },
   { name: 'Awwwards: Animation', url: 'https://www.awwwards.com/websites/animation/', kind: 'Inspiration galleries', note: 'Motion-heavy site of the day winners.', tags: ['motion'] },
   { name: 'Awwwards: Immersive', url: 'https://www.awwwards.com/inspiration_search/immersive/', kind: 'Inspiration galleries', note: 'Immersive nominees stream.', tags: ['immersive'] },

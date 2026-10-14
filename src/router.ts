@@ -65,6 +65,8 @@ export const TOOLBOX: { want: string; slug: string }[] = [
   { want: 'a marquee that reacts to scrolling', slug: 'move-band-ticker' },
   { want: 'a name lockup with outline type and a script alias', slug: 'move-outline-lockup' },
   { want: 'a project index without cards', slug: 'move-contact-sheet' },
+  { want: 'a background that follows the real time of day', slug: 'move-sky-gradient' },
+  { want: 'image placeholders that are tiny', slug: 'css-blur-up-placeholder' },
   { want: 'a playful creature that follows the cursor', slug: 'move-feed-the-bee' },
   { want: 'halftone imagery without image files', slug: 'move-halftone-split' },
   { want: 'a headline with one handwritten word', slug: 'move-script-accent' },

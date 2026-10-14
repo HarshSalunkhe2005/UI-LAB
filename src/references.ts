@@ -618,6 +618,15 @@ export const COMMUNITY: Ref[] = [
     leave: 'Placeholder-grey loading states can read as emptiness; give tiles a colour or content early.',
     evidence: 'partial', tags: ['index', 'contact sheet', 'strips', 'studio', 'minimal', 'one page love'], moves: ['move-contact-sheet'],
   },
+  {
+    id: 'sky-gradient', name: 'The current sky as a CSS gradient', url: 'https://sky.dlazaro.ca', group: 'Community picks', mode: 'Experience',
+    idea: 'A page with no content at all: the whole viewport is the sky where you are, as a gradient from the sun\u2019s real height above your horizon.',
+    technique: 'Inspected: the page asked for the visitor\u2019s location, titled itself "Horizon at <latitude>, <longitude>", and painted a full-height vertical gradient (a deep dusk, near-black at the top to rust at the horizon at the time we looked). No text, no images. The approach (solar position from time, date and latitude, mapped to colour stops) is standard.',
+    look: 'Only a gradient; colours move from near-black through indigo and rose to pale blue across the day.',
+    take: 'One computed number (sun elevation) driving a whole-page colour, plus a spoken line so the sky is not the only carrier (move-sky-gradient).',
+    leave: 'Asking for geolocation just to set a background is a heavy permission; offer a place picker first.',
+    evidence: 'inspected', tags: ['gradient', 'time', 'location', 'generative', 'minimal', 'hn'], moves: ['move-sky-gradient'],
+  },
 ]
 
 export const REFERENCES: Ref[] = [...WORLD, ...VIBE, ...RECENT, ...COMMUNITY]

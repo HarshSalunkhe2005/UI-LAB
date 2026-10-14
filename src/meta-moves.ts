@@ -641,4 +641,16 @@ export const MOVES: PatternMeta[] = [
     a11y: "Each strip is a labelled section and a focusable list that scrolls with the arrow keys; back and forward buttons appear on hover and focus; tiles here are decorative stand-ins.",
     deps: [],
   },
+  {
+    slug: "move-sky-gradient",
+    title: "The sky as a gradient (sky.dlazaro.ca)",
+    category: 'Signature moves',
+    summary: "The sun's height above the horizon is computed from the time, the date and the latitude, and that one number picks a vertical sky gradient. Scrub the day and change the place.",
+    when: ["Weather, travel, calendar and ambient pages that should feel like the real time of day", "Generative backgrounds from one computed value"],
+    file: "moves/SkyGradient.tsx",
+    source: { label: "Studied: The current sky as a CSS gradient (Show HN)", url: "https://sky.dlazaro.ca" },
+    tags: ["signature move", "gradient", "time of day", "generative", "sun", "background"],
+    a11y: "The sky has a text description and a status line giving the phase and the sun's height; the sun marker is decorative; the controls are a native range and select; text over the sky switches colour to stay above 4.5:1.",
+    deps: [],
+  },
 ]
