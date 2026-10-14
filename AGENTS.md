@@ -57,5 +57,6 @@ Adding a teardown: measure it in a browser at 1440x900 (computed fonts, colours,
 ```bash
 npm install
 npm run dev        # http://localhost:5180
-npm run build      # typecheck + static build (includes AI files)
+npm run build      # typecheck + static build (includes AI files); fails on broken metadata
+npm test           # pure-logic tests (Snake engine, tide model, forecast generator)
 ```
