@@ -3,4 +3,5 @@ dist
 .vite
 *.log
 .DS_Store
-.claude
+.claude/*
+!.claude/commands/
