@@ -99,7 +99,7 @@ function llms() {
     `- Machine-readable index: ${SITE}/patterns.json. Everything in one file: ${SITE}/llms-full.txt`,
     `- **Claude: read ${SITE}/for-claude.md first.** It is the brief-to-build router (worlds, proof sites, techniques, refusals).`,
     `- Outside references (galleries, studios, open-source demo repos, libraries, tools): ${SITE}/resources.md`,
-    `- ${REFERENCES.length} reference teardowns (${WORLD.length} world-class, ${VIBE.length} vibe-coded, ${RECENT.length} recent award winners) with the pattern that rebuilds each: ${SITE}/references.md (JSON: ${SITE}/references.json)`,
+    `- ${REFERENCES.length} reference teardowns (${WORLD.length} world-class, ${VIBE.length} vibe-coded, ${RECENT.length} recent award winners, ${COMMUNITY.length} community picks) with the pattern that rebuilds each: ${SITE}/references.md (JSON: ${SITE}/references.json)`,
     '',
     '## START HERE: the design procedure',
     '',
@@ -107,6 +107,7 @@ function llms() {
     '',
     ...playbookNames().map((f) => `- [${mdTitle(read(`playbook/${f}`), f)}](${SITE}/playbook/${f})`),
     `- [Site stack detector](${SITE}/tools/site-stack.mjs): \`node site-stack.mjs <url>\` lists the libraries a reference site uses`,
+    `- [Accessibility sweep](${SITE}/tools/axe-crawl.js): paste into a browser console to run axe-core over every pattern and site`,
     '',
   ]
   for (const cat of CATEGORIES) {
@@ -155,7 +156,7 @@ function referencesMd() {
   const out = [
     '# UI Lab: reference sites',
     '',
-    `> ${WORLD.length} world-class websites, ${VIBE.length} vibe-coded UIs and ${RECENT.length} recent award winners, taken apart with the method in /playbook/inspiration.md. Measured ${REF_NOTES.measuredOn} at 1440x900.`,
+    `> ${WORLD.length} world-class websites, ${VIBE.length} vibe-coded UIs and ${RECENT.length} recent award winners and ${COMMUNITY.length} community picks, taken apart with the method in /playbook/inspiration.md. Measured ${REF_NOTES.measuredOn} at 1440x900.`,
     '> "inspected" = rendered and measured; "partial" = a canvas or WebGL2 experience we could only partly see; "listing" = read from the vendor page.',
     '> Techniques are re-implemented in our own code (category "Signature moves"); nothing is copied. Read /playbook/reference-sites.md for what the studied sites have in common.',
     '',
