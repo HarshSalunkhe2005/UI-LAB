@@ -33,7 +33,11 @@ function useHashSlug() {
       const plain = next.startsWith('live/') || prev.startsWith('live/')
       prev = next
       if (plain || !document.startViewTransition) return setSlug(next)
-      document.startViewTransition(() => flushSync(() => setSlug(next)))
+      const vt = document.startViewTransition(() => flushSync(() => setSlug(next)))
+      // A skipped transition (rapid navigation, hidden tab) rejects these promises; the route has changed regardless.
+      vt.ready.catch(() => {})
+      vt.finished.catch(() => {})
+      vt.updateCallbackDone.catch(() => {})
     }
     addEventListener('hashchange', onHash)
     return () => removeEventListener('hashchange', onHash)
@@ -264,16 +268,16 @@ function Home() {
             <li key={s.title} className="flex flex-col rounded-xl border border-border bg-surface/50 p-5">
               <h3 className="text-lg font-medium">{s.title}</h3>
               <p className="mt-2 flex-1 text-sm text-fg-muted">{s.body}</p>
-              {s.href.startsWith('#') ? (
+              {s.kind !== 'link' ? (
                 <button
-                  onClick={() => toCollection(() => (s.title.startsWith('I want to see') ? setFilter('Sites') : search.current?.focus({ preventScroll: true })))}
+                  onClick={() => toCollection(() => (s.kind === 'sites' ? setFilter('Sites') : search.current?.focus({ preventScroll: true })))}
                   className="mt-4 self-start text-sm font-medium text-accent hover:underline"
                 >
                   {s.cta} →
                 </button>
               ) : (
-                <a href={s.href} target="_blank" rel="noreferrer" className="mt-4 self-start text-sm font-medium text-accent hover:underline">
-                  {s.cta} ↗
+                <a href={s.href} className="mt-4 self-start text-sm font-medium text-accent hover:underline">
+                  {s.cta} →
                 </a>
               )}
             </li>

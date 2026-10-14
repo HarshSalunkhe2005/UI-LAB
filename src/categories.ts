@@ -22,20 +22,23 @@ export const START_PATHS = [
   {
     title: 'I want to see finished websites',
     body: 'Thirteen complete sites, each in a different design style. Open one full screen and scroll it.',
-    href: '#/sites',
+    kind: 'sites',
+    href: '',
     cta: 'Browse the sites',
   },
   {
     title: 'I need a part to copy',
     body: 'Buttons, sections, effects and screens. Every one runs live, shows its code, and lists how it handles keyboards and reduced motion.',
-    href: '#collection',
+    kind: 'search',
+    href: '',
     cta: 'Search the collection',
   },
   {
     title: 'I am working with an AI assistant',
-    body: 'A guide that maps what you are building to the right style and the right example, written for Claude and other agents.',
-    href: '/for-claude.md',
-    cta: 'Open the guide',
+    body: 'Copy-paste prompts that get a better result, and a guide that maps what you are building to the right style, written for Claude and other agents.',
+    kind: 'link',
+    href: '#/playbook/prompts',
+    cta: 'See the prompts',
   },
 ] as const
 
