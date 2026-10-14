@@ -11,10 +11,21 @@ import PlaybookPage from './PlaybookPage'
 import { CATEGORY_INFO, START_PATHS, HOW_IT_WORKS } from './categories'
 import { SiteLauncher, SiteStage, SiteSources } from './SiteViews'
 
-const SOURCES = import.meta.glob(['./patterns/**/*.tsx', '!./patterns/sites/**'], { query: '?raw', import: 'default', eager: true }) as Record<
-  string,
-  string
->
+const SOURCES = import.meta.glob(['./patterns/**/*.tsx', '!./patterns/sites/**'], { query: '?raw', import: 'default' }) as Record<string, () => Promise<string>>
+
+/** Loads one pattern's source on demand, so the first page load does not carry every file's text. */
+function useSource(file: string) {
+  const [code, setCode] = useState<string | undefined>()
+  useEffect(() => {
+    let live = true
+    setCode(undefined)
+    SOURCES[`./patterns/${file}`]?.().then((c) => live && setCode(c))
+    return () => {
+      live = false
+    }
+  }, [file])
+  return code
+}
 const REPO = 'https://github.com/HarshSalunkhe2005/UI-LAB'
 
 type Theme = 'dark' | 'light' | 'system'
@@ -435,7 +446,7 @@ function Sidebar({ active }: { active: string }) {
 }
 
 function PatternPage({ pattern }: { pattern: Pattern }) {
-  const code = SOURCES[`./patterns/${pattern.file}`]
+  const code = useSource(pattern.file)
   const { Component } = pattern
   const idx = PATTERNS.indexOf(pattern)
   const prev = PATTERNS[idx - 1]
@@ -498,7 +509,7 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
             tab === 'preview' ? <SiteLauncher pattern={pattern} /> : <SiteSources files={pattern.files ?? [pattern.file]} />
           ) : tab === 'preview' || !code ? (
             <div className="p-5 sm:p-10">
-              <Suspense fallback={<p className="font-mono text-xs text-fg-muted">Loading 3D…</p>}><Component /></Suspense>
+              <Suspense fallback={<p className="font-mono text-xs text-fg-muted" role="status">Loading…</p>}><Component /></Suspense>
             </div>
           ) : (
             <CodeBlock code={code} />
