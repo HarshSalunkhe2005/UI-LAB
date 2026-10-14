@@ -49,7 +49,7 @@
 .site-till .paper .c { text-align: center; }
 .site-till .paper .b { font-weight: 700; font-size: 18px; letter-spacing: 0.1em; }
 .site-till .paper .small { font-size: 12px; letter-spacing: 0.08em; }
-.site-till .paper .rule { color: #7c7767; white-space: nowrap; overflow: hidden; text-align: center; margin: 6px 0; font-size: 14px; }
+.site-till .paper .rule { color: #5a5648; white-space: nowrap; overflow: hidden; text-align: center; margin: 6px 0; font-size: 14px; }
 .site-till .items { list-style: none; display: grid; gap: 4px; }
 .site-till .items li { display: flex; gap: 6px; align-items: baseline; }
 .site-till .items .lead { flex: 1; border-bottom: 2px dotted #8a8472; transform: translateY(-4px); }

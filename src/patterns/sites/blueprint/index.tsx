@@ -148,11 +148,11 @@ export default function BlueprintSite() {
                 <text x="270" y="40" textAnchor="middle" className="dim">{load} kN/m</text>
                 <text x="270" y="182" textAnchor="middle" className="dim">{span.toFixed(1)} m</text>
               </svg>
-              <dl className="res" role="status">
+              <div role="status"><dl className="res">
                 <div><dt>Max moment</dt><dd>{calc.moment.toFixed(1)} kN·m</dd></div>
                 <div><dt>Indicative depth</dt><dd>{calc.depth} mm <small>({m.note})</small></dd></div>
                 <div><dt>Mid-span sag</dt><dd>{calc.delta.toFixed(1)} mm <small>({calc.delta > (span * 1000) / 250 ? 'too much: deepen it' : 'within span / 250'})</small></dd></div>
-              </dl>
+              </dl></div>
             </div>
           </div>
         </section>
