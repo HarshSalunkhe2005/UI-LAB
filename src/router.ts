@@ -89,6 +89,12 @@ export const EVERYDAY: { want: string; slug: string }[] = [
   { want: 'page numbers and breadcrumbs', slug: 'pagination-breadcrumbs' },
   { want: 'a carousel that is safe to use', slug: 'accessible-carousel' },
   { want: 'error, warning and success messages', slug: 'alert-banners' },
+  { want: 'check that colours are readable', slug: 'contrast-checker' },
+  { want: 'type that scales with the screen', slug: 'fluid-type' },
+  { want: 'visible keyboard focus', slug: 'focus-rings' },
+  { want: 'page structure without media queries', slug: 'layout-primitives' },
+  { want: 'a component that adapts to its container', slug: 'container-query-card' },
+  { want: 'a light, dark and system theme switch', slug: 'color-scheme-toggle' },
 ]
 
 /** Briefs worth refusing or sending back for one sharp question. */
