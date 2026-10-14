@@ -1,6 +1,6 @@
 # UI Lab: project context
 
-_Last updated: 2026-10-03_
+_Last updated: 2026-10-15_
 
 ## What it is
 
@@ -15,42 +15,45 @@ file with a live demo, tags, "when to use" notes, accessibility notes and copyab
 
 ## Current state
 
-**134 patterns across 13 categories:**
+**About 266 patterns** in 15 categories, plus a References page, a Styles page, a Playbook and an AI-assistant router.
 
-| Category | Count | Highlights |
-|---|---|---|
-| Foundations | 1 | Design tokens (light/dark, motion, type, spacing) |
-| Components | 25 | Command palette, toasts, drawer, form controls, tabs, OTP, dock, gooey menu, fullscreen menu |
-| Text | 8 | Scramble, focus reveal, split reveal, glitch, link hovers, scroll typography |
-| Motion | 23 | Scroll reveal, view transitions, pixel/wipe page transitions, cursor effects, preloader |
-| Backgrounds | 8 | WebGL shader engine (7 families, 16 presets), liquid slideshow, starfield, dot grid |
-| 3D | 15 | CSS-3D galleries: helix (spiral of pictures), DNA, sphere, wave, tunnel, coverflow, ring |
-| 3D Motion | 40 | Real 3D (three.js / R3F): rigged robot mascot, fox follow, lanyard badge (Verlet rope), raymarched metaballs, neon sign (bloom), portal card, boids, galaxy, particle text, puzzle cube, Newton's cradle, terrain flyover, audio-reactive ring, solar system, glass shatter, holo card, and more |
-| Layouts / Sections / Screens | 1 / 6 / 4 | Bento, pricing, footer, contact, hero; dashboard, auth, kanban, chat |
-| Data viz / Recipes | 2 / 1 | SVG charts (line, heatmap, radar), timeline; marquee |
+| Category | Highlights |
+|---|---|
+| Foundations, Components, Text, Motion, Backgrounds, 3D, 3D Motion, Layouts, Sections, Screens, Data viz, Recipes | The original library, plus everyday accessible parts added in 2026-10: site nav, FAQ, cookie banner, sign-up form, data table, article layout, shop and basket, settings, 404, combobox, date picker, menu button, pagination, carousel, alerts, password field, file dropzone, faceted search, onboarding checklist, six landing sections, contrast checker, fluid type, layout primitives, container queries and more |
+| Sites | **21 whole sites**, one design world each, run full screen at `#/live/site-<name>`: solar, mare, lattice, hotmess, abyss, departures, herbarium, tape, ledger, tidewater, salt-road, pebble, plain-forecast, pip, commute-report, crumb, blueprint, till-roll, curves, specimen, arcade |
+| Signature moves | About 55 techniques rebuilt from studied sites (`src/patterns/moves/`, `meta-moves.ts`, slugs `move-*`) |
+| Niche worlds | 12 narrow-subject patterns (`src/patterns/niche/`, `meta-niche.ts`) |
+| Modern CSS | Scroll-driven reveal, popover, anchor positioning, text-wrap, blur-up placeholder, multi-stroke text (`meta-css.ts`) |
 
-Plus a **Resources directory** (`#/resources`, 93 curated links): inspiration galleries, award-level studios,
-Codrops demo repos, component/motion/3D libraries, CC0 model sources, awesome lists, tools.
+**Design worlds:** 8 general (`playbook/worlds.md`, all with a proof site) and 16 niche (`playbook/niche-worlds.md`, worlds 9 to 24). `src/router.ts` maps a brief to a world, proofs and techniques; it becomes `/for-claude.md` and the Styles page, and every slug in it is validated at build time.
 
-## Playbook layer (added 2026-10-03)
+**References (`src/references.ts`, page `#/references`):** 68 teardowns: 30 world-class sites, 20 vibe-coded UIs, 12 recent Awwwards winners, 6 community picks (Hacker News Show HN, One Page Love). Evidence is labelled `inspected`, `partial` or `listing`.
 
-Patterns are parts; `playbook/` is the judgement that stops generic output. `00-start-here.md` (procedure: brief, real
-inspiration, direction card, assets, vertical slice, bounded verification), `worlds.md` (8 design directions), `inspiration.md`
-(teardown + synthesis method), `verify.md` (loop + catalogue of real bugs), `scroll-3d-recipe.md`. Also: `tools/site-stack.mjs` (detects a site's libraries), `skills/ui-lab/SKILL.md` (the playbook as a Claude skill,
-copied to `~/.claude/skills/ui-lab/`), `CLAUDE.md`. Five whole sites (one design world each) are patterns in the **Sites** category: `src/patterns/sites/{solar,mare,lattice,hotmess,abyss}` (slugs `site-*`, lazy-loaded; deps gsap, lenis, more Fontsource fonts). The pattern page is a launcher card plus per-file source tabs; the demo runs full screen at `#/live/<slug>` (`SiteStage` in `src/SiteViews.tsx`: UI Lab chrome hidden, Esc returns; routes into and out of `live/` skip the View Transition because it hangs on the heavy first render). Per-site CSS is scoped under `.site-<name>` with `tools/scope-css.py`; shared hook `sites/_shared.ts` (`useSiteScroll`). Thumbnails `public/thumbs/site-*.jpg`. Rendered at `#/playbook`; served to agents at `/playbook/*.md`,
-`/tools/site-stack.mjs` and listed first in `/llms.txt`. Dev middleware must skip URLs with a query
-(Vite `?raw` imports of the .md files).
+**Quality gates:** `npm run build` typechecks, validates metadata (missing files or thumbnails, unfinished TODO entries, duplicate slugs, playbook mentions of unknown patterns) and emits the AI files; `npm test` runs pure-logic tests (Snake engine, tide model, forecast generator); `tools/axe-crawl.js` is a console sweep that ran clean (axe-core, dark and light) over every pattern page and site; no console errors on any route. Every pattern is code-split; the first load is about 0.62 MB of JavaScript (about 200 KB gzipped).
+
+**Not pushed:** as of 2026-10-15 about 55 local commits sit ahead of `origin/main` (19e5570); push only when asked.
+
+Plus a **Resources directory** (`#/resources`, curated links): inspiration galleries, studios, Codrops, libraries, tools.
+
+## Playbook layer
+
+Patterns are parts; `playbook/` is the judgement: `00-start-here.md` (procedure), `prompts.md`, `site-types.md`, `briefs.md`,
+`worlds.md`, `niche-worlds.md`, `inspiration.md`, `reference-sites.md`, `accessibility.md`, `glossary.md`, `verify.md` (loop and
+a catalogue of real bugs), `scroll-3d-recipe.md`. Also `tools/site-stack.mjs`, `tools/axe-crawl.js`, `tools/new-site.mjs` (scaffolds a site),
+`tools/scope-css.py`, `skills/ui-lab/SKILL.md` (copied to `~/.claude/skills/ui-lab/`), `CLAUDE.md` and project slash commands in `.claude/commands/`.
+Whole sites are patterns, not apps: `src/patterns/sites/<name>/` with scoped CSS under `.site-<name>`, the shared hook `sites/_shared.ts`, and a thumbnail `public/thumbs/site-<name>.jpg`.
+The pattern page is a launcher card plus per-file source tabs; the demo runs full screen at `#/live/<slug>` (`SiteStage` in `src/SiteViews.tsx`; routes into and out of `live/` skip the View Transition).
+Dev middleware must skip URLs with a query (Vite `?raw` imports of the .md files).
 
 ## Architecture
 
 - **Stack:** Vite 8, React 19, TypeScript 7, Tailwind CSS v4, sugar-high (code highlighting),
   three + @react-three/fiber + @react-three/drei + @react-three/postprocessing (3D Motion only).
-- **`src/meta.ts`**: single source of truth. Plain data (no React) describing every pattern:
+- **`src/meta.ts`** (with `meta-moves.ts`, `meta-niche.ts`, `meta-css.ts`, `meta-practical.ts`, `meta-sites.ts`): single source of truth. Plain data (no React) describing every pattern:
   slug, title, category, summary, when[], file, tags[], a11y, deps[]. Read by the app AND the build.
-- **`src/registry.ts`**: attaches components via `import.meta.glob`. Everything is eager except
-  `patterns/motion3d/**`, which is lazy (`React.lazy`) so three.js (~890 KB) loads only when needed.
-  All render sites wrap patterns in `<Suspense>`.
-- **`ai-index.ts`**: Vite plugin that generates the AI files from `meta.ts` + `resources.ts`
+- **`src/registry.ts`**: attaches components via `import.meta.glob`, all lazy (`React.lazy`), so the first load carries only the shell.
+  All render sites wrap patterns in `<Suspense>`. Sources shown on pattern pages load on demand (`useSource` in `App.tsx`).
+- **`ai-index.ts`**: Vite plugin that generates the AI files (`llms.txt`, `patterns.json`, `docs/*`, `raw/*`, `for-claude.md`, `references.*`, `resources.md`) and validates metadata
   (dev middleware + emitted on build). Docs inline `three-d/_shared.ts` when a pattern uses it.
 - **`src/App.tsx`**: hash router with View Transitions, home (hero, category filters, live thumbnail grid),
   pattern page (Preview/Code tabs, copy, GitHub link, tags, a11y, prev/next), Ctrl+K palette, theme cycle.
@@ -70,7 +73,8 @@ copied to `~/.claude/skills/ui-lab/`), `CLAUDE.md`. Five whole sites (one design
   `onCreated={({camera}) => camera.lookAt(0,0,0)}` for elevated cameras.
 - Rigged characters: apply look-at offsets in world space and convert to the bone's local frame
   (see `RobotMascot.tsx`), since bone axes differ between rigs.
-- Commit messages are plain; no tool attribution.
+- Commit messages are plain; no tool attribution. Do not push without asking.
+- In a hidden or throttled browser pane, transitions and `requestAnimationFrame` stall: call `document.getAnimations().forEach(a => a.finish())` before screenshots and set `document.startViewTransition = undefined` when crawling routes.
 
 ## Known gotchas
 
