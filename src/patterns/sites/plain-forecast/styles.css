@@ -42,4 +42,5 @@
 .site-plain-forecast { font-size: 15px; }
 .site-plain-forecast .kv div { grid-template-columns: 11ch 1fr; }
 .site-plain-forecast .pre { font-size: 12px; }
-}
+}.site-plain-forecast .brand a { display: inline-flex; align-items: center; min-height: 44px; }
+.site-plain-forecast .top .lnk { min-width: 44px; min-height: 44px; }

@@ -75,3 +75,4 @@
 @media (prefers-reduced-motion: reduce) {
 .site-curves .ball { animation: none !important; }
 }
+.site-curves .hit { fill: transparent; cursor: grab; }

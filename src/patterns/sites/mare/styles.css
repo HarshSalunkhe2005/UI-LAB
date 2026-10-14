@@ -99,3 +99,4 @@
 .site-mare .progress { display: none; }
 .site-mare .w { opacity: 1 !important; }
 }
+.site-mare a.sub { display: inline-grid; place-items: center; min-height: 44px; padding: 0 14px; }

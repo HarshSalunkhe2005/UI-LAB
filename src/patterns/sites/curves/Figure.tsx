@@ -33,6 +33,7 @@ export default function Figure({ pts, set, labels, children, caption }: { pts: P
         {children}
         {pts.map((p, i) => (
           <g key={i}>
+            <circle cx={p[0]} cy={p[1]} r="24" className="hit" onPointerDown={(e) => { ;(e.target as Element).setPointerCapture(e.pointerId); setDrag(i) }} />
             <circle
               cx={p[0]}
               cy={p[1]}
