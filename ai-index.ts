@@ -9,7 +9,7 @@
  *   /references.md|.json      teardowns of world-class sites, vibe-coded UIs and recent award winners, each linked to the pattern that rebuilds it
  * Served in dev by middleware, emitted as static files on build.
  */
-import { readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import type { Plugin } from 'vite'
 import { CATEGORIES, META } from './src/meta'
@@ -235,7 +235,23 @@ function forClaude() {
   return lines.join('\n')
 }
 
+/** Build-time sanity checks: a broken entry should fail the build, not ship a dead card. */
+function validate() {
+  const problems: string[] = []
+  const seen = new Set<string>()
+  for (const m of META) {
+    if (seen.has(m.slug)) problems.push(`duplicate slug "${m.slug}"`)
+    seen.add(m.slug)
+    for (const f of m.files ?? [m.file]) if (!existsSync(resolve(__dirname, 'src/patterns', f))) problems.push(`${m.slug}: missing file src/patterns/${f}`)
+    if (m.category === 'Sites' && !existsSync(resolve(__dirname, `public/thumbs/${m.slug}.jpg`))) problems.push(`${m.slug}: missing thumbnail public/thumbs/${m.slug}.jpg`)
+    if (!m.when?.length) problems.push(`${m.slug}: needs at least one "when" line`)
+    if (!m.a11y) problems.push(`${m.slug}: needs an a11y note`)
+  }
+  if (problems.length) throw new Error(`Pattern metadata problems:\n - ${problems.join('\n - ')}`)
+}
+
 function files(): Record<string, string> {
+  validate()
   const out: Record<string, string> = {
     'llms.txt': llms(),
     'for-claude.md': forClaude(),

@@ -7,9 +7,10 @@ const FILES = import.meta.glob('/playbook/*.md', { query: '?raw', import: 'defau
 
 type Doc = { name: string; title: string; body: string }
 
-const ORDER = ['00-start-here', 'briefs', 'worlds', 'niche-worlds', 'inspiration', 'reference-sites', 'verify', 'accessibility', 'scroll-3d-recipe', 'glossary']
+const ORDER = ['00-start-here', 'prompts', 'briefs', 'worlds', 'niche-worlds', 'inspiration', 'reference-sites', 'verify', 'accessibility', 'scroll-3d-recipe', 'glossary']
 const DESC: Record<string, string> = {
   '00-start-here': 'The whole procedure, in order. Read this first.',
+  prompts: 'Copy-paste prompts to give your AI assistant.',
   briefs: 'How to write the five lines that start every project.',
   worlds: 'Eight general design directions, and how to choose.',
   'niche-worlds': 'Twelve narrower directions for specific subjects.',

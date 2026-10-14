@@ -579,6 +579,7 @@ export default function App() {
       { id: '', label: 'Home', group: 'Go to' },
       { id: 'playbook', label: 'Design playbook', group: 'Go to', hint: 'process worlds inspiration verify how to design start here' },
       { id: 'references', label: 'Reference sites (teardowns)', group: 'Go to', hint: 'references teardown world class vibe coded v0 awwwards studies' },
+      { id: 'playbook/prompts', label: 'Prompts to give your AI assistant', group: 'Go to', hint: 'claude chatgpt prompt copy paste ask how to ask' },
       { id: 'playbook/accessibility', label: 'Accessibility checklist', group: 'Go to', hint: 'a11y wcag keyboard contrast screen reader reduced motion' },
       { id: 'playbook/glossary', label: 'Glossary (design words in plain language)', group: 'Go to', hint: 'terms meaning what is a pattern world hero' },
       { id: 'resources', label: 'Resources directory', group: 'Go to', hint: 'links sites repos libraries inspiration' },
