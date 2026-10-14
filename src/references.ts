@@ -11,7 +11,7 @@
  * Techniques are re-implemented in our own code (src/patterns/moves); nothing is copied.
  */
 
-export type RefGroup = 'World-class' | 'Vibe-coded' | 'Recent winners'
+export type RefGroup = 'World-class' | 'Vibe-coded' | 'Recent winners' | 'Community picks'
 export type RefMode = 'Persuade' | 'Operate' | 'Read' | 'Experience'
 export type RefEvidence = 'inspected' | 'partial' | 'listing'
 
@@ -571,7 +571,38 @@ export const RECENT: Ref[] = [
   },
 ]
 
-export const REFERENCES: Ref[] = [...WORLD, ...VIBE, ...RECENT]
+/** Sites that did well on Hacker News "Show HN" in 2025 and 2026. A different signal from awards: people liked using them. */
+export const COMMUNITY: Ref[] = [
+  {
+    id: 'brolly', name: 'Brolly', url: 'https://brolly.sh', group: 'Community picks', mode: 'Operate',
+    idea: 'A weather forecast as a plain-text page: one narrow column, sections separated by rules, charts drawn with characters.',
+    technique: 'Inspected: dark ground, one monospace face, an umbrella mark at the top, sections Now, Today, This Week and Conditions as aligned text, day navigation as text links, a character shading key for rain. It loads as a document, not an app.',
+    look: 'Near-black, off-white and a muted blue link colour, all monospace.',
+    take: 'Density and honesty: the whole forecast in one screen of text (site-plain-forecast), with an accessible table beside each character chart.',
+    leave: 'Text-art charts are invisible to screen readers unless a real table or sentence sits next to them.',
+    evidence: 'inspected', tags: ['plain text', 'monospace', 'weather', 'minimal', 'hn'], moves: ['site-plain-forecast'],
+  },
+  {
+    id: 'draw-a-fish', name: 'Draw a Fish', url: 'https://drawafish.com', group: 'Community picks', mode: 'Experience',
+    idea: 'You draw a fish facing right, press one button, and it swims into a shared tank with everyone else\u2019s.',
+    technique: 'Inspected: a default-styled page with a six-colour palette, an eraser, a size slider, undo, clear and flip, a plain bordered canvas, and two text links ("rank"). No framework chrome; the whole interface is the one verb.',
+    look: 'White, default serif, the browser\u2019s own buttons. Nothing is designed, and that is the charm.',
+    take: 'One verb, one result, zero onboarding. Let the visitor make something in five seconds.',
+    leave: 'A shared tank needs moderation and a server; for a library demo, keep it local.',
+    evidence: 'inspected', tags: ['playful', 'canvas', 'user content', 'one verb', 'hn'],
+  },
+  {
+    id: 'bento-slides', name: 'Bento Slides', url: 'https://bento.page/slides/', group: 'Community picks', mode: 'Operate',
+    idea: 'A whole presentation editor that lives in one HTML file: edit, present, collaborate, with data and code inside the file itself.',
+    technique: 'Inspected: a dark editor shell with a thumbnail rail on the left, the slide canvas in the centre, a layers, slide and theme panel on the right, an undo and tools toolbar, a slideshow button bottom centre. Slides use large serif display type on a dark ground with one coral accent.',
+    look: 'Dark neutral shell, a serif display face for slide titles, one coral accent, small sans UI.',
+    take: 'A three-column editor shell (rail, canvas, properties) that stays out of the way of the work.',
+    leave: 'Dense panels need keyboard shortcuts and labelled regions to be usable without a mouse.',
+    evidence: 'inspected', tags: ['editor', 'app shell', 'slides', 'dark', 'hn'],
+  },
+]
+
+export const REFERENCES: Ref[] = [...WORLD, ...VIBE, ...RECENT, ...COMMUNITY]
 export const REF_NOTES = {
   measuredOn: '2026-10-14',
   excluded: [

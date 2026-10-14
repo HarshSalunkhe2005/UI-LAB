@@ -25,7 +25,7 @@ A library of working website designs and building blocks, with a written guide t
 | **Signature moves** | One striking technique each, rebuilt in our own code from award-winning and popular sites we studied. |
 | **Niche worlds** | Designs for specific subjects: timetables, plants, audio gear, newspapers, medicine labels, museums. |
 | **Modern CSS** | Browser features that replace JavaScript, each with a safe fallback. |
-| **References** (`src/references.ts`) | 62 teardowns: 30 world-class sites, 20 vibe-coded UIs and the latest Awwwards winners. Page `#/references`, also `/references.md` and `/references.json`. |
+| **References** (`src/references.ts`) | 65 teardowns: 30 world-class sites, 20 vibe-coded UIs, the latest Awwwards winners and a few community picks. Page `#/references`, also `/references.md` and `/references.json`. |
 | **Playbook** (`playbook/`) | The written judgement: how to brief, choose a design world (21 of them), study a reference, build, check accessibility and verify. [Start here](playbook/00-start-here.md). |
 
 ## For AI assistants
