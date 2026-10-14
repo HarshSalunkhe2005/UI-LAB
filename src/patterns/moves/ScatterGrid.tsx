@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react'
  */
 
 const WORKS = [
-  ['Studio OADO', '#c8553d'],
+  ['Studio OADO', '#a8402b'],
   ['The Lookback', '#2f5d62'],
   ['Partners in Creation', '#e0b25b'],
   ['Recent Projects', '#6d597a'],

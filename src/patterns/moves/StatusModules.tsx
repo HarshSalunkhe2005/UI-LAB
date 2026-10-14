@@ -37,11 +37,11 @@ export default function StatusModules() {
           <div className="sticky top-0 grid grid-cols-[1fr_auto_1fr] items-center gap-4 overflow-hidden px-5 font-mono text-[11px] leading-5" style={{ height: 340 }}>
             <ol className="space-y-3">
               {MODULES.map(([name, id, text], i) => (
-                <li key={name} className="transition-opacity duration-300 motion-reduce:transition-none" style={{ opacity: i === active ? 1 : 0.62 }} aria-current={i === active ? 'true' : undefined}>
+                <li key={name} className="transition-opacity duration-300 motion-reduce:transition-none" style={{ opacity: i === active ? 1 : 0.8 }} aria-current={i === active ? 'true' : undefined}>
                   <p>
                     {name} / MODULE {String(i + 1).padStart(2, '0')}
                   </p>
-                  <p className="text-[#9a9aa3]">ID: {id}</p>
+                  <p className="text-[#b4b4bd]">ID: {id}</p>
                   {i === active && <p className="mt-1 max-w-[22ch] text-[#e8e8e8]">{text}</p>}
                 </li>
               ))}
