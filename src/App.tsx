@@ -332,6 +332,14 @@ function Home() {
             className="w-full max-w-xl rounded-md border border-border bg-surface/60 px-4 py-2.5 text-sm placeholder:text-fg-muted focus:border-accent"
           />
         </label>
+        <p className="mb-5 flex flex-wrap items-center gap-2 text-sm text-fg-muted">
+          Try:
+          {['menu', 'form', 'pricing', 'table', 'scroll', 'chart', 'keyboard', 'dark'].map((w) => (
+            <button key={w} onClick={() => { setQ(w); setFilter('All') }} className="min-h-9 rounded-full border border-border px-3 hover:bg-surface hover:text-fg">
+              {w}
+            </button>
+          ))}
+        </p>
         <div className="mb-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Filter by category">
           {['All', ...filled].map((c) => (
             <button
