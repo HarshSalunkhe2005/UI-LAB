@@ -6,6 +6,7 @@ import assert from 'node:assert/strict'
 import { newGame, step, turn, COLS } from '../../src/patterns/sites/arcade/snake.ts'
 import { tideAt, extremes, hhmm, seabed, sample, N } from '../../src/patterns/sites/tidewater/chart.ts'
 import { day, shade, toF } from '../../src/patterns/sites/plain-forecast/data.ts'
+import { nice, scale, convert, INGREDIENTS } from '../../src/patterns/sites/hearth/recipe.ts'
 
 let passed = 0
 const test = (name, fn) => {
@@ -84,6 +85,25 @@ test('forecast: shading is monotonic and Fahrenheit is right', () => {
   assert.equal(shade(0.9), '█')
   assert.equal(toF(100), 212)
   assert.equal(toF(0), 32)
+})
+
+test('recipe: amounts are written the way cooks say them', () => {
+  assert.equal(nice(0.5), '½')
+  assert.equal(nice(1.5), '1½')
+  assert.equal(nice(0.75), '¾')
+  assert.equal(nice(2), '2')
+  assert.equal(nice(250), '250')
+  assert.equal(nice(12.4), '12')
+})
+test('recipe: scaling is linear and units convert', () => {
+  assert.equal(scale(800, 8), 1600)
+  assert.equal(scale(3, 2), 1.5)
+  const oil = INGREDIENTS.find((i) => i.name === 'olive oil')
+  assert.deepEqual(convert(oil, 4, false), { amount: '3', unit: 'tbsp' })
+  const stock = INGREDIENTS.find((i) => i.name === 'vegetable stock')
+  assert.equal(convert(stock, 4, true).unit, 'cups')
+  const tomatoes = INGREDIENTS.find((i) => i.name === 'tinned tomatoes')
+  assert.equal(convert(tomatoes, 4, true).unit, 'oz')
 })
 
 console.log(`${passed} passed${process.exitCode ? ', some failed' : ''}`)
