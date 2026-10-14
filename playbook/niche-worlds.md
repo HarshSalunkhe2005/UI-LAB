@@ -1,6 +1,6 @@
 # Niche worlds: when the product has a physical or editorial home
 
-`worlds.md` holds the eight general directions. These fifteen are narrower. Each one borrows the look and the logic of a
+`worlds.md` holds the eight general directions. These sixteen are narrower. Each one borrows the look and the logic of a
 real object or printed form, and it only works when the brief genuinely lives there: a departures board for a rail
 company, a clinical label for a medicine. Use one when the content already belongs to it. A skin applied to unrelated
 content is a gimmick, and the swap test will catch it.
@@ -178,6 +178,17 @@ communicates), then rebuild it for the content in front of you.
 **Needs:** real prices and rules (what is included, what is not), written down plainly.
 **Refuse:** a receipt that hides a fee, a fake barcode implied to be scannable, text that wraps out of its column, a skeuomorphic crinkle texture.
 
+## 24. Explorable Explainer
+**Proof:** site `site-curves`.
+**Use for:** teaching, documentation, onboarding, science and data communication, any page whose job is to make someone understand how something works. A Read world.
+**Metaphor:** a good textbook whose figures you can pick up.
+**Palette:** warm paper `#fbf8f1`, ink, one working blue for what you control and one amber for what the system computes.
+**Type:** a readable serif for explanation (Newsreader), a bold sans for headings and controls (Hanken Grotesk), a monospace for live numbers and code.
+**Motion:** only what you cause. Figures respond to dragging and sliders instantly; nothing plays on its own.
+**Signature:** the figure is the argument: each passage sits beside something you can move, and the formula or code beneath it updates as you do.
+**Needs:** a real model behind the figure (the same maths the thing uses), and a keyboard path to every draggable part.
+**Refuse:** a figure you can only watch, drag handles without arrow-key support, decorative animation, jargon introduced before the picture that needs it.
+
 ---
 
 ## Choosing between a niche world and a general one
@@ -198,6 +209,7 @@ communicates), then rebuild it for the content in front of you.
 | status, forecast, scores, prices | 21 Plain Text Sheet |
 | engineering, drawings, calculations | 22 Blueprint |
 | order, checkout, booking, line items | 23 Thermal Receipt |
+| explain, teach, document, "how does it work" | 24 Explorable Explainer |
 
 If nothing here fits, do not force it: go back to `worlds.md` or invent a world. Add a niche world by copying the card
 shape, building something that proves it, and registering the proof under category `Niche worlds` or `Sites`.

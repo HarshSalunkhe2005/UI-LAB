@@ -40,6 +40,7 @@ export const ROUTES: Route[] = [
   { brief: 'status, forecast, scores, prices, anything checked quickly and often', mode: 'Operate', world: '21 Plain Text Sheet', card: 'niche-worlds.md', proof: ['site-plain-forecast'], move: 'Charts drawn with characters, each with a real table beside it; no decoration.' },
   { brief: 'engineering, architecture, drawings, calculations, trades', mode: 'Persuade', world: '22 Blueprint', card: 'niche-worlds.md', proof: ['site-blueprint', 'move-drafting-rules'], move: 'A working diagram driven by a real formula, with the limits of the sums stated.' },
   { brief: 'order, checkout, booking, tickets, line items and a total', mode: 'Operate', world: '23 Thermal Receipt', card: 'niche-worlds.md', proof: ['site-till-roll', 'shop-cart'], move: 'The receipt is the form: lines, total and barcode update as the order changes.' },
+  { brief: 'teach, explain, document, onboard, "how does it work"', mode: 'Read', world: '24 Explorable Explainer', card: 'niche-worlds.md', proof: ['site-curves', 'article-layout'], move: 'Each passage sits beside a figure you can move, with the formula or code updating live.' },
   { brief: 'maps, depth, terrain, travel, science', mode: 'Experience', world: '20 Nautical Chart', card: 'niche-worlds.md', proof: ['site-tidewater', 'niche-nautical-chart'], move: 'A generated contour field that responds to a control.' },
 ]
 

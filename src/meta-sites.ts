@@ -197,4 +197,19 @@ export const NEW_SITES: PatternMeta[] = [
     a11y: 'Quantity steppers are labelled buttons; the receipt total is a status region; the tip is a radio group; the barcode has a text label and the order is also written out as words; the form has a label, aria-invalid and an alert; the print-feed animation is off under reduced motion.',
     deps: ['@fontsource/space-mono', 'sites/_shared.ts'],
   },
+  {
+    slug: 'site-curves',
+    title: 'Site: A GENTLE GUIDE TO CURVES (explorable explainer)',
+    category: 'Sites',
+    summary: 'An explorable guide that builds a Bezier curve in four steps (line, quadratic, cubic, easing). Each passage sits beside a figure you can drag, nudge with the arrow keys and scrub with a slider, and the formula, SVG path and CSS easing update as you move.',
+    when: [
+      'Teaching, documentation and any page that explains how something works',
+      'Reference for keyboard-accessible draggable SVG points, live readouts of the maths, and an easing editor that animates with container-query units',
+    ],
+    file: 'sites/curves/index.tsx',
+    files: ['sites/curves/index.tsx', 'sites/curves/Figure.tsx', 'sites/curves/styles.css'],
+    tags: ['site', 'full page', 'niche world', 'explorable', 'explainer', 'bezier', 'svg', 'drag', 'easing', 'read'],
+    a11y: 'Every control point is a focusable button with a spoken position that moves with the arrow keys (Shift for bigger steps); sliders have spoken values; each figure has a caption; readouts are status regions and the code is focusable; the easing animation is replaced by its end state under reduced motion.',
+    deps: ['@fontsource-variable/hanken-grotesk', '@fontsource-variable/newsreader', '@fontsource/ibm-plex-mono', 'sites/_shared.ts'],
+  },
 ]

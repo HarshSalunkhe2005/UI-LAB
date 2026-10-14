@@ -1,0 +1,77 @@
+.site-curves { position: relative; min-height: 100svh; overflow-x: clip; }
+.site-curves {
+  --paper: #fbf8f1;
+  --ink: #1a1a1f;
+  --muted: #55535c;
+  --blue: #2a5bd7;
+  --amber: #b8660f;
+  --rule: #d9d3c4;
+  --serif: 'Newsreader Variable', Georgia, serif;
+  --sans: 'Hanken Grotesk Variable', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+.site-curves * { box-sizing: border-box; margin: 0; padding: 0; }
+.site-curves, .site-curves { background: var(--paper); color: var(--ink); font-family: var(--serif); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+.site-curves a { color: inherit; }
+.site-curves button, .site-curves input { font: inherit; color: inherit; }
+.site-curves button { cursor: pointer; }
+.site-curves :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.site-curves .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.site-curves h1, .site-curves h2 { font-family: var(--sans); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; }
+.site-curves code { font-family: var(--mono); font-size: 0.88em; background: #efe9d9; padding: 1px 6px; border-radius: 4px; }
+.site-curves .top { display: flex; align-items: center; justify-content: space-between; padding: 12px clamp(16px, 4vw, 48px); position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--paper) 92%, transparent); border-bottom: 1px solid var(--rule); }
+.site-curves .logo { font: 800 22px var(--sans); text-decoration: none; letter-spacing: -0.02em; }
+.site-curves .top nav { display: flex; gap: 2px; font: 600 14px var(--sans); }
+.site-curves .top nav a { display: grid; place-items: center; min-height: 44px; padding: 0 12px; text-decoration: none; border-radius: 8px; }
+.site-curves .top nav a:hover { background: #efe9d9; }
+.site-curves .intro { padding: clamp(40px, 7vw, 100px) clamp(16px, 4vw, 48px) clamp(20px, 3vw, 40px); max-width: 860px; }
+.site-curves .kicker { font: 700 13px var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--amber); }
+.site-curves .intro h1 { margin-top: 12px; font-size: clamp(42px, 7vw, 88px); }
+.site-curves .lede { margin-top: 20px; max-width: 54ch; font-size: 22px; line-height: 1.5; color: #35333b; }
+.site-curves .tip { margin-top: 16px; font: 500 15px var(--sans); color: var(--blue); }
+.site-curves .step { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(20px, 4vw, 64px); padding: clamp(28px, 5vw, 72px) clamp(16px, 4vw, 48px); border-top: 1px solid var(--rule); align-items: start; }
+.site-curves .step .text { max-width: 52ch; }
+.site-curves .num { font: 800 15px var(--sans); color: var(--amber); }
+.site-curves .step h2 { margin-top: 6px; font-size: clamp(28px, 3.6vw, 44px); }
+.site-curves .step p { margin-top: 14px; font-size: 19px; }
+.site-curves .step .num { margin-top: 0; }
+.site-curves .step em, .site-curves .step i { font-style: italic; }
+.site-curves .calc { font: 500 15px var(--mono) !important; background: #efe9d9; padding: 10px 14px; border-radius: 8px; }
+.site-curves .tctl { margin-top: 18px; display: grid; gap: 4px; font: 600 15px var(--sans); }
+.site-curves .tctl input { width: 100%; height: 44px; accent-color: var(--blue); }
+.site-curves .code { margin-top: 14px; padding: 12px 14px; background: #1f1e24; color: #f2efe6; border-radius: 8px; overflow-x: auto; font: 500 13px/1.5 var(--mono); }
+.site-curves .presets { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+.site-curves .presets button { min-height: 44px; padding: 0 14px; border: 1.5px solid var(--ink); border-radius: 999px; background: transparent; font: 600 14px var(--sans); }
+.site-curves .presets button:hover { background: var(--ink); color: var(--paper); }
+.site-curves .row { margin-top: 12px; display: flex; gap: 8px; }
+.site-curves .play { min-height: 48px; padding: 0 24px; border: 0; border-radius: 999px; background: var(--blue); color: #fff; font: 700 16px var(--sans); }
+.site-curves .copy { min-height: 48px; padding: 0 18px; border: 1.5px solid var(--ink); border-radius: 999px; background: transparent; font: 600 15px var(--sans); }
+.site-curves .track { container-type: inline-size; position: relative; height: 22px; margin-top: 16px; background: #efe9d9; border-radius: 999px; }
+.site-curves .ball { position: absolute; left: 0; top: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--amber); }
+.site-curves .fig { position: sticky; top: 76px; }
+.site-curves .fig svg { width: 100%; height: auto; display: block; border: 1.5px solid var(--ink); border-radius: 12px; background: #fff; touch-action: none; }
+.site-curves .fig figcaption { margin-top: 8px; font: 500 14px var(--sans); color: var(--muted); }
+.site-curves .paper { fill: #fff; }
+.site-curves .grid { stroke: #ece7d9; stroke-width: 1; }
+.site-curves .unit { fill: none; stroke: #bdb6a3; stroke-width: 1.2; stroke-dasharray: 4 4; }
+.site-curves .ln { stroke: var(--ink); stroke-width: 2.5; }
+.site-curves .ln2 { stroke: var(--amber); stroke-width: 2; }
+.site-curves .guide { stroke: #9b96a8; stroke-width: 1.5; stroke-dasharray: 5 4; }
+.site-curves .guide.faint { opacity: 0.55; }
+.site-curves .curve { stroke: var(--blue); stroke-width: 4; stroke-linecap: round; }
+.site-curves .mid { fill: var(--amber); }
+.site-curves .mover { fill: var(--blue); stroke: #fff; stroke-width: 2.5; }
+.site-curves .pt { fill: #fff; stroke: var(--ink); stroke-width: 3; cursor: grab; }
+.site-curves .pt.on { cursor: grabbing; fill: #fff4d6; }
+.site-curves .pt:focus-visible { stroke: var(--blue); stroke-width: 4; outline: none; }
+.site-curves .plabel { font: 600 12px var(--sans); fill: var(--muted); }
+.site-curves .foot { padding: 28px clamp(16px, 4vw, 48px) 56px; border-top: 1px solid var(--rule); color: var(--muted); font: 500 15px/1.6 var(--sans); max-width: 70ch; }
+@keyframes cv-curves-go { from { translate: 0 0; } to { translate: calc(100cqw - 22px) 0; } }
+@media (max-width: 860px) {
+.site-curves .step { grid-template-columns: minmax(0, 1fr); }
+.site-curves .fig { position: static; }
+.site-curves .top nav a:nth-child(n + 3) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+.site-curves .ball { animation: none !important; }
+}
