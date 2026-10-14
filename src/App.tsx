@@ -474,6 +474,13 @@ function PatternPage({ pattern }: { pattern: Pattern }) {
               ))}
             </ul>
           )}
+          <div className="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-surface/50 px-3 py-2 text-sm">
+            <span className="text-fg-muted">Using an AI assistant?</span>
+            <CopyButton
+              label="Copy a prompt for it" className="!min-h-11 !px-3 !text-xs"
+              text={`Use the UI Lab pattern "${pattern.title}" in my project. Read https://ui-lab-weld.vercel.app/docs/${pattern.slug}.md for the code and notes, adapt the colours and type to my brand, and keep its accessibility behaviour: ${pattern.a11y ?? 'keyboard support, visible focus and reduced motion'}. Check it at phone width and with the keyboard before you say it is done.`}
+            />
+          </div>
         </header>
 
         <section

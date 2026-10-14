@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { highlight } from 'sugar-high'
 
-export function CopyButton({ text, className = '' }: { text: string; className?: string }) {
+export function CopyButton({ text, className = '', label = 'Copy' }: { text: string; className?: string; label?: string }) {
   const [copied, setCopied] = useState(false)
   const copy = async () => {
     try {
@@ -23,7 +23,7 @@ export function CopyButton({ text, className = '' }: { text: string; className?:
         copied ? 'text-success' : 'text-fg-muted'
       } ${className}`}
     >
-      {copied ? 'Copied ✓' : 'Copy'}
+      {copied ? 'Copied ✓' : label}
     </button>
   )
 }
