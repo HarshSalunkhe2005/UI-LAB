@@ -18,14 +18,14 @@ Prefer the local checkout when it exists; otherwise fetch the same paths from th
 | Procedure (read first) | `playbook/00-start-here.md` | `/playbook/00-start-here.md` |
 | Router: brief to world, proof and techniques (read first) | `src/router.ts` | `/for-claude.md` |
 | Design worlds (1 to 8) | `playbook/worlds.md` | `/playbook/worlds.md` |
-| Niche worlds (9 to 23: departures board, botanical plate, hi-fi deck, broadsheet, CRT, museum placard, seed packet, BBS, tarot, clinical label, specimen, nautical chart, plain text sheet, blueprint, till-roll) | `playbook/niche-worlds.md` | `/playbook/niche-worlds.md` |
+| Niche worlds (9 to 23: departures board, botanical plate, hi-fi deck, broadsheet, CRT, museum placard, seed packet, BBS, tarot, clinical label, specimen, nautical chart, plain text sheet, blueprint, thermal receipt) | `playbook/niche-worlds.md` | `/playbook/niche-worlds.md` |
 | How to write the brief | `playbook/briefs.md` | `/playbook/briefs.md` |
 | Inspiration method | `playbook/inspiration.md` | `/playbook/inspiration.md` |
 | Verification loop + bug catalogue | `playbook/verify.md` | `/playbook/verify.md` |
 | Scroll-driven 3D recipe | `playbook/scroll-3d-recipe.md` | `/playbook/scroll-3d-recipe.md` |
 | Reference sites: 65 teardowns (30 world-class, 20 vibe-coded, 12 recent award winners, 3 community picks) + synthesis | `src/references.ts`, `playbook/reference-sites.md` | `/references.md`, `/references.json`, `/playbook/reference-sites.md`, page `#/references` |
 | Signature moves: one pattern per studied site's technique (51) | `src/patterns/moves/`, slugs `move-*` | `/docs/move-<name>.md`, category "Signature moves" |
-| Finished reference sites (18: solar, mare, lattice, hotmess, abyss, departures, herbarium, tape, ledger, tidewater, salt-road, pebble, plain-forecast, pip, commute-report, crumb, blueprint, thermal receipt) | `src/patterns/sites/<name>/`, run at `#/live/site-<name>` | `/docs/site-<name>.md` (all files), `#/site-<name>` |
+| Finished reference sites (18: solar, mare, lattice, hotmess, abyss, departures, herbarium, tape, ledger, tidewater, salt-road, pebble, plain-forecast, pip, commute-report, crumb, blueprint, till-roll) | `src/patterns/sites/<name>/`, run at `#/live/site-<name>` | `/docs/site-<name>.md` (all files), `#/site-<name>` |
 | 130+ patterns (index) | `src/meta.ts` | `/patterns.json`, `/llms.txt`, `/docs/<slug>.md` |
 | Site-stack detector | `tools/site-stack.mjs` | `/tools/site-stack.mjs` |
 | External references | `src/resources.ts` | `/resources.md` |
