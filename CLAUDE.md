@@ -22,3 +22,4 @@ Shortcuts in this repo: `/brief`, `/build-site`, `/teardown`, `/verify`, `/add-p
 - `src/router.ts` slugs are validated at build time; if you rename a pattern, the build tells you.
 - Do not bypass bot walls or CAPTCHAs when studying a reference. Record it as `listing` evidence and move on.
 - Thumbnails: Sites cards need `public/thumbs/site-<name>.jpg`.
+- `npm run build` validates metadata and `npm test` checks the pure logic; run both before committing. `tools/axe-crawl.js` is the accessibility sweep.

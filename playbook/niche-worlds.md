@@ -58,7 +58,7 @@ communicates), then rebuild it for the content in front of you.
 **Refuse:** card grids for articles, colour-only up/down, centred body text, a hero image above the headline.
 
 ## 13. CRT Terminal
-**Proof:** pattern `niche-crt`.
+**Proof:** site `site-arcade`, pattern `niche-crt`.
 **Use for:** developer tools with character, retro games, security and hacking themes, fiction.
 **Metaphor:** a phosphor monitor in a dark room.
 **Palette:** near-black `#050805`, phosphor green `#3dff7a` or amber `#ffb000`, one dim shade of the same hue for secondary text.

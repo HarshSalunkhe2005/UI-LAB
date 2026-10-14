@@ -227,4 +227,19 @@ export const NEW_SITES: PatternMeta[] = [
     a11y: 'All axis controls are native ranges with spoken values and visible labels; Wonk and Italic are switches; each character button has a name; the CSS output is focusable; the large specimen glyph is decorative and the font name is real text.',
     deps: ['@fontsource-variable/fraunces', '@fontsource-variable/hanken-grotesk', 'sites/_shared.ts'],
   },
+  {
+    slug: 'site-arcade',
+    title: 'Site: PHOSPHOR ARCADE (CRT cabinet with a playable game)',
+    category: 'Sites',
+    summary: 'A CRT arcade cabinet in the browser with a game you can really play: a canvas Snake on a fixed timestep with arrow keys, WASD and on-screen buttons, under phosphor glow, scanlines and a gentle flicker. The effect is cosmetic; scores and instructions are plain text.',
+    when: [
+      'Games, retro and developer brands that want the CRT look without making content unreadable',
+      'Reference for a pure game-engine module with tests, a canvas loop, scanlines and flicker in CSS, and a leaderboard form',
+    ],
+    file: 'sites/arcade/index.tsx',
+    files: ['sites/arcade/index.tsx', 'sites/arcade/snake.ts', 'sites/arcade/styles.css'],
+    tags: ['site', 'full page', 'niche world', 'crt', 'retro', 'arcade', 'canvas', 'game', 'snake', 'scanlines', 'experience'],
+    a11y: 'The game is optional and announced as such; controls work with arrow keys, WASD and on-screen buttons with 64px targets; score and game-over are text and a status message; the leaderboard is a real table; flicker is off under reduced motion and the screen effect never covers text with low contrast.',
+    deps: ['@fontsource/vt323', '@fontsource/ibm-plex-mono', 'sites/_shared.ts'],
+  },
 ]
