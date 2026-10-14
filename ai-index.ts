@@ -253,6 +253,7 @@ function validate() {
     seen.add(m.slug)
     for (const f of m.files ?? [m.file]) if (!existsSync(resolve(__dirname, 'src/patterns', f))) problems.push(`${m.slug}: missing file src/patterns/${f}`)
     if (m.category === 'Sites' && !existsSync(resolve(__dirname, `public/thumbs/${m.slug}.jpg`))) problems.push(`${m.slug}: missing thumbnail public/thumbs/${m.slug}.jpg`)
+    if (m.file.startsWith('sites/') && !/^sites\/[^/]+\/index\.tsx$/.test(m.file)) problems.push(`${m.slug}: a site entry file must be sites/<name>/index.tsx`)
     if (!m.when?.length) problems.push(`${m.slug}: needs at least one "when" line`)
     if (!m.a11y) problems.push(`${m.slug}: needs an a11y note`)
   }
