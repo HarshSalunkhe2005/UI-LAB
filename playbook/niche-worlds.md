@@ -1,6 +1,6 @@
 # Niche worlds: when the product has a physical or editorial home
 
-`worlds.md` holds the eight general directions. These twelve are narrower. Each one borrows the look and the logic of a
+`worlds.md` holds the eight general directions. These thirteen are narrower. Each one borrows the look and the logic of a
 real object or printed form, and it only works when the brief genuinely lives there: a departures board for a rail
 company, a clinical label for a medicine. Use one when the content already belongs to it. A skin applied to unrelated
 content is a gimmick, and the swap test will catch it.
@@ -145,6 +145,17 @@ communicates), then rebuild it for the content in front of you.
 **Needs:** real or generated elevation data.
 **Refuse:** a stock map tile with a coloured filter, rainbow gradients for depth.
 
+## 21. Plain Text Sheet
+**Proof:** site `site-plain-forecast`.
+**Use for:** forecasts, status pages, schedules, scores, prices, logs: anything dense that people check quickly and often. An Operate world.
+**Metaphor:** a well-kept text file with a few real controls.
+**Palette:** paper and ink, one link colour, one highlight for "now"; light and dark from the system setting.
+**Type:** one monospace family at one or two sizes (IBM Plex Mono, JetBrains Mono).
+**Motion:** none. State changes are instant and announced as text.
+**Signature:** charts drawn with characters (shading blocks, asterisks, a "now" marker) with a real table next to each one.
+**Needs:** real, current data, and the discipline to leave things out.
+**Refuse:** a text chart without a table, colour as the only signal, images "for warmth", decorative boxes around data.
+
 ---
 
 ## Choosing between a niche world and a general one
@@ -162,6 +173,7 @@ communicates), then rebuild it for the content in front of you.
 | health, dose, safety | 18 Clinical Label |
 | type, design system | 19 Type Specimen |
 | depth, terrain, travel | 20 Nautical Chart |
+| status, forecast, scores, prices | 21 Plain Text Sheet |
 
 If nothing here fits, do not force it: go back to `worlds.md` or invent a world. Add a niche world by copying the card
 shape, building something that proves it, and registering the proof under category `Niche worlds` or `Sites`.

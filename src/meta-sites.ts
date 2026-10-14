@@ -107,4 +107,19 @@ export const NEW_SITES: PatternMeta[] = [
     a11y: 'Output is a role=log region; the prompt is a real input with a visible label; suggested commands are buttons; the plain page shows identical content with ordinary headings and links, one switch away; no boot sequence, no flashing, and themes keep body contrast above 4.5:1.',
     deps: ['@fontsource/ibm-plex-mono', '@fontsource-variable/newsreader', 'sites/_shared.ts'],
   },
+  {
+    slug: 'site-plain-forecast',
+    title: 'Site: LIGHTHOUSE FORECAST (plain-text weather)',
+    category: 'Sites',
+    summary: 'A weather page set as plain text: one monospace column, no images, charts drawn with characters. Every character chart has a real table beside it, so the density is honest and the page loads instantly.',
+    when: [
+      'Data-dense pages for status, schedules, scores, prices and forecasts where speed and scanability beat decoration',
+      'Reference for text-mode charts with accessible twins, text-only controls that are real buttons, and light and dark from the system setting',
+    ],
+    file: 'sites/plain-forecast/index.tsx',
+    files: ['sites/plain-forecast/index.tsx', 'sites/plain-forecast/data.ts', 'sites/plain-forecast/styles.css'],
+    tags: ['site', 'full page', 'niche world', 'plain text', 'ascii', 'weather', 'data', 'monospace', 'minimal', 'operate'],
+    a11y: 'ASCII charts are hidden from assistive technology and each has a real table or sentence with the same numbers; day, unit and place controls are native buttons and a select; the current hour is marked in the table, not by colour alone; light and dark follow the system, with 4.5:1 text contrast in both.',
+    deps: ['@fontsource/ibm-plex-mono', 'sites/_shared.ts'],
+  },
 ]

@@ -34,6 +34,7 @@ export const ROUTES: Route[] = [
   { brief: 'divination, outcomes, game of chance, storytelling', mode: 'Experience', world: '17 Tarot', card: 'niche-worlds.md', proof: ['niche-tarot'], move: 'A small deck with meaning on every card; a flip reachable by keyboard.' },
   { brief: 'medicine, dose, safety, compliance', mode: 'Operate', world: '18 Clinical Label', card: 'niche-worlds.md', proof: ['niche-clinical-label'], move: 'Strict hierarchy; warnings carry an icon and a word, never colour alone.' },
   { brief: 'typeface, foundry, design system', mode: 'Persuade', world: '19 Type Specimen', card: 'niche-worlds.md', proof: ['niche-specimen'], move: 'Drag the axes and watch the real letterforms change.' },
+  { brief: 'status, forecast, scores, prices, anything checked quickly and often', mode: 'Operate', world: '21 Plain Text Sheet', card: 'niche-worlds.md', proof: ['site-plain-forecast'], move: 'Charts drawn with characters, each with a real table beside it; no decoration.' },
   { brief: 'maps, depth, terrain, travel, science', mode: 'Experience', world: '20 Nautical Chart', card: 'niche-worlds.md', proof: ['site-tidewater', 'niche-nautical-chart'], move: 'A generated contour field that responds to a control.' },
 ]
 

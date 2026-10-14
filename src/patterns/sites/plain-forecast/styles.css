@@ -1,0 +1,45 @@
+.site-plain-forecast { position: relative; min-height: 100svh; overflow-x: clip; }
+.site-plain-forecast {
+  --paper: #fbfaf4;
+  --ink: #141412;
+  --dim: #55534b;
+  --link: #0b3fb0;
+  --hi: #fff2b8;
+  --mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Code', monospace;
+}
+@media (prefers-color-scheme: dark) {
+.site-plain-forecast { --paper: #121311; --ink: #e9e8e0; --dim: #a6a498; --link: #8fb4ff; --hi: #3a3412; }
+}
+.site-plain-forecast * { box-sizing: border-box; margin: 0; padding: 0; }
+.site-plain-forecast, .site-plain-forecast { background: var(--paper); color: var(--ink); font-family: var(--mono); font-size: 16px; line-height: 1.55; min-height: 100svh; }
+.site-plain-forecast :focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
+.site-plain-forecast .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.site-plain-forecast button, .site-plain-forecast select { font: inherit; color: inherit; }
+.site-plain-forecast .lnk { background: none; border: 0; padding: 0 2px; min-height: 28px; color: var(--link); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.site-plain-forecast .lnk:disabled { color: var(--dim); text-decoration: none; cursor: default; }
+.site-plain-forecast a { color: var(--link); }
+.site-plain-forecast .top { display: flex; justify-content: space-between; max-width: 72ch; margin: 0 auto; padding: 18px 16px 0; }
+.site-plain-forecast main, .site-plain-forecast .foot { max-width: 72ch; margin: 0 auto; padding: 0 16px; }
+.site-plain-forecast main { padding-bottom: 32px; }
+.site-plain-forecast h1 { margin-top: 28px; font-size: 24px; font-weight: 500; }
+.site-plain-forecast h2 { margin-top: 28px; font-size: 16px; font-weight: 500; letter-spacing: 0.1em; }
+.site-plain-forecast .place, .site-plain-forecast .days { margin-top: 10px; }
+.site-plain-forecast .place select { min-height: 36px; padding: 0 8px; background: var(--paper); border: 1px solid var(--ink); }
+.site-plain-forecast .pre { margin: 2px 0 8px; white-space: pre; overflow: hidden; color: var(--dim); font-size: 14px; }
+.site-plain-forecast .kv { display: grid; gap: 0; }
+.site-plain-forecast .kv div { display: grid; grid-template-columns: 14ch 1fr; gap: 8px; }
+.site-plain-forecast .kv dt { color: var(--dim); }
+.site-plain-forecast table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 15px; }
+.site-plain-forecast th, .site-plain-forecast td { padding: 4px 10px 4px 0; text-align: left; font-weight: 400; border-bottom: 1px dotted var(--dim); }
+.site-plain-forecast thead th { color: var(--dim); font-size: 13px; }
+.site-plain-forecast .n { text-align: right; }
+.site-plain-forecast tr.now { background: var(--hi); }
+.site-plain-forecast .cap { margin-top: 12px; color: var(--dim); font-size: 14px; }
+.site-plain-forecast .art { margin: 8px 0 12px; white-space: pre; overflow-x: auto; font-size: 14px; line-height: 1.25; letter-spacing: 0; padding-bottom: 6px; }
+.site-plain-forecast .foot { padding-top: 20px; padding-bottom: 48px; border-top: 1px dotted var(--dim); color: var(--dim); font-size: 14px; }
+.site-plain-forecast .foot p + p { margin-top: 6px; }
+@media (max-width: 520px) {
+.site-plain-forecast { font-size: 15px; }
+.site-plain-forecast .kv div { grid-template-columns: 11ch 1fr; }
+.site-plain-forecast .pre { font-size: 12px; }
+}
