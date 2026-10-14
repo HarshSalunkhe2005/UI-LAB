@@ -12,7 +12,7 @@ A library of working website designs and building blocks, with a written guide t
 
 ## Three ways to start
 
-1. **See finished websites.** Nineteen complete sites, each in a different design style, open full screen: a night-train departures board, a botanical field notebook, a working tape deck, a broadsheet newsletter, a tide planner, a museum exhibition, a terminal portfolio, a plain-text forecast, and eleven more, including a bakery, an app landing page, a data report and an engineering blueprint and a receipt-style shop and an explorable guide.
+1. **See finished websites.** Twenty complete sites, each in a different design style, open full screen: a night-train departures board, a botanical field notebook, a working tape deck, a broadsheet newsletter, a tide planner, a museum exhibition, a terminal portfolio, a plain-text forecast, and twelve more, including a bakery, an app landing page, a data report and an engineering blueprint and a receipt-style shop and an explorable guide and a type specimen.
 2. **Find a part to copy.** Over 210 patterns (buttons, sections, scroll effects, charts, screens). Search by what you need, or filter by category. Each page has the live demo, the code, "when to use it" and an accessibility note.
 3. **Use it with an AI assistant.** Give your assistant [`/for-claude.md`](https://ui-lab-weld.vercel.app/for-claude.md). It maps what you are building to the right design style, a proof site to study, and the techniques to take. See [`playbook/prompts.md`](playbook/prompts.md) for prompts to copy.
 

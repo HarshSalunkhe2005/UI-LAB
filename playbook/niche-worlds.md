@@ -124,7 +124,7 @@ communicates), then rebuild it for the content in front of you.
 **Refuse:** decoration, brand colour on warnings, small print, light grey text.
 
 ## 19. Type Specimen
-**Proof:** pattern `niche-specimen`.
+**Proof:** site `site-specimen`, pattern `niche-specimen`.
 **Use for:** type foundries, design tools, anything that sells a typeface or a system.
 **Metaphor:** a foundry's own showing: giant glyph, character set, size ladder, axes.
 **Palette:** white or black, one colour for emphasis; the typeface is the colour.

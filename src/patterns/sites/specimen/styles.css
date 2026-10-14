@@ -1,0 +1,58 @@
+.site-specimen { position: relative; min-height: 100svh; overflow-x: clip; }
+.site-specimen {
+  --paper: #fcfbf7;
+  --ink: #17140f;
+  --muted: #5c564a;
+  --red: #c8371b;
+  --rule: #d9d3c2;
+  --serif: 'Fraunces Variable', Georgia, serif;
+  --sans: 'Hanken Grotesk Variable', system-ui, sans-serif;
+}
+.site-specimen * { box-sizing: border-box; margin: 0; padding: 0; }
+.site-specimen, .site-specimen { background: var(--paper); color: var(--ink); font-family: var(--serif); -webkit-font-smoothing: antialiased; line-height: 1.5; }
+.site-specimen a { color: inherit; }
+.site-specimen button, .site-specimen input, .site-specimen textarea { font: inherit; color: inherit; }
+.site-specimen button { cursor: pointer; }
+.site-specimen :focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+.site-specimen .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.site-specimen code { font: 500 0.85em ui-monospace, Consolas, monospace; background: #efeadb; padding: 1px 6px; border-radius: 4px; }
+.site-specimen h2 { font: 700 13px var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--red); }
+.site-specimen .top { display: flex; align-items: center; justify-content: space-between; padding: 12px clamp(16px, 4vw, 48px); position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--paper) 94%, transparent); border-bottom: 1px solid var(--rule); }
+.site-specimen .logo { font-size: 26px; text-decoration: none; }
+.site-specimen .top nav { display: flex; gap: 2px; font: 600 14px var(--sans); }
+.site-specimen .top nav a { display: grid; place-items: center; min-height: 44px; padding: 0 12px; text-decoration: none; border-radius: 8px; }
+.site-specimen .top nav a:hover { background: #efeadb; }
+.site-specimen .hero { padding: clamp(32px, 6vw, 88px) clamp(16px, 4vw, 48px) clamp(20px, 3vw, 40px); }
+.site-specimen .meta { font: 600 13px var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.site-specimen .big { margin-top: 10px; font-size: clamp(88px, 21vw, 300px); line-height: 0.9; letter-spacing: -0.03em; font-weight: 400; }
+.site-specimen .blurb { margin-top: 20px; max-width: 44ch; font-size: 22px; line-height: 1.45; color: #3b372e; }
+.site-specimen .axes { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(20px, 4vw, 64px); padding: clamp(28px, 5vw, 64px) clamp(16px, 4vw, 48px); border-top: 1px solid var(--rule); align-items: start; }
+.site-specimen .panel { position: sticky; top: 76px; }
+.site-specimen .ax { margin-top: 14px; }
+.site-specimen .ax label, .site-specimen .ctl label { display: flex; justify-content: space-between; gap: 8px; font: 600 14px var(--sans); }
+.site-specimen .ax input, .site-specimen .ctl input { width: 100%; height: 44px; accent-color: var(--red); }
+.site-specimen .tog { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+.site-specimen .tog button { min-height: 44px; padding: 0 16px; background: transparent; border: 1.5px solid var(--ink); border-radius: 999px; font: 600 14px var(--sans); }
+.site-specimen .tog button[aria-checked='true'] { background: var(--ink); color: var(--paper); }
+.site-specimen .css { margin-top: 16px; padding: 12px 14px; background: #1c1a15; color: #f3efe2; border-radius: 8px; overflow-x: auto; font: 500 12.5px/1.55 ui-monospace, Consolas, monospace; white-space: pre-wrap; }
+.site-specimen .stage { display: grid; gap: 8px; align-content: start; }
+.site-specimen .glyph { font-size: clamp(160px, 28vw, 420px); line-height: 1.2; text-align: center; border: 1.5px solid var(--ink); border-radius: 12px; padding: 16px 0 28px; background: #fff; overflow: hidden; }
+.site-specimen .word { font-size: clamp(34px, 6vw, 72px); line-height: 1.1; overflow-wrap: anywhere; }
+.site-specimen .set, .site-specimen .scale, .site-specimen .test { padding: clamp(28px, 5vw, 64px) clamp(16px, 4vw, 48px); border-top: 1px solid var(--rule); }
+.site-specimen .hint { margin-top: 8px; max-width: 62ch; font: 500 16px/1.5 var(--sans); color: var(--muted); }
+.site-specimen .grid { margin-top: 18px; display: grid; grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); gap: 6px; }
+.site-specimen .grid button { aspect-ratio: 1; min-height: 52px; background: #fff; border: 1.5px solid var(--rule); border-radius: 8px; font-size: 30px; line-height: 1; }
+.site-specimen .grid button:hover { border-color: var(--ink); }
+.site-specimen .grid button[aria-pressed='true'] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.site-specimen .scale ul { margin-top: 18px; list-style: none; }
+.site-specimen .scale li { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--rule); }
+.site-specimen .scale .px { font: 600 13px var(--sans); color: var(--muted); }
+.site-specimen .scale li span:last-child { overflow-wrap: anywhere; }
+.site-specimen .test textarea { margin-top: 14px; width: 100%; padding: 14px 16px; background: #fff; border: 1.5px solid var(--ink); border-radius: 12px; resize: vertical; min-height: 6em; }
+.site-specimen .ctl { margin-top: 14px; display: grid; gap: 4px; max-width: 520px; }
+.site-specimen .foot { padding: 28px clamp(16px, 4vw, 48px) 56px; border-top: 1px solid var(--rule); font: 500 14px/1.6 var(--sans); color: var(--muted); max-width: 80ch; }
+@media (max-width: 860px) {
+.site-specimen .axes { grid-template-columns: minmax(0, 1fr); }
+.site-specimen .panel { position: static; }
+.site-specimen .top nav a:nth-child(n + 3) { display: none; }
+}

@@ -25,7 +25,7 @@ Prefer the local checkout when it exists; otherwise fetch the same paths from th
 | Scroll-driven 3D recipe | `playbook/scroll-3d-recipe.md` | `/playbook/scroll-3d-recipe.md` |
 | Reference sites: 68 teardowns (30 world-class, 20 vibe-coded, 12 recent award winners, 6 community picks) + synthesis | `src/references.ts`, `playbook/reference-sites.md` | `/references.md`, `/references.json`, `/playbook/reference-sites.md`, page `#/references` |
 | Signature moves: one pattern per studied site's technique (54) | `src/patterns/moves/`, slugs `move-*` | `/docs/move-<name>.md`, category "Signature moves" |
-| Finished reference sites (19: solar, mare, lattice, hotmess, abyss, departures, herbarium, tape, ledger, tidewater, salt-road, pebble, plain-forecast, pip, commute-report, crumb, blueprint, till-roll, curves) | `src/patterns/sites/<name>/`, run at `#/live/site-<name>` | `/docs/site-<name>.md` (all files), `#/site-<name>` |
+| Finished reference sites (20: solar, mare, lattice, hotmess, abyss, departures, herbarium, tape, ledger, tidewater, salt-road, pebble, plain-forecast, pip, commute-report, crumb, blueprint, till-roll, curves, specimen) | `src/patterns/sites/<name>/`, run at `#/live/site-<name>` | `/docs/site-<name>.md` (all files), `#/site-<name>` |
 | 130+ patterns (index) | `src/meta.ts` | `/patterns.json`, `/llms.txt`, `/docs/<slug>.md` |
 | Site-stack detector | `tools/site-stack.mjs` | `/tools/site-stack.mjs` |
 | External references | `src/resources.ts` | `/resources.md` |

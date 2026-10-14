@@ -212,4 +212,19 @@ export const NEW_SITES: PatternMeta[] = [
     a11y: 'Every control point is a focusable button with a spoken position that moves with the arrow keys (Shift for bigger steps); sliders have spoken values; each figure has a caption; readouts are status regions and the code is focusable; the easing animation is replaced by its end state under reduced motion.',
     deps: ['@fontsource-variable/hanken-grotesk', '@fontsource-variable/newsreader', '@fontsource/ibm-plex-mono', 'sites/_shared.ts'],
   },
+  {
+    slug: 'site-specimen',
+    title: 'Site: SPECIMEN, FRAUNCES (type specimen)',
+    category: 'Sites',
+    summary: 'A type specimen for an open-source variable serif, where you drive the real axes: weight, optical size, softness and wonk reshape the letterforms live. Also a character set to inspect, a size ladder and a text tester for your own words.',
+    when: [
+      'Type foundries, font libraries, design-system documentation and any page that sells or explains typography',
+      'Reference for font-variation-settings driven from sliders, a glyph inspector, and CSS shown beside the control that produces it',
+    ],
+    file: 'sites/specimen/index.tsx',
+    files: ['sites/specimen/index.tsx', 'sites/specimen/styles.css'],
+    tags: ['site', 'full page', 'niche world', 'type specimen', 'variable font', 'typography', 'font-variation-settings', 'tool', 'read'],
+    a11y: 'All axis controls are native ranges with spoken values and visible labels; Wonk and Italic are switches; each character button has a name; the CSS output is focusable; the large specimen glyph is decorative and the font name is real text.',
+    deps: ['@fontsource-variable/fraunces', '@fontsource-variable/hanken-grotesk', 'sites/_shared.ts'],
+  },
 ]
