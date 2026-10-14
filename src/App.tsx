@@ -413,32 +413,42 @@ function Home() {
 /* ---------- pattern page ---------- */
 
 function Sidebar({ active }: { active: string }) {
+  const nav = useRef<HTMLElement>(null)
+  useEffect(() => {
+    nav.current?.querySelector('[aria-current="page"]')?.scrollIntoView({ block: 'nearest' })
+  }, [active])
   return (
-    <nav className="space-y-6" aria-label="All patterns">
+    <nav ref={nav} className="space-y-1" aria-label="All patterns">
       {CATEGORIES.map((cat) => {
         const items = PATTERNS.filter((p) => p.category === cat)
+        if (items.length === 0) return null
+        const has = items.some((p) => p.slug === active)
         return (
-          <div key={cat}>
-            <h2 className="mb-1.5 px-2 font-mono text-[11px] uppercase tracking-wider text-fg-muted">{cat}</h2>
-            {items.length === 0 ? (
-              <p className="px-2 text-sm text-fg-muted/50">Soon</p>
-            ) : (
-              <ul>
-                {items.map((p) => (
-                  <li key={p.slug}>
-                    <a
-                      href={`#/${p.slug}`}
-                      className={`block rounded-md px-2 py-1.5 text-sm transition-colors ${
-                        p.slug === active ? 'bg-accent-soft font-medium text-accent' : 'text-fg-muted hover:bg-surface hover:text-fg'
-                      }`}
-                    >
-                      {p.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          // Re-keyed when the active pattern moves into or out of a category, so the current category is always open.
+          <details key={`${cat}-${has}`} open={has} className="group">
+            <summary className="flex min-h-9 cursor-pointer list-none items-center justify-between rounded-md px-2 font-mono text-[11px] uppercase tracking-wider text-fg-muted marker:content-none hover:bg-surface hover:text-fg">
+              <h2>{cat}</h2>
+              <span className="flex items-center gap-1.5">
+                {items.length}
+                <span aria-hidden className="transition-transform group-open:rotate-90 motion-reduce:transition-none">›</span>
+              </span>
+            </summary>
+            <ul className="mb-2">
+              {items.map((p) => (
+                <li key={p.slug}>
+                  <a
+                    href={`#/${p.slug}`}
+                    aria-current={p.slug === active ? 'page' : undefined}
+                    className={`block rounded-md px-2 py-1.5 text-sm transition-colors ${
+                      p.slug === active ? 'bg-accent-soft font-medium text-accent' : 'text-fg-muted hover:bg-surface hover:text-fg'
+                    }`}
+                  >
+                    {p.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
         )
       })}
     </nav>
