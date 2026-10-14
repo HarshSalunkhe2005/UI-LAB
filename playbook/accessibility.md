@@ -37,3 +37,12 @@ plus keyboard and reduced-motion checks).
 - Every pattern has an **Accessibility** note saying how it handles keyboard, screen readers and reduced motion.
 - The home page has a skip link, labelled landmarks, a search field with a visible label for assistive tech, and a plain-language explanation of each category.
 - `playbook/verify.md` lists the bugs we have already hit and fixed.
+
+## Motion, in more detail (WCAG 2.2)
+
+- **Pause, Stop, Hide (2.2.2, level A).** Anything that moves, blinks or scrolls on its own for more than five seconds needs a way to pause or stop it: carousels, tickers, background video.
+- **Three flashes (2.3.1, level A).** Nothing flashes more than three times in one second.
+- **Animation from interactions (2.3.3, level AAA).** Motion that your own scrolling or clicking triggers (parallax, big slide-ins) must be switchable off unless it is essential. The standard way: wrap travelling motion in `@media (prefers-reduced-motion: no-preference)`, or check `matchMedia('(prefers-reduced-motion: reduce)')` in script and replace the motion with an instant change.
+- **What to keep.** Reduced motion does not mean no feedback. A spinner or a focus ring can stay, at lower amplitude. What goes: parallax, large translations, auto-playing video, scroll-triggered effects that fire all the way down the page.
+- **A blanket "set every duration to zero" rule is blunt.** It can break animations that carry meaning (a progress bar). Prefer turning off the decorative ones by name.
+- **Test it.** Switch on Reduce Motion in the operating system, reload, and confirm nothing travels. UI Lab's own patterns are written to that standard, and each pattern's accessibility note says how.

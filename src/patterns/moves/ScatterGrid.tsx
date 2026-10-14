@@ -66,7 +66,7 @@ export default function ScatterGrid() {
               className="absolute top-0 left-0 flex flex-col justify-between rounded-sm p-2 text-[11px] font-medium text-white/95 transition-transform duration-700 ease-out-expo motion-reduce:transition-none"
               style={{ width: cw, height: ch, background: color, transform: `translate(${x}px, ${y}px) rotate(${mode === 'grid' ? 0 : rot}deg)` }}
             >
-              <span className="font-mono text-[10px] opacity-80">{String(i + 1).padStart(2, '0')}</span>
+              <span className="font-mono text-[10px]">{String(i + 1).padStart(2, '0')}</span>
               {name}
             </li>
           )

@@ -47,7 +47,7 @@ export default function BandTicker() {
       <div ref={box} tabIndex={0} role="region" aria-label="Scroll to speed up the band" className="relative overflow-y-auto" style={{ height: 320 }}>
         <div style={{ height: 760 }}>
           <div className="sticky top-0 grid place-items-center overflow-hidden" style={{ height: 320, background: 'radial-gradient(circle at 25% 30%, #9fd39a 0, transparent 38%), radial-gradient(circle at 70% 70%, #5f9b6a 0, transparent 40%), linear-gradient(160deg, #aeb7bf, #7e8993)' }}>
-            <div className="absolute inset-x-0 overflow-hidden bg-[#ff4a1c] py-3 text-white" aria-hidden>
+            <div className="absolute inset-x-0 overflow-hidden bg-[#d63a10] py-3 text-white" aria-hidden>
               <div ref={track} className="flex w-max whitespace-pre text-sm font-medium will-change-transform">
                 <span ref={first}>{ITEM.repeat(4)}</span>
                 <span>{ITEM.repeat(4)}</span>

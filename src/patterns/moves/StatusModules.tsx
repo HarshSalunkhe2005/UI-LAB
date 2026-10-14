@@ -37,7 +37,7 @@ export default function StatusModules() {
           <div className="sticky top-0 grid grid-cols-[1fr_auto_1fr] items-center gap-4 overflow-hidden px-5 font-mono text-[11px] leading-5" style={{ height: 340 }}>
             <ol className="space-y-3">
               {MODULES.map(([name, id, text], i) => (
-                <li key={name} className="transition-opacity duration-300 motion-reduce:transition-none" style={{ opacity: i === active ? 1 : 0.35 }} aria-current={i === active ? 'true' : undefined}>
+                <li key={name} className="transition-opacity duration-300 motion-reduce:transition-none" style={{ opacity: i === active ? 1 : 0.62 }} aria-current={i === active ? 'true' : undefined}>
                   <p>
                     {name} / MODULE {String(i + 1).padStart(2, '0')}
                   </p>
