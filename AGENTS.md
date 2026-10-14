@@ -25,7 +25,7 @@ The same procedure is packaged as a Claude skill in `skills/ui-lab/SKILL.md` (co
 
 ## Adding a whole site (category "Sites")
 
-A site is a *pattern*, not a separate app. Folder `src/patterns/sites/<name>/` with `index.tsx` (default-exported component, root element `className="site-<name>"`), its own files and `styles.css`.
+Start with `node tools/new-site.mjs <name> "<Title>" [world]`: it creates the folder, a stylesheet and a registry entry marked TODO (the build refuses to ship TODO text). A site is a *pattern*, not a separate app. Folder `src/patterns/sites/<name>/` with `index.tsx` (default-exported component, root element `className="site-<name>"`), its own files and `styles.css`.
 
 1. **Scope the CSS.** Write it like a normal standalone stylesheet (`:root`, `html`, `body`, `*` are fine), then run `python tools/scope-css.py src/patterns/sites/<name>/styles.css site-<name> <name>`. It rewrites selectors under the wrapper class and prefixes `@keyframes` names.
 2. **Use `useSiteScroll(rootRef)`** from `sites/_shared.ts` for Lenis + in-page anchors. Never use a real `href="#section"` navigation (UI Lab's router is the URL hash) and never write to `document.documentElement` (set CSS variables and classes on the root element instead). Clean up everything on unmount.
