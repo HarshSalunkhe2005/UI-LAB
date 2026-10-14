@@ -79,10 +79,10 @@ export default function ReferencesPage() {
       <header className="mb-10 max-w-3xl space-y-4">
         <p className="font-mono text-xs tracking-wider text-accent uppercase">Reference sites</p>
         <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-          Fifty sites, <span className="font-display font-normal text-accent italic">taken apart</span>.
+          {REFERENCES.length} sites, <span className="font-display font-normal text-accent italic">taken apart</span>.
         </h1>
         <p className="text-lg text-fg-muted">
-          Thirty world-class websites and twenty vibe-coded UIs, each with its signature moment, how it is built, what we measured, what we take and what we leave.
+          World-class websites, vibe-coded UIs and the latest Awwwards winners, each with its signature moment, how it is built, what we measured, what we take and what we leave.
           Every technique we took is rebuilt in our own code as a pattern. Also at{' '}
           <a href="/references.md" target="_blank" className="font-mono text-sm text-accent hover:underline">/references.md</a> and{' '}
           <a href="/references.json" target="_blank" className="font-mono text-sm text-accent hover:underline">/references.json</a> for AI agents.

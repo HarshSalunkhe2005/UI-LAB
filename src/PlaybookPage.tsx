@@ -7,12 +7,30 @@ const FILES = import.meta.glob('/playbook/*.md', { query: '?raw', import: 'defau
 
 type Doc = { name: string; title: string; body: string }
 
+const ORDER = ['00-start-here', 'briefs', 'worlds', 'niche-worlds', 'inspiration', 'reference-sites', 'verify', 'accessibility', 'scroll-3d-recipe', 'glossary']
+const DESC: Record<string, string> = {
+  '00-start-here': 'The whole procedure, in order. Read this first.',
+  briefs: 'How to write the five lines that start every project.',
+  worlds: 'Eight general design directions, and how to choose.',
+  'niche-worlds': 'Twelve narrower directions for specific subjects.',
+  inspiration: 'How to study a site you admire without copying it.',
+  'reference-sites': 'What the studied sites have in common.',
+  verify: 'How to check your work, and the bugs we already hit.',
+  accessibility: 'The ten habits that make a site usable by everyone.',
+  'scroll-3d-recipe': 'A recipe for scroll-driven 3D pages.',
+  glossary: 'Design words in plain language.',
+}
+
 const DOCS: Doc[] = Object.entries(FILES)
   .map(([path, body]) => {
     const name = path.split('/').pop()!.replace(/\.md$/, '')
     return { name, title: body.match(/^#\s+(.+)$/m)?.[1] ?? name, body }
   })
-  .sort((a, b) => a.name.localeCompare(b.name))
+  .sort((a, b) => {
+    const ia = ORDER.indexOf(a.name)
+    const ib = ORDER.indexOf(b.name)
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || a.name.localeCompare(b.name)
+  })
 
 function inline(text: string): ReactNode[] {
   const parts: ReactNode[] = []
@@ -124,6 +142,7 @@ export default function PlaybookPage({ doc }: { doc?: string }) {
               className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${d.name === current.name ? 'bg-fg text-bg' : 'text-fg-muted hover:text-fg'}`}
             >
               {d.title.replace(/:.*$/, '')}
+              {DESC[d.name] && <span className={`mt-0.5 hidden text-xs font-normal lg:block ${d.name === current.name ? 'text-bg/80' : 'text-fg-muted'}`}>{DESC[d.name]}</span>}
             </a>
           ))}
         </nav>
