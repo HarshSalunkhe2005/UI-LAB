@@ -182,4 +182,19 @@ export const NEW_SITES: PatternMeta[] = [
     a11y: 'Both drawings have text descriptions and the beam diagram description updates with the inputs; results are in a status region with units written out; sliders are native ranges with spoken values; the form has labels, aria-invalid and an alert; the line drawing is skipped under reduced motion.',
     deps: ['@fontsource/barlow-condensed', '@fontsource/ibm-plex-mono', 'sites/_shared.ts'],
   },
+  {
+    slug: 'site-till-roll',
+    title: 'Site: TILL ROLL (receipt-style order page)',
+    category: 'Sites',
+    summary: 'A coffee roaster whose order page is a till receipt: choose beans and the roll prints a line for each, with dotted leaders, a running total, a tip selector and a barcode generated from the order. Torn edges are a CSS mask.',
+    when: [
+      'Order, checkout, ticket and confirmation pages; shops that want their price list to feel honest',
+      'Reference for a receipt layout in CSS (dotted leaders, torn edge mask), a deterministic barcode in SVG, and a live total that is also a form',
+    ],
+    file: 'sites/till-roll/index.tsx',
+    files: ['sites/till-roll/index.tsx', 'sites/till-roll/styles.css'],
+    tags: ['site', 'full page', 'niche world', 'receipt', 'thermal', 'shop', 'order form', 'monospace', 'barcode', 'persuade'],
+    a11y: 'Quantity steppers are labelled buttons; the receipt total is a status region; the tip is a radio group; the barcode has a text label and the order is also written out as words; the form has a label, aria-invalid and an alert; the print-feed animation is off under reduced motion.',
+    deps: ['@fontsource/space-mono', 'sites/_shared.ts'],
+  },
 ]

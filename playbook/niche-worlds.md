@@ -1,6 +1,6 @@
 # Niche worlds: when the product has a physical or editorial home
 
-`worlds.md` holds the eight general directions. These fourteen are narrower. Each one borrows the look and the logic of a
+`worlds.md` holds the eight general directions. These fifteen are narrower. Each one borrows the look and the logic of a
 real object or printed form, and it only works when the brief genuinely lives there: a departures board for a rail
 company, a clinical label for a medicine. Use one when the content already belongs to it. A skin applied to unrelated
 content is a gimmick, and the swap test will catch it.
@@ -167,6 +167,17 @@ communicates), then rebuild it for the content in front of you.
 **Needs:** a real formula or process behind the picture, and a label saying how far to trust it.
 **Refuse:** blue as decoration without a grid, fake dimensions, a calculator that does not state its limits, thin light-blue text on dark blue below 4.5:1.
 
+## 23. Thermal Receipt
+**Proof:** site `site-till-roll`.
+**Use for:** order, checkout, ticket, booking and confirmation pages; shops and services that want their pricing to feel honest; anything with line items and a total.
+**Metaphor:** a till receipt still warm from the printer.
+**Palette:** thermal paper `#f7f4ea` on a near-black counter `#1c1b19`, one red stamp `#c4311d`, one warm yellow `#ffd166` for the action.
+**Type:** a single monospace (Space Mono) at two sizes; right-aligned figures in tabular columns.
+**Motion:** a new line steps in as if fed from the printer, once, and not at all under reduced motion.
+**Signature:** the receipt is the form: change the order and the printed lines, the total and the barcode change with it.
+**Needs:** real prices and rules (what is included, what is not), written down plainly.
+**Refuse:** a receipt that hides a fee, a fake barcode implied to be scannable, text that wraps out of its column, a skeuomorphic crinkle texture.
+
 ---
 
 ## Choosing between a niche world and a general one
@@ -186,6 +197,7 @@ communicates), then rebuild it for the content in front of you.
 | depth, terrain, travel | 20 Nautical Chart |
 | status, forecast, scores, prices | 21 Plain Text Sheet |
 | engineering, drawings, calculations | 22 Blueprint |
+| order, checkout, booking, line items | 23 Thermal Receipt |
 
 If nothing here fits, do not force it: go back to `worlds.md` or invent a world. Add a niche world by copying the card
 shape, building something that proves it, and registering the proof under category `Niche worlds` or `Sites`.
