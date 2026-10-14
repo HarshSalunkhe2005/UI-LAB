@@ -137,4 +137,19 @@ export const NEW_SITES: PatternMeta[] = [
     a11y: 'The mascot has a text description that changes with its mood; the demo checklist uses real checkboxes with visible focus and a status sentence; type is large with checked contrast; 48 to 60px targets; springy motion, floating scores and the squash are off under reduced motion.',
     deps: ['@fontsource-variable/bricolage-grotesque', 'sites/_shared.ts'],
   },
+  {
+    slug: 'site-commute-report',
+    title: 'Site: THE COMMUTE REPORT (data poster)',
+    category: 'Sites',
+    summary: 'An annual report set as a Swiss data poster: a toggleable twelve-column grid, one earned giant statistic, charts labelled directly, three type sizes, tabular figures and a single red. A line chart draws on, bars grow, and every chart has its data as a real table.',
+    when: [
+      'Reports, data stories, institutions and products whose pitch is clarity',
+      'Reference for direct labelling instead of legends, a data table twin for each chart, and motion limited to a counter, a drawing line and growing bars',
+    ],
+    file: 'sites/commute-report/index.tsx',
+    files: ['sites/commute-report/index.tsx', 'sites/commute-report/styles.css'],
+    tags: ['site', 'full page', 'swiss grid', 'data poster', 'report', 'chart', 'svg', 'tabular figures', 'grid overlay', 'read'],
+    a11y: 'Each chart has a text description and a real data table in a disclosure; the giant number has a spoken sentence equivalent; the grid toggle is a switch; direct labels carry the series names so colour is not the only key; reveal motion is off under reduced motion.',
+    deps: ['@fontsource-variable/hanken-grotesk', 'sites/_shared.ts'],
+  },
 ]

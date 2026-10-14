@@ -73,6 +73,7 @@ Hex values are starting points; shift them to the brand, keep the **roles**.
 **Refuse:** corporate stock icons, tiny type, sharp corners, glass.
 
 ## 7. Swiss Grid / Data Poster
+**Proof:** site `site-commute-report`.
 **Use for:** reports, data stories, institutions, products whose pitch is clarity.
 **Metaphor:** a conference poster that happens to be interactive.
 **Palette:** white or paper, black, **one** hard accent (signal red or international blue).
