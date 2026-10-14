@@ -80,6 +80,12 @@ export const EVERYDAY: { want: string; slug: string }[] = [
   { want: 'a pricing section', slug: 'pricing-tiers' },
   { want: 'a contact section', slug: 'contact-section' },
   { want: 'a login screen', slug: 'auth-screen' },
+  { want: 'a search box with suggestions', slug: 'combobox' },
+  { want: 'a date field', slug: 'date-picker' },
+  { want: 'a dropdown of actions', slug: 'menu-button' },
+  { want: 'page numbers and breadcrumbs', slug: 'pagination-breadcrumbs' },
+  { want: 'a carousel that is safe to use', slug: 'accessible-carousel' },
+  { want: 'error, warning and success messages', slug: 'alert-banners' },
 ]
 
 /** Briefs worth refusing or sending back for one sharp question. */
