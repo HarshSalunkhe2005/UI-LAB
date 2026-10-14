@@ -524,6 +524,33 @@ export const RECENT: Ref[] = [
     leave: 'Making visitors wait to see the brand; the demo can be replayed and is instant under reduced motion.',
     evidence: 'partial', tags: ['preloader', 'wordmark', 'counter', 'brand'], moves: ['move-counter-wordmark'],
   },
+  {
+    id: 'noho', name: 'Noho', url: 'https://noho.ink', group: 'Recent winners', mode: 'Persuade',
+    idea: 'A New Zealand furniture maker states its material story in one sentence with small picture chips set inside it.',
+    technique: 'Seen in screenshots: a split first screen (headline left, a loose grid of colour-blocked product photographs right), then a centred statement whose lines rise through masks and carry inline image chips between the words.',
+    look: 'Warm off-white, a clean grotesque at tight leading, flat colour-blocked photography (lilac, mustard, olive, terracotta).',
+    take: 'Pictures that live inside the sentence at the size of a letter, revealed word by word (move-inline-chips).',
+    leave: 'Chips are decorative, so the sentence must make sense without them.',
+    evidence: 'partial', tags: ['typography', 'inline images', 'reveal', 'furniture', 'text'], moves: ['move-inline-chips'],
+  },
+  {
+    id: 'lxl-creative', name: 'LxL Creative', url: 'https://www.lxlcreative.co.uk', group: 'Recent winners', mode: 'Persuade',
+    idea: 'A production studio whose headline mixes a heavy grotesque with one word in orange handwriting.',
+    technique: 'Seen in screenshots: dark brown ground, a tall portrait on the left, a looping script mark and a very large lowercase wordmark overlapping the photograph, a headline set in bold caps with one script word tilted between the lines.',
+    look: 'Chocolate-brown ground, cream type, one orange for the script and the logo.',
+    take: 'One accent word per headline, in script, tilted and overlapping (move-script-accent).',
+    leave: 'Two accents in one headline would undo it. Keep the script word short.',
+    evidence: 'partial', tags: ['typography', 'script', 'accent', 'headline', 'production'], moves: ['move-script-accent'],
+  },
+  {
+    id: 'aspen-search', name: 'Aspen Search', url: 'https://www.aspensearch.com', group: 'Recent winners', mode: 'Persuade',
+    idea: 'An executive-search firm for quantitative finance presented as a poster: halftone imagery and huge type in flat panels.',
+    technique: 'Seen in screenshots: a preloader with a faint mark, then a 2x2 split screen of black and grey panels, halftone-dotted leaf shapes, "Placing winners." and "Search" in very large tight grotesque; a sticky top bar with a light/dark switch.',
+    look: 'Black, two greys, white; dotted halftone as the only imagery; a neutral grotesque.',
+    take: 'Halftone made in CSS from a tone gradient and a dot grid, reacting to the pointer (move-halftone-split).',
+    leave: 'Strong contrast filters can band on some screens; the demo is decorative and the words carry the message.',
+    evidence: 'partial', tags: ['halftone', 'split screen', 'poster', 'finance', 'css'], moves: ['move-halftone-split'],
+  },
 ]
 
 export const REFERENCES: Ref[] = [...WORLD, ...VIBE, ...RECENT]
