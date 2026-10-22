@@ -1,0 +1,10 @@
+{
+  "name": "ui-lab",
+  "version": "1.0.0",
+  "description": "Design procedure, 24 design worlds, 250+ copyable UI patterns and a bug catalogue for building premium, non-generic frontends.",
+  "author": { "name": "Harsh Salunkhe", "email": "nightfuryharsh@gmail.com" },
+  "homepage": "https://ui-lab-weld.vercel.app",
+  "repository": "https://github.com/HarshSalunkhe2005/UI-LAB",
+  "license": "UNLICENSED",
+  "keywords": ["ui", "frontend", "design", "patterns", "animation"]
+}

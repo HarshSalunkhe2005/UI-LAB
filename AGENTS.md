@@ -60,3 +60,9 @@ npm run dev        # http://localhost:5180
 npm run build      # typecheck + static build (includes AI files); fails on broken metadata
 npm test           # pure-logic tests (Snake engine, tide model, forecast generator)
 ```
+
+## Install as a Claude Code plugin
+This repo is a plugin marketplace (`.claude-plugin/marketplace.json`, `.claude-plugin/plugin.json`, skill in `skills/ui-lab/`):
+
+    claude plugin marketplace add HarshSalunkhe2005/UI-LAB
+    claude plugin install ui-lab@ui-lab
