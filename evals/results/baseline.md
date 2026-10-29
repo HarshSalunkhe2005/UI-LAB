@@ -52,3 +52,15 @@ Reference point: the deliberately generic fixture (`evals/fixtures/generic-landi
 - One run per brief; no variance estimate.
 - Google Fonts load needs network at render time; the screenshots were taken online.
 - Harness note: pages with `scroll-behavior: smooth` leave a naive screenshot mid-scroll; `shoot.mjs` now forces `auto` before scrolling. Full-page captures of sticky headers should be read together with the `fold-*` shots.
+
+## Re-score under the revised criterion 1 (Phase 1)
+
+`RUBRIC.md` criterion 1 now penalises convergent house-style defaults unless the brief earns them. Applying it to the same runs (other criteria unchanged):
+
+| Brief | Defaults present | Criterion 1 | Total /20 |
+|---|---|---|---|
+| 01 SaaS landing | editorial house style (cream, heavy serif with italic accent word, mono eyebrow, red SAMPLE stamp, hard shadows, ticker), numbered section labels | 2 to 0 (the brief says "not like every other AI-tool page", which this style now is) | 15 |
+| 02 Dashboard | default dark dashboard (navy/slate, blue and amber, donut, KPI row) | 1 to 0 | 10 |
+| 04 Restaurant | serif plus warm orange on charcoal, ticker; partly earned by a wood-fire kitchen | 2 to 1 | 16 |
+
+The original table above is kept as scored at the time.

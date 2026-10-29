@@ -6,7 +6,7 @@ Anchor words: **0** = fails / generic default; **1** = competent but unremarkabl
 
 | # | Criterion | 0 | 1 | 2 |
 |---|---|---|---|---|
-| 1 | **Distinctiveness** | Interchangeable with any AI-generated page for this category (purple/blue gradient, centred hero, three icon cards) | One or two deliberate choices, rest default | A clear point of view; you could not swap the content for another brand's without it feeling wrong |
+| 1 | **Distinctiveness** | Interchangeable with any AI-generated page for this category: 2023 slop (purple/blue gradient, centred hero, three icon cards) **or the current convergent house style** (see below) with nothing in the brief to earn it | One or two deliberate choices, rest default; or a convergent default that the brief only partly earns | A clear point of view that the brief, audience or product chose; you could not swap the content for another brand's without it feeling wrong; no convergent default present unless earned |
 | 2 | **Hierarchy** | Everything similar weight; eye has no path | Main heading and CTA clear, secondary levels muddy | One obvious entry point, clear second and third levels, grouping by proximity and contrast, not just boxes |
 | 3 | **Typography** | System/default fonts everywhere, or no real scale | Sensible pairing or scale but generic (Inter everywhere), line length/leading off in places | Chosen pair with distinct roles, a real scale, good measure (45-80ch) and leading, numerals/caps handled |
 | 4 | **Colour** | Default framework palette or gradient wash; low contrast in places | Coherent palette but not tied to the brand/subject, or accent overused | Restrained, role-based palette (surface, ink, accent, state) that fits the subject; contrast passes |
@@ -16,6 +16,18 @@ Anchor words: **0** = fails / generic default; **1** = competent but unremarkabl
 | 8 | **Responsiveness** | Breaks (overflow, overlap, unreadable) at 375 | Works at 375 but is a squashed desktop | Designed at both: layout changes meaning at 375 (reordered, simplified), no horizontal scroll |
 | 9 | **Content realism** | Lorem ipsum, "Feature One", vague superlatives, fake round numbers everywhere | Plausible copy, generic voice | Specific, in-voice copy and data a real client could ship; numbers that hang together |
 | 10 | **Bug-free** | Console errors, broken layout, dead controls, overflow | One or two small defects (a dead link, a clipped label) | Console clean, every control works, no clipping/overlap at either width |
+
+## Convergent defaults (penalised under criterion 1 unless the brief earns them)
+
+These are what a modern agent produces when it avoids the 2023 slop. Treat them as defaults, not as taste.
+
+- **Editorial house style:** cream or off-white ground, a heavy display serif with one italic accent word in a warm colour, a mono eyebrow label, a rotated "sample" stamp or badge, hard offset shadows, a marquee ticker.
+- **Default dashboard:** dark navy/slate ground, blue plus amber accents, a donut chart, KPI tiles in a row.
+- **Bento grid** of unequal rounded tiles as the feature section.
+- **Numbered section labels** ("01 / How it works") that carry no meaning.
+- **Display serif plus warm orange on charcoal** for any food or hospitality brief.
+
+"Earned" means the brief, the audience or the product points to it (a print magazine might earn the editorial style; a hospitality brief with a wood-fire kitchen might earn a warm dark palette). A match that the scorer cannot justify from the brief is scored as 0 or 1 on criterion 1, whatever its polish. Record which defaults were present in the run notes.
 
 ## Mechanical checks (recorded per run, feed criteria 3, 7, 8, 10)
 
