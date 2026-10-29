@@ -1,0 +1,54 @@
+{
+  "375": {
+    "docWidth": 375,
+    "viewport": 375,
+    "hOverflow": false,
+    "docHeight": 4076,
+    "interactive": 16,
+    "smallTargets": 16,
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      false,
+      true,
+      false
+    ],
+    "h1Count": 0,
+    "fonts": {
+      "h1": null,
+      "h2": "system-ui",
+      "body": "system-ui"
+    },
+    "hasReducedMotion": false,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "1440": {
+    "docWidth": 1425,
+    "viewport": 1440,
+    "hOverflow": false,
+    "docHeight": 2417,
+    "interactive": 16,
+    "smallTargets": 16,
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      false,
+      true,
+      false
+    ],
+    "h1Count": 0,
+    "fonts": {
+      "h1": null,
+      "h2": "system-ui",
+      "body": "system-ui"
+    },
+    "hasReducedMotion": false,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "dir": "C:\\Users\\Harsh\\Projects\\UI-Lab\\evals\\runs\\baseline\\02-analytics-dashboard",
+  "url": "file:///C:/Users/Harsh/Projects/UI-Lab/evals/runs/baseline/02-analytics-dashboard/index.html"
+}

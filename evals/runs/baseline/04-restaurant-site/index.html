@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salt &amp; Ember — Wood-fire cooking at Polvane Quay</title>
+<meta name="description" content="Salt & Ember is a 28-seat wood-fire restaurant on the quay at Polvane. Local catch, oak and apple-wood, one fire.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300;1,9..144,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --coal:#14100d;
+  --coal-2:#1d1814;
+  --ash:#2a231d;
+  --salt:#f3ece0;
+  --salt-dim:#cfc4b2;
+  --ember:#e8602c;
+  --ember-hot:#ff9a3c;
+  --sea:#5f8d8b;
+  --line:rgba(243,236,224,.16);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --gutter:clamp(20px,5vw,72px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--coal);color:var(--salt);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img,svg{display:block;max-width:100%}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--gutter)}
+.eyebrow{font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ember-hot);font-weight:600}
+h1,h2,h3{font-family:var(--serif);font-weight:300;line-height:1.05;letter-spacing:-.01em}
+h2{font-size:clamp(2.2rem,5vw,4rem);margin:.5rem 0 1.2rem}
+h2 em,h1 em{font-style:italic;color:var(--ember-hot);font-weight:300}
+p{max-width:60ch}
+section{padding:clamp(72px,10vw,140px) 0;position:relative}
+:focus-visible{outline:2px solid var(--ember-hot);outline-offset:3px}
+
+/* nav */
+header.nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px var(--gutter);transition:background .3s,backdrop-filter .3s}
+header.nav.solid{background:rgba(20,16,13,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.logo{font-family:var(--serif);font-size:1.35rem;text-decoration:none;font-weight:500;letter-spacing:.01em}
+.logo span{color:var(--ember-hot);font-style:italic}
+nav ul{display:flex;gap:30px;list-style:none;align-items:center}
+nav a{text-decoration:none;font-size:.88rem;letter-spacing:.06em;color:var(--salt-dim);transition:color .2s}
+nav a:hover{color:var(--salt)}
+.btn{display:inline-block;background:var(--ember);color:#150d08;font-weight:600;text-decoration:none;padding:14px 28px;border-radius:2px;border:0;font:600 .95rem var(--sans);letter-spacing:.04em;cursor:pointer;transition:background .2s,transform .2s}
+.btn:hover{background:var(--ember-hot);transform:translateY(-2px)}
+.btn.ghost{background:transparent;border:1px solid var(--salt-dim);color:var(--salt)}
+.btn.ghost:hover{background:var(--salt);color:var(--coal)}
+nav a.btn{padding:10px 20px;color:#150d08;font-size:.85rem}
+nav a.btn:hover{color:#150d08}
+
+/* hero */
+.hero{min-height:100svh;display:flex;align-items:flex-end;padding:0;overflow:hidden;background:radial-gradient(120% 80% at 70% 100%,#3a1a0c 0%,var(--coal) 62%)}
+.hero svg.fire{position:absolute;right:max(-60px,calc(50% - 760px));bottom:0;width:min(780px,95vw);height:auto;opacity:.95}
+.hero .wrap{position:relative;z-index:2;padding-bottom:clamp(60px,9vh,110px);padding-top:140px;width:100%}
+.hero h1{font-size:clamp(3.2rem,9.5vw,8.5rem);margin:.8rem 0 1.4rem;max-width:11ch}
+.hero p.lede{font-size:clamp(1.05rem,1.6vw,1.3rem);color:var(--salt-dim);margin-bottom:2rem}
+.hero .cta{display:flex;gap:14px;flex-wrap:wrap}
+.status{position:absolute;z-index:2;top:92px;right:var(--gutter);font-size:.8rem;letter-spacing:.08em;color:var(--salt-dim);display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:#777}
+.status.open .dot{background:#7fd18b}
+.spark{position:absolute;bottom:-10px;width:3px;height:3px;border-radius:50%;background:var(--ember-hot);opacity:0;animation:rise 7s linear infinite}
+@keyframes rise{0%{opacity:0;transform:translate(0,0)}10%{opacity:.9}100%{opacity:0;transform:translate(var(--dx),-85vh)}}
+@keyframes flick{0%,100%{transform:scaleY(1) skewX(0)}33%{transform:scaleY(1.04) skewX(-1.5deg)}66%{transform:scaleY(.97) skewX(1.2deg)}}
+.flame{transform-origin:50% 100%;animation:flick 2.6s ease-in-out infinite}
+.flame.b{animation-duration:1.9s;animation-delay:-.7s}
+.flame.c{animation-duration:3.1s;animation-delay:-1.4s}
+
+/* marquee */
+.strip{border-block:1px solid var(--line);padding:18px 0;overflow:hidden;white-space:nowrap;background:var(--coal-2)}
+.strip div{display:inline-block;animation:slide 40s linear infinite;font-family:var(--serif);font-style:italic;font-size:1.3rem;color:var(--salt-dim)}
+.strip b{color:var(--ember);font-style:normal;margin:0 22px;font-weight:400}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* story */
+.story .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(40px,7vw,110px);align-items:center}
+.story p{color:var(--salt-dim);margin-bottom:1.1rem}
+.story p:first-of-type::first-letter{font-family:var(--serif);font-size:4.4rem;float:left;line-height:.8;padding:6px 12px 0 0;color:var(--ember-hot)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:2.2rem;border-top:1px solid var(--line);padding-top:1.6rem}
+.facts b{display:block;font-family:var(--serif);font-size:2.4rem;font-weight:300;color:var(--salt)}
+.facts span{font-size:.82rem;color:var(--salt-dim);letter-spacing:.04em}
+.plate{aspect-ratio:4/5;background:var(--ash);border-radius:200px 200px 4px 4px;position:relative;overflow:hidden;border:1px solid var(--line)}
+.plate svg{position:absolute;inset:0;width:100%;height:100%}
+.plate figcaption{position:absolute;bottom:18px;left:0;right:0;text-align:center;font-family:var(--serif);font-style:italic;color:var(--salt-dim);font-size:.95rem}
+
+/* menu */
+.menu{background:var(--salt);color:#241a12}
+.menu .eyebrow{color:#b8431a}
+.menu h2 em{color:#b8431a}
+.menu-head{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap;margin-bottom:2.4rem}
+.menu-head p{color:#5b4a3c}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:2.4rem;border-bottom:1px solid rgba(36,26,18,.2)}
+.tab{background:none;border:0;font:500 .95rem var(--sans);letter-spacing:.06em;padding:12px 20px;cursor:pointer;color:#6f5c4c;border-bottom:3px solid transparent;margin-bottom:-1px;transition:color .2s}
+.tab:hover{color:#241a12}
+.tab[aria-selected="true"]{color:#241a12;border-color:var(--ember)}
+.panel{display:none;grid-template-columns:1fr 1fr;gap:0 clamp(30px,6vw,90px)}
+.panel.on{display:grid;animation:fade .5s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}}
+.dish{padding:20px 0;border-bottom:1px dotted rgba(36,26,18,.3)}
+.dish .row{display:flex;gap:14px;align-items:baseline}
+.dish h3{font-size:1.35rem;font-weight:500;flex:0 1 auto}
+.dish .lead{flex:1;border-bottom:1px dotted rgba(36,26,18,.35);transform:translateY(-4px);min-width:16px}
+.dish .price{font-family:var(--serif);font-size:1.2rem;font-weight:500}
+.dish p{font-size:.95rem;color:#5b4a3c;margin-top:4px}
+.tag{display:inline-block;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#b8431a;margin-left:8px;font-weight:600;font-family:var(--sans);vertical-align:2px}
+.menu-note{margin-top:2.4rem;font-size:.88rem;color:#6f5c4c;font-style:italic;max-width:none}
+
+/* hours & location */
+.visit{background:var(--coal-2)}
+.visit .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,110px)}
+table.hours{width:100%;border-collapse:collapse;margin-top:1rem}
+.hours td{padding:14px 0;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right;color:var(--salt-dim)}
+.hours tr.today td{color:var(--ember-hot);font-weight:600}
+.hours tr.closed td:last-child{font-style:italic}
+.addr{font-family:var(--serif);font-size:1.7rem;line-height:1.3;margin:1rem 0 1.4rem;font-weight:300}
+.map{margin-top:1.6rem;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#17201f}
+.map svg{width:100%;height:auto}
+.small{font-size:.9rem;color:var(--salt-dim)}
+
+/* reserve */
+.reserve .grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(40px,7vw,100px);align-items:start}
+.reserve p{color:var(--salt-dim);margin-bottom:1rem}
+form{background:var(--ash);padding:clamp(24px,4vw,44px);border-radius:4px;border:1px solid var(--line)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.f{display:flex;flex-direction:column;gap:6px}
+.f.full{grid-column:1/-1}
+label{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--salt-dim)}
+input,select,textarea{background:var(--coal);border:1px solid rgba(243,236,224,.25);color:var(--salt);font:400 1rem var(--sans);padding:13px 14px;border-radius:2px;width:100%;min-height:48px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ember-hot);box-shadow:0 0 0 3px rgba(255,154,60,.2)}
+input[aria-invalid="true"],select[aria-invalid="true"]{border-color:#ff6b5a}
+.err{font-size:.8rem;color:#ff8f80;min-height:1em}
+textarea{resize:vertical;min-height:80px}
+form .btn{width:100%;margin-top:22px;padding:17px}
+.ok{display:none;text-align:center;padding:30px 0}
+.ok.show{display:block}
+.ok h3{font-size:2.2rem;margin-bottom:.6rem}
+.ok h3 em{color:var(--ember-hot)}
+.ok p{margin:0 auto 1rem}
+
+/* private */
+.private{background:linear-gradient(180deg,var(--coal),#22130b);border-top:1px solid var(--line)}
+.private .box{border:1px solid rgba(255,154,60,.4);padding:clamp(28px,5vw,64px);display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:center;position:relative}
+.private .box::before{content:"";position:absolute;inset:8px;border:1px solid rgba(255,154,60,.15);pointer-events:none}
+.private ul{list-style:none;font-size:.95rem;color:var(--salt-dim)}
+.private li{padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:16px}
+.private li b{color:var(--salt);font-weight:500}
+
+footer{padding:50px 0 40px;border-top:1px solid var(--line);font-size:.88rem;color:var(--salt-dim)}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s,transform .9s}
+.rv.in{opacity:1;transform:none}
+
+@media (max-width:860px){
+  body{font-size:16px}
+  nav ul li:not(:last-child){display:none}
+  .status{top:76px;right:auto;left:var(--gutter)}
+  .hero svg.fire{opacity:.5;right:-30%;width:130vw}
+  .hero h1{max-width:9ch}
+  .story .grid,.visit .grid,.reserve .grid,.private .box{grid-template-columns:1fr}
+  .plate{max-width:340px;aspect-ratio:1/1.1;margin:0 auto}
+  .panel.on{grid-template-columns:1fr}
+  .fields{grid-template-columns:1fr}
+  .tab{padding:12px 14px}
+  .facts b{font-size:1.9rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="logo" href="#top">Salt <span>&amp;</span> Ember</a>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="#story">Story</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#visit">Visit</a></li>
+      <li><a href="#private">Private</a></li>
+      <li><a class="btn" href="#reserve">Reserve</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero" aria-label="Welcome">
+  <svg class="fire" viewBox="0 0 800 700" fill="none" aria-hidden="true">
+    <defs>
+      <radialGradient id="glow" cx="50%" cy="85%" r="55%">
+        <stop offset="0" stop-color="#ff9a3c" stop-opacity=".55"/>
+        <stop offset=".5" stop-color="#e8602c" stop-opacity=".18"/>
+        <stop offset="1" stop-color="#e8602c" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="fl1" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#ffd27a"/><stop offset=".35" stop-color="#ff9a3c"/><stop offset=".8" stop-color="#e8602c"/><stop offset="1" stop-color="#b8431a" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="fl2" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#fff0c4"/><stop offset=".5" stop-color="#ffc060"/><stop offset="1" stop-color="#ff9a3c" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <rect width="800" height="700" fill="url(#glow)"/>
+    <g class="flame"><path d="M400 640C300 600 270 500 320 410c14-26 30-44 28-80 40 26 52 62 44 96 28-30 46-80 30-150 70 60 118 140 96 226-14 56-56 108-118 138z" fill="url(#fl1)"/></g>
+    <g class="flame b"><path d="M470 650c-50-20-78-70-60-130 8-26 26-40 30-70 30 24 50 58 44 96 20-14 30-36 30-60 34 40 44 96 14 140-14 18-34 28-58 24z" fill="url(#fl1)" opacity=".85"/></g>
+    <g class="flame c"><path d="M400 650c-40-18-56-60-40-104 10-26 28-40 30-72 28 26 42 56 34 92 14-8 22-24 22-42 28 36 28 86-6 114-12 8-26 12-40 12z" fill="url(#fl2)"/></g>
+    <!-- logs -->
+    <g>
+      <rect x="230" y="640" width="340" height="34" rx="17" fill="#2a1a10" transform="rotate(-6 400 657)"/>
+      <rect x="240" y="650" width="330" height="32" rx="16" fill="#1f130b" transform="rotate(5 400 666)"/>
+      <ellipse cx="236" cy="650" rx="12" ry="17" fill="#4a2a17" transform="rotate(-6 236 650)"/>
+      <ellipse cx="566" cy="668" rx="12" ry="16" fill="#4a2a17" transform="rotate(5 566 668)"/>
+      <path d="M260 660h280" stroke="#e8602c" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+    </g>
+  </svg>
+  <div class="status" id="status" role="status"><span class="dot"></span><span id="statusText">Polvane Quay</span></div>
+  <div class="wrap">
+    <p class="eyebrow">Wood-fire cooking &middot; Polvane Quay</p>
+    <h1>One fire.<br><em>Twenty-eight</em> seats.</h1>
+    <p class="lede">Whatever the boats land at dawn, cooked over oak and apple wood by people who can see you eating it. Tuesday to Sunday, from six.</p>
+    <div class="cta">
+      <a class="btn" href="#reserve">Book a table</a>
+      <a class="btn ghost" href="#menu">Read the menu</a>
+    </div>
+  </div>
+</section>
+
+<div class="strip" aria-hidden="true"><div>
+  Charred leeks <b>&#9670;</b> Brown crab on embers <b>&#9670;</b> Whole turbot <b>&#9670;</b> Oak-smoked butter <b>&#9670;</b> Sea salt from the cove <b>&#9670;</b> Burnt honey <b>&#9670;</b> Charred leeks <b>&#9670;</b> Brown crab on embers <b>&#9670;</b> Whole turbot <b>&#9670;</b> Oak-smoked butter <b>&#9670;</b> Sea salt from the cove <b>&#9670;</b> Burnt honey <b>&#9670;</b>
+</div></div>
+
+<!-- STORY -->
+<section class="story" id="story">
+  <div class="wrap grid">
+    <div class="rv">
+      <p class="eyebrow">The story</p>
+      <h2>A net shed, a <em>hearth</em>, and a stubborn idea.</h2>
+      <p>Salt &amp; Ember lives in what used to be Tamsin Pascoe's net shed, the last building on the quay before the breakwater. When Mara and Jory Tregear took the lease in 2019 the roof leaked and the floor was shingle. They kept the granite walls, laid a brick hearth where the winch stood, and decided there would be no gas on the premises at all.</p>
+      <p>That is still the rule. Everything is cooked on one fire, fed with oak from a woodlot up the valley and apple prunings from the orchard behind the church. The hot side sears, the cool side coaxes, and the ash gets used too: leeks buried in it, salt baked in it.</p>
+      <p>We cook what the Polvane boats bring in, which means the menu changes when the weather does. Twenty-eight seats means we know whose birthday it is.</p>
+      <div class="facts">
+        <div><b>28</b><span>seats, one sitting a night</span></div>
+        <div><b>0</b><span>gas rings in the building</span></div>
+        <div><b>4 mi</b><span>to the furthest supplier</span></div>
+      </div>
+    </div>
+    <figure class="plate rv">
+      <svg viewBox="0 0 400 500" aria-hidden="true">
+        <defs><radialGradient id="pg" cx="50%" cy="55%" r="50%"><stop offset="0" stop-color="#3a2a1e"/><stop offset="1" stop-color="#241a12"/></radialGradient></defs>
+        <rect width="400" height="500" fill="url(#pg)"/>
+        <!-- sea lines -->
+        <g stroke="#5f8d8b" stroke-width="1.5" opacity=".35" fill="none">
+          <path d="M0 410q50-14 100 0t100 0 100 0 100 0"/><path d="M0 435q50-14 100 0t100 0 100 0 100 0"/><path d="M0 460q50-14 100 0t100 0 100 0 100 0"/>
+        </g>
+        <!-- plate -->
+        <circle cx="200" cy="225" r="130" fill="#f3ece0"/>
+        <circle cx="200" cy="225" r="108" fill="none" stroke="#d8cdb9" stroke-width="2"/>
+        <!-- fish -->
+        <g transform="translate(200 225) rotate(-18)">
+          <path d="M-84 0C-50-46 28-50 70-10L104-32 98 0l6 32-34-22C28 50-50 46-84 0z" fill="#9a5a2e"/>
+          <path d="M-70 0C-40-34 24-36 62-8" stroke="#3b1f0f" stroke-width="5" fill="none" stroke-linecap="round" opacity=".6"/>
+          <path d="M-58 12C-30 32 20 34 54 12" stroke="#3b1f0f" stroke-width="5" fill="none" stroke-linecap="round" opacity=".6"/>
+          <path d="M-40-28l10 56M-10-34l10 64M20-30l8 56" stroke="#3b1f0f" stroke-width="4" stroke-linecap="round" opacity=".55"/>
+          <circle cx="-58" cy="-6" r="5" fill="#f3ece0"/><circle cx="-58" cy="-6" r="2" fill="#14100d"/>
+        </g>
+        <!-- lemon -->
+        <g transform="translate(290 300)"><circle r="24" fill="#f2c94c"/><circle r="19" fill="#f8e08a"/><path d="M0-19v38M-19 0h38M-13-13l26 26M13-13l-26 26" stroke="#f2c94c" stroke-width="1.5"/></g>
+        <!-- herbs -->
+        <g fill="#6f9a5a"><ellipse cx="130" cy="290" rx="14" ry="5" transform="rotate(30 130 290)"/><ellipse cx="146" cy="298" rx="14" ry="5" transform="rotate(-20 146 298)"/><ellipse cx="120" cy="304" rx="12" ry="4.5" transform="rotate(70 120 304)"/></g>
+        <!-- sparks -->
+        <g fill="#ff9a3c"><circle cx="70" cy="90" r="2.5"/><circle cx="330" cy="70" r="2"/><circle cx="300" cy="130" r="3"/><circle cx="96" cy="150" r="1.8"/><circle cx="350" cy="190" r="2"/></g>
+      </svg>
+      <figcaption>Hake, on the bone, over apple wood</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="menu-head rv">
+      <div>
+        <p class="eyebrow">The menu</p>
+        <h2>Cooked on <em>the fire</em>, nothing else.</h2>
+      </div>
+      <p>Written each afternoon. Prices in pounds, service not added; the team shares a tip jar.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Menu sections">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="p-starters" id="t-starters">Starters</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-mains" id="t-mains" tabindex="-1">Mains</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-desserts" id="t-desserts" tabindex="-1">Desserts</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-drinks" id="t-drinks" tabindex="-1">Drinks</button>
+    </div>
+
+    <div class="panel on" role="tabpanel" id="p-starters" aria-labelledby="t-starters">
+      <div class="dish"><div class="row"><h3>Leeks buried in ash</h3><span class="lead"></span><span class="price">9</span></div><p>Hazelnut, brown butter, pickled mussel, sea purslane.</p></div>
+      <div class="dish"><div class="row"><h3>Brown crab on the embers<span class="tag">Signature</span></h3><span class="lead"></span><span class="price">14</span></div><p>Shell-roasted, seaweed butter, grilled sourdough.</p></div>
+      <div class="dish"><div class="row"><h3>Grilled sardines</h3><span class="lead"></span><span class="price">10</span></div><p>Charred lemon, fennel, olive oil from the cooler side.</p></div>
+      <div class="dish"><div class="row"><h3>Flatbread, oak-smoked butter</h3><span class="lead"></span><span class="price">6</span></div><p>Slapped on the hot stone to order. Flaky salt.</p></div>
+      <div class="dish"><div class="row"><h3>Burnt onion broth</h3><span class="lead"></span><span class="price">8</span></div><p>Three-hour, deep as a mine. Aged cheddar toast.</p></div>
+      <div class="dish"><div class="row"><h3>Beef tartare, fire-kissed</h3><span class="lead"></span><span class="price">13</span></div><p>Local dry-aged rump, smoked egg yolk, capers.</p></div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-mains" aria-labelledby="t-mains" hidden>
+      <div class="dish"><div class="row"><h3>Whole turbot, to share<span class="tag">For two</span></h3><span class="lead"></span><span class="price">68</span></div><p>On the bone, basted with seaweed butter. Served with burnt lemon and green sauce.</p></div>
+      <div class="dish"><div class="row"><h3>Hake on apple wood</h3><span class="lead"></span><span class="price">26</span></div><p>Crisp skin, white beans from the embers, wild garlic oil.</p></div>
+      <div class="dish"><div class="row"><h3>Lamb shoulder, nine hours</h3><span class="lead"></span><span class="price">29</span></div><p>Salt-marsh lamb, charred hispi, anchovy and rosemary.</p></div>
+      <div class="dish"><div class="row"><h3>Dry-aged ribeye</h3><span class="lead"></span><span class="price">38</span></div><p>Thirty-five days, 350g. Bone marrow butter, watercress.</p></div>
+      <div class="dish"><div class="row"><h3>Mushroom and ember-roast celeriac<span class="tag">Vegan</span></h3><span class="lead"></span><span class="price">22</span></div><p>Smoked celeriac, wild mushrooms, hazelnut crumb.</p></div>
+      <div class="dish"><div class="row"><h3>Grilled monkfish tail</h3><span class="lead"></span><span class="price">31</span></div><p>Roast pepper, saffron, mussels in their juices.</p></div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-desserts" aria-labelledby="t-desserts" hidden>
+      <div class="dish"><div class="row"><h3>Burnt honey tart<span class="tag">Signature</span></h3><span class="lead"></span><span class="price">9</span></div><p>Caramelised on the coals. Cultured cream, sea salt.</p></div>
+      <div class="dish"><div class="row"><h3>Fire-roasted plums</h3><span class="lead"></span><span class="price">8</span></div><p>Bay leaf ice cream, toasted oats.</p></div>
+      <div class="dish"><div class="row"><h3>Dark chocolate, smoked salt</h3><span class="lead"></span><span class="price">9</span></div><p>Warm pot, olive oil, sourdough crumb.</p></div>
+      <div class="dish"><div class="row"><h3>Charred pineapple, rum</h3><span class="lead"></span><span class="price">8</span></div><p>Grilled with demerara, coconut cream, lime.</p></div>
+      <div class="dish"><div class="row"><h3>Local cheese, ember apple</h3><span class="lead"></span><span class="price">11</span></div><p>Two Cornish cheeses, baked apple, oat biscuit.</p></div>
+      <div class="dish"><div class="row"><h3>Affogato, smoked vanilla</h3><span class="lead"></span><span class="price">7</span></div><p>Espresso poured at the table.</p></div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-drinks" aria-labelledby="t-drinks" hidden>
+      <div class="dish"><div class="row"><h3>Ember Old Fashioned</h3><span class="lead"></span><span class="price">13</span></div><p>Rye, burnt-honey syrup, smoked orange peel.</p></div>
+      <div class="dish"><div class="row"><h3>Quay Sour</h3><span class="lead"></span><span class="price">12</span></div><p>Local gin, sea buckthorn, egg white, a pinch of salt.</p></div>
+      <div class="dish"><div class="row"><h3>Tide Table, no alcohol</h3><span class="lead"></span><span class="price">7</span></div><p>Cucumber, fennel, lime, tonic from the cove spring.</p></div>
+      <div class="dish"><div class="row"><h3>Cornish cider, pint</h3><span class="lead"></span><span class="price">6.5</span></div><p>Dry, cloudy, from the orchard behind the church.</p></div>
+      <div class="dish"><div class="row"><h3>House white, Muscadet</h3><span class="lead"></span><span class="price">8 / 32</span></div><p>Glass or bottle. Made for oysters and sardines.</p></div>
+      <div class="dish"><div class="row"><h3>House red, Mencia</h3><span class="lead"></span><span class="price">9 / 36</span></div><p>Light, peppery, best with a little chill.</p></div>
+      <div class="dish"><div class="row"><h3>Pot of coffee or tea</h3><span class="lead"></span><span class="price">4</span></div><p>Roasted in the next town over. Smoked tea on request.</p></div>
+      <div class="dish"><div class="row"><h3>Corkage</h3><span class="lead"></span><span class="price">15</span></div><p>Per bottle, one bottle per table of four.</p></div>
+    </div>
+
+    <p class="menu-note">Please tell us about allergies when you book. The fire is shared, so we cannot guarantee any dish is free of trace nuts, gluten or shellfish.</p>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="visit" id="visit">
+  <div class="wrap grid">
+    <div class="rv">
+      <p class="eyebrow">Opening hours</p>
+      <h2>Lit at <em>half past four.</em></h2>
+      <p class="small">One sitting at six, a second at half past eight. Last orders an hour before closing; the fire goes out when the wood does.</p>
+      <table class="hours" id="hours">
+        <tbody>
+          <tr data-d="1" class="closed"><td>Monday</td><td>Closed</td></tr>
+          <tr data-d="2"><td>Tuesday</td><td>18:00 &ndash; 22:30</td></tr>
+          <tr data-d="3"><td>Wednesday</td><td>18:00 &ndash; 22:30</td></tr>
+          <tr data-d="4"><td>Thursday</td><td>18:00 &ndash; 22:30</td></tr>
+          <tr data-d="5"><td>Friday</td><td>18:00 &ndash; 23:00</td></tr>
+          <tr data-d="6"><td>Saturday</td><td>12:30 &ndash; 15:00 &middot; 18:00 &ndash; 23:00</td></tr>
+          <tr data-d="0"><td>Sunday</td><td>12:30 &ndash; 16:00</td></tr>
+        </tbody>
+      </table>
+      <p class="small" style="margin-top:1rem">Closed Mondays and the whole of January, when the sea does what it likes.</p>
+    </div>
+    <div class="rv">
+      <p class="eyebrow">Find us</p>
+      <address class="addr" style="font-style:normal">The Old Net Shed<br>Quay Road, Polvane<br>Cornwall TR27 4QF</address>
+      <p class="small">Last building before the breakwater, under the blue lamp. Park at Cliff Top (7 min walk down the slipway) or take the 14 bus to Quay Stop. Dogs welcome on the terrace. Step-free entry on the harbour side.</p>
+      <div class="map">
+        <svg viewBox="0 0 520 300" role="img" aria-label="Sketch map: Salt and Ember sits at the end of Quay Road beside the breakwater">
+          <rect width="520" height="300" fill="#17201f"/>
+          <path d="M0 190C80 180 140 215 240 200S400 170 520 195V300H0z" fill="#1f3a3a"/>
+          <g stroke="#5f8d8b" stroke-width="1" fill="none" opacity=".5"><path d="M20 235q20-8 40 0t40 0 40 0 40 0M200 265q20-8 40 0t40 0 40 0 40 0"/></g>
+          <path d="M310 188h150v22H310z" fill="#2a231d" stroke="#5a4a3c"/>
+          <text x="360" y="204" fill="#9ab" font-size="10" font-family="sans-serif" letter-spacing="2">BREAKWATER</text>
+          <path d="M20 40C120 70 200 90 300 150L330 190" stroke="#3b3128" stroke-width="14" fill="none" stroke-linecap="round"/>
+          <path d="M20 40C120 70 200 90 300 150L330 190" stroke="#6b5a49" stroke-width="1.5" fill="none" stroke-dasharray="4 5"/>
+          <text x="90" y="52" fill="#9a8a78" font-size="11" font-family="sans-serif" transform="rotate(14 90 52)">Quay Road</text>
+          <g fill="#2a231d" stroke="#4a3d31"><rect x="160" y="110" width="40" height="28"/><rect x="220" y="124" width="34" height="26"/><rect x="100" y="86" width="32" height="24"/></g>
+          <circle cx="322" cy="170" r="22" fill="#e8602c" opacity=".22"/>
+          <circle cx="322" cy="170" r="9" fill="#ff9a3c"/>
+          <path d="M322 156c-5 6-8 8-5 14 2-3 4-3 5-6 1 3 3 4 3 7 4-4 3-11-3-15z" fill="#14100d"/>
+          <text x="346" y="168" fill="#f3ece0" font-size="13" font-family="Georgia,serif" font-style="italic">Salt &amp; Ember</text>
+          <circle cx="40" cy="262" r="10" fill="none" stroke="#9a8a78"/><text x="36" y="266" fill="#9a8a78" font-size="11" font-family="sans-serif">N</text>
+        </svg>
+      </div>
+      <p class="small" style="margin-top:1rem">Phone: <a href="tel:+441736000428">01736 000 428</a> &middot; <a href="mailto:hello@saltandember.example">hello@saltandember.example</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVE -->
+<section class="reserve" id="reserve">
+  <div class="wrap grid">
+    <div class="rv">
+      <p class="eyebrow">Reservations</p>
+      <h2>Come and <em>sit by the fire.</em></h2>
+      <p>With only 28 seats, most weekend tables go three weeks out. We hold a few walk-in seats at the bar each night from six.</p>
+      <p>Parties of up to six can book here. Larger than that, see private dining below. We will email you within a day to confirm.</p>
+      <p class="small">Cancel up to 24 hours ahead, no charge. After that, we ask £20 a head, because the fish is already bought.</p>
+    </div>
+    <form id="resForm" class="rv" novalidate>
+      <div id="formBody">
+        <div class="fields">
+          <div class="f full"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required><div class="err" id="e-name"></div></div>
+          <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required><div class="err" id="e-email"></div></div>
+          <div class="f"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel"><div class="err" id="e-phone"></div></div>
+          <div class="f"><label for="date">Date</label><input id="date" name="date" type="date" required><div class="err" id="e-date"></div></div>
+          <div class="f"><label for="time">Time</label>
+            <select id="time" name="time" required><option value="">Choose a date first</option></select><div class="err" id="e-time"></div></div>
+          <div class="f"><label for="guests">Guests</label>
+            <select id="guests" name="guests"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+          <div class="f"><label for="occ">Occasion</label>
+            <select id="occ" name="occ"><option value="">Just dinner</option><option>Birthday</option><option>Anniversary</option><option>Celebration</option></select></div>
+          <div class="f full"><label for="notes">Allergies &amp; notes</label><textarea id="notes" name="notes" placeholder="Shellfish allergy, a pram, a surprise..."></textarea></div>
+        </div>
+        <button class="btn" type="submit">Request this table</button>
+      </div>
+      <div class="ok" id="ok" role="status" aria-live="polite" tabindex="-1">
+        <h3>See you by the <em>fire</em>, <span id="okName"></span>.</h3>
+        <p id="okMsg"></p>
+        <p class="small">A confirmation will reach <b id="okMail"></b> within a day.</p>
+        <button type="button" class="btn ghost" id="again">Make another request</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- PRIVATE -->
+<section class="private" id="private">
+  <div class="wrap">
+    <div class="box rv">
+      <div>
+        <p class="eyebrow">Private dining</p>
+        <h2>The whole shed, <em>all yours.</em></h2>
+        <p>Closed on a Monday, the fire is yours. Take all 28 seats for a wedding supper, a milestone birthday or a company away day, with a menu we write for your table. Or take the long oak table in the back, which seats 10 beside the hearth, on any night we are open.</p>
+        <p style="margin-top:1rem"><a class="btn" href="mailto:private@saltandember.example?subject=Private%20dining%20enquiry">Ask about a date</a></p>
+      </div>
+      <ul>
+        <li><span>Full shed (Mon)</span><b>up to 28 guests</b></li>
+        <li><span>Hearth table</span><b>8 to 10 guests</b></li>
+        <li><span>Set feast from</span><b>£75 pp</b></li>
+        <li><span>Minimum spend (Mon)</span><b>£1,800</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; Salt &amp; Ember, The Old Net Shed, Quay Road, Polvane.</span>
+    <span>Cooked on oak and apple wood. Please eat slowly.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // nav
+  var nav=document.getElementById('nav');
+  function onScroll(){nav.classList.toggle('solid',window.scrollY>40)}
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+  // sparks
+  var hero=document.querySelector('.hero');
+  if(!matchMedia('(prefers-reduced-motion:reduce)').matches){
+    for(var i=0;i<22;i++){
+      var s=document.createElement('i');s.className='spark';
+      s.style.left=(52+Math.random()*30)+'%';
+      s.style.animationDelay=(-Math.random()*7)+'s';
+      s.style.animationDuration=(5+Math.random()*5)+'s';
+      s.style.setProperty('--dx',((Math.random()-.5)*160)+'px');
+      hero.appendChild(s);
+    }
+  }
+
+  // reveal
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+  setTimeout(function(){document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')})},4000);
+
+  // menu tabs
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  function pick(t){
+    tabs.forEach(function(x){
+      var on=x===t;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;
+      var p=document.getElementById(x.getAttribute('aria-controls'));
+      p.hidden=!on;p.classList.toggle('on',on);
+    });
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){pick(t)});
+    t.addEventListener('keydown',function(e){
+      var n=null;
+      if(e.key==='ArrowRight')n=tabs[(i+1)%tabs.length];
+      if(e.key==='ArrowLeft')n=tabs[(i+tabs.length-1)%tabs.length];
+      if(n){e.preventDefault();pick(n);n.focus()}
+    });
+  });
+
+  // hours / open status
+  var sched={
+    0:[[12.5,16]],1:[],2:[[18,22.5]],3:[[18,22.5]],4:[[18,22.5]],5:[[18,23]],6:[[12.5,15],[18,23]]
+  };
+  var now=new Date(),d=now.getDay(),h=now.getHours()+now.getMinutes()/60;
+  var row=document.querySelector('#hours tr[data-d="'+d+'"]');if(row)row.classList.add('today');
+  var open=sched[d].some(function(r){return h>=r[0]&&h<r[1]});
+  var st=document.getElementById('status');
+  st.classList.toggle('open',open);
+  document.getElementById('statusText').textContent=open?'Open now · Polvane Quay':(sched[d].length?'Fire lit from '+(sched[d][0][0]<13?'12:30':'18:00')+' today':'Closed today · Polvane Quay');
+  if(!open&&sched[d].length&&h>sched[d][sched[d].length-1][1]) document.getElementById('statusText').textContent='Closed for tonight · Polvane Quay';
+
+  // reservation form
+  var dateEl=document.getElementById('date'),timeEl=document.getElementById('time');
+  function iso(x){return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')}
+  var minD=new Date();minD.setDate(minD.getDate()+1);
+  var maxD=new Date();maxD.setDate(maxD.getDate()+90);
+  dateEl.min=iso(minD);dateEl.max=iso(maxD);
+  function slots(day){
+    if(day===1)return [];
+    if(day===0)return ['12:30','13:30','14:30'];
+    var a=['18:00','18:30','20:30','21:00'];
+    if(day===6)a=['12:30','13:30','14:00'].concat(a);
+    return a;
+  }
+  dateEl.addEventListener('change',function(){
+    var v=dateEl.value;timeEl.innerHTML='';
+    if(!v){timeEl.innerHTML='<option value="">Choose a date first</option>';return}
+    var day=new Date(v+'T12:00:00').getDay(),s=slots(day);
+    if(!s.length){timeEl.innerHTML='<option value="">Closed on Mondays</option>';return}
+    timeEl.innerHTML='<option value="">Choose a time</option>'+s.map(function(t){return '<option>'+t+'</option>'}).join('');
+  });
+  var form=document.getElementById('resForm');
+  function setErr(id,msg){
+    var inp=document.getElementById(id);document.getElementById('e-'+id).textContent=msg||'';
+    inp.setAttribute('aria-invalid',msg?'true':'false');return !msg;
+  }
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var f=form.elements,ok=true,first=null;
+    function chk(id,msg){var good=setErr(id,msg);if(!good){ok=false;if(!first)first=document.getElementById(id)}}
+    chk('name',f.name.value.trim().length<2?'Please tell us your name.':'');
+    chk('email',/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.value)?'':'We need a valid email to confirm.');
+    var ph=f.phone.value.replace(/[\s()+-]/g,'');
+    chk('phone',ph&&!/^\d{7,15}$/.test(ph)?'That number looks off.':'');
+    var dv=f.date.value,dateMsg='';
+    if(!dv)dateMsg='Pick a date.';
+    else if(dv<dateEl.min||dv>dateEl.max)dateMsg='Bookings open from tomorrow, up to 90 days ahead.';
+    else if(new Date(dv+'T12:00:00').getDay()===1)dateMsg='We are closed on Mondays.';
+    else if(dv.slice(5,7)==='01')dateMsg='We are closed in January.';
+    chk('date',dateMsg);
+    chk('time',f.time.value?'':'Choose a time.');
+    if(!ok){first.focus();return}
+    var nice=new Date(dv+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+    document.getElementById('okName').textContent=f.name.value.trim().split(' ')[0];
+    document.getElementById('okMsg').textContent='Table for '+f.guests.value+', '+nice+' at '+f.time.value+'. We have not taken a payment and nothing is final until we write back.';
+    document.getElementById('okMail').textContent=f.email.value;
+    document.getElementById('formBody').style.display='none';
+    var okb=document.getElementById('ok');okb.classList.add('show');okb.focus();
+  });
+  document.getElementById('again').addEventListener('click',function(){
+    form.reset();timeEl.innerHTML='<option value="">Choose a date first</option>';
+    document.getElementById('formBody').style.display='';
+    document.getElementById('ok').classList.remove('show');
+    form.querySelectorAll('[aria-invalid]').forEach(function(i){i.removeAttribute('aria-invalid')});
+  });
+})();
+</script>
+</body>
+</html>

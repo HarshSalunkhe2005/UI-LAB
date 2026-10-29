@@ -1,0 +1,54 @@
+{
+  "375": {
+    "docWidth": 375,
+    "viewport": 375,
+    "hOverflow": false,
+    "docHeight": 6524,
+    "interactive": 7,
+    "smallTargets": 1,
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      false,
+      true,
+      false,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Inter",
+      "h2": "Inter",
+      "body": "Inter"
+    },
+    "hasReducedMotion": false,
+    "focusStyle": false,
+    "consoleErrors": 0
+  },
+  "1440": {
+    "docWidth": 1425,
+    "viewport": 1440,
+    "hOverflow": false,
+    "docHeight": 3395,
+    "interactive": 10,
+    "smallTargets": 4,
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      false,
+      true,
+      false,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Inter",
+      "h2": "Inter",
+      "body": "Inter"
+    },
+    "hasReducedMotion": false,
+    "focusStyle": false,
+    "consoleErrors": 0
+  },
+  "dir": "C:\\Users\\Harsh\\Projects\\UI-Lab\\evals\\fixtures\\generic-landing",
+  "url": "file:///C:/Users/Harsh/Projects/UI-Lab/evals/fixtures/generic-landing/index.html"
+}

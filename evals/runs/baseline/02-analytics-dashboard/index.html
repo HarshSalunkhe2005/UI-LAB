@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harbor Ferries · Operations Dashboard</title>
+<style>
+:root{
+  --bg:#f3f5f8;--panel:#fff;--ink:#14202e;--muted:#5d6b7c;--line:#e1e6ed;
+  --brand:#0b5cad;--brand-soft:#e6f0fa;
+  --ok:#1f8a5b;--warn:#c27a0a;--bad:#c63b32;--bad-soft:#fbeceb;--warn-soft:#fdf3e1;--ok-soft:#e5f4ec;
+  --c1:#0b5cad;--c2:#e08a1e;--c3:#7a55c4;--c4:#2a9d8f;--c5:#c63b32;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0e141c;--panel:#161e29;--ink:#e6ecf3;--muted:#8d9bad;--line:#263243;
+  --brand:#5aa2ee;--brand-soft:#17283d;--ok:#4cc08c;--warn:#e5a63d;--bad:#ef6a60;
+  --bad-soft:#35201f;--warn-soft:#33281160;--ok-soft:#14302a;
+  --c1:#5aa2ee;--c2:#eba44a;--c3:#a68be0;--c4:#4fc3b4;--c5:#ef6a60}
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:13px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+.num{font-variant-numeric:tabular-nums}
+header{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.01em}
+.brand small{display:block;font-weight:400;font-size:11px;color:var(--muted);letter-spacing:0}
+.controls{display:flex;flex-wrap:wrap;gap:8px 14px;margin-left:auto;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.seg button{border:0;background:transparent;color:var(--muted);padding:6px 11px;font:inherit;cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed=true]{background:var(--brand);color:#fff}
+.seg button:focus-visible,select:focus-visible,th button:focus-visible,.chip:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+label.f{display:flex;align-items:center;gap:6px;color:var(--muted)}
+select{font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--ink)}
+main{padding:12px 16px 24px;display:grid;gap:12px;max-width:1600px;margin:0 auto}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-width:0}
+.card h2{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;display:flex;justify-content:space-between;gap:8px}
+.card h2 span{text-transform:none;letter-spacing:0;font-weight:400}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.kpi .v{font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.kpi .d{font-size:12px;margin-top:2px;color:var(--muted)}
+.up{color:var(--ok)}.down{color:var(--bad)}
+.kpi svg{display:block;width:100%;height:26px;margin-top:6px}
+.grid{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:12px}
+.lower{display:grid;grid-template-columns:1fr 330px;gap:12px;align-items:start}
+.load-row{display:grid;grid-template-columns:104px 1fr 78px;gap:8px;align-items:center;padding:5px 0;font-size:12.5px}
+.bar{position:relative;height:16px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;border-radius:3px}
+.bar b{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);opacity:.7}
+.load-row .r{text-align:right;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.donut-wrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.donut-wrap svg{width:150px;height:150px;flex:none}
+.causes{flex:1;min-width:140px;display:grid;gap:5px}
+.causes div{display:flex;justify-content:space-between;gap:8px;font-size:12.5px}
+.causes i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px}
+.trend svg{width:100%;height:170px;display:block}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:640px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600;position:sticky;top:0;background:var(--panel)}
+th button{all:unset;cursor:pointer;display:inline-flex;gap:4px;align-items:center}
+th[aria-sort=ascending] button::after{content:"▲";font-size:8px}
+th[aria-sort=descending] button::after{content:"▼";font-size:8px}
+td.n,th.n{text-align:right}
+tbody tr:hover{background:var(--brand-soft)}
+tr.att td:first-child{box-shadow:inset 3px 0 var(--bad)}
+.pill{display:inline-block;padding:1px 8px;border-radius:99px;font-size:11.5px;font-weight:600}
+.s-ontime,.s-departed{background:var(--ok-soft);color:var(--ok)}
+.s-delayed{background:var(--warn-soft);color:var(--warn)}
+.s-cancelled{background:var(--bad-soft);color:var(--bad)}
+.s-boarding{background:var(--brand-soft);color:var(--brand)}
+.s-scheduled{background:var(--line);color:var(--muted)}
+.mini{display:inline-block;width:46px;height:6px;background:var(--line);border-radius:3px;vertical-align:middle;margin-right:6px;overflow:hidden}
+.mini i{display:block;height:100%}
+.attn{display:grid;gap:8px}
+.attn .it{border:1px solid var(--line);border-left:3px solid var(--bad);border-radius:6px;padding:7px 9px}
+.attn .it.w{border-left-color:var(--warn)}
+.attn .t{display:flex;justify-content:space-between;font-weight:600}
+.attn .m{color:var(--muted);font-size:12px;margin-top:1px}
+.empty{color:var(--muted);padding:14px 0;text-align:center}
+.tableTools{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.chip{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:99px;padding:3px 10px;font:inherit;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(3,1fr)}.grid,.lower{grid-template-columns:1fr}}
+@media (max-width:600px){
+  header{padding:10px 16px;position:static}
+  .controls{margin-left:0;width:100%}
+  .controls .seg{width:100%}.controls .seg button{flex:1;padding:8px 4px}
+  label.f{width:100%}label.f select{flex:1}
+  main{padding:12px 16px 20px}
+  .kpis{grid-template-columns:1fr 1fr;gap:8px}
+  .kpi .v{font-size:23px}
+  .load-row{grid-template-columns:84px 1fr 62px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0b5cad"/><path d="M6 19h20l-3 5H9z" fill="#fff"/><path d="M11 19v-5h10v5M14 14v-3h4v3" stroke="#fff" stroke-width="1.6" fill="none"/><path d="M5 27c3-1.5 5 1.5 8 0s5 1.5 8 0 5 1.5 6 0" stroke="#7fb6ee" stroke-width="1.4" fill="none"/></svg>
+    <div>Harbor Ferries<small id="stamp">Operations · Fri 30 Oct 2026, 07:00</small></div>
+  </div>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Date range" id="range">
+      <button data-d="1" aria-pressed="true">Today</button>
+      <button data-d="7" aria-pressed="false">7 days</button>
+      <button data-d="14" aria-pressed="false">14 days</button>
+      <button data-d="30" aria-pressed="false">30 days</button>
+    </div>
+    <label class="f">Route
+      <select id="route"><option value="all">All routes (6)</option></select>
+    </label>
+  </div>
+</header>
+
+<main>
+  <section class="kpis" id="kpis" aria-label="Key figures"></section>
+
+  <section class="grid">
+    <div class="card">
+      <h2>Passenger load vs capacity <span id="loadSub"></span></h2>
+      <div id="load"></div>
+      <div class="legend"><span><i style="background:var(--c1)"></i>Under 75%</span><span><i style="background:var(--c2)"></i>75–90%</span><span><i style="background:var(--c5)"></i>Over 90%</span><span>| = 85% target</span></div>
+    </div>
+    <div class="card">
+      <h2>Delays by cause <span id="causeSub"></span></h2>
+      <div class="donut-wrap"><svg viewBox="0 0 150 150" id="donut" role="img" aria-label="Delay minutes by cause"></svg><div class="causes" id="causes"></div></div>
+    </div>
+    <div class="card trend">
+      <h2>On-time rate, daily <span>target 90%</span></h2>
+      <svg id="trend" viewBox="0 0 400 170" preserveAspectRatio="none" role="img" aria-label="Daily on-time rate"></svg>
+    </div>
+  </section>
+
+  <section class="lower">
+    <div class="card">
+      <h2>Today's sailings <span id="tblSub"></span></h2>
+      <div class="tableTools" id="chips">
+        <button class="chip" data-f="all" aria-pressed="true">All</button>
+        <button class="chip" data-f="attn" aria-pressed="false">Needs attention</button>
+        <button class="chip" data-f="delayed" aria-pressed="false">Delayed</button>
+        <button class="chip" data-f="upcoming" aria-pressed="false">Upcoming</button>
+      </div>
+      <div class="tw"><table id="tbl">
+        <thead><tr>
+          <th data-k="time"><button>Sched.</button></th>
+          <th data-k="route"><button>Route</button></th>
+          <th data-k="vessel"><button>Vessel</button></th>
+          <th data-k="status"><button>Status</button></th>
+          <th data-k="delay" class="n"><button>Delay</button></th>
+          <th data-k="load" class="n"><button>Load</button></th>
+          <th data-k="pax" class="n"><button>Pax / cap</button></th>
+        </tr></thead><tbody></tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <h2>Needs attention today <span id="attnN"></span></h2>
+      <div class="attn" id="attn"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+// ---------- seeded data ----------
+var seed=30102026;function rnd(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}
+var ROUTES=[
+ {id:"BRD",name:"Bridgeport – Port Haven",short:"Bridgeport–Haven",cap:420,trips:12,base:.93},
+ {id:"NLK",name:"North Landing – Kestrel Is.",short:"N Landing–Kestrel",cap:260,trips:10,base:.9},
+ {id:"CVE",name:"Cove Pier – Eastmarch",short:"Cove–Eastmarch",cap:180,trips:9,base:.86},
+ {id:"SND",name:"Sandspit – Old Harbor",short:"Sandspit–Old Hbr",cap:340,trips:11,base:.95},
+ {id:"WLT",name:"Westlight – Tern Rock",short:"Westlight–Tern",cap:120,trips:6,base:.82},
+ {id:"MRN",name:"Marina – Deepwater",short:"Marina–Deepwater",cap:300,trips:8,base:.9}
+];
+var CAUSES=[["Weather","--c1"],["Mechanical","--c5"],["Late turnaround","--c2"],["Passenger loading","--c3"],["Port congestion","--c4"]];
+var VESSELS={BRD:["MV Alder","MV Rowan"],NLK:["MV Kestrel","MV Osprey"],CVE:["MV Plover"],SND:["MV Harrier","MV Linnet"],WLT:["MV Tern"],MRN:["MV Corvid","MV Heron"]};
+var DAYS=30,hist=[];
+for(var d=DAYS-1;d>=0;d--){
+  var dt=new Date(2026,9,30-d),row={date:dt,routes:{}};
+  var wx=rnd()<.2?.08:0;
+  ROUTES.forEach(function(r){
+    var trips=r.trips-(rnd()<.05?1:0),ot=Math.round(trips*Math.min(1,Math.max(.5,r.base-wx+(rnd()-.5)*.12)));
+    var late=trips-ot,load=Math.min(.99,Math.max(.4,.62+rnd()*.3+(dt.getDay()%6==0?.07:0)));
+    var causes=CAUSES.map(function(){return 0});
+    for(var i=0;i<late;i++){var c=rnd()<wx*6?0:Math.floor(rnd()*5);causes[c]+=Math.round(6+rnd()*22)}
+    row.routes[r.id]={trips:trips,ot:ot,pax:Math.round(trips*r.cap*load),cap:trips*r.cap,causes:causes};
+  });
+  hist.push(row);
+}
+// today's sailings
+var NOW=7*60,sail=[];
+ROUTES.forEach(function(r){
+  var vs=VESSELS[r.id],start=330,gap=Math.floor(840/r.trips);
+  for(var i=0;i<r.trips;i++){
+    var t=start+i*gap+Math.floor(rnd()*10),v=vs[i%vs.length];
+    var load=Math.min(1.02,.35+rnd()*.65+(t>=420&&t<=540?.12:0)),delay=0,status,cause="";
+    var x=rnd();
+    if(t<NOW-20){status="departed";if(x<.18){delay=Math.round(5+rnd()*18);status="departed"}}
+    else if(t<NOW+25){status="boarding";if(x<.2){delay=Math.round(8+rnd()*20);status="delayed"}}
+    else{status="scheduled";if(x<.12){delay=Math.round(10+rnd()*35);status="delayed"}}
+    if(delay)cause=CAUSES[Math.floor(rnd()*5)][0];
+    sail.push({id:r.id+"-"+(i+1),route:r.id,time:t,vessel:v,status:status,delay:delay,cause:cause,cap:r.cap,pax:Math.round(r.cap*Math.min(1,load)),load:load,over:load>1});
+  }
+});
+// forced storylines
+function tweak(rid,idx,o){var l=sail.filter(function(s){return s.route===rid});Object.assign(l[idx],o)}
+tweak("CVE",3,{status:"cancelled",delay:0,cause:"Mechanical",pax:0,load:0});
+tweak("WLT",2,{status:"delayed",delay:42,cause:"Weather"});
+tweak("WLT",3,{status:"delayed",delay:35,cause:"Weather"});
+tweak("BRD",4,{load:.98,pax:411});
+tweak("SND",5,{load:.97,pax:330});
+tweak("MRN",1,{status:"delayed",delay:27,cause:"Port congestion"});
+sail.forEach(function(s){
+  s.attn=[];
+  if(s.status==="cancelled")s.attn.push("Cancelled · rebook "+s.pax+" pax");
+  if(s.delay>=25)s.attn.push("Delay "+s.delay+" min · "+s.cause);
+  if(s.load>=.95&&s.status!=="departed")s.attn.push("Near full ("+Math.round(s.load*100)+"%)");
+  s.score=(s.status==="cancelled"?100:0)+(s.delay>=25?s.delay:0)+(s.load>=.95&&s.status!=="departed"?30:0);
+});
+
+// ---------- helpers ----------
+function $(s){return document.querySelector(s)}
+function fmt(m){return String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0")}
+function sum(a){return a.reduce(function(x,y){return x+y},0)}
+function css(v){return "var("+v+")"}
+function loadColor(p){return p>.9?"var(--c5)":p>=.75?"var(--c2)":"var(--c1)"}
+var st={days:1,route:"all",filter:"all",sort:"time",dir:1};
+
+var sel=$("#route");
+ROUTES.forEach(function(r){var o=document.createElement("option");o.value=r.id;o.textContent=r.name;sel.appendChild(o)});
+
+function periodRows(days,prev){
+  var end=DAYS-(prev?days:0),arr=hist.slice(Math.max(0,end-days),end);
+  return arr;
+}
+function agg(rows,rid){
+  var o={trips:0,ot:0,pax:0,cap:0,causes:[0,0,0,0,0]};
+  rows.forEach(function(d){ROUTES.forEach(function(r){
+    if(rid!=="all"&&rid!==r.id)return;var x=d.routes[r.id];
+    o.trips+=x.trips;o.ot+=x.ot;o.pax+=x.pax;o.cap+=x.cap;x.causes.forEach(function(c,i){o.causes[i]+=c});
+  })});
+  return o;
+}
+function pct(a,b){return b?a/b:0}
+
+// ---------- render ----------
+function renderKpis(){
+  var cur=agg(periodRows(st.days),st.route),prv=st.days>1?agg(periodRows(st.days,true),st.route):agg(hist.slice(DAYS-2,DAYS-1),st.route);
+  var cmpLabel=st.days>1?"vs prior "+st.days+" days":"vs yesterday";
+  var otc=pct(cur.ot,cur.trips),otp=pct(prv.ot,prv.trips),lc=pct(cur.pax,cur.cap),lp=pct(prv.pax,prv.cap);
+  var delayMin=sum(cur.causes),delayP=sum(prv.causes);
+  var today=sail.filter(function(s){return st.route==="all"||s.route===st.route});
+  var attn=today.filter(function(s){return s.attn.length}).length;
+  function dlt(c,p,unit,good){var d=c-p,cls=(d>=0)===good?"up":"down";if(Math.abs(d)<.0005)cls="";return '<span class="'+cls+'">'+(d>=0?"▲ ":"▼ ")+Math.abs(unit==="pt"?d*100:d).toFixed(unit==="pt"?1:0)+(unit==="pt"?" pt":"")+'</span> '+cmpLabel}
+  var spark=hist.slice(-14).map(function(d){var a=agg([d],st.route);return pct(a.ot,a.trips)});
+  function sp(vals,lo,hi,col){var w=100,h=26,p=vals.map(function(v,i){return (i/(vals.length-1)*w).toFixed(1)+","+(h-2-(v-lo)/(hi-lo)*(h-4)).toFixed(1)}).join(" ");return '<svg viewBox="0 0 100 26" preserveAspectRatio="none" aria-hidden="true"><polyline points="'+p+'" fill="none" stroke="'+col+'" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg>'}
+  var paxDay=cur.pax/Math.max(1,st.days);
+  var html=[
+   ['On-time rate',(otc*100).toFixed(1)+"%",dlt(otc,otp,"pt",true),sp(spark,.7,1,"var(--brand)")],
+   ['Passengers'+(st.days>1?' / day':''),Math.round(paxDay).toLocaleString(),dlt(cur.pax/st.days,(prv.pax/(st.days>1?st.days:1)),"n",true),""],
+   ['Avg load factor',(lc*100).toFixed(0)+"%",dlt(lc,lp,"pt",true),""],
+   ['Delay minutes',delayMin.toLocaleString(),dlt(delayMin,delayP,"n",false),""],
+   ['Sailings needing attention',attn+'<span style="font-size:14px;color:var(--muted);font-weight:400"> / '+today.length+' today</span>','<span class="'+(attn>3?"down":"")+'">'+today.filter(function(s){return s.status==="cancelled"}).length+' cancelled, '+today.filter(function(s){return s.delay>=25}).length+' late 25+ min</span>',""]
+  ].map(function(k){return '<div class="card kpi"><h2>'+k[0]+'</h2><div class="v num">'+k[1]+'</div><div class="d num">'+k[2]+'</div>'+k[3]+'</div>'}).join("");
+  $("#kpis").innerHTML=html;
+}
+function renderLoad(){
+  var rows=periodRows(st.days),h="";
+  $("#loadSub").textContent=st.days>1?"avg, last "+st.days+" days":"today";
+  var list=ROUTES.filter(function(r){return st.route==="all"||r.id===st.route});
+  list.forEach(function(r){
+    var a=agg(rows,r.id),p=pct(a.pax,a.cap);
+    h+='<div class="load-row"><div title="'+r.name+'">'+r.short+'</div><div class="bar" role="img" aria-label="'+r.name+' '+Math.round(p*100)+' percent"><i style="width:'+Math.min(100,p*100)+'%;background:'+loadColor(p)+'"></i><b style="left:85%"></b></div><div class="r num"><strong style="color:var(--ink)">'+Math.round(p*100)+'%</strong> '+Math.round(a.pax/Math.max(1,a.trips)).toLocaleString()+'/'+r.cap+'</div></div>';
+  });
+  $("#load").innerHTML=h;
+}
+function renderCauses(){
+  var a=agg(periodRows(st.days),st.route),tot=sum(a.causes)||1;
+  $("#causeSub").textContent=sum(a.causes).toLocaleString()+" min";
+  var cx=75,cy=75,R=64,r=40,ang=-Math.PI/2,paths="";
+  a.causes.forEach(function(v,i){
+    var f=v/tot,a2=ang+f*Math.PI*2;if(f<=0)return;
+    if(f>.999)a2-=.001;
+    var l=f>.5?1:0,p=function(rad,an){return (cx+rad*Math.cos(an)).toFixed(2)+" "+(cy+rad*Math.sin(an)).toFixed(2)};
+    paths+='<path d="M'+p(R,ang)+' A'+R+' '+R+' 0 '+l+' 1 '+p(R,a2)+' L'+p(r,a2)+' A'+r+' '+r+' 0 '+l+' 0 '+p(r,ang)+'Z" fill="'+css(CAUSES[i][1])+'" stroke="var(--panel)" stroke-width="1.5"><title>'+CAUSES[i][0]+': '+v+' min</title></path>';
+    ang=a2;
+  });
+  paths+='<text x="75" y="72" text-anchor="middle" font-size="20" font-weight="700" fill="var(--ink)">'+Math.round(sum(a.causes)/Math.max(1,st.days))+'</text><text x="75" y="88" text-anchor="middle" font-size="9.5" fill="var(--muted)">min / day</text>';
+  $("#donut").innerHTML=paths;
+  var order=a.causes.map(function(v,i){return i}).sort(function(x,y){return a.causes[y]-a.causes[x]});
+  $("#causes").innerHTML=order.map(function(i){return '<div><span><i style="background:'+css(CAUSES[i][1])+'"></i>'+CAUSES[i][0]+'</span><span class="num"><strong>'+Math.round(a.causes[i]/tot*100)+'%</strong> <span style="color:var(--muted)">'+a.causes[i]+'m</span></span></div>'}).join("");
+}
+function renderTrend(){
+  var n=Math.max(st.days,7),rows=hist.slice(-n),W=400,H=170,L=30,B=18,T=8;
+  var vals=rows.map(function(d){var a=agg([d],st.route);return pct(a.ot,a.trips)});
+  var lo=.7,hi=1,x=function(i){return L+i/(rows.length-1)*(W-L-6)},y=function(v){return T+(1-(Math.min(hi,Math.max(lo,v))-lo)/(hi-lo))*(H-T-B)};
+  var s="";
+  [.7,.8,.9,1].forEach(function(g){s+='<line x1="'+L+'" x2="'+W+'" y1="'+y(g)+'" y2="'+y(g)+'" stroke="var(--line)" '+(g===.9?'stroke-dasharray="4 3" stroke="var(--ok)"':"")+'/><text x="'+(L-4)+'" y="'+(y(g)+3)+'" text-anchor="end" font-size="9" fill="var(--muted)">'+Math.round(g*100)+'</text>'});
+  var pts=vals.map(function(v,i){return x(i).toFixed(1)+","+y(v).toFixed(1)}).join(" ");
+  s+='<polygon points="'+L+','+(H-B)+' '+pts+' '+x(rows.length-1)+','+(H-B)+'" fill="var(--brand)" opacity=".1"/>';
+  s+='<polyline points="'+pts+'" fill="none" stroke="var(--brand)" stroke-width="1.8" stroke-linejoin="round"/>';
+  vals.forEach(function(v,i){if(v<.9)s+='<circle cx="'+x(i)+'" cy="'+y(v)+'" r="2.4" fill="var(--bad)"><title>'+rows[i].date.toDateString()+': '+(v*100).toFixed(0)+'%</title></circle>'});
+  var step=Math.ceil(rows.length/6);
+  rows.forEach(function(d,i){if((rows.length-1-i)%step===0)s+='<text x="'+x(i)+'" y="'+(H-4)+'" text-anchor="middle" font-size="9" fill="var(--muted)">'+d.date.getDate()+'/'+(d.date.getMonth()+1)+'</text>'});
+  $("#trend").innerHTML=s;
+}
+var statusLabel={departed:"Departed",boarding:"Boarding",scheduled:"Scheduled",delayed:"Delayed",cancelled:"Cancelled"};
+function visible(){
+  var l=sail.filter(function(s){return st.route==="all"||s.route===st.route});
+  if(st.filter==="attn")l=l.filter(function(s){return s.attn.length});
+  if(st.filter==="delayed")l=l.filter(function(s){return s.delay>0});
+  if(st.filter==="upcoming")l=l.filter(function(s){return s.time>=NOW&&s.status!=="cancelled"});
+  var k=st.sort;
+  l.sort(function(a,b){var x=a[k],y=b[k];if(typeof x==="string")return x.localeCompare(y)*st.dir;if(x===y)return (a.time-b.time);return (x-y)*st.dir});
+  return l;
+}
+function renderTable(){
+  var l=visible();
+  $("#tblSub").textContent=l.length+" of "+sail.filter(function(s){return st.route==="all"||s.route===st.route}).length+" sailings";
+  $("#tbl tbody").innerHTML=l.length?l.map(function(s){
+    var p=Math.round(s.load*100),r=ROUTES.filter(function(r){return r.id===s.route})[0];
+    var stCls=s.status==="departed"&&s.delay?"s-delayed":"s-"+(s.status==="departed"?"ontime":s.status);
+    var lab=statusLabel[s.status]+(s.status==="departed"&&!s.delay?"":"");
+    return '<tr class="'+(s.attn.length?"att":"")+'"><td class="num"><strong>'+fmt(s.time)+'</strong></td><td title="'+r.name+'">'+r.short+'</td><td>'+s.vessel+'</td><td><span class="pill '+stCls+'">'+lab+'</span></td><td class="n num">'+(s.delay?'<span style="color:'+(s.delay>=25?"var(--bad)":"var(--warn)")+'">+'+s.delay+' min</span>':'<span style="color:var(--muted)">–</span>')+'</td><td class="n num"><span class="mini"><i style="width:'+Math.min(100,p)+'%;background:'+loadColor(s.load)+'"></i></span>'+p+'%</td><td class="n num">'+s.pax+' / '+s.cap+'</td></tr>';
+  }).join(""):'<tr><td colspan="7" class="empty">No sailings match this filter.</td></tr>';
+  document.querySelectorAll("#tbl th").forEach(function(th){th.setAttribute("aria-sort",th.dataset.k===st.sort?(st.dir>0?"ascending":"descending"):"none")});
+}
+function renderAttn(){
+  var l=sail.filter(function(s){return s.attn.length&&(st.route==="all"||s.route===st.route)}).sort(function(a,b){return b.score-a.score});
+  $("#attnN").textContent=l.length+" flagged";
+  $("#attn").innerHTML=l.length?l.map(function(s){
+    var r=ROUTES.filter(function(r){return r.id===s.route})[0];
+    return '<div class="it '+(s.status==="cancelled"||s.delay>=35?"":"w")+'"><div class="t"><span>'+fmt(s.time)+' · '+r.short+'</span><span class="pill s-'+(s.status==="cancelled"?"cancelled":"delayed")+'">'+(s.status==="cancelled"?"Cancelled":s.delay?"+"+s.delay+"m":"Full")+'</span></div><div class="m">'+s.vessel+' · '+s.attn.join(" · ")+'</div></div>';
+  }).join(""):'<div class="empty">Nothing needs attention for this route.</div>';
+}
+function render(){renderKpis();renderLoad();renderCauses();renderTrend();renderTable();renderAttn()}
+
+// ---------- events ----------
+$("#range").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;st.days=+b.dataset.d;this.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});render()});
+sel.addEventListener("change",function(){st.route=this.value;render()});
+$("#chips").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;st.filter=b.dataset.f;this.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});renderTable()});
+$("#tbl thead").addEventListener("click",function(e){var th=e.target.closest("th");if(!th)return;var k=th.dataset.k;if(st.sort===k)st.dir*=-1;else{st.sort=k;st.dir=(k==="delay"||k==="load"||k==="pax")?-1:1}renderTable()});
+render();
+})();
+</script>
+</body>
+</html>
