@@ -64,3 +64,7 @@ Reference point: the deliberately generic fixture (`evals/fixtures/generic-landi
 | 04 Restaurant | serif plus warm orange on charcoal, ticker; partly earned by a wood-fire kitchen | 2 to 1 | 16 |
 
 The original table above is kept as scored at the time.
+
+## Note added in Phase 2
+
+`shoot.mjs` was refined after these scores were written: inline text links are now exempt from the 44px target count, collapsed accordion content and clipped text no longer count as visible, and slice crops were added. `report.json` and the screenshots for these three runs were regenerated, so some mechanical numbers differ slightly from the table above (for example the restaurant's small targets at 375 are now 2, not 4; the SaaS and dashboard counts are unchanged). The scores themselves were not revised.

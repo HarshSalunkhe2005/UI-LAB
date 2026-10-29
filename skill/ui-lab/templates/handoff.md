@@ -1,9 +1,12 @@
-# Handoff
+# Handoff (design/handoff.md)
 
-- **What was built:** (files and entry point)
-- **How to run it:** (one command, or the file to open)
-- **Rendered and checked:** (sizes, states, reduced motion, keyboard; what you saw)
-- **Could not test:** (real devices, other browsers, screen readers, anything you did not render)
+- **Built:** (files; the one entry point to open)
+- **Run it:** (one command, or the file to open)
+- **Direction in one line:** (the choice made at Gate 2, and the axes that differ from the default)
+- **Rendered:** (widths, states, reduced motion, keyboard; what the screenshots showed)
+- **Verification result:** (link to design/verify.md; any FAIL left)
+- **Not tested:** (devices, browsers, screen readers, anything not rendered)
 - **Placeholder content:** (anything not real)
-- **Known defects left:** (be specific)
+- **Known defects:** (specific)
+- **Redesign only: preserved / changed / measured improvement:**
 - **Next steps:**

@@ -1,0 +1,22 @@
+{
+ "round1": {
+  "01-saas-landing": {
+   "A": "baseline-free",
+   "B": "skill-r1"
+  },
+  "02-analytics-dashboard": {
+   "A": "baseline-free",
+   "B": "skill-r1"
+  },
+  "08-redesign-generic-page": {
+   "A": "skill-r1",
+   "B": "baseline-free"
+  }
+ },
+ "round2": {
+  "01-saas-landing": {
+   "A": "skill-r2",
+   "B": "baseline-free"
+  }
+ }
+}

@@ -5,7 +5,9 @@
     "hOverflow": false,
     "docHeight": 7141,
     "interactive": 20,
-    "smallTargets": 4,
+    "smallTargets": 2,
+    "collisions": 0,
+    "collisionSamples": [],
     "imgsMissingAlt": 0,
     "inputsUnlabelled": 0,
     "landmarks": [
@@ -30,7 +32,9 @@
     "hOverflow": false,
     "docHeight": 5703,
     "interactive": 24,
-    "smallTargets": 8,
+    "smallTargets": 6,
+    "collisions": 0,
+    "collisionSamples": [],
     "imgsMissingAlt": 0,
     "inputsUnlabelled": 0,
     "landmarks": [

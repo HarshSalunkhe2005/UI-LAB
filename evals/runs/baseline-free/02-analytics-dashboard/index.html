@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Harbor Ops - Morning Dashboard</title>
+<style>
+:root{
+  --bg:#f3f5f7;--panel:#fff;--ink:#14212b;--mute:#5d6d7a;--line:#dde3e8;
+  --brand:#0b5c7a;--ok:#1e8e5a;--warn:#c77d0a;--bad:#c0392b;--soft:#e8f1f5;
+  --c1:#0b5c7a;--c2:#e08a1e;--c3:#7a5ca8;--c4:#2f9e8f;--c5:#c0392b;--c6:#8a96a0;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0e161c;--panel:#16212a;--ink:#e6edf2;--mute:#93a3b0;--line:#27353f;--brand:#5bb8d9;--soft:#1b2c37;
+  --ok:#4cc38a;--warn:#e9a53a;--bad:#ef7b6e;--c1:#5bb8d9;--c2:#eba64a;--c3:#a98fd4;--c4:#55c4b5;--c5:#ef7b6e;--c6:#7d8c97}
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+.num{font-variant-numeric:tabular-nums}
+header{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;padding:12px 20px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:17px;letter-spacing:.02em}
+.logo svg{width:26px;height:26px}
+.stamp{color:var(--mute);font-size:12px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin-left:auto;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:transparent;color:var(--ink);padding:7px 12px;font:inherit;cursor:pointer;min-height:36px}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--brand);color:#fff}
+@media (prefers-color-scheme:dark){.seg button[aria-pressed=true]{color:#0e161c}}
+select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 10px;min-height:36px}
+button:focus-visible,select:focus-visible,th button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+main{padding:16px 20px 28px;display:grid;gap:14px;max-width:1600px;margin:0 auto}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.kpi .lbl{color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.kpi .val{font-size:30px;font-weight:700;margin:2px 0;line-height:1.1}
+.kpi .sub{font-size:12px;color:var(--mute)}
+.up{color:var(--ok)}.down{color:var(--bad)}
+.grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:14px}
+.lower{display:grid;grid-template-columns:2.2fr 1fr;gap:14px;align-items:start}
+h2{font-size:13px;margin:0 0 10px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);font-weight:600;display:flex;justify-content:space-between;gap:8px}
+h2 span{text-transform:none;letter-spacing:0;font-weight:400}
+svg text{font-family:inherit}
+.chart{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--mute);margin-top:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap}
+th,td{padding:6px 10px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-weight:600;color:var(--mute);font-size:12px;position:sticky;top:0;background:var(--panel)}
+th button{all:unset;cursor:pointer;display:inline-flex;gap:4px;align-items:center}
+th[aria-sort] button{color:var(--ink)}
+th .arr{font-size:10px;opacity:.5}th[aria-sort] .arr{opacity:1}
+td.r,th.r{text-align:right}
+tbody tr:hover{background:var(--soft)}
+.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;font-weight:600}
+.t-ok{background:rgba(30,142,90,.14);color:var(--ok)}
+.t-warn{background:rgba(199,125,10,.16);color:var(--warn)}
+.t-bad{background:rgba(192,57,43,.15);color:var(--bad)}
+.t-mute{background:var(--soft);color:var(--mute)}
+.scroll{max-height:430px;overflow:auto}
+.attn{list-style:none;margin:0;padding:0;display:grid;gap:8px;max-height:480px;overflow:auto}
+.attn li{border-left:3px solid var(--warn);background:var(--soft);padding:8px 10px;border-radius:0 6px 6px 0;font-size:13px}
+.attn li.bad{border-color:var(--bad)}
+.attn b{display:block}
+.attn small{color:var(--mute)}
+.empty{color:var(--mute);padding:20px;text-align:center}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+@media (max-width:1100px){
+  .kpis{grid-template-columns:repeat(3,1fr)}
+  .grid{grid-template-columns:1fr 1fr}.grid>:first-child{grid-column:1/-1}
+  .lower{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  header{padding:10px 16px;position:static}
+  .controls{margin-left:0;width:100%}
+  .controls .seg{flex:1}.seg button{flex:1;padding:7px 4px}
+  .controls select{flex:1 1 100%}
+  main{padding:12px 16px 24px;gap:12px}
+  .kpis{grid-template-columns:1fr 1fr;gap:10px}
+  .kpi.wide{grid-column:1/-1}
+  .kpi .val{font-size:25px}
+  .grid{grid-template-columns:1fr}
+  .card{padding:12px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--brand)"/><path d="M6 19h20l-3 5H9z" fill="#fff"/><path d="M11 19v-5h10v5M16 9v5" stroke="#fff" stroke-width="2" fill="none"/></svg>
+    Harbor <span style="font-weight:400;color:var(--mute)">Ops</span>
+  </div>
+  <div class="stamp num" id="stamp"></div>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Date range" id="range">
+      <button data-d="1" aria-pressed="false">Today</button>
+      <button data-d="7" aria-pressed="true">7 days</button>
+      <button data-d="14" aria-pressed="false">14 days</button>
+      <button data-d="30" aria-pressed="false">30 days</button>
+    </div>
+    <label class="stamp" for="route" style="display:none">Route</label>
+    <select id="route" aria-label="Route filter"></select>
+  </div>
+</header>
+<main>
+  <section class="kpis" id="kpis" aria-label="Key metrics"></section>
+  <section class="grid">
+    <div class="card"><h2>Passenger load vs capacity <span id="loadnote"></span></h2><div id="loadchart"></div><div class="legend"><span><i style="background:var(--c1)"></i>Under 85%</span><span><i style="background:var(--c2)"></i>85-95%</span><span><i style="background:var(--c5)"></i>Over 95%</span></div></div>
+    <div class="card"><h2>Delays by cause <span id="delaynote"></span></h2><div id="causechart"></div></div>
+    <div class="card"><h2>On-time rate trend <span>target 90%</span></h2><div id="trendchart"></div></div>
+  </section>
+  <section class="lower">
+    <div class="card">
+      <h2>Today's sailings <span id="cnt"></span></h2>
+      <div class="tablewrap scroll"><table id="tbl"><thead></thead><tbody></tbody></table></div>
+    </div>
+    <div class="card">
+      <h2>Needs attention today <span id="acnt"></span></h2>
+      <ul class="attn" id="attn"></ul>
+    </div>
+  </section>
+</main>
+<script>
+(function(){
+// ---------- seeded data ----------
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+var ROUTES=[
+ {id:'HQ-SV',name:'Quay - Seaview',   cap:420,dur:35,ot:.93,fleet:'MV Alder'},
+ {id:'HQ-NP',name:'Quay - Northpoint',cap:300,dur:50,ot:.89,fleet:'MV Brine'},
+ {id:'HQ-CI',name:'Quay - Cairn Is.', cap:240,dur:65,ot:.84,fleet:'MV Cormorant'},
+ {id:'SV-NP',name:'Seaview - Northpoint',cap:300,dur:40,ot:.91,fleet:'MV Dunlin'},
+ {id:'NP-RB',name:'Northpoint - Red Bay',cap:180,dur:45,ot:.86,fleet:'MV Eider'},
+ {id:'CI-RB',name:'Cairn Is. - Red Bay',cap:160,dur:30,ot:.88,fleet:'MV Fulmar'}
+];
+var CAUSES=[['Weather',var_('--c1')],['Tide / berth',var_('--c2')],['Crew / roster',var_('--c3')],['Mechanical',var_('--c5')],['Late boarding',var_('--c4')],['Other',var_('--c6')]];
+function var_(n){return 'var('+n+')'}
+var DAYS=30, NOW=new Date(2026,9,30);
+// per-day per-route stats, last index = today
+var hist=ROUTES.map(function(r,ri){
+  var g=rng(100+ri*17),out=[];
+  for(var d=0;d<DAYS;d++){
+    var sail=r.dur>55?6:r.dur>40?8:10;
+    var wk=new Date(NOW.getTime()-(DAYS-1-d)*864e5).getDay(), we=(wk==0||wk==6);
+    var otp=Math.max(.6,Math.min(.99,r.ot+(g()-.5)*.14-(d>20&&ri==2?.05:0)));
+    var onT=Math.round(sail*otp);
+    var cap=sail*r.cap, pax=Math.round(cap*Math.max(.35,Math.min(1.0,(we?.82:.66)+(g()-.5)*.3+ri*.015)));
+    var del=sail-onT, cause=[0,0,0,0,0,0];
+    for(var k=0;k<del;k++){var x=g();cause[x<.28?0:x<.48?1:x<.62?2:x<.75?3:x<.9?4:5]+=Math.round(6+g()*14)}
+    out.push({sail:sail,onT:onT,cap:cap,pax:pax,cause:cause,cx:g()<.03?1:0});
+  }
+  return out;
+});
+// today's sailings
+var TODAY=[];
+(function(){
+  var g=rng(777);
+  ROUTES.forEach(function(r,ri){
+    var n=hist_n(ri), start=5.5*60+ri*7, gap=Math.floor((17*60)/n);
+    for(var i=0;i<n;i++){
+      var dep=start+i*gap+Math.round(g()*4);
+      var nowMin=6*60+52;
+      var load=Math.round(r.cap*Math.max(.3,Math.min(1.06,(dep<9*60||(dep>16*60&&dep<19*60)?.92:.6)+(g()-.5)*.35)));
+      var dly=g()<.3?Math.round(4+g()*26):Math.round(g()*4-1); if(dly<0)dly=0;
+      var cause=dly>=5?['Weather','Tide / berth','Crew / roster','Mechanical','Late boarding'][Math.floor(g()*5)]:'';
+      var st, cx=false;
+      if(ri==2&&i==3){st='Cancelled';cause='Mechanical';dly=0;cx=true}
+      else if(dep<nowMin-r.dur) st=dly>=5?'Arrived late':'Arrived';
+      else if(dep<nowMin) st=dly>=5?'Underway, late':'Underway';
+      else st=dly>=5?'Delayed':'Scheduled';
+      if(dep>=nowMin&&!cx&&dly>=5&&dep>nowMin+180){dly=0;cause='';st='Scheduled'}
+      TODAY.push({id:r.id+'-'+pad(Math.floor(dep/60))+pad(dep%60),route:r.id,rname:r.name,dep:dep,vessel:r.fleet,
+        load:load,cap:r.cap,pct:Math.round(load/r.cap*100),delay:dly,cause:cause,status:st});
+    }
+  });
+  function hist_n(ri){return hist[ri][DAYS-1].sail}
+  // make the demo realistic: a couple of hot spots
+})();
+function pad(n){return n<10?'0'+n:''+n}
+function hm(m){return pad(Math.floor(m/60))+':'+pad(m%60)}
+
+// ---------- state ----------
+var state={days:7,route:'all',sort:'dep',dir:1};
+var $=function(s){return document.querySelector(s)};
+var sel=$('#route');
+sel.innerHTML='<option value="all">All routes (6)</option>'+ROUTES.map(function(r){return '<option value="'+r.id+'">'+r.id+' - '+r.name+'</option>'}).join('');
+$('#stamp').textContent='Fri 30 Oct 2026 · 07:00 snapshot · data to 06:52';
+
+$('#range').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  state.days=+b.dataset.d;
+  [].forEach.call(this.children,function(x){x.setAttribute('aria-pressed',x===b)});
+  render();
+});
+sel.addEventListener('change',function(){state.route=sel.value;render()});
+
+function activeRoutes(){return ROUTES.map(function(r,i){return i}).filter(function(i){return state.route==='all'||ROUTES[i].id===state.route})}
+function slice(i,days,offset){var h=hist[i];return h.slice(h.length-days-(offset||0),h.length-(offset||0))}
+function agg(idx,days,offset){
+  var a={sail:0,onT:0,cap:0,pax:0,cx:0,cause:[0,0,0,0,0,0]};
+  idx.forEach(function(i){slice(i,days,offset).forEach(function(d){a.sail+=d.sail;a.onT+=d.onT;a.cap+=d.cap;a.pax+=d.pax;a.cx+=d.cx;d.cause.forEach(function(v,k){a.cause[k]+=v})})});
+  return a;
+}
+
+// ---------- KPIs ----------
+function delta(cur,prev,good,unit,inv){
+  var d=cur-prev, up=inv?d<=0:d>=0;
+  if(Math.abs(d)<.05)return '<span>no change</span>';
+  return '<span class="'+(up?'up':'down')+'">'+(d>0?'▲ ':'▼ ')+Math.abs(d).toFixed(1)+unit+'</span>';
+}
+function renderKpis(){
+  var idx=activeRoutes(),d=state.days,c=agg(idx,d),p=agg(idx,d,d>1?d:1);
+  var otp=c.onT/c.sail*100,pot=p.onT/p.sail*100,ld=c.pax/c.cap*100,pld=p.pax/p.cap*100;
+  var sails=TODAY.filter(inScope), late=sails.filter(function(s){return s.delay>=5}).length, cx=sails.filter(function(s){return s.status==='Cancelled'}).length;
+  var avgDel=c.sail-c.onT?Math.round(c.cause.reduce(function(a,b){return a+b},0)/(c.sail-c.onT)):0;
+  var pav=p.sail-p.onT?Math.round(p.cause.reduce(function(a,b){return a+b},0)/(p.sail-p.onT)):0;
+  var prevLabel=d>1?'vs prior '+d+' days':'vs yesterday';
+  var K=[
+   ['On-time rate',otp.toFixed(1)+'%',delta(otp,pot,1,' pts')+' '+prevLabel],
+   ['Avg passenger load',ld.toFixed(0)+'%',delta(ld,pld,1,' pts')+' '+prevLabel],
+   ['Passengers carried',c.pax.toLocaleString('en-GB'),'of '+c.cap.toLocaleString('en-GB')+' seats'],
+   ['Avg delay when late',avgDel+' min',delta(avgDel,pav,1,' min',true)+' '+prevLabel],
+   ['Today: late / cancelled',late+' / '+cx,'of '+sails.length+' sailings on schedule board']
+  ];
+  $('#kpis').innerHTML=K.map(function(k,i){return '<div class="card kpi'+(i==4?' wide':'')+'"><div class="lbl">'+k[0]+'</div><div class="val num">'+k[1]+'</div><div class="sub num">'+k[2]+'</div></div>'}).join('');
+}
+
+// ---------- charts ----------
+function barColor(p){return p>95?'var(--c5)':p>=85?'var(--c2)':'var(--c1)'}
+function renderLoad(){
+  var idx=activeRoutes(),d=state.days,W=460,rowH=40,H=idx.length*rowH+24,L=118,R=56,bw=W-L-R;
+  var s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Passenger load as a percentage of capacity per route">';
+  [0,50,100].forEach(function(t){var x=L+bw*t/100;s+='<line x1="'+x+'" x2="'+x+'" y1="4" y2="'+(H-18)+'" stroke="var(--line)" '+(t==100?'':'stroke-dasharray="3 3"')+'/><text x="'+x+'" y="'+(H-4)+'" font-size="10" fill="var(--mute)" text-anchor="middle">'+t+'%</text>'});
+  idx.forEach(function(i,k){
+    var a=agg([i],d),p=a.pax/a.cap*100,y=8+k*rowH;
+    s+='<text x="0" y="'+(y+13)+'" font-size="12" fill="var(--ink)" font-weight="600">'+ROUTES[i].id+'</text><text x="0" y="'+(y+26)+'" font-size="10" fill="var(--mute)">cap '+ROUTES[i].cap+' / sailing</text>';
+    s+='<rect x="'+L+'" y="'+(y+4)+'" width="'+bw+'" height="20" rx="3" fill="var(--soft)"/>';
+    s+='<rect x="'+L+'" y="'+(y+4)+'" width="'+(bw*Math.min(p,100)/100)+'" height="20" rx="3" fill="'+barColor(p)+'"><title>'+ROUTES[i].name+': '+a.pax.toLocaleString()+' of '+a.cap.toLocaleString()+' seats ('+p.toFixed(1)+'%)</title></rect>';
+    s+='<text x="'+(W-R+8)+'" y="'+(y+19)+'" font-size="13" font-weight="700" fill="var(--ink)" class="num">'+p.toFixed(0)+'%</text>';
+  });
+  $('#loadchart').innerHTML=s+'</svg>';
+  $('#loadnote').textContent=d==1?'today':'last '+d+' days';
+}
+function renderCause(){
+  var c=agg(activeRoutes(),state.days).cause,tot=c.reduce(function(a,b){return a+b},0);
+  var rows=CAUSES.map(function(x,i){return {n:x[0],col:x[1],v:c[i]}}).sort(function(a,b){return b.v-a.v});
+  var W=360,rowH=34,H=rows.length*rowH+4,L=104,R=70,bw=W-L-R,max=Math.max(1,rows[0].v);
+  var s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Delay minutes by cause">';
+  rows.forEach(function(r,k){
+    var y=k*rowH+4;
+    s+='<text x="0" y="'+(y+16)+'" font-size="12" fill="var(--ink)">'+r.n+'</text>';
+    s+='<rect x="'+L+'" y="'+(y+3)+'" width="'+Math.max(2,bw*r.v/max)+'" height="18" rx="3" fill="'+r.col+'"><title>'+r.n+': '+r.v+' delay minutes</title></rect>';
+    s+='<text x="'+(L+Math.max(2,bw*r.v/max)+6)+'" y="'+(y+16)+'" font-size="12" class="num" fill="var(--ink)">'+r.v+' min</text>';
+  });
+  $('#causechart').innerHTML=s+'</svg><div class="legend num">'+tot.toLocaleString()+' delay minutes total · top cause: '+rows[0].n+' ('+(tot?Math.round(rows[0].v/tot*100):0)+'%)</div>';
+  $('#delaynote').textContent=state.days==1?'today':'last '+state.days+' days';
+}
+function renderTrend(){
+  var idx=activeRoutes(),n=Math.max(state.days,7),W=360,H=190,L=30,R=8,T=10,B=22,iw=W-L-R,ih=H-T-B;
+  var pts=[];for(var k=0;k<n;k++){var a=agg(idx,1,n-1-k);pts.push({p:a.onT/a.sail*100,d:new Date(NOW.getTime()-(n-1-k)*864e5)})}
+  var lo=60,hi=100;
+  function X(i){return L+iw*i/(n-1)} function Y(v){return T+ih*(1-(Math.max(lo,v)-lo)/(hi-lo))}
+  var s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Daily on-time rate">';
+  [60,70,80,90,100].forEach(function(t){s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(t)+'" y2="'+Y(t)+'" stroke="var(--line)"/><text x="'+(L-5)+'" y="'+(Y(t)+3)+'" font-size="10" fill="var(--mute)" text-anchor="end">'+t+'</text>'});
+  s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(90)+'" y2="'+Y(90)+'" stroke="var(--ok)" stroke-dasharray="4 3"/>';
+  var path=pts.map(function(p,i){return (i?'L':'M')+X(i).toFixed(1)+' '+Y(p.p).toFixed(1)}).join('');
+  s+='<path d="'+path+'L'+X(n-1)+' '+(T+ih)+'L'+X(0)+' '+(T+ih)+'Z" fill="var(--brand)" opacity=".1"/><path d="'+path+'" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linejoin="round"/>';
+  pts.forEach(function(p,i){
+    if(n<=14||i==n-1||i%5==0)s+='<circle cx="'+X(i)+'" cy="'+Y(p.p)+'" r="'+(i==n-1?4:2.5)+'" fill="'+(p.p<90?'var(--warn)':'var(--brand)')+'"><title>'+p.d.toDateString().slice(0,10)+': '+p.p.toFixed(1)+'%</title></circle>';
+  });
+  var step=n>14?7:n>7?3:1;
+  pts.forEach(function(p,i){if((n-1-i)%step===0)s+='<text x="'+X(i)+'" y="'+(H-6)+'" font-size="10" fill="var(--mute)" text-anchor="'+(i==0?'start':i==n-1?'end':'middle')+'">'+p.d.getDate()+'/'+(p.d.getMonth()+1)+'</text>'});
+  s+='</svg><div class="legend num">Latest: '+pts[n-1].p.toFixed(1)+'% · lowest in view: '+Math.min.apply(null,pts.map(function(p){return p.p})).toFixed(1)+'%</div>';
+  $('#trendchart').innerHTML=s;
+}
+
+// ---------- table ----------
+var COLS=[['id','Sailing'],['dep','Dep'],['rname','Route'],['vessel','Vessel'],['pct','Load','r'],['delay','Delay','r'],['cause','Cause'],['status','Status']];
+function inScope(s){return state.route==='all'||s.route===state.route}
+function statusTag(s){
+  var c=s.status==='Cancelled'?'t-bad':/late|Delayed/.test(s.status)?(s.delay>=15?'t-bad':'t-warn'):s.status==='Scheduled'?'t-mute':'t-ok';
+  return '<span class="tag '+c+'">'+s.status+'</span>';
+}
+function renderTable(){
+  var rows=TODAY.filter(inScope).slice();
+  var k=state.sort,dir=state.dir;
+  rows.sort(function(a,b){var x=a[k],y=b[k];return (x<y?-1:x>y?1:(a.dep-b.dep))*dir});
+  $('#tbl thead').innerHTML='<tr>'+COLS.map(function(c){
+    var on=state.sort===c[0];
+    return '<th class="'+(c[2]||'')+'" '+(on?'aria-sort="'+(dir>0?'ascending':'descending')+'"':'')+'><button data-k="'+c[0]+'">'+c[1]+'<span class="arr" aria-hidden="true">'+(on?(dir>0?'▲':'▼'):'⇅')+'</span></button></th>'}).join('')+'</tr>';
+  $('#tbl tbody').innerHTML=rows.length?rows.map(function(s){
+    var pc=s.pct>95?'down':'';
+    return '<tr><td class="num">'+s.id+'</td><td class="num">'+hm(s.dep)+'</td><td>'+s.rname+'</td><td>'+s.vessel+'</td><td class="r num '+pc+'">'+s.pct+'% <span style="color:var(--mute)">('+s.load+'/'+s.cap+')</span></td><td class="r num">'+(s.delay?'+'+s.delay+' min':'-')+'</td><td>'+(s.cause||'-')+'</td><td>'+statusTag(s)+'</td></tr>'}).join(''):'<tr><td colspan="8" class="empty">No sailings</td></tr>';
+  $('#cnt').textContent=rows.length+' sailings';
+}
+$('#tbl thead').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  var k=b.dataset.k;
+  if(state.sort===k)state.dir*=-1;else{state.sort=k;state.dir=(k==='pct'||k==='delay')?-1:1}
+  renderTable();
+  var nb=document.querySelector('#tbl thead button[data-k="'+k+'"]');if(nb)nb.focus();
+});
+
+// ---------- attention ----------
+function renderAttn(){
+  var items=[];
+  TODAY.filter(inScope).forEach(function(s){
+    var up=s.status==='Scheduled'||/Delayed|Underway/.test(s.status);
+    if(s.status==='Cancelled')items.push({w:100,bad:1,t:s.id+' cancelled',d:s.rname+' - '+s.cause+'. '+s.load+' pre-booked passengers to rebook.'});
+    else if(s.delay>=15&&up)items.push({w:80+s.delay/10,bad:1,t:s.id+' running +'+s.delay+' min',d:s.rname+' · '+s.cause+' · dep '+hm(s.dep)});
+    else if(s.pct>=97&&s.status!=='Arrived'&&s.status!=='Arrived late')items.push({w:50+s.pct/10,bad:0,t:s.id+' at '+s.pct+'% load',d:s.rname+' · dep '+hm(s.dep)+' · '+(s.cap-s.load<0?'oversold by '+(s.load-s.cap):s.cap-s.load+' seats left')});
+    else if(s.delay>=8&&up)items.push({w:40+s.delay/10,bad:0,t:s.id+' late +'+s.delay+' min',d:s.rname+' · '+s.cause});
+  });
+  items.sort(function(a,b){return b.w-a.w});
+  $('#acnt').textContent=items.length+' flagged';
+  $('#attn').innerHTML=items.length?items.slice(0,12).map(function(i){return '<li class="'+(i.bad?'bad':'')+'"><b>'+i.t+'</b><small>'+i.d+'</small></li>'}).join(''):'<li class="empty">Nothing flagged. Smooth morning.</li>';
+}
+
+function render(){renderKpis();renderLoad();renderCause();renderTrend();renderTable();renderAttn()}
+render();
+})();
+</script>
+</body>
+</html>

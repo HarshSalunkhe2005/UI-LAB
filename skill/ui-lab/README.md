@@ -21,9 +21,9 @@ On Windows the folder is `%USERPROFILE%\.claude\skills\`. Other agents that read
 | Path | Purpose |
 |---|---|
 | `SKILL.md` | The workflow. Loaded first; names the other files to read and when. |
-| `references/` | Worlds (design directions), the anti-slop list, the verify loop and bug catalogue, accessibility rules. |
-| `templates/` | The brief, direction card, critique report and handoff formats. |
-| `scripts/` | Small zero-dependency helpers, run locally. They read nothing outside the project and use no network. | {{pro-line}}
+| `references/` | The anti-slop list with alternatives per axis, dense-UI guidance, worked design directions, the verify loop and bug catalogue, accessibility rules. |
+| `templates/` | Fill-in formats for the brief, house-style check and direction card, verification log, critique report and handoff. |
+| `scripts/` | Zero-dependency helpers run locally: a static UI audit and a contrast checker. They read only the folder you point them at and use no network. | {{pro-line}}
 | `examples/` | Worked examples. | {{pro-line}}
 
 ## Requirements

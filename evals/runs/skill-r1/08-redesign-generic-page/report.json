@@ -1,0 +1,58 @@
+{
+  "375": {
+    "docWidth": 375,
+    "viewport": 375,
+    "hOverflow": false,
+    "docHeight": 6087,
+    "interactive": 15,
+    "smallTargets": 0,
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Archivo",
+      "h2": "Archivo",
+      "body": "IBM Plex Sans"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "1440": {
+    "docWidth": 1425,
+    "viewport": 1440,
+    "hOverflow": false,
+    "docHeight": 4346,
+    "interactive": 15,
+    "smallTargets": 0,
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Archivo",
+      "h2": "Archivo",
+      "body": "IBM Plex Sans"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "dir": "C:\\Users\\Harsh\\Projects\\UI-Lab\\evals\\runs\\skill-r1\\08-redesign-generic-page",
+  "url": "file:///C:/Users/Harsh/Projects/UI-Lab/evals/runs/skill-r1/08-redesign-generic-page/index.html"
+}

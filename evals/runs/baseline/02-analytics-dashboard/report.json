@@ -6,6 +6,8 @@
     "docHeight": 4076,
     "interactive": 16,
     "smallTargets": 16,
+    "collisions": 0,
+    "collisionSamples": [],
     "imgsMissingAlt": 0,
     "inputsUnlabelled": 0,
     "landmarks": [
@@ -31,6 +33,8 @@
     "docHeight": 2417,
     "interactive": 16,
     "smallTargets": 16,
+    "collisions": 0,
+    "collisionSamples": [],
     "imgsMissingAlt": 0,
     "inputsUnlabelled": 0,
     "landmarks": [

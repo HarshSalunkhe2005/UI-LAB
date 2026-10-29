@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orbit Analytics - Know why the number moved</title>
+<meta name="description" content="Orbit Analytics connects your sources, watches every metric, and tells you what changed and why.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f1ece2;
+    --paper-2: #e8e1d3;
+    --ink: #14161a;
+    --ink-2: #4a4d52;
+    --rule: rgba(20,22,26,.18);
+    --signal: #b02f06;
+    --night: #101216;
+    --serif: 'Instrument Serif', 'Times New Roman', serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+    --gut: clamp(20px, 4vw, 56px);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.55; font-size: 17px; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 var(--gut); }
+  .mono { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+  :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+  /* nav */
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--rule); }
+  .brand { font-family: var(--serif); font-size: 28px; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .brand svg { width: 26px; height: 26px; }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a { text-decoration: none; font-size: 15px; }
+  .nav-links a:not(.btn):hover { text-decoration: underline; text-underline-offset: 5px; }
+
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; background: var(--ink); color: var(--paper); text-decoration: none; font-weight: 500; font-size: 15px; border: 1px solid var(--ink); border-radius: 2px; transition: background .25s, color .25s, transform .25s; }
+  .btn .arr { transition: transform .25s; }
+  .btn:hover { background: var(--signal); border-color: var(--signal); color: #fff; }
+  .btn:hover .arr { transform: translateX(4px); }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn.ghost:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .btn.sm { padding: 9px 16px; }
+
+  /* hero */
+  .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: center; padding-top: clamp(48px, 8vw, 110px); padding-bottom: clamp(48px, 7vw, 90px); }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 28px; color: var(--ink-2); }
+  .eyebrow i { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); animation: pulse 2s infinite; }
+  @keyframes pulse { 50% { opacity: .25; } }
+  h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(48px, 7.6vw, 118px); line-height: .94; letter-spacing: -.02em; }
+  h1 em { color: var(--signal); }
+  .hero p.lede { max-width: 520px; margin: 32px 0 36px; font-size: 19px; color: var(--ink-2); }
+  .hero .btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .orbit-fig { position: relative; aspect-ratio: 1; width: 100%; max-width: 520px; justify-self: end; }
+  .orbit-fig svg { width: 100%; height: 100%; overflow: visible; }
+  .ring { fill: none; stroke: var(--ink); stroke-opacity: .28; stroke-dasharray: 2 6; }
+  .spin { transform-origin: 250px 250px; animation: spin 40s linear infinite; }
+  .spin.r2 { animation-duration: 24s; animation-direction: reverse; }
+  .spin.r3 { animation-duration: 14s; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .fig-note { position: absolute; left: 0; bottom: -6px; right: 0; display: flex; justify-content: space-between; color: var(--ink-2); border-top: 1px solid var(--rule); padding-top: 10px; }
+
+  /* logos */
+  .logos { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .logos .wrap { display: grid; grid-template-columns: 220px 1fr; align-items: center; gap: 24px; padding-top: 28px; padding-bottom: 28px; }
+  .logos p { color: var(--ink-2); }
+  .logos ul { list-style: none; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .logos li { font-family: var(--serif); font-size: 28px; color: var(--ink); opacity: .75; }
+  .logos li:nth-child(2) { font-family: var(--mono); font-size: 18px; letter-spacing: -.04em; font-weight: 500; }
+  .logos li:nth-child(3) { font-family: var(--sans); font-weight: 700; font-size: 21px; text-transform: lowercase; letter-spacing: -.03em; }
+  .logos li:nth-child(4) { font-style: italic; }
+  .logos li:nth-child(5) { font-family: var(--sans); font-weight: 500; letter-spacing: .2em; font-size: 16px; text-transform: uppercase; }
+
+  /* sections */
+  section { padding: clamp(72px, 10vw, 140px) 0; }
+  .sec-head { display: grid; grid-template-columns: 220px 1fr; gap: 24px; margin-bottom: clamp(40px, 6vw, 80px); }
+  .sec-head .mono { color: var(--signal); padding-top: 14px; }
+  h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(38px, 5.2vw, 78px); line-height: 1; letter-spacing: -.015em; max-width: 14em; }
+  h2 em { color: var(--signal); }
+  .sec-head p { margin-top: 20px; max-width: 520px; color: var(--ink-2); }
+
+  /* features */
+  .feat { list-style: none; display: grid; grid-template-columns: 1fr 1fr; column-gap: clamp(32px, 6vw, 96px); }
+  .feat li { display: grid; grid-template-columns: 56px 1fr; padding: 32px 0; border-top: 1px solid var(--rule); position: relative; transition: padding-left .3s; }
+  .feat li::before { content: ''; position: absolute; left: 0; top: -1px; height: 1px; width: 0; background: var(--signal); transition: width .5s; }
+  .feat li:hover::before { width: 100%; }
+  .feat li:hover { padding-left: 8px; }
+  .feat .n { font-family: var(--mono); font-size: 12px; color: var(--signal); padding-top: 8px; }
+  .feat h3 { font-family: var(--serif); font-weight: 400; font-size: 34px; line-height: 1.1; margin-bottom: 8px; }
+  .feat p { color: var(--ink-2); max-width: 420px; }
+
+  /* testimonials */
+  .voices { background: var(--paper-2); }
+  .voices-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(32px, 6vw, 96px); }
+  blockquote { font-family: var(--serif); }
+  .big q { display: block; font-size: clamp(30px, 3.8vw, 54px); line-height: 1.08; quotes: none; letter-spacing: -.01em; }
+  .big q::before { content: '\201C'; color: var(--signal); }
+  .big q::after { content: '\201D'; color: var(--signal); }
+  .side blockquote { padding: 0 0 32px; margin-bottom: 32px; border-bottom: 1px solid var(--rule); }
+  .side blockquote:last-child { border: 0; margin: 0; padding: 0; }
+  .side q { display: block; font-size: 25px; line-height: 1.2; quotes: none; }
+  .who { margin-top: 22px; display: flex; align-items: center; gap: 14px; font-family: var(--sans); }
+  .who .av { width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--paper); display: grid; place-items: center; font-family: var(--mono); font-size: 12px; flex: none; }
+  .who b { display: block; font-weight: 500; font-size: 15px; line-height: 1.3; }
+  .who span { font-size: 13px; color: var(--ink-2); }
+
+  /* pricing */
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--ink); }
+  .plan { padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column; border-right: 1px solid var(--ink); transition: background .3s; }
+  .plan:last-child { border-right: 0; }
+  .plan:not(.pro):hover { background: var(--paper-2); }
+  .plan h3 { font-weight: 500; font-size: 13px; font-family: var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+  .plan .amt { font-family: var(--serif); font-size: clamp(64px, 7vw, 96px); line-height: 1; margin: 24px 0 4px; letter-spacing: -.02em; }
+  .plan .amt sup { font-size: .4em; vertical-align: top; position: relative; top: .25em; margin-right: 2px; }
+  .plan .per { color: var(--ink-2); font-size: 14px; }
+  .plan ul { list-style: none; margin: 32px 0 40px; flex: 1; }
+  .plan li { padding: 11px 0; border-top: 1px solid var(--rule); display: flex; gap: 12px; font-size: 16px; }
+  .plan li::before { content: '+'; color: var(--signal); font-family: var(--mono); }
+  .plan.pro { background: var(--night); color: var(--paper); }
+  .plan.pro .per { color: #a9a9a4; }
+  .plan.pro li { border-color: rgba(241,236,226,.2); }
+  .plan.pro .tag { align-self: flex-start; background: var(--signal); color: #fff; padding: 3px 8px; margin-bottom: 14px; }
+  .plan.pro .btn { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+  .plan.pro .btn:hover { background: var(--signal); color: #fff; border-color: var(--signal); }
+  .plan .btn { justify-content: space-between; }
+
+  /* cta */
+  .cta { background: var(--night); color: var(--paper); position: relative; overflow: hidden; padding: clamp(80px, 12vw, 180px) 0; }
+  .cta h2 { font-size: clamp(44px, 8vw, 128px); max-width: 11em; line-height: .95; }
+  .cta p { margin: 28px 0 40px; max-width: 480px; color: #b6b4ac; font-size: 19px; }
+  .cta .btn { background: var(--signal); border-color: var(--signal); color: #fff; padding: 18px 30px; font-size: 17px; }
+  .cta .btn:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+  .cta .bg { position: absolute; right: -12%; top: 50%; width: min(900px, 90vw); aspect-ratio: 1; transform: translateY(-50%); pointer-events: none; opacity: .9; }
+  .cta .bg circle { fill: none; stroke: rgba(241,236,226,.14); stroke-dasharray: 2 7; }
+  .cta .wrap { position: relative; }
+
+  /* footer */
+  footer { padding: 36px 0 44px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; color: var(--ink-2); font-size: 14px; }
+  footer nav { border: 0; padding: 0; gap: 24px; }
+  footer a { text-decoration: none; }
+  footer a:hover { color: var(--signal); }
+
+  /* reveal */
+  .js .rv { opacity: 0; transform: translateY(24px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
+  .js .rv.in { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .orbit-fig { justify-self: center; max-width: 420px; margin-bottom: 20px; }
+    .logos .wrap, .sec-head { grid-template-columns: 1fr; gap: 12px; }
+    .sec-head .mono { padding-top: 0; }
+    .feat, .voices-grid { grid-template-columns: 1fr; }
+    .plans { grid-template-columns: 1fr; }
+    .plan { border-right: 0; border-bottom: 1px solid var(--ink); }
+    .plan:last-child { border-bottom: 0; }
+    .nav-links a:not(.btn) { display: none; }
+    .logos ul { gap: 14px 24px; }
+  }
+  @media (max-width: 480px) {
+    body { font-size: 16px; }
+    .feat li { grid-template-columns: 40px 1fr; }
+    .feat h3 { font-size: 30px; }
+    .hero .btns .btn { flex: 1; justify-content: center; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    .js .rv { opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <nav aria-label="Primary">
+    <a class="brand" href="#top" id="top">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="13" cy="13" r="3.5" fill="currentColor"/><circle cx="22" cy="8" r="2.6" fill="#ff4d1c"/></svg>
+      Orbit
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">About</a>
+      <a class="btn sm" href="#cta">Get started <span class="arr">&rarr;</span></a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div>
+      <p class="eyebrow mono rv"><i></i> Insights engine v3 is live</p>
+      <h1 class="rv" style="--d:.08s">Know <em>why</em> the number moved.</h1>
+      <p class="lede rv" style="--d:.18s">Orbit pulls your sources into one place, watches every metric around the clock, and writes up what changed and what caused it. Your team stops arguing about dashboards and starts acting.</p>
+      <div class="btns rv" style="--d:.28s">
+        <a class="btn" href="#cta">Start free <span class="arr">&rarr;</span></a>
+        <a class="btn ghost" href="#features">Watch the 2-minute demo</a>
+      </div>
+    </div>
+    <div class="orbit-fig rv" style="--d:.2s" role="img" aria-label="Diagram of a metric at the centre with data sources orbiting around it">
+      <svg viewBox="0 0 500 500">
+        <circle class="ring" cx="250" cy="250" r="90"/>
+        <circle class="ring" cx="250" cy="250" r="160"/>
+        <circle class="ring" cx="250" cy="250" r="230"/>
+        <g class="spin r3"><circle cx="340" cy="250" r="7" fill="#ff4d1c"/><circle cx="160" cy="250" r="4" fill="#14161a"/></g>
+        <g class="spin r2"><circle cx="250" cy="90" r="9" fill="#14161a"/><circle cx="388" cy="330" r="5" fill="#ff4d1c"/></g>
+        <g class="spin"><circle cx="250" cy="20" r="6" fill="#14161a"/><circle cx="50" cy="350" r="10" fill="none" stroke="#14161a" stroke-width="1.5"/><circle cx="470" cy="250" r="4" fill="#ff4d1c"/></g>
+        <circle cx="250" cy="250" r="44" fill="#14161a"/>
+        <text x="250" y="248" text-anchor="middle" fill="#f1ece2" font-family="Instrument Serif, serif" font-size="30">+18.4%</text>
+        <text x="250" y="268" text-anchor="middle" fill="#f1ece2" fill-opacity=".6" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1">WEEKLY SIGNUPS</text>
+      </svg>
+      <div class="fig-note mono"><span>Cause: pricing page rewrite</span><span>Confidence 91%</span></div>
+    </div>
+  </div>
+
+  <div class="logos">
+    <div class="wrap">
+      <p class="mono rv">10,000+ teams<br>already in orbit</p>
+      <ul class="rv" style="--d:.1s"><li>Acme</li><li>Globex</li><li>Initech</li><li>Umbrella</li><li>Hooli</li></ul>
+    </div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono rv">01 / Features</span>
+        <div class="rv"><h2>Six things we obsess over, <em>so you don't have to.</em></h2><p>Orbit is built for the person who gets pinged at 9am asking why revenue dipped.</p></div>
+      </div>
+      <ul class="feat">
+        <li class="rv"><span class="n">01</span><div><h3>Answers in milliseconds</h3><p>Queries over a billion rows return before you lift your finger off the filter. No loading spinners, no nightly refresh.</p></div></li>
+        <li class="rv" style="--d:.08s"><span class="n">02</span><div><h3>Locked down by default</h3><p>Encrypted at rest and in transit, row-level permissions, and an audit trail your security team will actually read.</p></div></li>
+        <li class="rv"><span class="n">03</span><div><h3>Dashboards that stay tidy</h3><p>Drag in a metric, get a clean chart. Share a link and everyone sees the same live numbers, on any screen.</p></div></li>
+        <li class="rv" style="--d:.08s"><span class="n">04</span><div><h3>Anomaly explanations</h3><p>When a metric breaks pattern, Orbit traces the segments, campaigns and releases behind it and ranks the likely causes.</p></div></li>
+        <li class="rv"><span class="n">05</span><div><h3>Plugs into your stack</h3><p>Warehouses, ad platforms, billing, CRM. Connect in a few clicks, with no engineering ticket required.</p></div></li>
+        <li class="rv" style="--d:.08s"><span class="n">06</span><div><h3>One shared source of truth</h3><p>Comment on a chart, pin a decision, get notified when the number moves. The whole team looks at the same thing.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="voices" id="about">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono rv">02 / Customers</span>
+        <h2 class="rv">People who stopped <em>guessing.</em></h2>
+      </div>
+      <div class="voices-grid">
+        <blockquote class="big rv">
+          <q>Orbit changed how we run Monday planning. We open it, see what moved and why, and the meeting is half as long.</q>
+          <div class="who"><span class="av">SJ</span><div><b>Sarah Johnson</b><span>CEO, TechCorp</span></div></div>
+        </blockquote>
+        <div class="side">
+          <blockquote class="rv" style="--d:.1s">
+            <q>It is the first analytics tool our whole team opens without being asked.</q>
+            <div class="who"><span class="av">MC</span><div><b>Michael Chen</b><span>CTO, StartupXYZ</span></div></div>
+          </blockquote>
+          <blockquote class="rv" style="--d:.2s">
+            <q>Fast, clear, and it tells us what to look at next. Our data finally pulls its weight.</q>
+            <div class="who"><span class="av">ED</span><div><b>Emily Davis</b><span>VP Product, InnovateCo</span></div></div>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono rv">03 / Pricing</span>
+        <div class="rv"><h2>Three plans. <em>No asterisks.</em></h2><p>What you see is what you pay. Switch or cancel any month.</p></div>
+      </div>
+      <div class="plans">
+        <div class="plan rv">
+          <h3>Starter</h3>
+          <div class="amt"><sup>$</sup>29</div><div class="per">per month</div>
+          <ul><li>5 dashboards</li><li>10,000 events</li><li>Email support</li></ul>
+          <a class="btn ghost" href="#cta">Choose Starter <span class="arr">&rarr;</span></a>
+        </div>
+        <div class="plan pro rv" style="--d:.08s">
+          <span class="tag mono">Most teams pick this</span>
+          <h3>Pro</h3>
+          <div class="amt"><sup>$</sup>99</div><div class="per">per month</div>
+          <ul><li>Unlimited dashboards</li><li>1M events</li><li>Priority support</li></ul>
+          <a class="btn" href="#cta">Choose Pro <span class="arr">&rarr;</span></a>
+        </div>
+        <div class="plan rv" style="--d:.16s">
+          <h3>Enterprise</h3>
+          <div class="amt">Custom</div><div class="per">talk to us</div>
+          <ul><li>Everything in Pro</li><li>SSO &amp; audit logs</li><li>Dedicated manager</li></ul>
+          <a class="btn ghost" href="#cta">Contact sales <span class="arr">&rarr;</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="cta">
+    <svg class="bg" viewBox="0 0 500 500" aria-hidden="true"><circle cx="250" cy="250" r="90"/><circle cx="250" cy="250" r="170"/><circle cx="250" cy="250" r="248"/><g class="spin"><circle cx="250" cy="80" r="8" fill="#ff4d1c"/></g></svg>
+    <div class="wrap">
+      <h2 class="rv">Your next meeting could start with the answer.</h2>
+      <p class="rv" style="--d:.1s">Connect your first source in about ten minutes. Free for 14 days, no card needed. Thousands of teams already run on Orbit.</p>
+      <a class="btn rv" style="--d:.2s" href="#top">Start your free trial <span class="arr">&rarr;</span></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Orbit Analytics. All rights reserved.</span>
+    <nav aria-label="Footer"><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#about">Customers</a></nav>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+  (function () {
+    var els = document.querySelectorAll('.rv');
+    if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (e) { io.observe(e); });
+  })();
+</script>
+</body>
+</html>

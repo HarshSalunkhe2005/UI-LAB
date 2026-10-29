@@ -1,0 +1,58 @@
+{
+  "375": {
+    "docWidth": 375,
+    "viewport": 375,
+    "hOverflow": false,
+    "docHeight": 10193,
+    "interactive": 19,
+    "smallTargets": 13,
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Fraunces",
+      "h2": "Fraunces",
+      "body": "Inter"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "1440": {
+    "docWidth": 1425,
+    "viewport": 1440,
+    "hOverflow": false,
+    "docHeight": 6045,
+    "interactive": 23,
+    "smallTargets": 17,
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Fraunces",
+      "h2": "Fraunces",
+      "body": "Inter"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "dir": "C:\\Users\\Harsh\\Projects\\UI-Lab\\evals\\runs\\baseline-free\\01-saas-landing",
+  "url": "file:///C:/Users/Harsh/Projects/UI-Lab/evals/runs/baseline-free/01-saas-landing/index.html"
+}

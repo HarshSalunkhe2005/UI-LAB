@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harbor Operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#E8ECEB; --surface-raised:#F7F8F6; --surface-sunk:#DCE3E1;
+  --ink:#10282A; --ink-muted:#4A6264; --bar:#6F8F90;
+  --accent:#B8301A; --accent-ink:#FFFFFF; --accent-tint:#FBE9E5; --danger:#B8301A;
+  --success:#1B6B43; --success-tint:#E3F1E8; --warning:#7A4E00; --warning-tint:#FFF1D6;
+  --border:#C5D0CE;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:32px;
+  --radius:6px; --dur-fast:120ms; --dur:240ms; --ease:cubic-bezier(.2,.7,.2,1);
+  --sans:"Archivo","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,"SF Mono",monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;background:var(--surface);color:var(--ink);font:400 14px/1.45 var(--sans);font-variant-numeric:tabular-nums}
+button,select,input{font:inherit;color:inherit}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.mono{font-family:var(--mono)}
+
+/* frame */
+.top{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px}
+.brand{display:flex;align-items:center;gap:10px;font-stretch:80%;font-weight:800;font-size:22px;letter-spacing:.01em}
+.brand svg{width:30px;height:30px}
+.title{margin:0;font-stretch:90%;font-weight:650;font-size:16px;line-height:1.2}
+.title small{display:block;font-weight:400;font-size:12px;color:var(--ink-muted)}
+.controls{margin-left:auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.seg{display:inline-flex;background:var(--surface-sunk);border-radius:var(--radius);padding:2px}
+.seg label{position:relative;display:block}
+.seg input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.seg span{display:flex;align-items:center;justify-content:center;min-height:32px;padding:0 14px;border-radius:4px;font-weight:550;white-space:nowrap}
+.seg input:checked+span{background:var(--ink);color:#fff}
+.seg input:focus-visible+span{outline:3px solid var(--ink);outline-offset:2px}
+.sel{appearance:none;min-height:36px;padding:0 34px 0 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface-raised) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%2310282A' stroke-width='1.8'/%3E%3C/svg%3E") no-repeat right 12px center;max-width:100%}
+.btn{min-height:36px;padding:0 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface-raised);cursor:pointer;font-weight:550}
+.btn:hover{border-color:var(--ink)}
+.btn[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.link{border-color:transparent;background:none;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.fld{display:flex;align-items:center;gap:8px;color:var(--ink-muted);font-size:12px}
+
+main{flex:1;padding:16px 24px 8px;display:grid;gap:16px;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:auto minmax(440px,1fr)}
+.panel{background:var(--surface-raised);border:1px solid var(--border);border-radius:var(--radius);padding:16px;min-width:0;display:flex;flex-direction:column}
+.ph{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}
+.ph h2{margin:0;font-stretch:90%;font-weight:650;font-size:16px;line-height:1.25}
+.sub{margin:0 0 8px;font-size:12px;color:var(--ink-muted)}
+.lead{grid-column:span 3}.att{grid-column:span 5}.load{grid-column:span 4}
+.tbl{grid-column:span 8;min-height:440px}
+.side{grid-column:span 4;display:flex;flex-direction:column;gap:16px;min-height:0}
+.side .panel{flex:0 0 auto}.side .trend{flex:1 1 auto;min-height:190px}
+
+/* lead */
+.big{font-stretch:75%;font-weight:800;font-size:68px;line-height:.9;letter-spacing:-.01em;margin:4px 0 6px;display:flex;align-items:baseline;gap:2px}
+.big small{font-size:32px;font-weight:700}
+.big.bad{color:var(--danger)}
+.tgt{font-size:13px;margin:0 0 12px;color:var(--ink-muted)}
+.tgt b{color:var(--ink)}.bad-t{color:var(--danger);font-weight:650}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;margin:auto 0 0;padding-top:12px;border-top:1px solid var(--border)}
+.stats div{min-width:0}
+.stats dt{font-size:12px;color:var(--ink-muted)}
+.stats dd{margin:0;font-family:var(--mono);font-weight:600;font-size:22px;line-height:1.15}
+.stats dd small{display:block;font-family:var(--sans);font-weight:400;font-size:12px;color:var(--ink-muted);line-height:1.3}
+
+/* attention */
+.att{border-left:4px solid var(--accent)}
+.att ol{list-style:none;margin:0;padding:0;overflow:auto}
+.att li+li{border-top:1px solid var(--border)}
+.ai{display:grid;grid-template-columns:52px 1fr auto;gap:2px 12px;align-items:center;width:100%;text-align:left;padding:4px 4px;min-height:46px;background:none;border:0;cursor:pointer;border-radius:4px}
+.ai:hover{background:var(--accent-tint)}
+.ai .t{font-family:var(--mono);font-weight:600;font-size:15px}
+.ai .m{min-width:0}
+.ai .m b{font-weight:650}
+.ai .m span{display:block;font-size:13px;color:var(--ink-muted)}
+.ai .p{font-family:var(--mono);font-size:13px;text-align:right;white-space:nowrap}
+.ai .p small{display:block;font-family:var(--sans);font-size:12px;color:var(--ink-muted)}
+.ai.x .m span{color:var(--danger);font-weight:600}
+.more{margin:8px 0 0;font-size:12px;color:var(--ink-muted)}
+
+/* chips */
+.chip{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 8px 0 6px;border-radius:11px;font-size:12px;font-weight:650;white-space:nowrap}
+.chip svg{width:11px;height:11px;flex:none}
+.c-ok{background:var(--success-tint);color:var(--success)}
+.c-late{background:var(--warning-tint);color:var(--warning)}
+.c-can{background:var(--accent);color:var(--accent-ink)}
+.c-board{background:var(--surface-sunk);color:var(--ink)}
+.c-gone{color:var(--ink-muted);padding-left:0;font-weight:500}
+
+/* charts */
+.chart{position:relative;width:100%}
+.chart svg{display:block;overflow:visible}
+.chart text{font-family:var(--sans);font-size:12px;fill:var(--ink-muted)}
+.chart .v{fill:var(--ink);font-family:var(--mono);font-size:12px;font-weight:600}
+.chart .l{fill:var(--ink)}
+.chart .trk{fill:var(--surface-sunk)}
+.chart .fill{fill:var(--bar)}
+.chart .fill.hot{fill:var(--accent)}
+.chart .fill.top{fill:var(--ink)}
+.chart .grid{stroke:var(--border);stroke-width:1}
+.chart .tgtl{stroke:var(--ink-muted);stroke-width:1;stroke-dasharray:4 3}
+.chart .ln{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
+.chart .pt{fill:var(--ink)}
+.chart .pt.hollow{fill:var(--surface-raised);stroke:var(--ink);stroke-width:2}
+.chart .pt.low{fill:var(--accent)}
+.chart .an{fill:var(--danger);font-weight:650}
+.tog{background:none;border:0;padding:0 2px;min-height:24px;cursor:pointer;font-size:12px;color:var(--ink-muted);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.tog[aria-pressed="true"]{color:var(--ink);font-weight:650}
+.dt{width:100%;border-collapse:collapse;font-size:12px}
+.dt th,.dt td{padding:3px 6px;text-align:right;border-bottom:1px solid var(--border)}
+.dt th:first-child,.dt td:first-child{text-align:left}
+.dt td{font-family:var(--mono)}
+.dt td:first-child{font-family:var(--sans)}
+.dtwrap{overflow:auto;max-height:260px}
+.fill,.trk{transition:width var(--dur) var(--ease)}
+
+/* table */
+.tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:8px}
+.tools .count{margin-left:auto;font-size:12px;color:var(--ink-muted)}
+.tools .sortsel{display:none}
+.wrap{flex:1 1 0;min-height:0;overflow:auto;border-top:1px solid var(--border)}
+table.sail{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
+.sail th{position:sticky;top:0;z-index:2;background:var(--surface-sunk);text-align:left;font-weight:600;font-size:12px;padding:0;white-space:nowrap}
+.sail th button{display:flex;align-items:center;gap:4px;width:100%;min-height:36px;padding:0 10px;background:none;border:0;cursor:pointer;font-weight:600;font-size:12px;text-align:inherit}
+.sail th.n button{justify-content:flex-end}
+.sail th button:hover{background:#cfd9d6}
+.sail th svg{width:9px;height:9px;opacity:.35}
+.sail th[aria-sort="ascending"] svg,.sail th[aria-sort="descending"] svg{opacity:1}
+.sail th[aria-sort="descending"] svg{transform:rotate(180deg)}
+.sail th.plain{padding:0 10px;min-height:36px;height:36px}
+.sail td{height:36px;padding:0 10px;border-bottom:1px solid var(--border);white-space:nowrap}
+.sail td.n{text-align:right;font-family:var(--mono)}
+.sail td.t{font-family:var(--mono);font-weight:600}
+.sail td.dim{color:var(--ink-muted)}
+.sail tr.att-row td:first-child{box-shadow:inset 4px 0 0 var(--accent)}
+.sail tr.gone td{color:var(--ink-muted)}
+.sail tr.hl td{background:var(--accent-tint)}
+@media (prefers-reduced-motion:no-preference){.sail tr.hl td{animation:hl 2.4s var(--ease)}@keyframes hl{0%{background:#f3b9ad}100%{background:var(--accent-tint)}}}
+.ld{display:inline-flex;align-items:center;gap:8px}
+.ld i{display:block;width:44px;height:6px;border-radius:3px;background:var(--surface-sunk);position:relative;overflow:hidden}
+.ld i b{position:absolute;left:0;top:0;bottom:0;background:var(--bar)}
+.ld.hot i b{background:var(--accent)}
+.ld.hot em{color:var(--danger);font-weight:650}
+.ld em{font-style:normal;min-width:34px;text-align:right}
+.ld small{color:var(--ink-muted);font-size:12px}
+.empty{padding:32px 16px;text-align:center;color:var(--ink-muted)}
+.empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px}
+
+footer{padding:8px 24px 20px;font-size:12px;color:var(--ink-muted);display:flex;flex-wrap:wrap;gap:4px 24px}
+
+@media (max-width:1359px){.hide-m{display:none}}
+@media (max-width:1199px){
+  main{grid-template-columns:1fr 1fr;grid-template-rows:none}
+  .lead,.att,.load,.tbl,.side{grid-column:span 2}
+  .lead{grid-column:span 1}.att{grid-column:span 1}
+  .tbl{min-height:0}.wrap{max-height:70vh;flex:none}
+  .side{flex-direction:row}.side .panel{flex:1 1 0}
+  .hide-m{display:revert}
+}
+@media (max-width:900px){
+  .side{flex-direction:column}.side .panel,.side .trend{flex:none}
+  .lead,.att{grid-column:span 2}
+}
+@media (max-width:640px){
+  .top{position:static;padding:12px 16px;gap:10px}
+  .controls{margin-left:0;width:100%;flex-direction:column;align-items:stretch;gap:8px}
+  .seg{display:flex}.seg label{flex:1}.seg span{min-height:44px}
+  .sel,.btn{min-height:44px}
+  .fld{display:flex;flex-direction:column;align-items:stretch;gap:4px}
+  main{padding:12px 16px 8px;gap:12px;display:flex;flex-direction:column}
+  .panel{padding:14px}
+  .big{font-size:68px}
+  .att ol{overflow:visible}
+  .ai{grid-template-columns:48px 1fr auto;min-height:52px}
+  .tog{min-height:44px;padding:0 8px}
+  main>*{flex:none}
+  .side{order:4;min-height:auto}.tbl{order:5;min-height:0}
+  .tools .sortsel{display:flex}
+  .tools .count{width:100%;margin-left:0}
+  .wrap{max-height:none;overflow:visible}
+  footer{padding:8px 16px 20px}
+  table.sail,.sail tbody,.sail tr,.sail td{display:block}
+  .sail thead{display:none}
+  .sail tr{display:grid;grid-template-columns:3.6rem 1fr auto;grid-template-areas:"s r st" "e l d" "v v c";gap:2px 8px;padding:10px 4px 10px 12px;border-bottom:1px solid var(--border);align-items:center}
+  .sail tr.att-row{box-shadow:inset 4px 0 0 var(--accent)}
+  .sail tr.att-row td:first-child{box-shadow:none}
+  .sail td{height:auto;padding:0;border:0;white-space:normal}
+  .sail td.c-s{grid-area:s;font-size:15px}.sail td.c-r{grid-area:r;font-weight:600}.sail td.c-st{grid-area:st}
+  .sail td.c-e{grid-area:e;text-align:left;color:var(--ink-muted);font-size:12px}
+  .sail td.c-l{grid-area:l}.sail td.c-d{grid-area:d}
+  .sail td.c-v{grid-area:v;color:var(--ink-muted);font-size:12px}.sail td.c-c{grid-area:c;text-align:right;color:var(--ink-muted);font-size:12px}
+  .sail td.c-v::before{content:"";}
+  .sail .hide-m{display:block}
+  .sail td.c-v{padding-left:calc(3.6rem + 8px)}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-ok" viewBox="0 0 12 12"><circle cx="6" cy="6" r="4" fill="currentColor"/></symbol>
+  <symbol id="i-late" viewBox="0 0 12 12"><path d="M6 1.5L11 10.5H1z" fill="currentColor"/></symbol>
+  <symbol id="i-can" viewBox="0 0 12 12"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+  <symbol id="i-board" viewBox="0 0 12 12"><circle cx="6" cy="6" r="3.8" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-gone" viewBox="0 0 12 12"><path d="M1.5 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.8" fill="none"/></symbol>
+  <symbol id="i-sort" viewBox="0 0 10 10"><path d="M1 3.5L5 8l4-4.5z" fill="currentColor"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="brand">
+    <svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" rx="6" fill="#10282A"/><path d="M5 18h20l-3 5H8z" fill="#F7F8F6"/><path d="M9 18v-5h9l3 5" fill="none" stroke="#F7F8F6" stroke-width="1.8"/><path d="M4 26c3-2 5 2 8 0s5 2 8 0 4 1 6 0" fill="none" stroke="#6F8F90" stroke-width="1.5"/></svg>
+    Harbor
+  </div>
+  <h1 class="title">Operations, Fri 30 Oct 2026<small id="asof">Data as of 07:12 · 56 sailings scheduled today</small></h1>
+  <form class="controls" aria-label="Dashboard filters" onsubmit="return false">
+    <fieldset class="seg" id="rangeSeg">
+      <legend class="sr">Date range</legend>
+      <label><input type="radio" name="range" value="1"><span>Today</span></label>
+      <label><input type="radio" name="range" value="7" checked><span>7 days</span></label>
+      <label><input type="radio" name="range" value="30"><span>30 days</span></label>
+    </fieldset>
+    <label class="fld"><span class="sr">Route</span><select class="sel" id="routeSel"></select></label>
+    <button type="button" class="btn link" id="reset">Reset filters</button>
+  </form>
+</header>
+
+<main id="main">
+  <section class="panel lead" aria-labelledby="h-lead">
+    <div class="ph"><h2 id="h-lead">On-time rate</h2></div>
+    <p class="big" id="otBig" aria-live="polite"></p>
+    <p class="tgt" id="otSub"></p>
+    <dl class="stats" id="stats"></dl>
+  </section>
+
+  <section class="panel att" aria-labelledby="h-att">
+    <div class="ph"><h2 id="h-att">Needs attention today</h2><button type="button" class="tog" id="attAll">Show all in table</button></div>
+    <p class="sub">Ranked by passengers affected. Select one to jump to its row.</p>
+    <ol id="attList"></ol>
+    <p class="more" id="attMore"></p>
+  </section>
+
+  <section class="panel load" aria-labelledby="h-load">
+    <div class="ph"><h2 id="h-load">Passenger load vs capacity</h2><button type="button" class="tog" data-tog="load" aria-pressed="false">View as table</button></div>
+    <p class="sub" id="loadSub"></p>
+    <div class="chart" id="loadChart"></div>
+  </section>
+
+  <section class="panel tbl" aria-labelledby="h-tbl">
+    <div class="ph"><h2 id="h-tbl">Today's sailings</h2></div>
+    <div class="tools">
+      <button type="button" class="btn" id="attOnly" aria-pressed="false">Needs attention only</button>
+      <label class="fld sortsel"><span class="sr">Sort sailings by</span>
+        <select class="sel" id="sortSel">
+          <option value="sched:1">Sort: departure time</option>
+          <option value="status:1">Sort: worst status first</option>
+          <option value="delay:-1">Sort: longest delay first</option>
+          <option value="load:-1">Sort: fullest first</option>
+          <option value="route:1">Sort: route</option>
+        </select></label>
+      <span class="count" id="count" aria-live="polite"></span>
+    </div>
+    <div class="wrap" id="wrap">
+      <table class="sail" id="sail">
+        <caption class="sr">Today's sailings, sortable by column</caption>
+        <thead><tr>
+          <th scope="col" aria-sort="ascending" data-k="sched"><button type="button">Sched <svg aria-hidden="true"><use href="#i-sort"/></svg></button></th>
+          <th scope="col" class="plain n">Est.</th>
+          <th scope="col" data-k="route"><button type="button">Route <svg aria-hidden="true"><use href="#i-sort"/></svg></button></th>
+          <th scope="col" class="hide-m plain">Vessel</th>
+          <th scope="col" data-k="load"><button type="button">Load <svg aria-hidden="true"><use href="#i-sort"/></svg></button></th>
+          <th scope="col" class="n" data-k="delay"><button type="button">Delay <svg aria-hidden="true"><use href="#i-sort"/></svg></button></th>
+          <th scope="col" data-k="status"><button type="button">Status <svg aria-hidden="true"><use href="#i-sort"/></svg></button></th>
+          <th scope="col" class="plain">Cause</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="empty" id="empty" hidden><b>No sailings match.</b>Clear the route filter or switch off "Needs attention only".</div>
+    </div>
+  </section>
+
+  <div class="side">
+    <section class="panel" aria-labelledby="h-cause">
+      <div class="ph"><h2 id="h-cause">Delay minutes by cause</h2><button type="button" class="tog" data-tog="cause" aria-pressed="false">View as table</button></div>
+      <p class="sub" id="causeSub"></p>
+      <div class="chart" id="causeChart"></div>
+    </section>
+    <section class="panel trend" aria-labelledby="h-trend">
+      <div class="ph"><h2 id="h-trend">On-time rate by day</h2><button type="button" class="tog" data-tog="trend" aria-pressed="false">View as table</button></div>
+      <p class="sub" id="trendSub"></p>
+      <div class="chart" id="trendChart" style="flex:1;min-height:150px"></div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <span>On time = departed within 4 min of schedule. Cancelled sailings are counted separately, not as late.</span>
+  <span>Today's figures cover sailings departed by 07:12; delay minutes include announced delays.</span>
+  <span id="live" class="sr" aria-live="polite"></span>
+</footer>
+
+<script>
+(()=>{
+"use strict";
+const CAUSES=["Fog & wind","Tide & berth","Crew availability","Vessel fault","Boarding overrun","Port congestion"];
+const NOW=432; // 07:12
+const ROUTES=[
+ {id:"H1",from:"Pier 4",to:"Kellan Island",short:"Kellan Island",cap:320,first:330,gap:70,n:12,base:.66,p:.05,v:["MV Tern","MV Plover"],w:[2,1,2,1,2,2]},
+ {id:"H2",from:"Pier 4",to:"Saltmarsh",short:"Saltmarsh",cap:240,first:360,gap:90,n:9,base:.60,p:.08,v:["MV Sanderling","MV Redshank"],w:[1,2,3,2,1,1]},
+ {id:"H3",from:"Northgate",to:"Gull Rock",short:"Gull Rock",cap:180,first:375,gap:120,n:7,base:.55,p:.16,v:["MV Skua","MV Fulmar"],w:[8,2,1,1,1,1]},
+ {id:"H4",from:"Northgate",to:"Pemberton",short:"Pemberton",cap:400,first:345,gap:60,n:14,base:.70,p:.09,v:["MV Harrier","MV Osprey"],w:[1,1,2,1,6,2]},
+ {id:"H5",from:"Pier 9",to:"Ostler Bay",short:"Ostler Bay",cap:280,first:390,gap:100,n:8,base:.70,p:.10,v:["MV Curlew","MV Merlin"],w:[1,7,1,1,1,2]},
+ {id:"H6",from:"Pier 9",to:"Cray Point",short:"Cray Point",cap:150,first:420,gap:120,n:6,base:.48,p:.07,v:["MV Kittiwake","MV Kittiwake"],w:[4,1,1,3,1,1]}
+];
+const RMAP=Object.fromEntries(ROUTES.map(r=>[r.id,r]));
+const EVENTS={4:{routes:["H1","H3","H6"],add:.4,cause:0},11:{routes:["H2"],add:.5,cause:3},19:{routes:"all",add:.15,cause:5},27:{routes:["H4","H5"],add:.3,cause:1},38:{routes:["H3","H6"],add:.45,cause:0},52:{routes:"all",add:.12,cause:5}};
+
+function mk(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const rnd=mk(20261030);
+function loadAt(r,t){const h=t/60;const m=h<6?.7:h<9.5?1.18:h<15?.82:h<19?1.12:.7;return Math.max(.1,Math.min(.94,r.base*m+(rnd()-.5)*.14))}
+function pickCause(r,ev){if(ev&&rnd()<.7)return ev.cause;const tot=r.w.reduce((a,b)=>a+b,0);let x=rnd()*tot;for(let i=0;i<6;i++){x-=r.w[i];if(x<0)return i}return 0}
+function sim(r,ev){
+  const out=[];
+  for(let i=0;i<r.n;i++){
+    const sched=r.first+i*r.gap;
+    const hit=ev&&(ev.routes==="all"||ev.routes.includes(r.id));
+    const p=r.p+(hit?ev.add:0);
+    const cancelled=rnd()<(.006+(hit&&ev.add>.25?.05:0));
+    const booked=Math.round(r.cap*loadAt(r,sched));
+    let delay=0,cause=null;
+    if(cancelled)cause=pickCause(r,hit?ev:null);
+    else if(rnd()<p){delay=Math.min(75,5+Math.floor(-Math.log(1-rnd())*9));cause=pickCause(r,hit?ev:null)}
+    out.push({i,sched,booked,delay,cause,cancelled,vessel:r.v[i%2]});
+  }
+  return out;
+}
+const blank=()=>({sail:0,cancel:0,op:0,ontime:0,pax:0,loadPax:0,loadCap:0,delay:[0,0,0,0,0,0]});
+const HIST={}; // HIST[d][rid]
+for(let d=1;d<=59;d++){HIST[d]={};for(const r of ROUTES){
+  const a=blank();
+  for(const s of sim(r,EVENTS[d])){
+    a.sail++;
+    if(s.cancelled){a.cancel++;continue}
+    a.op++;a.pax+=s.booked;a.loadPax+=s.booked;a.loadCap+=r.cap;
+    if(s.delay<5)a.ontime++;else a.delay[s.cause]+=s.delay;
+  }
+  HIST[d][r.id]=a;
+}}
+
+// today
+const OVR={
+ "H3-0":{delay:28,cause:0},"H3-1":{delay:40,cause:0,booked:150},"H3-2":{delay:25,cause:0},"H3-3":{cancelled:true,cause:0,booked:74},
+ "H5-0":{delay:14,cause:1},"H5-1":{delay:9,cause:1},
+ "H6-0":{delay:18,cause:3},"H6-1":{cancelled:true,cause:3,booked:118},"H6-2":{delay:12,cause:3},
+ "H4-0":{delay:6,cause:4},"H4-2":{booked:388},"H4-3":{booked:384},
+ "H1-2":{booked:314},"H1-3":{booked:308},"H2-1":{delay:11,cause:2}
+};
+const TODAY=[];
+for(const r of ROUTES){for(const s of sim(r,null)){
+  const id=r.id+"-"+s.i;
+  if(s.sched>=NOW){s.delay=0;s.cause=null;s.cancelled=false}else s.cancelled=false;
+  if(s.delay<5&&!OVR[id])s.delay=0,s.cause=null;
+  Object.assign(s,OVR[id]||{});
+  const est=s.sched+(s.cancelled?0:s.delay);
+  let status;
+  if(s.cancelled)status="Cancelled";
+  else if(est<=NOW)status="Departed";
+  else if(s.delay>=5)status="Delayed";
+  else if(s.sched-NOW<=35)status="Boarding";
+  else status="On time";
+  const load=s.booked/r.cap;
+  const reasons=[];
+  let score=0;
+  if(status==="Cancelled"){score=1000+s.booked;reasons.push(["x",`Cancelled · ${CAUSES[s.cause]}`,`${s.booked} to rebook`])}
+  else if(status!=="Departed"){
+    if(s.delay>=10){score+=s.delay*5+s.booked/10;reasons.push(["l",`+${s.delay} min · ${CAUSES[s.cause]}`,`${s.booked} booked`])}
+    if(load>=.95){score+=300+load*100;reasons.push(["f",`${Math.round(load*100)}% full · ${r.cap-s.booked} seat${r.cap-s.booked===1?"":"s"} left`,`${s.booked} booked`])}
+  }
+  TODAY.push({id,rid:r.id,route:r,sched:s.sched,est,delay:s.cancelled?0:s.delay,cause:s.cause,cancelled:s.cancelled,booked:s.booked,cap:r.cap,load,vessel:s.vessel,status,score,att:score>0,reasons});
+}}
+
+// aggregation
+function addTo(a,b){for(const k of["sail","cancel","op","ontime","pax","loadPax","loadCap"])a[k]+=b[k];for(let i=0;i<6;i++)a.delay[i]+=b.delay[i]}
+function histAgg(ids,d0,d1){const a=blank();for(let d=d0;d<=d1;d++)for(const id of ids)addTo(a,HIST[d][id]);return a}
+function todayAgg(ids){
+  const a=blank();
+  for(const s of TODAY){if(!ids.includes(s.rid))continue;
+    a.sail++;
+    if(s.cancelled){a.cancel++;a.delay[s.cause]+=0;continue}
+    a.loadPax+=s.booked;a.loadCap+=s.cap;
+    if(s.delay>=5)a.delay[s.cause]+=s.delay;
+    if(s.status==="Departed"){a.op++;a.pax+=s.booked;if(s.delay<5)a.ontime++}
+  }
+  return a;
+}
+function rangeAgg(ids,N){
+  if(N===1)return todayAgg(ids);
+  const a=histAgg(ids,1,N-1);addTo(a,todayAgg(ids));return a;
+}
+const sum=a=>a.reduce((x,y)=>x+y,0);
+const pct=(a,b)=>b?a/b:null;
+const kpi=a=>({ot:pct(a.ontime,a.op),pax:a.pax,load:pct(a.loadPax,a.loadCap),delay:sum(a.delay),cancel:a.cancel,op:a.op});
+
+// state
+const state={range:1,route:"all",att:false,sort:{k:"sched",d:1}};
+state.range=7;
+const $=s=>document.querySelector(s);
+const fmt=n=>Math.round(n).toLocaleString("en-GB");
+const fmtK=n=>n>=10000?(n/1000).toFixed(1)+"k":fmt(n);
+const hm=m=>String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0");
+const ids=()=>state.route==="all"?ROUTES.map(r=>r.id):[state.route];
+const rangeName=()=>state.range===1?"Today so far":`Last ${state.range} days`;
+const signed=(n,u="")=>(n>0?"+":n<0?"−":"")+Math.abs(Math.round(n*10)/10)+u;
+
+// controls
+$("#routeSel").innerHTML=`<option value="all">All 6 routes</option>`+ROUTES.map(r=>`<option value="${r.id}">${r.id} · ${r.from} → ${r.to}</option>`).join("");
+document.querySelectorAll('input[name=range]').forEach(i=>i.addEventListener("change",()=>{state.range=+i.value;update(true)}));
+$("#routeSel").addEventListener("change",e=>{state.route=e.target.value;update(true)});
+$("#reset").addEventListener("click",()=>{state.range=7;state.route="all";state.att=false;state.sort={k:"sched",d:1};syncControls();update(true)});
+$("#attOnly").addEventListener("click",()=>{state.att=!state.att;update(false)});
+$("#attAll").addEventListener("click",()=>{state.att=true;update(false);$("#h-tbl").scrollIntoView({block:"start"})});
+$("#sortSel").addEventListener("change",e=>{const[k,d]=e.target.value.split(":");state.sort={k,d:+d};renderTable()});
+document.querySelectorAll(".sail th[data-k] button").forEach(b=>b.addEventListener("click",()=>{
+  const k=b.parentElement.dataset.k;
+  if(state.sort.k===k)state.sort.d*=-1;else state.sort={k,d:(k==="delay"||k==="load")?-1:1};
+  renderTable();
+}));
+function syncControls(){
+  document.querySelector(`input[name=range][value="${state.range}"]`).checked=true;
+  $("#routeSel").value=state.route;
+}
+const tview={load:false,cause:false,trend:false};
+document.querySelectorAll("[data-tog]").forEach(b=>b.addEventListener("click",()=>{
+  const k=b.dataset.tog;tview[k]=!tview[k];b.setAttribute("aria-pressed",tview[k]);b.textContent=tview[k]?"View as chart":"View as table";drawCharts();
+}));
+
+// KPI + lead
+function renderLead(){
+  const N=state.range,I=ids();
+  const cur=kpi(rangeAgg(I,N));
+  let prev,pk;
+  if(N===1){const b=histAgg(I,1,7);prev=kpi(b);pk={pax:b.pax/7,delay:sum(b.delay)/7,cancel:b.cancel/7}}
+  else{const b=histAgg(I,N,2*N-1);prev=kpi(b);pk={pax:b.pax,delay:sum(b.delay),cancel:b.cancel}}
+  const vs=N===1?"vs 7-day average":`vs prior ${N} days`;
+  const ot=cur.ot==null?null:cur.ot*100;
+  const big=$("#otBig");
+  big.className="big"+(ot!=null&&ot<90?" bad":"");
+  big.innerHTML=ot==null?"–":`${Math.round(ot)}<small>%</small>`;
+  const gap=ot==null?"":ot>=90?`<b>${Math.round(ot-90)} pts above</b> the 90% target`:`<span class="bad-t">${Math.round(90-ot)} pts below</span> the 90% target`;
+  $("#otSub").innerHTML=`${gap}<br>${prev.ot!=null&&ot!=null?`${signed(Math.round(ot-prev.ot*100)," pts")} ${vs} (${Math.round(prev.ot*100)}%)`:""}<br>${cur.op} sailings ${N===1?"departed so far":"operated"}`;
+  const loadPts=cur.load!=null&&prev.load!=null?(cur.load-prev.load)*100:null;
+  const dPct=(c,p)=>p?signed((c-p)/p*100,"%"):"";
+  const booked=TODAY.filter(s=>I.includes(s.rid)&&!s.cancelled).reduce((a,s)=>a+s.booked,0);
+  const stat=(l,v,s)=>`<div><dt>${l}</dt><dd>${v}<small>${s}</small></dd></div>`;
+  $("#stats").innerHTML=
+    stat("Passengers",fmt(cur.pax),N===1?`of ${fmt(booked)} booked today`:`${dPct(cur.pax,pk.pax)} ${vs}`)+
+    stat("Load factor",cur.load==null?"–":Math.round(cur.load*100)+"%",loadPts==null?"":`${signed(Math.round(loadPts)," pts")} ${vs}`)+
+    stat("Delay minutes",fmt(cur.delay),N===1?`7-day avg ${fmt(pk.delay)}/day`:`${dPct(cur.delay,pk.delay)} ${vs}`)+
+    stat("Cancellations",cur.cancel,N===1?`7-day avg ${(Math.round(pk.cancel*10)/10)}/day`:`${signed(cur.cancel-pk.cancel)} ${vs}`);
+}
+
+// attention
+function renderAtt(){
+  const list=TODAY.filter(s=>ids().includes(s.rid)&&s.att).sort((a,b)=>b.score-a.score);
+  const top=list.slice(0,5);
+  $("#h-att").textContent=`Needs attention today (${list.length})`;
+  $("#attList").innerHTML=top.length?top.map(s=>{
+    const cancelled=s.status==="Cancelled";
+    const main=s.reasons.map(r=>r[1]).join(" · ");
+    return `<li><button type="button" class="ai${cancelled?" x":""}" data-id="${s.id}"><span class="t">${hm(s.sched)}</span><span class="m"><b>${s.rid} ${s.route.from} → ${s.route.short}</b><span>${main}</span></span><span class="p">${s.booked}<small>${cancelled?"to rebook":"booked"}</small></span></button></li>`}).join(""):
+    `<li class="empty"><b>Nothing needs attention.</b>All sailings on these routes are on schedule and under 95% full.</li>`;
+  $("#attMore").textContent=list.length>5?`${list.length-5} more in the table: switch on "Needs attention only".`:"";
+  $("#attAll").hidden=!list.length;
+  document.querySelectorAll(".ai").forEach(b=>b.addEventListener("click",()=>jump(b.dataset.id)));
+}
+function jump(id){
+  let tr=document.querySelector(`tr[data-id="${id}"]`);
+  if(!tr){state.att=false;renderTable();tr=document.querySelector(`tr[data-id="${id}"]`)}
+  if(!tr)return;
+  tr.scrollIntoView({block:"center",behavior:"auto"});
+  tr.classList.add("hl");setTimeout(()=>tr.classList.remove("hl"),2400);
+  const s=TODAY.find(x=>x.id===id);$("#live").textContent=`Highlighted ${hm(s.sched)} ${s.rid} in the sailings table`;
+}
+
+// table
+const STATUS_ORDER={Cancelled:0,Delayed:1,Boarding:2,"On time":3,Departed:4};
+const CHIP={Cancelled:["c-can","i-can"],Delayed:["c-late","i-late"],Boarding:["c-board","i-board"],"On time":["c-ok","i-ok"],Departed:["c-gone","i-gone"]};
+function renderTable(){
+  const I=ids();
+  let rows=TODAY.filter(s=>I.includes(s.rid)&&(!state.att||s.att));
+  const{k,d}=state.sort;
+  const key={sched:s=>s.sched,route:s=>s.rid,load:s=>s.load,delay:s=>s.delay,status:s=>STATUS_ORDER[s.status]}[k];
+  rows.sort((a,b)=>{const x=key(a),y=key(b);const c=x<y?-1:x>y?1:0;return(c*d)||(a.sched-b.sched)||a.rid.localeCompare(b.rid)});
+  $("#rows").innerHTML=rows.map(s=>{
+    const[cl,ic]=CHIP[s.status];
+    const hot=s.load>=.95&&!s.cancelled;
+    const gone=s.status==="Departed";
+    return `<tr data-id="${s.id}" class="${s.att?"att-row":""}${gone?" gone":""}">
+ <td class="t c-s">${hm(s.sched)}</td>
+ <td class="n dim c-e">${s.delay>0&&!s.cancelled?"→ "+hm(s.est):""}</td>
+ <td class="c-r">${s.rid} ${s.route.short}</td>
+ <td class="dim hide-m c-v">${s.vessel}</td>
+ <td class="c-l"><span class="ld${hot?" hot":""}"><i><b style="width:${Math.round(s.load*100)}%"></b></i><em>${Math.round(s.load*100)}%</em><small>${s.booked}/${s.cap}</small></span></td>
+ <td class="n c-d">${s.delay>0&&!s.cancelled?"+"+s.delay+" min":"–"}</td>
+ <td class="c-st"><span class="chip ${cl}"><svg aria-hidden="true"><use href="#${ic}"/></svg>${s.status}</span></td>
+ <td class="dim c-c">${s.cause!=null&&(s.delay>0||s.cancelled)?CAUSES[s.cause]:""}</td></tr>`}).join("");
+  $("#empty").hidden=rows.length>0;
+  $("#sail").hidden=rows.length===0;
+  $("#count").textContent=`Showing ${rows.length} of ${TODAY.filter(s=>I.includes(s.rid)).length} sailings · ${state.route==="all"?"all routes":state.route}`;
+  document.querySelectorAll(".sail th[data-k]").forEach(th=>th.setAttribute("aria-sort",th.dataset.k===k?(d===1?"ascending":"descending"):"none"));
+  $("#attOnly").setAttribute("aria-pressed",state.att);
+  const sv=`${k}:${d}`;const opt=[...$("#sortSel").options].find(o=>o.value===sv);$("#sortSel").value=opt?sv:"sched:1";
+}
+
+// charts
+const NS="http://www.w3.org/2000/svg";
+function el(t,a,txt){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e}
+function tableOf(head,rows){return `<div class="dtwrap"><table class="dt"><thead><tr>${head.map(h=>`<th scope="col">${h}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`}
+
+function loadData(){
+  const N=state.range,I=ids();
+  return ROUTES.filter(r=>I.includes(r.id)).map(r=>{
+    const a=rangeAgg([r.id],N);return{r,pct:a.loadCap?a.loadPax/a.loadCap:0,pax:a.loadPax,cap:a.loadCap}
+  }).sort((a,b)=>b.pct-a.pct);
+}
+function drawLoad(){
+  const host=$("#loadChart"),data=loadData(),N=state.range;
+  $("#loadSub").textContent=(N===1?"Booked passengers vs seats on today's sailings. ":"Carried passengers vs seats offered. ")+"Bars turn red at 95% full.";
+  if(tview.load){host.innerHTML=tableOf(["Route","Load","Passengers","Seats"],data.map(d=>[`${d.r.id} ${d.r.short}`,Math.round(d.pct*100)+"%",fmt(d.pax),fmt(d.cap)]));return}
+  const W=host.clientWidth||300,narrow=W<400,rh=30,lab=narrow?100:112,right=narrow?42:102,H=data.length*rh+4;
+  const svg=el("svg",{width:W,height:H,viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Load factor by route: "+data.map(d=>`${d.r.id} ${Math.round(d.pct*100)} percent`).join(", ")});
+  const bw=W-lab-right;
+  data.forEach((d,i)=>{
+    const y=i*rh+2,hot=d.pct>=.95;
+    svg.append(el("text",{x:0,y:y+17,class:"l"},`${d.r.id} ${d.r.short}`));
+    svg.append(el("rect",{x:lab,y:y+6,width:bw,height:14,rx:2,class:"trk"}));
+    svg.append(el("rect",{x:lab,y:y+6,width:Math.max(2,bw*d.pct),height:14,rx:2,class:"fill"+(hot?" hot":"")}));
+    svg.append(el("line",{x1:lab+bw*.95,x2:lab+bw*.95,y1:y+3,y2:y+23,stroke:"#10282A","stroke-width":1}));
+    const tx=lab+bw+8;
+    svg.append(el("text",{x:tx,y:y+17,class:"v"},Math.round(d.pct*100)+"%"));
+    if(!narrow)svg.append(el("text",{x:tx+36,y:y+17},`${fmtK(d.pax)}/${fmtK(d.cap)}`));
+  });
+  host.replaceChildren(svg);
+}
+function drawCause(){
+  const host=$("#causeChart"),I=ids(),a=rangeAgg(I,state.range);
+  const rows=CAUSES.map((c,i)=>({c,m:a.delay[i]})).sort((x,y)=>y.m-x.m);
+  const tot=sum(a.delay);
+  $("#causeSub").textContent=tot?`${rows[0].c}: ${Math.round(rows[0].m/tot*100)}% of ${fmt(tot)} min lost · ${rangeName().toLowerCase()}`:"No delays in this range.";
+  if(tview.cause){host.innerHTML=tableOf(["Cause","Minutes","Share"],rows.map(r=>[r.c,fmt(r.m),tot?Math.round(r.m/tot*100)+"%":"0%"]));return}
+  const W=host.clientWidth||300,narrow=W<400,rh=24,lab=narrow?108:118,right=narrow?56:70,H=rows.length*rh+2;
+  const svg=el("svg",{width:W,height:H,viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Delay minutes by cause: "+rows.map(r=>`${r.c} ${r.m}`).join(", ")});
+  const max=Math.max(1,rows[0].m),bw=W-lab-right;
+  rows.forEach((r,i)=>{
+    const y=i*rh+1,w=bw*r.m/max;
+    svg.append(el("text",{x:0,y:y+16,class:"l"},r.c));
+    svg.append(el("rect",{x:lab,y:y+4,width:Math.max(r.m?2:0,w),height:14,rx:2,class:"fill"+(i===0&&r.m?" top":"")}));
+    svg.append(el("text",{x:lab+Math.max(r.m?2:0,w)+6,y:y+16,class:"v"},r.m+" min"));
+  });
+  host.replaceChildren(svg);
+}
+function dayLabel(d){return new Date(2026,9,30-d).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"})}
+function drawTrend(){
+  const host=$("#trendChart"),I=ids(),L=state.range===30?30:7;
+  const pts=[];
+  for(let d=L-1;d>=0;d--){
+    const a=d===0?todayAgg(I):histAgg(I,d,d);
+    pts.push({d,v:a.op?a.ontime/a.op*100:null,n:a.op,top:a.delay.indexOf(Math.max(...a.delay))});
+  }
+  const valid=pts.filter(p=>p.v!=null);
+  const hist=valid.filter(p=>p.d>0);
+  const low=hist.length?hist.reduce((m,p)=>p.v<m.v?p:m):null;
+  $("#trendSub").textContent=`Daily, last ${L} days. Dashed line is the 90% target. Today (hollow point) is partial.`;
+  if(tview.trend){host.innerHTML=tableOf(["Day","On time","Sailings"],pts.map(p=>[p.d===0?"Today (so far)":dayLabel(p.d),p.v==null?"–":Math.round(p.v)+"%",p.n]));return}
+  const W=host.clientWidth||300,H=Math.max(150,host.clientHeight||170);
+  const minV=Math.min(60,Math.floor(Math.min(...valid.map(p=>p.v))/10)*10);
+  const L0=34,R0=44,T0=10,B0=22,pw=W-L0-R0,ph=H-T0-B0;
+  const X=i=>L0+pw*i/(pts.length-1),Y=v=>T0+ph*(1-(v-minV)/(100-minV));
+  const svg=el("svg",{width:W,height:H,viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":`On-time rate by day, ${L} days. Latest ${valid.length?Math.round(valid[valid.length-1].v):"n/a"} percent against a 90 percent target.`});
+  for(let v=minV;v<=100;v+=20){svg.append(el("line",{x1:L0,x2:W-R0,y1:Y(v),y2:Y(v),class:"grid"}));svg.append(el("text",{x:L0-6,y:Y(v)+4,"text-anchor":"end"},v+"%"))}
+  svg.append(el("line",{x1:L0,x2:W-R0,y1:Y(90),y2:Y(90),class:"tgtl"}));
+  svg.append(el("text",{x:W-R0+4,y:Y(90)+4},"Target"));
+  let dstr="";pts.forEach((p,i)=>{if(p.v!=null)dstr+=(dstr&&pts[i-1]&&pts[i-1].v!=null?"L":"M")+X(i).toFixed(1)+" "+Y(p.v).toFixed(1)});
+  svg.append(el("path",{d:dstr,class:"ln"}));
+  pts.forEach((p,i)=>{if(p.v==null)return;const isLow=low&&p===low&&p.v<85;svg.append(el("circle",{cx:X(i),cy:Y(p.v),r:p.d===0?5:L>7?2.5:3.5,class:"pt"+(p.d===0?" hollow":"")+(isLow?" low":"")}))});
+  const last=pts[pts.length-1];
+  if(last.v!=null)svg.append(el("text",{x:W-R0+10,y:Y(last.v)+(Math.abs(Y(last.v)-Y(90))<14?16:4),class:"v"},Math.round(last.v)+"%"));
+  if(low&&low.v<85){const i=pts.indexOf(low);const anchor=X(i)>W-R0-90?"end":X(i)<L0+60?"start":"middle";
+    svg.append(el("text",{x:X(i),y:Math.min(H-B0-6,Y(low.v)+18),"text-anchor":anchor,class:"an"},`${Math.round(low.v)}% · ${CAUSES[low.top].toLowerCase()}`))}
+  const lbl=L>7?[0,Math.floor((pts.length-1)/2),pts.length-1]:W<400?[0,2,4,6]:pts.map((_,i)=>i);
+  lbl.forEach(i=>{const p=pts[i];const t=p.d===0?"Today":(L>7?dayLabel(p.d):new Date(2026,9,30-p.d).toLocaleDateString("en-GB",{weekday:"short"}));
+    svg.append(el("text",{x:X(i),y:H-4,"text-anchor":i===0&&L>7?"start":i===pts.length-1?"end":"middle"},t))});
+  host.replaceChildren(svg);
+}
+function drawCharts(){drawLoad();drawCause();drawTrend()}
+
+function update(announce){
+  renderLead();renderAtt();renderTable();drawCharts();
+  if(announce){const n=state.route==="all"?"all 6 routes":RMAP[state.route].id+" "+RMAP[state.route].short;$("#live").textContent=`Showing ${n}, ${rangeName().toLowerCase()}`}
+}
+let lastW={};
+const ro=new ResizeObserver(es=>{for(const e of es){const w=Math.round(e.contentRect.width),h=Math.round(e.contentRect.height);const k=e.target.id;if(lastW[k]&&lastW[k][0]===w&&lastW[k][1]===h)continue;lastW[k]=[w,h];drawCharts()}});
+["loadChart","causeChart","trendChart"].forEach(i=>ro.observe(document.getElementById(i)));
+syncControls();update(false);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orbit Analytics - See which release moved your numbers</title>
+<meta name="description" content="Orbit Analytics watches every event your product emits, flags what broke pattern and tells you which release or segment caused it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,600..900&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --surface: #E9ECE6;
+    --surface-raised: #F6F7F3;
+    --ink: #14161A;
+    --ink-muted: #4A5048;
+    --accent: #C42D08;
+    --accent-text: #B82E0A;
+    --accent-ink: #FFFFFF;
+    --success: #1F6B3A; --warning: #8A5A00; --danger: #B82E0A;
+    --border: #14161A;
+    --hair: #B9BEB2;
+
+    --f-display: 'Archivo', 'Arial Narrow', Impact, sans-serif;
+    --f-text: 'IBM Plex Sans', system-ui, sans-serif;
+    --f-mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+
+    --step--1: 0.8125rem;
+    --step-0: 1.0625rem;
+    --step-1: 1.3125rem;
+    --step-2: clamp(1.6rem, 3vw, 2.25rem);
+    --step-3: clamp(2.2rem, 5vw, 3.75rem);
+    --step-4: clamp(2.9rem, 8.6vw, 7.4rem);
+
+    --space-1: 4px; --space-2: 8px; --space-3: 16px; --space-4: 24px; --space-5: 40px; --space-6: 72px;
+    --radius: 2px;
+    --dur-fast: 120ms; --dur: 240ms; --ease: cubic-bezier(.2,.7,.2,1);
+    --gutter: clamp(16px, 4vw, 48px);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--f-text); font-size: var(--step-0); line-height: 1.55; color: var(--ink); background: var(--surface); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; box-shadow: 0 0 0 6px var(--surface-raised); }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 var(--gutter); }
+  .mono { font-family: var(--f-mono); font-size: var(--step--1); letter-spacing: .02em; }
+  .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+  h1, h2, h3 { overflow-wrap: break-word; font-family: var(--f-display); font-stretch: 75%; font-weight: 800; line-height: .95; letter-spacing: -.02em; }
+  h2 { font-size: var(--step-3); text-wrap: balance; }
+  h3 { font-size: var(--step-2); font-stretch: 80%; }
+
+  /* buttons: flat, one property changes */
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 28px; font-family: var(--f-text); font-weight: 500; font-size: 1rem; text-decoration: none; background: var(--ink); color: #fff; border: 2px solid var(--ink); border-radius: var(--radius); transition: background var(--dur-fast) linear, color var(--dur-fast) linear; cursor: pointer; }
+  .btn:hover { background: var(--accent); border-color: var(--accent); }
+  .btn.alt { background: transparent; color: var(--ink); }
+  .btn.alt:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  /* header */
+  header { border-bottom: 2px solid var(--border); }
+  .nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 var(--space-4); min-height: 72px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--f-display); font-stretch: 75%; font-weight: 800; font-size: 1.6rem; letter-spacing: -.01em; min-height: 48px; }
+  .brand svg { width: 28px; height: 28px; }
+  .nav ul { display: flex; gap: var(--space-4); list-style: none; margin-left: auto; }
+  .nav ul a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-family: var(--f-mono); font-size: var(--step--1); border-bottom: 2px solid transparent; }
+  .nav ul a:hover { border-bottom-color: var(--accent); }
+  .nav .btn { min-height: 44px; padding: 0 20px; font-size: .9375rem; }
+
+  /* hero */
+  .hero { padding: var(--space-6) 0 var(--space-6); }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-5) var(--space-6); align-items: end; }
+  .hero h1 { font-size: var(--step-4); font-stretch: 68%; line-height: .88; letter-spacing: -.03em; text-wrap: balance; }
+  .hero h1 em { font-style: normal; color: var(--accent-text); }
+  .hero .lede { margin-top: var(--space-4); max-width: 34em; font-size: var(--step-1); line-height: 1.4; color: var(--ink); }
+  .hero .actions { margin-top: var(--space-5); display: flex; flex-wrap: wrap; gap: var(--space-3); }
+  .hero .note { margin-top: var(--space-3); color: var(--ink-muted); }
+
+  figure.chart { background: var(--surface-raised); border: 2px solid var(--border); padding: var(--space-3) var(--space-3) var(--space-3); }
+  figure.chart .top { display: flex; justify-content: space-between; gap: var(--space-3); border-bottom: 1px solid var(--hair); padding-bottom: var(--space-2); margin-bottom: var(--space-2); color: var(--ink-muted); }
+  figure.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  figure.chart .line { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+  figure.chart .grid { stroke: var(--hair); stroke-width: 1; }
+  figure.chart .ax { font-family: var(--f-mono); font-size: 11px; fill: var(--ink-muted); }
+  figure.chart .flag { stroke: var(--accent); stroke-width: 2; }
+  figure.chart .dot { fill: var(--accent); }
+  figure.chart .lbl { font-family: var(--f-text); font-weight: 500; font-size: 13px; fill: var(--ink); }
+  figure.chart .lbl b { fill: var(--accent-text); }
+  figure.chart figcaption { margin-top: var(--space-2); border-top: 1px solid var(--hair); padding-top: var(--space-2); color: var(--ink); font-size: .9375rem; line-height: 1.45; }
+  figure.chart figcaption .mono { color: var(--ink-muted); display: block; margin-top: 6px; }
+  .js .line { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .js .flagset { opacity: 0; }
+  .drawn .line { stroke-dashoffset: 0; transition: stroke-dashoffset 1.6s var(--ease); }
+  .drawn .flagset { opacity: 1; transition: opacity var(--dur) linear 1.4s; }
+
+  /* proof strip */
+  .logos { border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); }
+  .logos .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr); align-items: stretch; }
+  .logos p { padding: var(--space-4) var(--space-4) var(--space-4) 0; border-right: 1px solid var(--border); display: flex; align-items: center; }
+  .logos p strong { font-family: var(--f-display); font-stretch: 75%; font-size: 2.2rem; font-weight: 800; margin-right: 10px; line-height: 1; }
+  .logos ul { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); }
+  .logos li { padding: var(--space-4) var(--space-3); border-right: 1px solid var(--hair); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; color: var(--ink); }
+  .logos li:last-child { border-right: 0; }
+  .logos li:nth-child(1) { font-family: var(--f-display); font-stretch: 62%; font-weight: 900; letter-spacing: .04em; text-transform: uppercase; }
+  .logos li:nth-child(2) { font-family: var(--f-display); font-stretch: 125%; font-weight: 700; }
+  .logos li:nth-child(3) { font-family: var(--f-mono); font-weight: 500; font-size: 1.15rem; }
+  .logos li:nth-child(4) { font-family: var(--f-text); font-weight: 500; letter-spacing: .14em; text-transform: uppercase; font-size: 1rem; }
+  .logos li:nth-child(5) { font-family: var(--f-display); font-stretch: 100%; font-weight: 600; font-style: italic; }
+
+  /* sections */
+  section { padding: var(--space-6) 0; }
+  .shead { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-4) var(--space-6); align-items: end; margin-bottom: var(--space-5); }
+  .shead p { color: var(--ink-muted); max-width: 30em; }
+
+  /* features as a ledger */
+  .ledger { list-style: none; border-top: 2px solid var(--border); }
+  .ledger li { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr) ; gap: var(--space-2) var(--space-6); padding: var(--space-4) 0; border-bottom: 1px solid var(--border); transition: background var(--dur-fast) linear; }
+  .ledger li:hover { background: var(--surface-raised); }
+  .ledger h3 { align-self: start; }
+  .ledger p { max-width: 36em; align-self: start; padding-top: 4px; }
+  .ledger .tag { display: block; margin-top: 8px; color: var(--accent-text); }
+
+  /* testimonials: one long column */
+  .voices { background: var(--surface-raised); border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); }
+  .voices blockquote { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: var(--space-3) var(--space-5); padding: var(--space-5) 0; border-top: 1px solid var(--border); }
+  .voices blockquote:first-of-type { border-top: 0; }
+  .voices blockquote:nth-of-type(2) { padding-left: clamp(0px, 8vw, 120px); }
+  .voices q { quotes: none; font-family: var(--f-display); font-stretch: 78%; font-weight: 700; font-size: var(--step-2); line-height: 1.08; letter-spacing: -.01em; order: 2; text-wrap: pretty; }
+  .voices footer { order: 1; padding: 0; text-align: left; color: var(--ink-muted); font-size: var(--step--1); }
+  .voices footer strong { display: block; color: var(--ink); font-family: var(--f-text); font-weight: 500; font-size: 1rem; }
+
+  /* pricing: table with visible rules */
+  .plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 2px solid var(--border); background: var(--surface-raised); }
+  .plan { padding: var(--space-4); display: flex; flex-direction: column; border-right: 1px solid var(--border); }
+  .plan:last-child { border-right: 0; }
+  .plan.pro { box-shadow: inset 0 8px 0 var(--accent); padding-top: calc(var(--space-4) + 8px); }
+  .plan .for { color: var(--ink-muted); min-height: 3.2em; margin-top: 8px; font-size: .9375rem; }
+  .plan .amount { font-family: var(--f-display); font-stretch: 68%; font-weight: 800; font-size: clamp(3.6rem, 7vw, 5.5rem); line-height: 1; letter-spacing: -.03em; margin-top: var(--space-4); }
+  .plan .amount small { font-family: var(--f-mono); font-weight: 400; font-size: var(--step--1); letter-spacing: 0; margin-left: 6px; color: var(--ink-muted); }
+  .plan ul { list-style: none; margin: var(--space-4) 0; border-top: 1px solid var(--hair); flex: 1; }
+  .plan li { padding: 10px 0; border-bottom: 1px solid var(--hair); display: flex; gap: 10px; align-items: baseline; }
+  .plan li::before { content: ""; width: 10px; height: 2px; background: var(--ink); flex: none; transform: translateY(-4px); }
+  .plan .btn { width: 100%; }
+
+  /* cta */
+  .cta { background: var(--accent); color: var(--accent-ink); padding: var(--space-6) 0; }
+  .cta .wrap { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: var(--space-5) var(--space-6); align-items: end; }
+  .cta h2 { font-size: var(--step-4); font-stretch: 68%; line-height: .88; }
+  .cta p { margin-top: var(--space-3); font-size: var(--step-1); max-width: 28em; }
+  .cta .btn { width: 100%; background: var(--ink); border-color: var(--ink); color: #fff; }
+  .cta .btn:hover { background: #fff; color: var(--ink); border-color: #fff; }
+  .cta .fine { margin-top: var(--space-3); font-family: var(--f-mono); font-size: var(--step--1); }
+
+  footer.site { background: var(--ink); color: #E9ECE6; padding: var(--space-5) 0; }
+  footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-3) var(--space-5); }
+  footer.site .b { font-family: var(--f-display); font-stretch: 75%; font-weight: 800; font-size: 1.6rem; }
+  footer.site a { display: inline-flex; align-items: center; min-height: 44px; padding-right: var(--space-3); color: #E9ECE6; }
+  footer.site a:hover { color: #fff; text-decoration-color: var(--accent); }
+  footer.site :focus-visible { outline-color: #fff; box-shadow: none; }
+  footer.site .c { color: #9AA196; width: 100%; }
+
+  .reveal { opacity: 1; }
+  .js .reveal { opacity: 0; transform: translateY(12px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
+  .js .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .hero-grid, .shead, .cta .wrap { grid-template-columns: minmax(0,1fr); }
+    .logos .wrap { grid-template-columns: minmax(0,1fr); }
+    .logos p { border-right: 0; border-bottom: 1px solid var(--border); padding: var(--space-3) 0; }
+    .logos ul { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .logos li { border-bottom: 1px solid var(--hair); }
+    .logos li:nth-child(2n) { border-right: 0; }
+    .logos li:last-child { grid-column: 1 / -1; border-bottom: 0; }
+    .ledger li { grid-template-columns: minmax(0,1fr); }
+    .voices blockquote, .voices blockquote:nth-of-type(2) { grid-template-columns: minmax(0,1fr); padding-left: 0; }
+    .plans { grid-template-columns: minmax(0,1fr); }
+    .plan { border-right: 0; border-bottom: 1px solid var(--border); }
+    .plan:last-child { border-bottom: 0; }
+    .plan .for { min-height: 0; }
+    .nav ul { order: 3; width: 100%; margin-left: 0; gap: var(--space-4); border-top: 1px solid var(--hair); }
+    .hero { padding: var(--space-5) 0 var(--space-5); }
+    section { padding: var(--space-5) 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .js .line { stroke-dashoffset: 0 !important; transition: none !important; }
+    .js .flagset { opacity: 1 !important; transition: none !important; }
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+    * { transition-duration: 0s !important; }
+  }
+</style>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="#top" aria-label="Orbit Analytics, top of page">
+        <svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="11" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="14" cy="14" r="3.5" fill="currentColor"/><circle cx="22.2" cy="8.2" r="3" fill="#C42D08"/></svg>
+        Orbit Analytics
+      </a>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#customers">Customers</a></li>
+      </ul>
+      <a class="btn" href="#start">Get started</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero" aria-labelledby="h1" style="padding-top:0">
+  <div class="wrap" style="padding-top:var(--space-6)">
+    <div class="hero-grid">
+      <div>
+        <h1 id="h1">Know which release moved your numbers. <em>Before the stand-up.</em></h1>
+        <p class="lede">Orbit Analytics reads every event your product sends, flags the ones that broke pattern, and writes a plain-English note on what changed and for whom. The AI drafts it; you check the chart.</p>
+        <div class="actions">
+          <a class="btn" href="#pricing">Start free</a>
+          <a class="btn alt" href="#features">See how it works</a>
+        </div>
+        <p class="note mono">Free plan. No card.</p>
+      </div>
+
+      <figure class="chart" id="chart">
+        <div class="top mono"><span>Checkout conversion, %</span><span>14 days</span></div>
+        <svg viewBox="0 0 560 300" role="img" aria-label="Line chart of checkout conversion over 14 days. It holds near 3.5 percent, then falls to about 2.5 percent on day 10, the day release 4.18 shipped.">
+          <g class="grid">
+            <line x1="30" x2="540" y1="40" y2="40"/><line x1="30" x2="540" y1="95" y2="95"/>
+            <line x1="30" x2="540" y1="150" y2="150"/><line x1="30" x2="540" y1="205" y2="205"/>
+            <line x1="30" x2="540" y1="260" y2="260"/>
+          </g>
+          <g class="ax"><text x="0" y="44">4.0</text><text x="0" y="99">3.5</text><text x="0" y="154">3.0</text><text x="0" y="209">2.5</text><text x="0" y="264">2.0</text>
+            <text x="30" y="286">Day 1</text><text x="500" y="286">Day 14</text></g>
+          <path class="line" pathLength="1" d="M30 95 L68.5 84 L106.9 106 L145.4 89.5 L183.8 73 L222.3 95 L260.8 100.5 L299.2 84 L337.7 95 L376.2 205 L414.6 210.5 L453.1 194 L491.5 199.5 L530 194"/>
+          <g class="flagset">
+            <line class="flag" x1="376.2" x2="376.2" y1="20" y2="260"/>
+            <circle class="dot" cx="376.2" cy="205" r="6"/>
+            <text class="lbl" x="366" y="34" text-anchor="end"><tspan font-weight="500">Release 4.18 shipped</tspan></text>
+            <text class="lbl" x="392" y="238"><tspan class="b" fill="#B82E0A">-31% on mobile Safari</tspan></text>
+          </g>
+        </svg>
+        <figcaption>Orbit's note, day 10, 14:02: conversion dropped after 4.18. Nearly all of it is the payment sheet on mobile Safari; desktop is flat.<span class="mono">Sample data, shown for illustration.</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<div class="logos" aria-label="Customers">
+  <div class="wrap">
+    <p><strong class="num">10,000+</strong> teams use Orbit</p>
+    <ul>
+      <li>Acme</li><li>Globex</li><li>Initech</li><li>Umbrella</li><li>Hooli</li>
+    </ul>
+  </div>
+</div>
+
+<section id="features" aria-labelledby="h-features">
+  <div class="wrap">
+    <div class="shead reveal">
+      <h2 id="h-features">Six things Orbit does, and what each one saves you</h2>
+      <p>Everything below ships on every plan unless the right-hand note says otherwise.</p>
+    </div>
+    <ul class="ledger">
+      <li class="reveal"><h3>Fast enough to ask twice</h3><p>Queries come back while you are still reading the last answer, so asking a follow-up costs nothing and you actually do it.</p></li>
+      <li class="reveal"><h3>Your data stays yours</h3><p>Events are encrypted in transit and at rest. SSO and audit logs are there when your security team asks for them.<span class="tag mono">SSO and audit logs: Enterprise</span></p></li>
+      <li class="reveal"><h3>Dashboards people open</h3><p>Build one per team, and change a chart without asking an analyst. Each dashboard opens on what moved since yesterday, not on a wall of totals.</p></li>
+      <li class="reveal"><h3>Notes on what changed</h3><p>When a metric breaks pattern, the AI writes a short note: which segment, which release, how big. You see the chart under it, so you can disagree.</p></li>
+      <li class="reveal"><h3>Plugs into your stack</h3><p>Connect your warehouse, billing and chat tools from a settings page. No code, no ticket to engineering.</p></li>
+      <li class="reveal"><h3>One view for the whole team</h3><p>Everyone looks at the same live chart. Comments sit on the data point they are about, so the thread survives the meeting.</p></li>
+    </ul>
+  </div>
+</section>
+
+<section class="voices" id="customers" aria-labelledby="h-voices">
+  <div class="wrap">
+    <div class="shead reveal">
+      <h2 id="h-voices">What teams say after a quarter with it</h2>
+    </div>
+    <div>
+      <blockquote class="reveal"><q>We stopped arguing about whose number was right. The first Monday, Orbit pointed at one release and we rolled it back by lunch.</q><footer><strong>Sarah Johnson</strong>CEO, TechCorp</footer></blockquote>
+      <blockquote class="reveal"><q>I used to rebuild the same funnel every sprint. Now I open Orbit and the question is already half answered.</q><footer><strong>Michael Chen</strong>CTO, StartupXYZ</footer></blockquote>
+      <blockquote class="reveal"><q>Our PMs read the notes. That is the whole review: people who never touched an analytics tool now bring a chart to planning.</q><footer><strong>Emily Davis</strong>VP Product, InnovateCo</footer></blockquote>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" aria-labelledby="h-pricing">
+  <div class="wrap">
+    <div class="shead reveal">
+      <h2 id="h-pricing">Three plans. The price is the price.</h2>
+      <p>Billed monthly, per workspace. No hidden fees, no overage surprises you did not see coming on the usage bar.</p>
+    </div>
+    <div class="plans reveal">
+      <article class="plan" aria-labelledby="p1">
+        <h3 id="p1">Starter</h3>
+        <p class="for">For one team getting its first dashboards live.</p>
+        <div class="amount num">$29<small>per month</small></div>
+        <ul><li>5 dashboards</li><li>10,000 events</li><li>Email support</li></ul>
+        <a class="btn alt" href="#start">Choose Starter</a>
+      </article>
+      <article class="plan pro" aria-labelledby="p2">
+        <h3 id="p2">Pro</h3>
+        <p class="for">For teams that have outgrown five dashboards and want answers, not exports.</p>
+        <div class="amount num">$99<small>per month</small></div>
+        <ul><li>Unlimited dashboards</li><li>1M events</li><li>Priority support</li></ul>
+        <a class="btn" href="#start">Choose Pro</a>
+      </article>
+      <article class="plan" aria-labelledby="p3">
+        <h3 id="p3">Enterprise</h3>
+        <p class="for">For companies whose security review comes before the purchase.</p>
+        <div class="amount">Custom<small>talk to us</small></div>
+        <ul><li>Everything in Pro</li><li>SSO and audit logs</li><li>Dedicated manager</li></ul>
+        <a class="btn alt" href="#start">Contact sales</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="start" aria-labelledby="h-cta">
+  <div class="wrap">
+    <div>
+      <h2 id="h-cta">Find out what changed last week.</h2>
+      <p>Join the 10,000+ teams who open Orbit first. Connect a source and see your first note in minutes.</p>
+    </div>
+    <div>
+      <a class="btn" href="#top">Start your free trial</a>
+      <p class="fine">No card needed.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span class="b">Orbit Analytics</span>
+    <nav aria-label="Footer"><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#customers">Customers</a><a href="#top">Back to top</a></nav>
+    <p class="c mono">&copy; 2026 Orbit Analytics. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var chart = document.getElementById('chart');
+  var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reveals = [].slice.call(document.querySelectorAll('.reveal'));
+  if (rm || !('IntersectionObserver' in window)) {
+    chart.classList.add('drawn');
+    reveals.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(function (el) { io.observe(el); });
+  requestAnimationFrame(function () { requestAnimationFrame(function () { chart.classList.add('drawn'); }); });
+})();
+</script>
+</body>
+</html>

@@ -1,100 +1,132 @@
 ---
 name: ui-lab
-description: Use when the user asks to "build a landing page", "design a dashboard", "redesign this UI", "make it look less generic" or "critique this design". Runs a gated design procedure (brief, direction card, vertical slice, rendered verification, handoff) in three modes - Build, Redesign, Critique - and checks the result against known AI-default patterns, accessibility rules and a catalogue of solved frontend bugs. Not for backend-only, data or scripting tasks.
+description: Use when the user asks to "build a landing page", "design a dashboard", "redesign this UI", "make it look less generic" or "critique this design". Runs a gated procedure in three modes (Build, Redesign, Critique) - brief, house-style check, direction, rendered verification, handoff - so the result avoids the defaults an AI agent drifts to, passes mechanical accessibility and layout checks, and is rendered before it is called done. Includes guidance for dense dashboards and apps. Not for backend, data or scripting tasks.
 ---
 
 # UI Lab
 
-A design procedure with gates. Each gate produces a short written artifact. Do not move past a gate without it, and say so in the reply if you skip one on purpose.
+Capable agents already make pages that look fine. The failure is that they all look the same, and nobody rendered them. This skill adds three things: a gate that forces a choice against your own default, a verification gate you cannot skip, and a mode for existing UI. Each gate leaves a short file in `design/` in the project (or a labelled block in your reply for a small task). Say so if you skip a gate on purpose.
 
-## 0. Pick a mode
+If the task is not visual or interaction design (API, SQL, shell, data), this skill does not apply. Load nothing.
 
-| The user wants | Mode | Entry point |
+## Pick a mode
+
+| The user wants | Mode | Start at |
 |---|---|---|
-| A new page, screen or component | **Build** | Gate 1 |
-| An existing UI made better, without breaking it | **Redesign** | Gate R1 (then Gate 2 onward) |
-| An opinion on a UI they already have | **Critique** | Gate C1 |
+| A new page, screen or component | Build | Gate 1 |
+| An existing UI changed or improved | Redesign | Gate R |
+| An opinion on a UI, or "what is wrong with this" | Critique | Gate C |
 
-If the request is not about visual or interaction design (APIs, SQL, shell scripts, data work), stop. This skill does not apply and none of its files should be loaded.
+Dashboards, admin tools, tables, editors, anything dense: also read `references/dense-ui.md` before Gate 2.
 
-## 1. Brief (Build)
+## Gate 1. Brief (Build)
 
-Fill `templates/brief.md`: audience and context, the job the page must do, mood in three words, the one memorable moment, real content (never lorem ipsum), constraints (stack, devices, deadline). If you cannot fill a line from the request, ask the user one sharp question. Never guess a whole product.
+Fill `templates/brief.md` into `design/brief.md`. Every line needs something real: audience and where they are, the job of the page, three mood words, the one memorable moment, real content, constraints, and what it must not feel like. If a line cannot be filled from the request, ask the user one sharp question. Do not invent a product. Real copy and real-looking data from the start: no lorem ipsum, no "Feature One", no round-number metrics that look made up.
 
-Artifact: the filled brief, kept in your working notes or a `BRIEF.md` in the project.
+## Gate 2. House-style check (mandatory, before any code)
 
-## R1. Audit before touching (Redesign)
+Your first idea is the average of what you have seen. Name it, then leave it unless the brief earns it.
 
-1. Run the app and screenshot every distinct screen at 1440 and 375.
-2. List what must be preserved: routes, copy that is legally or functionally fixed, data flow, component APIs, anything with tests.
-3. Fill `templates/critique-report.md` for the current state (Gate C1 below).
-4. Rule: skin, do not rewire. Change tokens, type, layout and markup; do not change handlers, state, data shapes or routes unless the user agrees.
+1. **Write the default.** In `design/direction.md`, one line per axis for the page you would produce if you did not think: **ground** (background and surface), **type voice** (display and text faces), **layout grammar** (how the first screen and the sections are composed), **accent strategy** (how colour is used), **motion**.
+2. **Check it against `references/anti-slop.md`.** It lists the 2023 defaults and the current convergent ones (the "tasteful" house style that most agents now produce). Mark every match.
+3. **Diverge, then pick.** Write two candidate directions that differ from the default and from each other (a different ground, type voice and accent logic, not two shades of one idea). Choose one and say why in a line. The winner must differ from the default on at least three of the five axes, and each change must come from the brief, the audience or the product, not from contrarianism. `references/anti-slop.md` has an alternatives menu per axis and a list of the defaults that this very procedure tends to produce (section D): if your choice is on that list, you have only swapped one default for another.
+4. **Or defend the default.** For each axis you keep, write one line of evidence from the brief that earns it. "It looks good" is not evidence.
+5. **Different is not enough: it must be stronger.** Name the single boldest visual element on the first screen (an object, a colour field, a type treatment, a piece of product), and the places where the page changes rhythm (ground, density or scale, at least twice). Austere and uniform loses to committed and varied, so restraint is a choice you spend on purpose, not the default.
+6. **Swap test.** Replace the brand name and content with a competitor's. If nothing about the design has to change, it is generic: redo steps 3 to 5.
 
-Artifact: the preserve list and the current-state critique. Then continue at Gate 2.
+Gate output: the table of default, matches, chosen, and reason, per axis.
 
-## 2. Direction card
+## Gate 3. Direction card
 
-Read `references/worlds.md` and choose one world, or invent a narrower one. {{pro}}For narrow subjects, also read `references/niche-worlds.md`.{{/pro}}
-Fill `templates/direction-card.md`: name, metaphor, palette by role, type pair with roles, spacing scale, motion language, signature moment, and three refusals.
+Fill `templates/direction-card.md` into `design/direction.md` (below the Gate 2 table). It must include a CSS custom-property block: palette by role (surface, surface-raised, ink, ink-muted, accent, accent-ink, success, warning, danger), type scale, spacing scale, radius, motion durations and easing. Pick fonts that suit the direction and load them (self-hosted or a font service); never leave the display voice on the system default. Read `references/worlds.md` for worked directions to learn from, not to copy. {{pro}}For a narrow subject (a ticket, a receipt, a specimen, a board) also read `references/niche-worlds.md`.{{/pro}}
 
-Then run two tests and write the result in the card:
-- **Swap test.** Replace the brand with a competitor's. If nothing about the design would need to change, it is generic. Redo the card.
-- **House-style test.** Read `references/anti-slop.md`. If the card matches a convergent default (including this year's fashionable ones) and the brief does not earn it, change it.
+Write three refusals: things this design will not do.
 
-Artifact: the direction card.
+## Gate 4. Vertical slice, then build
 
-## 3. Vertical slice
+Put the tokens in `:root` first. Build the signature moment end to end with real content and real states (hover, focus, empty, error), then build outward. Semantic HTML first, then style. Small screens are designed, not squashed: decide at 375 what moves, what collapses and what disappears.
 
-Build the signature moment end to end first (real content, real states), then build outward. Set tokens as CSS custom properties before any component. Fonts: pick a chosen pair with a free source; never leave the display voice on the system default.
+Dense UI rules (details in `references/dense-ui.md`):
+- Lead with what needs action, not with a summary of everything.
+- Numbers right-aligned in tabular figures; one row height; a sticky header on long tables.
+- At 375 a wide table becomes a stacked list or a column-priority table, never a clipped one.
+- Status is text plus colour, never colour alone. Charts get direct labels and one accent.
+- Controls show their current state. Filters and sorts are visible and reversible.
 
-Artifact: a running slice you have rendered once.
+## Gate 5. Rendered verification (mandatory)
 
-## 4. Verify, bounded
+Code that was never rendered is a guess. Do not write "works" or "responsive" in the handoff unless you rendered it.
 
-Read `references/verify.md` (render loop and bug catalogue) and `references/accessibility.md`. One batched round:
+**Path A: you can render.** Use a browser tool, or headless Chrome or Edge with a screenshot flag (set the window to 1440x900 and 375x812, and a tall height for full-page shots). Then open the screenshots and look at them.
 
-1. Fresh load. Console must be clean.
-2. Every section, at 1440 and 375 wide. Screenshot each.
-3. `prefers-reduced-motion: reduce` on. Keyboard-only pass. Visible focus on every control.
-4. Check for overlap and clipping (stamps, badges, sticky headers, long words, tables at 375).
-5. Contrast of every text/background pair{{pro}}: `node scripts/contrast.mjs <fg> <bg>`{{/pro}}.
+**Path B: you cannot render.** Run `node scripts/audit-ui.mjs <project-dir>` for a static audit, fix what it reports, and write NOT RENDERED in the handoff with the list of checks you could not do.
 
-Fix everything the round found in one batch, then one confirming round, then stop. If you cannot render (no browser tool), say so and list what you could not check; do not claim it works.
+Do one batched round, fix everything it found in one batch, then one confirming round, then stop. Record the result in `design/verify.md` from `templates/verify-log.md`.
 
-Artifact: a pass/fail line per check above.
+Mechanical checklist, all pass/fail:
+1. Fresh load: console has zero errors and warnings you caused.
+2. No horizontal scroll at 375 (the page is not wider than the viewport).
+3. Every interactive element at least 44x44 px at 375 (inline text links excepted).
+4. Exactly one `h1`; landmarks `header`, `nav`, `main`, `footer` present where the page has those parts; images have `alt`; form controls have labels.
+5. Visible focus on every control (tab through the page); no keyboard trap.
+6. `prefers-reduced-motion: reduce` is handled: nothing loops or moves for decoration.
+7. Text contrast at least 4.5:1 (3:1 for large text){{pro}}; check pairs with `node scripts/contrast.mjs <fg> <bg>`{{/pro}}.
+8. No collisions or clipping: stamps over text, sticky headers over headings, labels cut off, tables cut off at 375, text under illustrations.
+9. Every control does something: no dead buttons, no dead anchors.
+10. Look at each screenshot as a reviewer would. Hierarchy clear in three seconds? Then squint (or view the full page small): do the sections differ in ground, density or scale, and is there one place with real visual weight? A page that is correct but uniform and flat is not done.
 
-## 5. Handoff
+If something renders wrong, check the bug catalogue in `references/verify.md` before debugging from scratch.
 
-Fill `templates/handoff.md`: what was built, what was rendered at which sizes, what could not be tested, what is placeholder, next steps. Be honest about the gaps.
+## Gate 6. Handoff
 
-## C1. Critique mode
+Fill `templates/handoff.md` into `design/handoff.md`: what was built and how to open it, what you rendered at which sizes, what you could not test, placeholders, known defects left, next steps. Short and honest.
 
-Fill `templates/critique-report.md`: score each of hierarchy, type, colour, spacing, motion, accessibility, responsiveness, content, distinctiveness from 0 to 2 with the evidence you saw, list the top three defects in order of cost, and give a concrete fix for each (a value or a rule, not "improve contrast"). Do not rewrite the design unless asked.
+## Gate R. Redesign (existing UI)
+
+Preserve first. Skin, do not rewire.
+
+1. **Inventory before touching anything.** Render every distinct screen at 1440 and 375 and keep the screenshots. List what must survive: routes, copy that is functionally or legally fixed, data shapes, component APIs, handlers, tests, the order of sections if the user kept it. Write it in `design/preserve.md`.
+2. **Critique the current state** with `templates/critique-report.md` (Gate C). This is your before.
+3. Run Gate 2 against what exists: what is the current default, and which axes will you change? A redesign that changes only colours is a recolour; say so or change more.
+4. Change tokens, type, layout and markup. Do not change behaviour, data or routes unless the user agrees. When you must (a broken pattern), list the change in the handoff.
+5. Rebuild at the same entry point so the user can compare. Do not edit the original in place unless asked; keep it or work in a copy.
+6. Gate 5 on the result, and compare before and after at both widths. Handoff lists what was preserved, what changed and what is better, by measurement.
+
+## Gate C. Critique
+
+Output is `templates/critique-report.md`, filled. Rules:
+- Render first (Gate 5, Path A). Critique of unseen UI is opinion.
+- Score each area 0, 1 or 2 with the evidence you saw: a quoted element, a measured number, a screenshot region.
+- List the top three defects by cost to a real user or reviewer, not by ease.
+- Every defect gets a concrete fix as a before and after diff of CSS or markup (a value or a rule, never "improve contrast").
+- State which convergent defaults are present and whether the product earns them.
+- Do not rewrite the design unless asked. Say what to keep.
 
 ## Read this when
 
 | Trigger | Read |
 |---|---|
-| Choosing or inventing a direction (Gate 2) | `references/worlds.md` |
-| The subject suits a narrow, object-like direction (ticket, receipt, specimen, board) | `references/niche-worlds.md`  | {{pro-line}}
-| Anything looks familiar, safe or "AI-ish" | `references/anti-slop.md` |
-| Starting verification, or something renders wrong | `references/verify.md` |
+| Gate 2 (always) | `references/anti-slop.md` |
+| The product is a dashboard, admin tool, table, editor, any dense screen | `references/dense-ui.md` |
+| Choosing a direction, learning how a committed one is specified | `references/worlds.md` |
+| The subject suits a narrow, object-like direction (ticket, receipt, specimen, board) | `references/niche-worlds.md` | {{pro-line}}
+| Verification, or something renders wrong | `references/verify.md` |
 | Forms, focus, contrast, motion preferences, keyboard | `references/accessibility.md` |
-| The brief is thin and you need to shape it | `references/briefs.md`  | {{pro-line}}
-| Choosing structure for a known site type (SaaS, shop, docs, portfolio) | `references/site-types.md`  | {{pro-line}}
-| Looking for a ready component or section to adapt | `references/patterns-index.md`  | {{pro-line}}
-| Unsure what a design term means | `references/glossary.md`  | {{pro-line}}
-| Writing any artifact | the matching file in `templates/` |
-| Checking a colour pair | `scripts/contrast.mjs`  | {{pro-line}}
+| The brief is thin | `references/briefs.md` | {{pro-line}}
+| Choosing structure for a known site type (SaaS, shop, docs, portfolio) | `references/site-types.md` | {{pro-line}}
+| Looking for a component or section idea | `references/patterns-index.md` | {{pro-line}}
+| A design term is unclear | `references/glossary.md` | {{pro-line}}
+| Writing an artifact | the matching file in `templates/` |
+| No browser available, or a quick lint of a project | `scripts/audit-ui.mjs` | {{pro-line}}
+| Checking a colour pair | `scripts/contrast.mjs` | {{pro-line}}
 
-Load only what the trigger names. A typical task needs SKILL.md, one world, the anti-slop list and the verify file.
+Load only what the trigger names. A typical task needs this file, the anti-slop list, one reference and the templates.
 
 ## Always-on rules
 
-- Real content. No lorem ipsum, no "Feature One", no invented round-number metrics presented as fact.
-- Text contrast 4.5:1 (3:1 for large text). Touch targets at least 44px. No horizontal scroll at 375px.
-- Honour `prefers-reduced-motion`. Motion explains a state change or guides attention; nothing loops for decoration.
-- Semantic landmarks, one `h1`, labelled controls, visible focus.
+- Real content, real states. Never ship placeholder text as if finished.
+- Never copy another site's code, copy or assets. Learn the technique and rebuild it.
+- Motion explains a state change or guides attention. Nothing loops for decoration.
 - Draw icons (inline SVG or one icon set). No emoji as icons.
-- Never copy another site's code, text or assets. Learn the technique and rebuild it.
-- Work inside the project directory. Do not install packages or fetch from the network unless the user asks.
+- Work inside the project directory. Do not install packages or fetch anything from the network unless the user asks.
+- Do not claim what you did not render. Say what you could not check.
