@@ -9,24 +9,24 @@ Used at Gate 2. A match is not a ban. It is a question: did the brief, the audie
 3. Choose two candidate directions from different families (`world-index.md`), pick one, and make sure it differs from the default on at least three axes. Each change needs a reason from the brief.
 4. Check section D: the obvious replacements are defaults too.
 
-**Signal column.** `audit: <rule>` means the static audit script{{pro}} (`scripts/audit-ui.mjs`){{/pro}} already detects it from source. `audit: planned` means the static audit will gain a check. `manual` means a human or the render pass has to see it. A static signal proves a symptom, not a verdict: confirm in the render.
+**Signal column.** `audit: <rule>` means the static audit script{{pro}} (`scripts/audit-ui.mjs`){{/pro}} already detects it from source. `manual` means a human or the render pass has to see it. Entries tagged `(heuristic)` come from pattern matching and can be wrong. A static signal proves a symptom, not a verdict: confirm in the render.
 
 ## A. 2023-era slop
 
 | # | Name | Why it reads as AI | Signal | Instead |
 |---|---|---|---|---|
-| A1 | Purple-to-blue gradient wash | The model default for "modern tech"; every generator ships it | audit: planned (gradient with purple/indigo stops on large areas) | A flat colour chosen from the product or the world |
+| A1 | Purple-to-blue gradient wash | The model default for "modern tech"; every generator ships it | audit: purple-gradient (heuristic) | A flat colour chosen from the product or the world |
 | A2 | Gradient text on headings | Decoration standing in for emphasis | audit: gradient-text | Weight, size or position for emphasis |
 | A3 | Emoji or unicode symbols as feature icons | Cheapest way to fill an icon slot | audit: emoji-icon | Drawn SVG from one set, or no icon |
-| A4 | Three identical icon-tile, heading, sentence cards | A template shape that carries no information | audit: planned (three sibling cards with identical structure) | Vary form by content: one large, two small; a list; a table |
-| A5 | Glow shadows on pill buttons; cards that lift on hover everywhere | Motion and depth applied as seasoning | audit: planned (box-shadow with coloured blur plus translateY on :hover) | Flat buttons; one property changes on hover |
+| A4 | Three identical icon-tile, heading, sentence cards | A template shape that carries no information | audit: identical-cards (heuristic) | Vary form by content: one large, two small; a list; a table |
+| A5 | Glow shadows on pill buttons; cards that lift on hover everywhere | Motion and depth applied as seasoning | audit: glow-hover-lift (heuristic: the lift) | Flat buttons; one property changes on hover |
 | A6 | Hero metric row as filler ("10,000+ users", "99.9% uptime") | Round numbers with no source read as invented | manual | Metrics only if real, sourced and relevant to the decision |
-| A7 | "Trusted by" row of placeholder logos | Fake social proof | manual | Real names or one specific quote with a role |
-| A8 | Glassmorphism cards on a gradient | Blur as a substitute for hierarchy | audit: planned (backdrop-filter on cards) | Solid surfaces with a clear border or tone step |
-| A9 | Identical fade-up on every block as you scroll | One animation applied to everything | audit: planned (same reveal class on most sections) | Animate one thing that explains something |
-| A10 | Inter at every size and weight, no scale | The default sans with no type decision | audit: inter-only | A chosen pair and a real scale (`typography.md`) |
+| A7 | "Trusted by" row of placeholder logos | Fake social proof | audit: trusted-by (heuristic) | Real names or one specific quote with a role |
+| A8 | Glassmorphism cards on a gradient | Blur as a substitute for hierarchy | audit: backdrop-filter (heuristic) | Solid surfaces with a clear border or tone step |
+| A9 | Identical fade-up on every block as you scroll | One animation applied to everything | audit: repeated-reveal (heuristic) | Animate one thing that explains something |
+| A10 | Inter at every size and weight, no scale | The default sans with no type decision | audit: inter-only (heuristic) | A chosen pair and a real scale (`typography.md`) |
 | A11 | Centred everything, one column, equal section padding | Layout by default | manual | Alignment on a grid; density that varies between sections |
-| A12 | Cards inside cards, each with shadow and radius | Containers instead of structure | audit: planned (nested elements both with shadow and radius) | One level of container |
+| A12 | Cards inside cards, each with shadow and radius | Containers instead of structure | audit: nested-containers (heuristic) | One level of container |
 | A13 | Vacuous copy: "Unlock the power of...", "seamless", "supercharge", "next level" | Words that fit any product | audit: generic-copy | The specific thing the product does, in the audience's words |
 | A14 | Lorem ipsum or "Feature One" | Unfinished content | audit: lorem-ipsum | Real content from the brief |
 
@@ -36,11 +36,11 @@ These are what an agent produces when it is trying to avoid section A.
 
 | # | Name | Why it reads as AI | Signal | Instead |
 |---|---|---|---|---|
-| B1 | Cream ground, heavy display serif, one italic accent word in a warm colour | The same recipe on every "not generic" page | audit: planned (display serif with `<em>` or italic span in headings) | Type from the subject; emphasis from weight, size or position |
-| B2 | Mono eyebrow label above every heading | Decorative metadata with no fact in it | audit: planned (small uppercase mono element before each heading) | Delete, or label only where it carries a fact |
-| B3 | Rotated stamp or sticker ("SAMPLE", "NEW") and hard offset shadows | Neo-brutalism as garnish | audit: planned (rotate() on a text badge) | One strong object that belongs to the product |
-| B4 | Marquee ticker strip | Motion for its own sake, usually repeating the hero | audit: infinite-animation | Static proof, or nothing |
-| B5 | Numbered section labels ("01 / How it works") | Looks structured, carries no meaning | audit: planned (`01 /` style labels) | Plain headings; number only genuine steps |
+| B1 | Cream ground, heavy display serif, one italic accent word in a warm colour | The same recipe on every "not generic" page | audit: italic-serif-accent (heuristic) | Type from the subject; emphasis from weight, size or position |
+| B2 | Mono eyebrow label above every heading | Decorative metadata with no fact in it | audit: mono-eyebrow (heuristic) | Delete, or label only where it carries a fact |
+| B3 | Rotated stamp or sticker ("SAMPLE", "NEW") and hard offset shadows | Neo-brutalism as garnish | audit: rotated-stamp (heuristic) | One strong object that belongs to the product |
+| B4 | Marquee ticker strip | Motion for its own sake, usually repeating the hero | audit: marquee (heuristic) | Static proof, or nothing |
+| B5 | Numbered section labels ("01 / How it works") | Looks structured, carries no meaning | audit: numbered-label (heuristic) | Plain headings; number only genuine steps |
 | B6 | Bento grid of unequal rounded tiles | A template for the feature section | manual | Features as a table, a narrative, an annotated screenshot or a before and after |
 | B7 | Serif plus warm orange on charcoal for any food or hospitality brief | Hospitality cliché | manual | Colour and type from the place: its material, signage, region |
 | B8 | Three-up "how it works" with big numerals | The numerals do work the copy should do | manual | Show the real product moment for each step |
@@ -58,7 +58,7 @@ These are what an agent produces when it is trying to avoid section A.
 | C3 | Colour as the only status signal | Looks fine to the author | manual | Text or icon plus colour |
 | C4 | Every KPI the same size and weight | No decision has been made about what matters | manual | One or two lead figures, each against a target or a comparison |
 | C5 | Donut or pie with five or more slices | Easy to generate, hard to read | manual | Sorted horizontal bars with direct labels |
-| C6 | System font at 14px for everything | No type decision | audit: system-fonts-only | A chosen text face with tabular figures and a scale |
+| C6 | System font at 14px for everything | No type decision | audit: system-fonts-only (heuristic) | A chosen text face with tabular figures and a scale |
 | C7 | Rainbow of series colours that carry no meaning | Decorative palette on a chart | manual | One accent for the series that matters, neutrals for the rest |
 | C8 | Full list as the mobile default with the filter that matters off | Completeness over the user's task | manual | At 375 the default view is the action subset; the full list is one tap away |
 

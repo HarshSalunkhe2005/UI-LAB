@@ -29,7 +29,7 @@ Your first idea is the average of what you have seen. Name it, then leave it unl
 
 1. **Write the default.** In `design/direction.md`, one line per axis for the page you would produce if you did not think: **ground**, **type voice**, **layout grammar**, **accent strategy**, **motion**.
 2. **Check it against `references/anti-slop.md`.** It lists the 2023 defaults, the current convergent "tasteful" ones, the dense-UI ones and the defaults this very procedure tends to produce. Mark every match.
-3. **Draw two candidates from different world families.** Read `references/world-index.md` (24 worlds in 6 families). Choose two worlds from two different families that could serve this brief, then open only those two worlds (`references/worlds.md` for 1 to 8, `references/niche-worlds.md` for 9 to 24). The worlds supply the ground, type, accent logic, tokens and refusals, so your own taste is not the source of variety. Pick one and say why in a line. Adapt its tokens to this brand; never ship a world's hex values unchanged.
+3. **Draw two candidates from different world families.** Read `references/world-index.md` (24 worlds in 6 families, with what each fits and never fits). Choose two worlds from two different families that could serve this brief; the index is enough to choose, so do not open any world file yet. The worlds supply the ground, type, accent logic, tokens and refusals, so your own taste is not the source of variety. Pick one and say why in a line. Adapt its tokens to this brand; never ship a world's hex values unchanged.
 4. **Or defend the default.** For each axis you keep from your default, write one line of evidence from the brief. "It looks good" is not evidence. The winner must differ from your default on at least three of the five axes unless every kept axis is earned.
 5. **Different is not enough: it must be stronger.** Name the single boldest visual element on the first screen and the places where the page changes rhythm (ground, density or scale, at least twice). Austere and uniform loses to committed and varied.
 6. **Swap test.** Replace the brand name and content with a competitor's. If nothing about the design has to change, it is generic: redo steps 3 to 5.
@@ -38,11 +38,11 @@ Gate output: the table of default, matches, candidates (world and family), chose
 
 ## Gate 3. Direction card
 
-Fill `templates/direction-card.md` into `design/direction.md`. Start from the chosen world's `:root` token block and adapt it: palette by role, type scale, spacing scale, radius, motion durations and easing. Choose fonts from the world's pair or `references/typography.md` (15 pairings); roles and contrast rules are in `references/color.md`; motion rules in `references/motion.md`. Never leave the display voice on the system default. Write three refusals.
+Fill `templates/direction-card.md` into `design/direction.md`. Open only the chosen world's file (the path is in `references/world-index.md`; one file per world) and start from its `:root` token block, adapting it: palette by role, type scale, spacing scale, radius, motion durations and easing. Choose fonts from the world's pair or `references/typography.md` (15 pairings); roles and contrast rules are in `references/color.md`; motion rules in `references/motion.md`. Never leave the display voice on the system default. Write three refusals.
 
 ## Gate 4. Vertical slice, then build
 
-Put the tokens in `:root` first. Build the signature moment end to end with real content and real states (hover, focus, empty, error), then build outward. Semantic HTML first, then style. For a component or section, look in `patterns/INDEX.md` first: take the structure and the accessibility behaviour, replace the tokens. Small screens are designed, not squashed: decide at 375 what moves, what collapses and what disappears.
+Put the tokens in `:root` first. Build the signature moment end to end with real content and real states (hover, focus, empty, error), then build outward. Semantic HTML first, then style. **Before writing any section or component, check `patterns/INDEX.md` for a match and adapt it:** take the structure and the accessibility behaviour, replace the tokens, and note in `design/direction.md` which patterns you adapted (or that none fitted). Small screens are designed, not squashed: decide at 375 what moves, what collapses and what disappears.
 
 Dense UI rules (details in `references/dense-ui.md`):
 - Lead with what needs action, not with a summary of everything.
@@ -56,9 +56,9 @@ Dense UI rules (details in `references/dense-ui.md`):
 
 Code that was never rendered is a guess. Do not write "works" or "responsive" in the handoff unless you rendered it.
 
-**Path A: you can render.** Use a browser tool, or headless Chrome or Edge with a screenshot flag (1440x900 and 375x812, and a tall height for full-page shots). Then open the screenshots and look at them. `references/verify.md` has the commands and the loop.
+**Path A: you can render.** Use a browser tool, or headless Chrome or Edge with a screenshot flag (1440x900 and 375x812, and a tall height for full-page shots). Then open the screenshots and look at them. `references/verify.md` has the commands and the loop.{{pro}} Also run `node scripts/audit-ui.mjs <project-dir>` as a second pair of eyes: it reads your source and catches what a screenshot hides (missing alt text and labels, no focus style, declared colour pairs that fail contrast, no reduced-motion handling, and the house-style defaults in `references/anti-slop.md`, each tagged with its anti-slop id). Fix every critical and warning. Findings tagged heuristic come from pattern matching and can be wrong: confirm them in the render before acting.{{/pro}}
 
-**Path B: you cannot render.** {{pro}}Run `node scripts/audit-ui.mjs <project-dir>` for a static audit and fix what it reports. {{/pro}}Write NOT RENDERED in the handoff with the list of checks you could not do.
+**Path B: you cannot render.** {{pro}}Run `node scripts/audit-ui.mjs <project-dir>` and fix every critical and warning it reports. State its limits in the handoff: it is a static lint that cannot see layout, collisions, images, overlays or the 375 px view, and its heuristic findings can be wrong. {{/pro}}Write NOT RENDERED in the handoff with the list of checks you could not do; a clean audit is not a pass of the checklist below.
 
 Do one batched round, fix everything it found in one batch, then one confirming round, then stop. Record the result in `design/verify.md` from `templates/verify-log.md`. Something rendering wrong? Check `references/bugs.md` before debugging from scratch.
 
@@ -85,7 +85,7 @@ Fill `templates/handoff.md` into `design/handoff.md`: what was built and how to 
 Preserve first. Skin, do not rewire.
 
 1. **Inventory before touching anything.** Render every distinct screen at 1440 and 375 and keep the screenshots. List what must survive: routes, copy that is functionally or legally fixed, data shapes, component APIs, handlers, tests, the order of sections if the user kept it. Write it in `design/preserve.md`.
-2. **Critique the current state** with `templates/critique-report.md` (Gate C). This is your before.
+2. **Critique the current state** with `templates/critique-report.md` (Gate C). This is your before.{{pro}} Run `node scripts/audit-ui.mjs` on the source first to seed it.{{/pro}}
 3. Run Gate 2 against what exists: what is the current default, and which axes will you change, with candidates from two world families? A redesign that changes only colours is a recolour; say so or change more.
 4. Change tokens, type, layout and markup. Do not change behaviour, data or routes unless the user agrees. When you must (a broken pattern), list the change in the handoff.
 5. Rebuild at the same entry point so the user can compare. Do not edit the original in place unless asked; keep it or work in a copy.
@@ -94,7 +94,7 @@ Preserve first. Skin, do not rewire.
 ## Gate C. Critique
 
 Output is `templates/critique-report.md`, filled. Rules:
-- Render first (Gate 5, Path A). Critique of unseen UI is opinion.
+- Render first (Gate 5, Path A). Critique of unseen UI is opinion.{{pro}} Then run `node scripts/audit-ui.mjs <path>` on the source to seed the report: its findings are evidence for the accessibility, typography and house-style rows (quote the file and line, and the anti-slop id). Do not copy heuristic findings in without checking them against the screenshots.{{/pro}}
 - Score each area 0, 1 or 2 with the evidence you saw: a quoted element, a measured number, a screenshot region.
 - List the top three defects by cost to a real user or reviewer, not by ease.
 - Every defect gets a concrete fix as a before and after diff of CSS or markup (a value or a rule, never "improve contrast").
@@ -106,8 +106,7 @@ Output is `templates/critique-report.md`, filled. Rules:
 | Trigger | Read |
 |---|---|
 | Gate 2 (always) | `references/anti-slop.md`, then `references/world-index.md` |
-| Opening a chosen world (1 to 8) | `references/worlds.md` |
-| Opening a chosen world (9 to 24) | `references/niche-worlds.md` |
+| Opening a chosen world (Gate 3) | its single file under `references/worlds/`, named in the index |
 | Dashboard, admin tool, table, editor, any dense screen | `references/dense-ui.md` |
 | Choosing fonts, setting a type scale | `references/typography.md` |
 | Choosing or checking colour, building dark mode | `references/color.md` |
@@ -121,7 +120,7 @@ Output is `templates/critique-report.md`, filled. Rules:
 | Wider list of component and section ideas | `references/patterns-index.md` | {{pro-line}}
 | A design term is unclear | `references/glossary.md` | {{pro-line}}
 | Writing an artifact | the matching file in `templates/` |
-| No browser, or a quick lint of a project | `scripts/audit-ui.mjs` | {{pro-line}}
+| Any project with source files (second pair of eyes), no browser, or seeding a critique | `scripts/audit-ui.mjs` | {{pro-line}}
 | Checking a colour pair | `scripts/contrast.mjs` | {{pro-line}}
 
 Load only what the trigger names. A typical task needs this file, the anti-slop list, the world index, two worlds, one or two references and the templates.

@@ -248,7 +248,10 @@ export function validate(zipBuf, label = 'zip') {
       const dir = e.name.split('/').slice(0, -1).join('/')
       for (const m of t.matchAll(/`([^`\n]+)`/g)) {
         const tok = m[1].trim().split(/\s/)[0]
-        if (PKG_REF.test(tok) && !names.has(`${top}/${tok}`) && !names.has(`${dir}/${tok}`)) f.push(`${e.name} references missing file ${tok}`)
+        if (PKG_REF.test(tok)) {
+          const ok = tok.endsWith('/') ? [...names].some((n) => n.startsWith(`${top}/${tok}`)) : names.has(`${top}/${tok}`) || names.has(`${dir}/${tok}`)
+          if (!ok) f.push(`${e.name} references missing file ${tok}`)
+        }
       }
     }
     add(9, 'dead references (self-contained)', f)

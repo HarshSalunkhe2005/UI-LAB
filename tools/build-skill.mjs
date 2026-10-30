@@ -63,17 +63,16 @@ export function parsePatternHeader(path, text) {
 
 function patternsIndexFile(headers, variant) {
   const cats = [...new Set(headers.map((h) => h.category))]
+  const cut = (s, n) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s)
   const lines = [
     '# Patterns',
     '',
-    `${headers.length} canonical patterns as self-contained HTML, CSS and a little vanilla JavaScript. Open one, take the structure and the accessibility behaviour, then replace the tokens (the \`:root\` block at the top of each file) with your direction's tokens. They are starting points, not finished design: each uses neutral system fonts and a plain palette on purpose.`,
-    '',
-    'Each file begins with a header comment: when to use it, accessibility notes, how to adapt it. Every pattern has a visible focus state, 44 px targets at 375 and handles reduced motion where it moves.',
+    `${headers.length} canonical patterns: self-contained HTML, CSS and a little vanilla JavaScript. Pick by "use when", open the file, take the structure and the accessibility behaviour, then replace the tokens (the \`:root\` block at the top) with your direction's tokens. Each file starts with a header comment with accessibility notes and how to adapt it. They use neutral system fonts and a plain palette on purpose: they are starting points, not finished design.`,
     '',
   ]
   for (const c of cats) {
-    lines.push(`## ${c}`, '', '| Pattern | Use when | Accessibility |', '|---|---|---|')
-    for (const h of headers.filter((x) => x.category === c)) lines.push(`| \`patterns/${h.pattern}.html\`<br>${h.title} | ${h.when} | ${h.a11y} |`)
+    lines.push(`## ${c}`, '')
+    for (const h of headers.filter((x) => x.category === c)) lines.push(`- \`patterns/${h.pattern}.html\`: ${cut(h.when, 130)}`)
     lines.push('')
   }
   return lines.join('\n')

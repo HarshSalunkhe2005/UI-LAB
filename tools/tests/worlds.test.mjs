@@ -2,7 +2,7 @@
 // passing contrast for ink/surface, ink-muted/surface and accent-ink/accent; and world-index.md lists every world once.
 // Run: node tools/tests/worlds.test.mjs
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -22,13 +22,12 @@ let n = 0, failed = false
 const t = (name, fn) => { try { fn(); n++ } catch (e) { failed = true; console.error(`FAIL ${name}\n  ${e.message}`) } }
 
 const worlds = []
-for (const f of ['worlds.md', 'niche-worlds.md']) {
-  const text = readFileSync(join(REF, f), 'utf8')
-  for (const part of text.split(/^## (?=\d+\. )/m).slice(1)) {
-    const num = Number(part.match(/^(\d+)\./)[1])
-    const name = part.split('\n')[0].replace(/^\d+\.\s*/, '').trim()
-    worlds.push({ num, name, text: part, file: f })
-  }
+for (const f of readdirSync(join(REF, 'worlds')).filter((n) => n.endsWith('.md')).sort()) {
+  const text = readFileSync(join(REF, 'worlds', f), 'utf8').replace(/\r\n/g, '\n')
+  const head = text.match(/^# World (\d+)\. (.+)$/m)
+  assert.ok(head, `${f}: heading must be "# World N. Name"`)
+  assert.ok(f.startsWith(String(head[1]).padStart(2, '0') + '-'), `${f}: file name must start with the zero-padded number`)
+  worlds.push({ num: Number(head[1]), name: head[2].trim(), text, file: f })
 }
 
 t('24 worlds numbered 1 to 24, once each', () => assert.deepEqual(worlds.map((w) => w.num).sort((a, b) => a - b), Array.from({ length: 24 }, (_, i) => i + 1)))

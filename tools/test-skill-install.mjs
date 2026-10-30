@@ -86,6 +86,15 @@ for (const zipName of ['ui-lab.zip', 'ui-lab-lite.zip']) {
         out = execFileSync(process.execPath, ['--permission', `--allow-fs-read=${root}`, join(root, 'scripts', 'contrast.mjs'), '#111111', '#ffffff'], { cwd: project, env: { PATH: process.env.PATH, HOME: home, USERPROFILE: home }, encoding: 'utf8' })
       } catch (e) { out = `ERROR ${e.message}` }
       check(/^18\.\d\d:1/.test(out), `scripts/contrast.mjs runs with read access to the skill folder only: ${out.trim().slice(0, 60)}`)
+      // the audit reads one project folder and nothing else: grant read access to the skill folder and that folder only
+      writeFileSync(join(project, 'index.html'), '<!doctype html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>t</title><style>body{font-family:Georgia,serif}</style></head><body><main><h1>Hi</h1><img src="a.png"></main></body></html>')
+      let audit = ''
+      try {
+        audit = execFileSync(process.execPath, ['--permission', `--allow-fs-read=${root}`, `--allow-fs-read=${project}`, join(root, 'scripts', 'audit-ui.mjs'), project, '--json'], { cwd: tmpdir(), env: { PATH: process.env.PATH, HOME: home, USERPROFILE: home }, encoding: 'utf8' })
+      } catch (e) { audit = e.stdout ? String(e.stdout) : `ERROR ${e.message}` } // exit 1 (a critical finding) still prints the report
+      let rules = []
+      try { rules = JSON.parse(audit).findings.map((x) => x.rule) } catch {}
+      check(rules.includes('img-alt'), `scripts/audit-ui.mjs runs with read access to the skill folder and one project folder only and finds the missing alt (${rules.join(', ') || audit.slice(0, 80)})`)
     } else {
       check(true, 'no scripts in this variant (nothing to run)')
     }
