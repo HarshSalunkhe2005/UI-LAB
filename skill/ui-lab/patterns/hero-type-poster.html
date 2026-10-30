@@ -1,0 +1,40 @@
+<!doctype html>
+<!--
+pattern: hero-type-poster
+title: Monumental type hero with one object
+category: Hero
+tier: pro
+when: A brand or studio whose personality is the pitch and which has one strong object, mark or photograph. Type at poster scale does the structural work.
+a11y: The headline is a real h1 (not an image); the oversized text is clipped by CSS only, so the full text remains available; contrast is checked against the flat ground.
+adapt: Swap the display face for the direction's. Keep the clip to one edge and one object; at 375 reduce the size with clamp and let the object sit below the headline.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Type poster hero</title>
+<style>
+:root{--surface:#e8e4d8;--ink:#101010;--accent:#e2401b;--accent-ink:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+.hero{position:relative;min-height:100svh;overflow:hidden;display:grid;align-content:end;padding:24px}
+.top{position:absolute;inset:24px 24px auto;display:flex;justify-content:space-between;font-size:.875rem}
+.top a{color:inherit;min-height:44px;min-width:44px;padding:0 8px;display:inline-flex;align-items:center;justify-content:center}
+h1{margin:0;font:900 clamp(5rem,26vw,26rem)/.8 "Arial Black",Impact,sans-serif;letter-spacing:-.05em;text-transform:uppercase;margin-bottom:-.06em}
+.object{position:absolute;right:8%;top:14%;width:clamp(120px,26vw,360px);aspect-ratio:1;border-radius:50%;background:var(--accent);box-shadow:inset -18px -22px 0 rgba(0,0,0,.18)}
+.sub{max-width:28em;margin:0 0 20px;font-size:1.125rem}
+.btn{display:inline-flex;min-height:44px;align-items:center;padding:0 22px;background:var(--ink);color:var(--surface);text-decoration:none;font-weight:600;width:max-content}
+.btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media (max-width:640px){.object{top:10%;right:6%}.hero{padding:16px}.top{inset:16px 16px auto}}
+</style>
+</head>
+<body>
+<header class="top"><a href="#">Salt Kiln</a><nav aria-label="Main"><a href="#shop">Shop</a><a href="#about">About</a></nav></header>
+<main class="hero">
+  <div class="object" aria-hidden="true"></div>
+  <p class="sub">Stoneware made in small batches on the Cornish coast. Eighteen pieces a month, then it is gone.</p>
+  <a class="btn" href="#shop">See this month's pieces</a>
+  <h1>Kiln</h1>
+</main>
+</body>
+</html>

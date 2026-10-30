@@ -1,0 +1,42 @@
+<!doctype html>
+<!--
+pattern: testimonial-pull
+title: One large pull quote and two small ones
+category: Sections
+tier: pro
+when: Social proof. One specific, large quote carries the weight; two smaller ones add breadth. Specific beats generic: a number, a decision, a role.
+a11y: Each quote is a figure with blockquote and figcaption; large type keeps contrast above 4.5:1; no carousel, no auto-advance.
+adapt: Use real quotes with name, role and company size. If you must use samples, disclose that in your handoff, not on the page.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pull quotes</title>
+<style>
+:root{--surface:#ff7a59;--ink:#1a0f0a;--rule:#1a0f0a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.5 system-ui,sans-serif;padding:64px 16px}
+.wrap{max-width:1000px;margin:0 auto}
+figure{margin:0}
+.big blockquote{margin:0 0 20px;font-size:clamp(1.75rem,4.5vw,3.25rem);line-height:1.08;letter-spacing:-.025em;font-weight:800}
+figcaption{font-size:.9375rem}
+figcaption b{display:block}
+.small{display:grid;grid-template-columns:1fr 1fr;gap:32px;border-top:2px solid var(--rule);margin-top:40px;padding-top:24px}
+.small blockquote{margin:0 0 12px;font-size:1.125rem}
+@media (max-width:640px){.small{grid-template-columns:1fr;gap:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <figure class="big">
+    <blockquote>"We killed a roadmap item that three execs loved. The digest showed two accounts had ever asked for it."</blockquote>
+    <figcaption><b>Priya Raman</b>Head of Product, 180-person logistics software company</figcaption>
+  </figure>
+  <div class="small">
+    <figure><blockquote>"Planning used to start with whoever remembered the loudest ticket. Now it starts with the page."</blockquote><figcaption><b>Tomas Berg</b>Senior PM, workforce platform</figcaption></figure>
+    <figure><blockquote>"Support stopped forwarding me screenshots. That alone paid for it."</blockquote><figcaption><b>Aisha Okafor</b>Product Lead, 90-person fintech</figcaption></figure>
+  </div>
+</div>
+</body>
+</html>

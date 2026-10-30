@@ -1,0 +1,44 @@
+<!doctype html>
+<!--
+pattern: line-chart-annotated
+title: Line chart with a target line and one annotation
+category: Dense UI
+tier: pro
+when: A trend over time where one point matters (a dip, a release, a partial day). One series, a dashed target, a labelled anomaly, a hollow marker for incomplete data.
+a11y: Inline SVG with role="img" and an aria-label stating the finding; a visually available data list follows; no colour-only encoding (the anomaly has a label and a different marker).
+adapt: Compute the path from your data. Keep axes minimal (three ticks). State units. Use viewBox so it scales to 375.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Annotated line chart</title>
+<style>
+:root{--surface:#e8ecea;--surface-raised:#f7f8f6;--ink:#101615;--ink-muted:#46504d;--signal:#b8301a;--border:#c5cdc9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:14px/1.4 system-ui,sans-serif;padding:24px}
+figure{max-width:560px;margin:0;background:var(--surface-raised);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+figcaption{font-weight:700;font-size:1rem}
+.note{margin:2px 0 8px;color:var(--ink-muted);font-size:.8125rem}
+svg{display:block;width:100%;height:auto}
+.grid{stroke:var(--border);stroke-width:1}.target{stroke:var(--ink-muted);stroke-width:1.5;stroke-dasharray:5 4}
+.line{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+text{font:12px system-ui,sans-serif;fill:var(--ink-muted)}.hot{fill:var(--signal);font-weight:700}
+</style>
+</head>
+<body>
+<figure>
+  <figcaption>On-time rate by day</figcaption>
+  <p class="note">Last 7 days. Dashed line is the 90% target. Today (hollow point) is a partial day.</p>
+  <svg viewBox="0 0 520 220" role="img" aria-label="On-time rate stayed near 90 percent, dipped to 76 percent on Monday because of fog and wind, and today is a partial 43 percent">
+    <g class="grid"><line x1="40" y1="30" x2="510" y2="30"/><line x1="40" y1="100" x2="510" y2="100"/><line x1="40" y1="170" x2="510" y2="170"/></g>
+    <text x="4" y="34">100%</text><text x="10" y="104">80%</text><text x="10" y="174">60%</text>
+    <line class="target" x1="40" y1="56" x2="510" y2="56"/><text x="470" y="50">Target</text>
+    <polyline class="line" points="55,50 130,56 205,118 280,52 355,57 430,48 500,175"/>
+    <circle cx="205" cy="118" r="5" fill="#b8301a"/><text class="hot" x="150" y="140">76%: fog and wind</text>
+    <circle cx="500" cy="175" r="5" fill="#f7f8f6" stroke="#101615" stroke-width="2"/><text x="456" y="198">43% so far</text>
+    <text x="48" y="212">Sat</text><text x="123" y="212">Sun</text><text x="198" y="212">Mon</text><text x="273" y="212">Tue</text><text x="348" y="212">Wed</text><text x="423" y="212">Thu</text><text x="484" y="212">Today</text>
+  </svg>
+</figure>
+</body>
+</html>

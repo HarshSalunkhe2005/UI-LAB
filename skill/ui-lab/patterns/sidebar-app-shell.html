@@ -1,0 +1,61 @@
+<!doctype html>
+<!--
+pattern: sidebar-app-shell
+title: App shell with a collapsible sidebar and persistent top bar
+category: Navigation
+tier: pro
+when: Tools, dashboards and admin apps with more than five destinations. The frame stays put while the working area scrolls.
+a11y: Landmarks (header, nav with a label, main); the collapse button has aria-expanded and aria-controls; current destination uses aria-current; collapsed state keeps accessible names via visually hidden text; targets are 44px.
+adapt: Persist the collapsed state in storage. At 375 turn the sidebar into an overlay opened from the top bar, and close it on navigation.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>App shell</title>
+<style>
+:root{--surface:#eef0ee;--surface-raised:#fff;--ink:#141a18;--ink-muted:#4b5551;--accent:#1d4f6b;--accent-ink:#fff;--border:#cfd5d2;--side:232px}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.4 system-ui,sans-serif;color:var(--ink);background:var(--surface);height:100vh;display:grid;grid-template-columns:var(--side) 1fr;grid-template-rows:56px 1fr;grid-template-areas:"side top" "side main"}
+body.collapsed{--side:64px}
+header{grid-area:top;display:flex;align-items:center;gap:12px;padding:0 16px;background:var(--surface-raised);border-bottom:1px solid var(--border)}
+aside{grid-area:side;background:var(--surface-raised);border-right:1px solid var(--border);padding:12px 8px;overflow:auto}
+main{grid-area:main;padding:20px;overflow:auto}
+nav ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+nav a{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 12px;border-radius:8px;color:var(--ink);text-decoration:none}
+nav a[aria-current=page]{background:var(--accent);color:var(--accent-ink);font-weight:600}
+nav a:hover:not([aria-current]){background:#e6eae8}
+nav svg{width:18px;height:18px;flex:none}
+.label{white-space:nowrap}
+.collapsed .label{position:absolute;left:-9999px}
+button{min-height:44px;min-width:44px;border:1px solid var(--border);border-radius:8px;background:#fff;font:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media (max-width:720px){body,body.collapsed{--side:0px;grid-template-columns:1fr}aside{position:fixed;inset:56px auto 0 0;width:232px;transform:translateX(-100%);z-index:5}body.open aside{transform:none}}
+@media (prefers-reduced-motion:no-preference){aside{transition:transform .2s ease}body{transition:grid-template-columns .2s ease}}
+</style>
+</head>
+<body>
+<header>
+  <button id="toggle" aria-expanded="true" aria-controls="side" aria-label="Collapse navigation">&#9776;</button>
+  <strong>Harbor Operations</strong>
+</header>
+<aside id="side">
+  <nav aria-label="Primary">
+    <ul>
+      <li><a href="#today" aria-current="page"><svg viewBox="0 0 18 18" aria-hidden="true"><rect x="2" y="2" width="6" height="6" fill="currentColor"/><rect x="10" y="2" width="6" height="6" fill="currentColor"/><rect x="2" y="10" width="14" height="6" fill="currentColor"/></svg><span class="label">Today</span></a></li>
+      <li><a href="#routes"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 14c4-9 10-9 14 0" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="label">Routes</span></a></li>
+      <li><a href="#vessels"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 11h14l-2 4H4z" fill="currentColor"/></svg><span class="label">Vessels</span></a></li>
+    </ul>
+  </nav>
+</aside>
+<main id="main"><h1 style="margin:0 0 8px;font-size:1.25rem">Today</h1><p>Working area.</p></main>
+<script>
+const b = document.getElementById('toggle'), mq = matchMedia('(max-width:720px)')
+b.addEventListener('click', () => {
+  if (mq.matches) { const o = document.body.classList.toggle('open'); b.setAttribute('aria-expanded', String(o)); return }
+  const c = document.body.classList.toggle('collapsed'); b.setAttribute('aria-expanded', String(!c)); b.setAttribute('aria-label', c ? 'Expand navigation' : 'Collapse navigation')
+})
+if (mq.matches) b.setAttribute('aria-expanded', 'false')
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<!--
+pattern: hero-annotated-chart
+title: Hero with an annotated chart as the proof
+category: Hero
+tier: lite
+when: An analytics, monitoring or AI-insight product. One real-looking chart with one annotated event explains the product better than a list of features.
+a11y: The chart is inline SVG with role="img" and an aria-label that states the finding; the same finding is repeated as text below it.
+adapt: Keep one series, one target or event marker and one sentence of explanation. Mark it as sample data if it is. At 375 the chart scales through the viewBox.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Annotated chart hero</title>
+<style>
+:root{--surface:#e9ece6;--surface-raised:#f6f7f3;--ink:#101312;--ink-muted:#454b48;--accent:#c4300f;--accent-ink:#fff;--border:#101312}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+.hero{max-width:1200px;margin:0 auto;padding:64px 24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
+h1{font-size:clamp(2.5rem,6vw,4.75rem);line-height:.98;letter-spacing:-.035em;margin:0 0 20px}
+h1 em{font-style:normal;color:var(--accent)}
+p{margin:0 0 24px;color:var(--ink-muted);max-width:32em}
+.btn{display:inline-flex;min-height:44px;align-items:center;padding:0 22px;background:var(--ink);color:var(--surface);font-weight:600;text-decoration:none}
+.btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+figure{margin:0;background:var(--surface-raised);border:1.5px solid var(--border);padding:16px}
+figcaption{font-size:.875rem;color:var(--ink-muted);margin-top:10px}
+svg{display:block;width:100%;height:auto}
+.axis{stroke:#9aa09c;stroke-width:1}.line{fill:none;stroke:var(--ink);stroke-width:2.5}.flag{stroke:var(--accent);stroke-width:2}
+text{font:12px system-ui,sans-serif;fill:var(--ink-muted)}text.hot{fill:var(--accent);font-weight:700}
+@media (max-width:780px){.hero{grid-template-columns:1fr;padding:40px 16px;gap:28px}}
+</style>
+</head>
+<body>
+<main class="hero">
+  <div>
+    <h1>Know which release <em>moved your numbers.</em></h1>
+    <p>Orbit reads every event your product sends, flags the ones that broke pattern, and writes a plain note on what changed and for whom.</p>
+    <a class="btn" href="#start">Start free</a>
+  </div>
+  <figure>
+    <svg viewBox="0 0 480 240" role="img" aria-label="Checkout conversion fell from 3.3 percent to 2.4 percent right after release 4.18 shipped on day 10">
+      <line class="axis" x1="30" y1="200" x2="470" y2="200"/>
+      <path class="line" d="M30 70 L70 82 L110 66 L150 78 L190 62 L230 74 L270 70 L310 76 L330 150 L370 148 L410 156 L450 150"/>
+      <line class="flag" x1="320" y1="30" x2="320" y2="200"/>
+      <text class="hot" x="326" y="44">Release 4.18 shipped</text>
+      <text x="30" y="220">Day 1</text><text x="420" y="220">Day 14</text>
+      <text class="hot" x="338" y="176">-31% on mobile Safari</text>
+    </svg>
+    <figcaption>Checkout conversion, 14 days. Sample data. Orbit's note: the drop is the payment sheet on mobile Safari; desktop is flat.</figcaption>
+  </figure>
+</main>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<!--
+pattern: hero-email-inline
+title: Hero with an inline email capture that has every state
+category: Hero
+tier: pro
+when: The single action is "join" or "get the first issue". A form in the hero, with honest validation and designed success and error states.
+a11y: A visible label (not placeholder-only), aria-describedby for hint and error, aria-live region for the result, 44px controls, error text in words with an icon-free colour change.
+adapt: The submit handler here is a stub. Replace it with a real request and keep the three states (idle, error, success) and the focus handling.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inline email capture hero</title>
+<style>
+:root{--surface:#fbf7ef;--ink:#1c1a17;--ink-muted:#57524a;--accent:#2a5d3a;--accent-ink:#fff;--danger:#a52a1d;--border:#b9b2a3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+main{max-width:720px;margin:0 auto;padding:96px 24px}
+h1{font-size:clamp(2.25rem,6vw,3.75rem);line-height:1.02;letter-spacing:-.03em;margin:0 0 16px}
+p{margin:0 0 28px;color:var(--ink-muted);font-size:1.125rem}
+form{display:grid;grid-template-columns:1fr auto;gap:10px}
+label{grid-column:1/-1;font-weight:600;font-size:.9375rem}
+input{min-height:48px;padding:0 14px;border:1.5px solid var(--border);border-radius:8px;font:inherit;background:#fff;color:var(--ink);min-width:0}
+input[aria-invalid=true]{border-color:var(--danger)}
+input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button{min-height:48px;padding:0 22px;border:0;border-radius:8px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:700;cursor:pointer}
+button[disabled]{opacity:.6;cursor:progress}
+.msg{grid-column:1/-1;font-size:.9375rem;min-height:1.5em;margin:0}
+.msg.err{color:var(--danger)}.msg.ok{color:var(--accent);font-weight:600}
+@media (max-width:520px){form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+  <h1>One email, every Friday, about local farms.</h1>
+  <p>Who is harvesting what within thirty miles, and where to buy it that weekend. No ads, unsubscribe any time.</p>
+  <form id="f" novalidate>
+    <label for="email">Email address</label>
+    <input id="email" name="email" type="email" autocomplete="email" aria-describedby="msg" required>
+    <button type="submit">Send me Friday's issue</button>
+    <p id="msg" class="msg" role="status" aria-live="polite">We send one email a week.</p>
+  </form>
+</main>
+<script>
+const f = document.getElementById('f'), email = document.getElementById('email'), msg = document.getElementById('msg')
+f.addEventListener('submit', (e) => {
+  e.preventDefault()
+  const v = email.value.trim()
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+    email.setAttribute('aria-invalid', 'true')
+    msg.className = 'msg err'
+    msg.textContent = 'That does not look like an email address. Check it and try again.'
+    email.focus()
+    return
+  }
+  email.removeAttribute('aria-invalid')
+  msg.className = 'msg ok'
+  msg.textContent = 'Thanks. Check your inbox for a confirmation link.'  // replace with a real request
+})
+</script>
+</body>
+</html>

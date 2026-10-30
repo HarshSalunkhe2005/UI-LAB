@@ -1,0 +1,65 @@
+<!doctype html>
+<!--
+pattern: option-picker
+title: Colour swatch and size picker that updates price and stock
+category: Commerce
+tier: pro
+when: Product pages with variants. Choices are radio groups so keyboard and screen readers work; the price and availability update where the user is looking.
+a11y: Each group is a fieldset with a legend; swatches are radio inputs with text labels (colour names), not colour alone; unavailable options are disabled with a reason in text; the summary is a polite live region.
+adapt: Keep one decision visible at a time on mobile. Show the delivery promise next to the add-to-cart button. Never hide an extra fee until checkout.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Option picker</title>
+<style>
+:root{--surface:#fff;--ink:#17191c;--ink-muted:#555a60;--accent:#233b52;--accent-ink:#fff;--border:#cfd2d5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.5 system-ui,sans-serif;padding:24px 16px}
+.p{max-width:420px;margin:0 auto;display:grid;gap:20px}
+h1{margin:0;font-size:1.75rem;line-height:1.1}
+.price{font-size:1.5rem;font-weight:700;font-variant-numeric:tabular-nums}
+fieldset{border:0;margin:0;padding:0}
+legend{font-weight:700;margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{position:relative;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer}
+.opts input{position:absolute;opacity:0}
+.opts label:has(input:checked){border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.opts label:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:2px}
+.opts label:has(input:disabled){color:var(--ink-muted);text-decoration:line-through;cursor:not-allowed}
+.sw{width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.25);flex:none}
+.sum{margin:0;color:var(--ink-muted);min-height:3em}
+button{min-height:52px;border:0;border-radius:8px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:700;cursor:pointer}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+</style>
+</head>
+<body>
+<main class="p">
+  <h1>Atlas 38 carry-on</h1>
+  <div class="price" id="price">$189</div>
+  <fieldset><legend>Colour</legend><div class="opts">
+    <label><input type="radio" name="c" value="Sail" checked><span class="sw" style="background:#e6dcc3"></span>Sail</label>
+    <label><input type="radio" name="c" value="Harbour"><span class="sw" style="background:#233b52"></span>Harbour</label>
+    <label><input type="radio" name="c" value="Rust"><span class="sw" style="background:#b3532a"></span>Rust</label>
+  </div></fieldset>
+  <fieldset><legend>Size</legend><div class="opts">
+    <label><input type="radio" name="s" value="38 L" checked>38 L</label>
+    <label><input type="radio" name="s" value="45 L">45 L</label>
+    <label><input type="radio" name="s" value="55 L" disabled>55 L (sold out)</label>
+  </div></fieldset>
+  <p class="sum" id="sum" role="status" aria-live="polite"></p>
+  <button type="button">Add to bag</button>
+</main>
+<script>
+const price = { '38 L': 189, '45 L': 215 }, stock = { 'Rust-45 L': 'Only 3 left' }
+const sum = document.getElementById('sum'), pr = document.getElementById('price')
+function update() {
+  const c = document.querySelector('input[name=c]:checked').value, s = document.querySelector('input[name=s]:checked').value
+  pr.textContent = '$' + price[s]
+  sum.textContent = `${c}, ${s}. ${stock[c + '-' + s] || 'In stock'}. Ships in 2 days, free returns for 30 days.`
+}
+document.querySelectorAll('input').forEach((i) => i.addEventListener('change', update)); update()
+</script>
+</body>
+</html>

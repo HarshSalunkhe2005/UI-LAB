@@ -1,6 +1,6 @@
 # UI Lab skill
 
-A gated design procedure for coding agents. It makes an agent write a brief and a direction card before it writes UI, render and check the result at two widths, and compare its choices against known AI-default patterns.
+A gated design procedure for coding agents. It makes an agent write a brief, pick between candidate directions drawn from different design-world families, render and check the result at two widths, and compare its choices against known AI-default patterns, before it calls the work done.
 
 ## Modes
 
@@ -21,7 +21,8 @@ On Windows the folder is `%USERPROFILE%\.claude\skills\`. Other agents that read
 | Path | Purpose |
 |---|---|
 | `SKILL.md` | The workflow. Loaded first; names the other files to read and when. |
-| `references/` | The anti-slop list with alternatives per axis, dense-UI guidance, worked design directions, the verify loop and bug catalogue, accessibility rules. |
+| `references/` | 24 design worlds in 6 families with exact token blocks, a 40-entry anti-slop catalogue, dense-UI guidance, 15 font pairings, colour, motion and accessibility rules, the verify loop and a bug catalogue. {{pro}}Also a technique index distilled from 68 site teardowns, site-type skeletons and a glossary.{{/pro}} |
+| `patterns/` | Canonical HTML, CSS and vanilla JavaScript patterns (heroes, dense-UI parts, navigation, sections, commerce, forms and states, motion, docs), each with when-to-use and accessibility notes, plus an index. |
 | `templates/` | Fill-in formats for the brief, house-style check and direction card, verification log, critique report and handoff. |
 | `scripts/` | Zero-dependency helpers run locally: a static UI audit and a contrast checker. They read only the folder you point them at and use no network. | {{pro-line}}
 | `examples/` | Worked examples. | {{pro-line}}

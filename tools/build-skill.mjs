@@ -1,11 +1,12 @@
 // Builds the distributable skill from repo sources. Nothing in release/ is hand-copied.
 //
-//   skill/ui-lab/        hand-authored files (SKILL.md, README, templates, scripts, examples, anti-slop)
-//   playbook/*.md        copied into references/ with the explicit rewrites below (the playbook stays untouched)
-//   src/meta*.ts         read to generate references/patterns-index.md
+//   skill/ui-lab/        every authored file (SKILL.md, README, references, templates, patterns, scripts, examples)
+//   src/meta*.ts         read to generate the "ideas" half of references/patterns-index.md
+//   patterns/*.html      their header comments generate patterns/INDEX.md and the packaged half of patterns-index.md
 //
 // Output: release/stage/<variant>/ui-lab/ (inspectable) and release/ui-lab.zip, release/ui-lab-lite.zip.
-// "pro" is everything; "lite" drops the parts marked {{pro}}...{{/pro}} / {{pro-line}} and the paths in LITE_EXCLUDE.
+// "pro" is everything; "lite" drops the parts marked {{pro}}...{{/pro}} / {{pro-line}}, the paths in LITE_EXCLUDE,
+// and patterns whose header says "tier: pro".
 // Run: node tools/build-skill.mjs   (npm run skill also validates)
 import { registerHooks } from 'node:module'
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
@@ -18,31 +19,8 @@ const SRC = join(ROOT, 'skill', 'ui-lab')
 const OUT = join(ROOT, 'release')
 const NAME = 'ui-lab'
 
-// playbook file -> reference file. Content is copied, then REWRITES are applied.
-const PLAYBOOK_REFS = {
-  'worlds.md': 'worlds.md',
-  'niche-worlds.md': 'niche-worlds.md',
-  'verify.md': 'verify.md',
-  'accessibility.md': 'accessibility.md',
-  'briefs.md': 'briefs.md',
-  'site-types.md': 'site-types.md',
-  'glossary.md': 'glossary.md',
-}
-
-// Explicit rewrites that remove repo-local references from the copied playbook text.
-// Each rule must match at least once, so a playbook edit that makes a rule stale fails the build instead of shipping a dead reference.
-const REWRITES = [
-  { file: 'verify.md', find: /^## Automated accessibility sweep[\s\S]*?(?=^## )/m, to: '## Automated accessibility sweep\n\nIf an axe-core integration is available in the project, run it on every page and fix serious and critical violations. Otherwise check by hand: landmarks, one h1, labels, focus order, contrast.\n\n' },
-  { file: 'accessibility.md', find: /`playbook\/verify\.md` lists/, to: '`verify.md` lists' },
-  { file: 'worlds.md', find: /\(`npm i @fontsource\/<name>` or `@fontsource-variable\/<name>`\)/, to: '(self-host the font files, for example from the Fontsource project, rather than linking a font CDN)' },
-  { file: 'worlds.md', find: / `src\/router\.ts` maps briefs to both sets\./, to: '' },
-  { file: 'verify.md', find: / \(`tools\/scope-css\.py`\)/, to: '' },
-  { file: 'niche-worlds.md', find: /Open it at `#\/<slug>` or `#\/live\/<slug>` before you commit\./g, to: 'Look it up in `patterns-index.md` and borrow its idea before you commit.' },
-]
-// Lines still matching a leak pattern after REWRITES make the validator fail; fix by adding a rule here, not by editing the package by hand.
-
 const LITE_EXCLUDE = [
-  'references/niche-worlds.md', 'references/briefs.md', 'references/site-types.md', 'references/glossary.md',
+  'references/teardowns.md', 'references/briefs.md', 'references/site-types.md', 'references/glossary.md',
   'references/patterns-index.md', 'scripts/', 'examples/',
 ]
 
@@ -67,7 +45,41 @@ function walk(dir, base = dir) {
   return out.sort()
 }
 
-async function patternsIndex() {
+/** Reads the "<!-- key: value -->" header block at the top of a pattern file. */
+export function parsePatternHeader(path, text) {
+  const m = text.match(/<!--\s*\n([\s\S]*?)-->/)
+  if (!m) throw new Error(`${path}: no header comment`)
+  const h = {}
+  for (const line of m[1].split('\n')) {
+    const kv = line.match(/^([a-z0-9]+):\s*(.*)$/)
+    if (kv) h[kv[1]] = kv[2].trim()
+  }
+  for (const k of ['pattern', 'title', 'category', 'tier', 'when', 'a11y', 'adapt']) if (!h[k]) throw new Error(`${path}: header is missing "${k}"`)
+  if (!['lite', 'pro'].includes(h.tier)) throw new Error(`${path}: tier must be lite or pro`)
+  const slug = path.replace(/^.*\//, '').replace(/\.html$/, '')
+  if (h.pattern !== slug) throw new Error(`${path}: header pattern "${h.pattern}" does not match the file name`)
+  return h
+}
+
+function patternsIndexFile(headers, variant) {
+  const cats = [...new Set(headers.map((h) => h.category))]
+  const lines = [
+    '# Patterns',
+    '',
+    `${headers.length} canonical patterns as self-contained HTML, CSS and a little vanilla JavaScript. Open one, take the structure and the accessibility behaviour, then replace the tokens (the \`:root\` block at the top of each file) with your direction's tokens. They are starting points, not finished design: each uses neutral system fonts and a plain palette on purpose.`,
+    '',
+    'Each file begins with a header comment: when to use it, accessibility notes, how to adapt it. Every pattern has a visible focus state, 44 px targets at 375 and handles reduced motion where it moves.',
+    '',
+  ]
+  for (const c of cats) {
+    lines.push(`## ${c}`, '', '| Pattern | Use when | Accessibility |', '|---|---|---|')
+    for (const h of headers.filter((x) => x.category === c)) lines.push(`| \`patterns/${h.pattern}.html\`<br>${h.title} | ${h.when} | ${h.a11y} |`)
+    lines.push('')
+  }
+  return lines.join('\n')
+}
+
+async function patternsIndexReference(headers) {
   const { META, CATEGORIES } = await import(pathToFileURL(join(ROOT, 'src', 'meta.ts')).href)
   const one = (s, n) => {
     const t = String(s).replace(/\s+/g, ' ').trim()
@@ -76,14 +88,23 @@ async function patternsIndex() {
   const lines = [
     '# Pattern index',
     '',
-    `${META.length} patterns of working UI, by category. Use this list to know what kinds of component, section, effect and whole-page direction exist, and borrow the idea.`,
-    'Each line: name, then what it is, then tags. This package indexes patterns; it does not bundle their source code.',
+    '## Packaged patterns (open these)',
+    '',
+    `${headers.length} patterns ship in \`patterns/\`. Each path below exists in this package; \`patterns/INDEX.md\` has the same list with accessibility notes.`,
     '',
   ]
+  for (const h of headers) lines.push(`- \`patterns/${h.pattern}.html\`: ${h.title} (${h.category}). ${one(h.when, 170)}`)
+  lines.push(
+    '',
+    '## Ideas from the wider library (names only, not bundled)',
+    '',
+    `${META.length} further patterns exist in the full UI Lab library, listed by category so you know what kinds of component, section, effect and whole-page direction exist. Their source is not in this package: use the entry as an idea and rebuild it, in the direction you chose.`,
+    '',
+  )
   for (const cat of CATEGORIES) {
     const items = META.filter((m) => m.category === cat)
     if (!items.length) continue
-    lines.push(`## ${cat} (${items.length})`, '')
+    lines.push(`### ${cat} (${items.length})`, '')
     for (const m of items) lines.push(`- **${one(m.title, 60)}**: ${one(m.summary, 150)} [${(m.tags || []).slice(0, 5).join(', ')}]`)
     lines.push('')
   }
@@ -99,54 +120,49 @@ function applyMarkers(text, variant) {
     .replace(/[ \t]*\{\{pro\}\}[\s\S]*?\{\{\/pro\}\}/g, '')
 }
 
-function excluded(path, variant) {
-  return variant === 'lite' && LITE_EXCLUDE.some((x) => (x.endsWith('/') ? path.startsWith(`${NAME}/${x}`) : path === `${NAME}/${x}`))
-}
+const excluded = (path, variant) => variant === 'lite' && LITE_EXCLUDE.some((x) => (x.endsWith('/') ? path.startsWith(`${NAME}/${x}`) : path === `${NAME}/${x}`))
 
 async function main() {
   if (!existsSync(join(SRC, 'SKILL.md'))) throw new Error(`Missing ${SRC}/SKILL.md`)
   rmSync(OUT, { recursive: true, force: true })
   mkdirSync(OUT, { recursive: true })
 
-  // 1. gather the pro file set in memory: [{ path: 'ui-lab/...', text }]
   const set = new Map()
-  for (const rel of walk(SRC)) set.set(`${NAME}/${rel}`, readFileSync(join(SRC, rel), 'utf8'))
+  // sources may carry CRLF (Windows checkouts); normalise so header parsing and the zip are identical everywhere
+  for (const rel of walk(SRC)) set.set(`${NAME}/${rel}`, readFileSync(join(SRC, rel), 'utf8').replace(/\r\n/g, '\n'))
 
-  for (const [from, to] of Object.entries(PLAYBOOK_REFS)) {
-    const p = join(ROOT, 'playbook', from)
-    if (!existsSync(p)) throw new Error(`playbook/${from} not found`)
-    set.set(`${NAME}/references/${to}`, readFileSync(p, 'utf8'))
-  }
-  for (const r of REWRITES) {
-    const key = `${NAME}/references/${PLAYBOOK_REFS[r.file]}`
-    const before = set.get(key)
-    const after = before.replace(r.find, r.to)
-    if (after === before) throw new Error(`Rewrite rule for ${r.file} matched nothing (playbook changed?): ${r.find}`)
-    set.set(key, after)
-  }
-  const idx = await patternsIndex()
+  // patterns: validate headers once
+  const headers = [...set.keys()].filter((p) => /\/patterns\/[^/]+\.html$/.test(p)).map((p) => ({ ...parsePatternHeader(p, set.get(p)), path: p }))
+  const idx = await patternsIndexReference(headers)
   set.set(`${NAME}/references/patterns-index.md`, idx.text)
 
-  // 2. emit each variant
   const summary = []
   for (const [variant, zipName] of [['pro', `${NAME}.zip`], ['lite', `${NAME}-lite.zip`]]) {
     const stage = join(OUT, 'stage', variant)
+    const keep = headers.filter((h) => variant === 'pro' || h.tier === 'lite')
     const files = []
     for (const [path, rawText] of set) {
       if (excluded(path, variant)) continue
-      const text = path.endsWith('.md') ? applyMarkers(rawText, variant) : rawText
+      if (/\/patterns\/[^/]+\.html$/.test(path) && !keep.some((h) => h.path === path)) continue
+      let text = path.endsWith('.md') ? applyMarkers(rawText, variant) : rawText
+      if (path === `${NAME}/references/patterns-index.md`) text = idx.text.replace(/^- `patterns\/([^`]+)\.html`.*$/gm, (line, slug) => (keep.some((h) => h.pattern === slug) ? line : '')).replace(/\n{3,}/g, '\n\n')
       const data = Buffer.from(text.replace(/\r\n/g, '\n'), 'utf8')
       files.push({ name: path, data })
-      const dest = join(stage, ...path.split('/'))
+    }
+    if (keep.length) files.push({ name: `${NAME}/patterns/INDEX.md`, data: Buffer.from(patternsIndexFile(keep, variant) + '\n', 'utf8') })
+    for (const f of files) {
+      const dest = join(stage, ...f.name.split('/'))
       mkdirSync(dirname(dest), { recursive: true })
-      writeFileSync(dest, data)
+      writeFileSync(dest, f.data)
     }
     const zip = writeZip(files)
     writeFileSync(join(OUT, zipName), zip)
     const bytes = files.reduce((n, f) => n + f.data.length, 0)
-    summary.push(`${zipName}: ${files.length} files, ${(bytes / 1024).toFixed(0)} KB unpacked, ${(zip.length / 1024).toFixed(0)} KB zipped`)
+    summary.push(`${zipName}: ${files.length} files (${keep.length} patterns), ${(bytes / 1024).toFixed(0)} KB unpacked, ${(zip.length / 1024).toFixed(0)} KB zipped`)
   }
-  console.log(`Built from ${idx.count} patterns.\n  ${summary.join('\n  ')}\n  stage dirs: release/stage/{pro,lite}/${NAME}/`)
+  console.log(`Built.\n  ${summary.join('\n  ')}\n  stage dirs: release/stage/{pro,lite}/${NAME}/`)
 }
 
-main().catch((e) => { console.error(`build-skill failed: ${e.message}`); process.exit(1) })
+if (process.argv[1] && process.argv[1].replace(/\\/g, '/').endsWith('tools/build-skill.mjs')) {
+  main().catch((e) => { console.error(`build-skill failed: ${e.message}`); process.exit(1) })
+}

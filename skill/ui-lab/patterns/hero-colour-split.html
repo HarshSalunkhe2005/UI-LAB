@@ -1,0 +1,46 @@
+<!doctype html>
+<!--
+pattern: hero-colour-split
+title: Split hero with a full colour field
+category: Hero
+tier: pro
+when: You want strong first-screen weight without photography: one saturated field beside a calm text panel, with the product or a figure on the seam.
+a11y: Text sits on solid colours checked for 4.5:1; the decorative figure is aria-hidden; the layout stacks at 375 with the text first.
+adapt: Choose the field colour from the product's world; keep one field and one neutral. Put the primary action in the neutral panel.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Colour split hero</title>
+<style>
+:root{--surface:#f5f2ea;--ink:#13211c;--field:#1f5f4a;--field-ink:#f5f2ea;--accent:#f26a3d;--accent-ink:#13211c}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.5 system-ui,sans-serif;color:var(--ink);background:var(--surface)}
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:100svh}
+.text{padding:clamp(24px,6vw,96px);display:grid;align-content:center;gap:20px}
+h1{margin:0;font-size:clamp(2.5rem,5.5vw,5rem);line-height:1;letter-spacing:-.03em}
+p{margin:0;max-width:30em;font-size:1.125rem}
+.btn{display:inline-flex;min-height:48px;align-items:center;padding:0 26px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none;width:max-content}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.field{background:var(--field);color:var(--field-ink);display:grid;place-items:center;padding:32px;position:relative;overflow:hidden}
+.figure{width:min(70%,420px);aspect-ratio:3/4;border-radius:200px 200px 16px 16px;background:var(--accent)}
+.stat{position:absolute;left:24px;bottom:24px;font-size:.9375rem;max-width:16em}
+.stat b{display:block;font-size:2.5rem;line-height:1}
+@media (max-width:760px){.hero{grid-template-columns:1fr;min-height:0}.field{min-height:60svh}}
+</style>
+</head>
+<body>
+<main class="hero">
+  <div class="text">
+    <h1>Fresh bread, from a street you can walk to.</h1>
+    <p>Sourdough baked at 4 a.m. in the old tram depot on Mill Lane. Order by 8 p.m. and collect by 8 the next morning.</p>
+    <a class="btn" href="#order">Order tomorrow's loaf</a>
+  </div>
+  <div class="field">
+    <div class="figure" aria-hidden="true"></div>
+    <p class="stat"><b>36 hours</b>of slow fermentation in every loaf</p>
+  </div>
+</main>
+</body>
+</html>

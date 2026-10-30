@@ -9,7 +9,7 @@ import { readZip } from './zip.mjs'
 const TEXT_EXT = new Set(['.md', '.mjs', '.js', '.json', '.txt', '.yaml', '.yml', '.css', '.html', '.svg'])
 const JUNK = /(^|\/)(\.DS_Store|Thumbs\.db|desktop\.ini|__MACOSX|\.git|\.gitignore|node_modules)(\/|$)/
 const ext = (n) => (n.match(/\.[^./]+$/) || [''])[0].toLowerCase()
-const isScript = (n) => /\.(mjs|js|sh|ps1|py)$/.test(n)
+const isScript = (n) => /\.(mjs|js|sh|ps1|py|html)$/.test(n) // html patterns carry inline scripts, so they get the script checks
 const MAX_TOTAL = 5 * 1024 * 1024
 const MAX_FILE = 1024 * 1024
 
@@ -72,7 +72,7 @@ const LEAK = [
   ['relative-link', /\]\((\.\.?\/|\/)[^)]*\)/],
   ['author-machine', /\bHarsh\b|\bnightfury|HarshSalunkhe/i],
 ]
-const PKG_REF = /^(references|templates|scripts|examples)\/[\w./-]+$/
+const PKG_REF = /^(references|templates|scripts|examples|patterns)\/[\w./-]+$/
 const STALE_MARKER = /\{\{\/?pro(-line)?\}\}/
 
 function scanLines(text, rules, onHit) {

@@ -1,0 +1,37 @@
+<!doctype html>
+<!--
+pattern: status-chips
+title: Status chips that never rely on colour alone
+category: Dense UI
+tier: lite
+when: Any status column or list: delayed, cancelled, boarding, paid, failed. Each state has a word and a distinct shape; colour reinforces it.
+a11y: Text label is the primary signal; the icon is aria-hidden; each state's colour and its tint both pass 4.5:1 for the label text; works in greyscale.
+adapt: Use only the states your data has. Reserve the signal colour for states that need action. Keep a neutral chip for the normal state.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Status chips</title>
+<style>
+:root{--surface:#f7f8f6;--ink:#101615;--ok:#235a35;--warn:#7a4a00;--bad:#a42914;--info:#1d4f6b;--neutral:#46504d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:14px/1.4 system-ui,sans-serif;padding:24px}
+ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:0 12px 0 8px;border-radius:999px;border:1.5px solid currentColor;font-weight:600;font-size:.8125rem;background:#fff}
+.chip svg{width:14px;height:14px;flex:none}
+.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}.info{color:var(--info)}.neutral{color:var(--neutral)}
+</style>
+</head>
+<body>
+<main>
+<ul>
+  <li><span class="chip ok"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>Departed</span></li>
+  <li><span class="chip info"><svg viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>Boarding</span></li>
+  <li><span class="chip warn"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5l6 11H1z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Delayed</span></li>
+  <li><span class="chip bad"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="2"/></svg>Cancelled</span></li>
+  <li><span class="chip neutral"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10" stroke="currentColor" stroke-width="2"/></svg>Scheduled</span></li>
+</ul>
+</main>
+</body>
+</html>

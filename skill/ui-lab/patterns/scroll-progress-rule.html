@@ -1,0 +1,43 @@
+<!doctype html>
+<!--
+pattern: scroll-progress-rule
+title: Reading progress as a thin rule
+category: Motion
+tier: pro
+when: Long-form reading pages. A 3px rule at the top fills as you read: the one moving part, useful and quiet.
+a11y: Decorative (aria-hidden); no information depends on it; uses transform on a fixed element; under prefers-reduced-motion it still updates (it is state, not decoration) but without smoothing.
+adapt: Prefer the CSS scroll-driven animation (animation-timeline: scroll()) where supported, with this script as the fallback. Keep contrast of the rule against the header.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Progress rule</title>
+<style>
+:root{--surface:#fbf8f1;--ink:#1d1b17;--accent:#b3261e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:18px/1.7 Georgia,serif}
+.rule{position:fixed;top:0;left:0;right:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;z-index:10}
+@supports (animation-timeline:scroll()){.rule{animation:fill linear both;animation-timeline:scroll(root)}@keyframes fill{to{transform:scaleX(1)}}}
+article{max-width:65ch;margin:0 auto;padding:48px 16px}
+h1{font-size:2.25rem;line-height:1.1;letter-spacing:-.02em;margin:0 0 24px}
+</style>
+</head>
+<body>
+<div class="rule" id="rule" aria-hidden="true"></div>
+<article>
+  <h1>A long read</h1>
+  <p>Paragraph after paragraph so that the page scrolls far enough to show the rule filling from left to right as you move down the article.</p>
+  <p style="height:900px">The reading progress is state, not decoration, so it keeps updating under reduced motion.</p>
+  <p style="height:900px">More text.</p>
+  <p>The end.</p>
+</article>
+<script>
+if (!CSS.supports('animation-timeline: scroll()')) {
+  const r = document.getElementById('rule')
+  const on = () => { const h = document.documentElement; r.style.transform = `scaleX(${h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)})` }
+  addEventListener('scroll', on, { passive: true }); on()
+}
+</script>
+</body>
+</html>

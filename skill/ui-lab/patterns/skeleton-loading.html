@@ -1,0 +1,57 @@
+<!doctype html>
+<!--
+pattern: skeleton-loading
+title: Skeleton loading at the final size
+category: Forms and states
+tier: pro
+when: Content that arrives after first paint (a table, a card list). Draw the final layout in neutral blocks so nothing shifts when data lands.
+a11y: The container has aria-busy while loading; a visually hidden status says "Loading"; the shimmer stops under prefers-reduced-motion; when data arrives focus is not moved unless the user asked for the load.
+adapt: Match the skeleton's heights and column widths to the real rows. Show it only if loading takes longer than about 300 ms. Provide an error state with a retry for failure.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Skeleton</title>
+<style>
+:root{--surface:#f4f6f5;--surface-raised:#fff;--ink:#141a18;--ink-muted:#4b5551;--bone:#e1e6e4;--border:#cfd5d2;--accent:#1d4f6b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:15px/1.4 system-ui,sans-serif;padding:24px 16px}
+.panel{max-width:560px;margin:0 auto;background:var(--surface-raised);border:1px solid var(--border);border-radius:10px}
+.row{display:grid;grid-template-columns:64px 1fr 72px;gap:16px;align-items:center;min-height:56px;padding:0 16px;border-top:1px solid var(--border)}
+.row:first-child{border-top:0}
+.bone{height:14px;border-radius:4px;background:var(--bone)}
+.bone.w1{width:48px}.bone.w2{width:70%}.bone.w3{width:48px;justify-self:end}
+.loading .bone{background:linear-gradient(90deg,var(--bone) 0,#eef1f0 50%,var(--bone) 100%);background-size:200% 100%;animation:sh 1.4s linear infinite}
+@keyframes sh{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.loading .bone{animation:none}}
+.sr{position:absolute;left:-9999px}
+button{margin:16px auto 0;display:block;min-height:44px;padding:0 18px;border:1.5px solid var(--accent);border-radius:8px;background:#fff;color:var(--accent);font:inherit;font-weight:600;cursor:pointer}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+</style>
+</head>
+<body>
+<main>
+<div class="panel loading" id="p" aria-busy="true">
+  <span class="sr" role="status" id="s">Loading sailings</span>
+  <div class="row"><span class="bone w1"></span><span class="bone w2"></span><span class="bone w3"></span></div>
+  <div class="row"><span class="bone w1"></span><span class="bone w2"></span><span class="bone w3"></span></div>
+  <div class="row"><span class="bone w1"></span><span class="bone w2"></span><span class="bone w3"></span></div>
+</div>
+<button type="button" id="again">Reload</button>
+</main>
+<script>
+const p = document.getElementById('p'); let s = document.getElementById('s')
+function load() {
+  p.classList.add('loading'); p.setAttribute('aria-busy', 'true'); s.textContent = 'Loading sailings'
+  setTimeout(() => {
+    p.classList.remove('loading'); p.setAttribute('aria-busy', 'false')
+    p.innerHTML = '<span class="sr" role="status" id="s">Loaded 3 sailings</span>' + ['07:00 H6 Cray Point|Delayed', '07:45 H4 Pemberton|Boarding', '08:07 H1 Kellan|Scheduled'].map((r) => { const [a, b] = r.split('|'); const [t, ...n] = a.split(' '); return `<div class="row"><b>${t}</b><span>${n.join(' ')}</span><span>${b}</span></div>` }).join('')
+    s = document.getElementById('s')
+  }, 1800)
+}
+document.getElementById('again').addEventListener('click', () => { p.innerHTML = '<span class="sr" role="status" id="s"></span>' + '<div class="row"><span class="bone w1"></span><span class="bone w2"></span><span class="bone w3"></span></div>'.repeat(3); s = document.getElementById('s'); load() })
+load()
+</script>
+</body>
+</html>

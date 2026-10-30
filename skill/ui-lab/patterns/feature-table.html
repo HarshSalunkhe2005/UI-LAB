@@ -1,0 +1,51 @@
+<!doctype html>
+<!--
+pattern: feature-table
+title: Features as ruled rows: what it does, what it does not
+category: Sections
+tier: pro
+when: Replaces the three-icon-card feature grid. A skeptical technical or procurement audience wants to know the limits as well as the abilities.
+a11y: A real table with caption and header cells (screen readers read each cell with its column); stacks into labelled blocks at 375 using data-label.
+adapt: Three columns: feature, what it does, what it does not do. Write the "does not" column honestly; it is the trust signal.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Feature table</title>
+<style>
+:root{--surface:#f6f6f3;--ink:#14171a;--ink-muted:#4b5158;--border:#14171a;--hair:#c9cbc6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.5 system-ui,sans-serif;padding:48px 16px}
+.wrap{max-width:1000px;margin:0 auto}
+h2{font-size:clamp(1.75rem,4vw,2.5rem);line-height:1.05;letter-spacing:-.025em;margin:0 0 24px;max-width:22em}
+table{width:100%;border-collapse:collapse;border-top:2px solid var(--border)}
+caption{position:absolute;left:-9999px}
+th,td{text-align:left;vertical-align:top;padding:16px 16px 16px 0;border-bottom:1px solid var(--hair)}
+thead th{font-size:.8125rem;color:var(--ink-muted);font-weight:600;padding-top:10px;padding-bottom:10px}
+tbody th{font-size:1.0625rem;width:22%}
+td{width:39%;color:var(--ink)}
+td:last-child{color:var(--ink-muted)}
+@media (max-width:700px){
+  thead{position:absolute;left:-9999px}
+  tr{display:block;padding:14px 0;border-bottom:1px solid var(--hair)}
+  th,td{display:block;width:auto;border:0;padding:2px 0}
+  td::before{content:attr(data-label);display:block;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-muted);margin-top:8px}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h2>Built for the question "is this one request or fifty?"</h2>
+  <table>
+    <caption>What Relay does and does not do</caption>
+    <thead><tr><th scope="col">Feature</th><th scope="col">What it does</th><th scope="col">What it does not do</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Request grouping</th><td data-label="What it does">Merges tickets by intent across phrasing, languages and channels.</td><td data-label="What it does not do">Does not rely on agent tags or macros being applied correctly.</td></tr>
+      <tr><th scope="row">Quote trail</th><td data-label="What it does">Every line links to the tickets it was counted from, with account size.</td><td data-label="What it does not do">Never shows a summary you cannot check against the source.</td></tr>
+      <tr><th scope="row">Account weighting</th><td data-label="What it does">Splits counts by plan and seat size so one loud enterprise does not hide in the total.</td><td data-label="What it does not do">Does not rank by revenue unless you switch that on.</td></tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

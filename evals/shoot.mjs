@@ -54,7 +54,8 @@ await send('Page.enable'); await send('Runtime.enable'); await send('Log.enable'
 // Runs in the page: mechanical checks that feed the rubric.
 const PROBE = `(() => {
   const vw = innerWidth
-  const vis = (e) => { const r = e.getBoundingClientRect(); const s = getComputedStyle(e); return r.width > 0 && r.height > 0 && s.visibility !== 'hidden' && s.display !== 'none' }
+  // not visible: zero size, hidden, parked off-screen (visually-hidden text), or fully transparent (custom radios whose label is the target)
+  const vis = (e) => { const r = e.getBoundingClientRect(); const s = getComputedStyle(e); return r.width > 0 && r.height > 0 && r.right > 0 && r.bottom > 0 && s.visibility !== 'hidden' && s.display !== 'none' && s.opacity !== '0' }
   const inter = [...document.querySelectorAll('a[href],button,input:not([type=hidden]),select,textarea,[role=button],[tabindex]:not([tabindex="-1"])')].filter(vis)
   // inline text links are exempt from the 44px target rule (WCAG 2.5.8 inline exception)
   const inlineLink = (e) => e.tagName === 'A' && getComputedStyle(e).display === 'inline' && e.parentElement && [...e.parentElement.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim().length > 3)

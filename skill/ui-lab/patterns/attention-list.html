@@ -1,0 +1,47 @@
+<!doctype html>
+<!--
+pattern: attention-list
+title: Ranked "needs attention" list
+category: Dense UI
+tier: lite
+when: Operations screens where the user's job is to act on the worst items first. Rank by impact, show the reason in words, show the action. Place it in the first viewport.
+a11y: An ordered list; every item states its reason in text; status words accompany the colour; the whole row is one focusable link to the detail with a 44px minimum height.
+adapt: Rank by a real impact measure (passengers affected, revenue at risk). Keep the reason to one short phrase. The signal colour marks only items that need action.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Attention list</title>
+<style>
+:root{--surface:#e8ecea;--surface-raised:#f7f8f6;--ink:#101615;--ink-muted:#46504d;--signal:#b8301a;--border:#c5cdc9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:15px/1.4 system-ui,sans-serif;padding:24px}
+section{max-width:560px;background:var(--surface-raised);border:1px solid var(--border);border-left:4px solid var(--signal);border-radius:10px;padding:16px 18px}
+h2{margin:0;font-size:1.0625rem;display:flex;justify-content:space-between;gap:12px}
+h2 span{font-weight:400;color:var(--ink-muted)}
+p.sub{margin:4px 0 8px;color:var(--ink-muted);font-size:.875rem}
+ol{list-style:none;margin:0;padding:0}
+li{border-top:1px solid var(--border)}
+a{display:grid;grid-template-columns:auto 1fr auto;gap:2px 14px;align-items:center;min-height:56px;padding:8px 0;color:inherit;text-decoration:none}
+a:hover{background:rgba(0,0,0,.03)}
+a:focus-visible{outline:3px solid var(--ink);outline-offset:-3px}
+time{font:600 1rem ui-monospace,Menlo,monospace;grid-row:span 2}
+.what{font-weight:600}
+.why{grid-column:2;font-size:.875rem;color:var(--signal);font-weight:600}
+.n{grid-row:span 2;text-align:right;font-variant-numeric:tabular-nums}
+.n small{display:block;color:var(--ink-muted);font-size:.75rem}
+</style>
+</head>
+<body>
+<section aria-labelledby="t">
+  <h2 id="t">Needs attention today <span>11</span></h2>
+  <p class="sub">Ranked by passengers affected.</p>
+  <ol>
+    <li><a href="#s1"><time>09:00</time><span class="what">H6 Pier 9 to Cray Point</span><span class="n">118<small>to rebook</small></span><span class="why">Cancelled: vessel fault</span></a></li>
+    <li><a href="#s2"><time>12:15</time><span class="what">H3 Northgate to Gull Rock</span><span class="n">74<small>to rebook</small></span><span class="why">Cancelled: fog and wind</span></a></li>
+    <li><a href="#s3"><time>07:50</time><span class="what">H1 Pier 4 to Kellan Island</span><span class="n">314<small>booked</small></span><span class="why">98% full: 6 seats left</span></a></li>
+  </ol>
+</section>
+</body>
+</html>

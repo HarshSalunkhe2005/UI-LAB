@@ -1,0 +1,64 @@
+<!doctype html>
+<!--
+pattern: filter-bar-segmented
+title: Filter bar with segmented range, select and live result count
+category: Dense UI
+tier: pro
+when: Dashboards and lists where a date range and one or two filters change many panels at once. State is always visible, reversible in one click, and announced.
+a11y: Segmented control is a radio group (arrow keys work natively); the select has a visible label; the result count is in a polite live region; reset is a real button; targets are 44px.
+adapt: Replace the demo data. At 375 collapse secondary filters into one control that opens a sheet, and show the active filters as text beside it.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Filter bar</title>
+<style>
+:root{--surface:#e8ecea;--surface-raised:#f7f8f6;--ink:#101615;--ink-muted:#46504d;--accent:#1d4f6b;--accent-ink:#fff;--border:#b7c0bc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:14px/1.4 system-ui,sans-serif;padding:24px}
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--surface-raised);border:1px solid var(--border);border-radius:10px;padding:10px 14px}
+fieldset{margin:0;padding:0;display:flex;border:1px solid var(--border);border-radius:8px}
+legend{position:absolute;left:-9999px}
+.seg label{display:flex;align-items:center;min-height:44px;padding:0 16px;cursor:pointer;border-right:1px solid var(--border);font-weight:600}
+.seg label:first-of-type{border-radius:7px 0 0 7px}.seg label:last-of-type{border-right:0;border-radius:0 7px 7px 0}
+.seg input{position:absolute;opacity:0}
+.seg input:checked+span{color:var(--accent-ink)}
+.seg label:has(input:checked){background:var(--accent);color:var(--accent-ink)}
+.seg label:has(input:focus-visible){outline:3px solid var(--ink);outline-offset:-3px}
+.field{display:flex;align-items:center;gap:8px}
+select,button{min-height:44px;font:inherit;border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--ink);padding:0 12px}
+button{cursor:pointer;font-weight:600}
+select:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.count{margin-left:auto;color:var(--ink-muted)}
+@media (max-width:640px){.count{margin-left:0;flex-basis:100%}}
+</style>
+</head>
+<body>
+<main>
+<div class="bar" role="group" aria-label="Filters">
+  <fieldset class="seg"><legend>Date range</legend>
+    <label><input type="radio" name="r" value="1" checked><span>Today</span></label>
+    <label><input type="radio" name="r" value="7"><span>7 days</span></label>
+    <label><input type="radio" name="r" value="30"><span>30 days</span></label>
+  </fieldset>
+  <div class="field"><label for="route">Route</label>
+    <select id="route"><option value="all">All 6 routes</option><option>H1 Kellan Island</option><option>H2 Saltmarsh</option><option>H6 Cray Point</option></select></div>
+  <button id="reset" type="button">Reset filters</button>
+  <p class="count" id="count" role="status" aria-live="polite"></p>
+</div>
+</main>
+<script>
+const range = document.querySelectorAll('input[name=r]'), route = document.getElementById('route'), count = document.getElementById('count')
+const sailings = { all: 56, 'H1 Kellan Island': 12, 'H2 Saltmarsh': 9, 'H6 Cray Point': 7 }
+function update() {
+  const d = document.querySelector('input[name=r]:checked').value
+  const n = sailings[route.value] * (d === '1' ? 1 : Number(d))
+  count.textContent = `Showing ${n} sailings, ${d === '1' ? 'today' : 'last ' + d + ' days'}, ${route.value === 'all' ? 'all routes' : route.value}`
+}
+range.forEach((r) => r.addEventListener('change', update)); route.addEventListener('change', update)
+document.getElementById('reset').addEventListener('click', () => { range[0].checked = true; route.value = 'all'; update() })
+update()
+</script>
+</body>
+</html>

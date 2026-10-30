@@ -1,0 +1,45 @@
+<!doctype html>
+<!--
+pattern: add-to-cart-bar
+title: Sticky mobile buy bar with an "added" state
+category: Commerce
+tier: pro
+when: Long product pages on phones. The price and the buy button stay reachable; the button confirms what happened and offers the next step.
+a11y: The bar is a labelled region; the button text changes and a polite live region announces the result; the bar does not cover the footer content (padding-bottom on the page); 52px target; safe-area inset respected.
+adapt: Show the bar only at 375 (hide at desktop where the main button is visible). After adding, show a cart link instead of auto-opening a drawer.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Buy bar</title>
+<style>
+:root{--surface:#fff;--ink:#17191c;--ink-muted:#555a60;--accent:#233b52;--accent-ink:#fff;--border:#d6d9dc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+.page{max-width:560px;margin:0 auto;padding:16px 16px 120px}
+.fill{height:1400px;background:repeating-linear-gradient(#f1f2f3 0 40px,#fff 40px 80px);border-radius:8px;margin-top:16px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--border);padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:12px}
+.bar .info{flex:1;min-width:0}
+.bar b{display:block;font-size:1.125rem;font-variant-numeric:tabular-nums}
+.bar small{color:var(--ink-muted)}
+button,a.cart{min-height:52px;padding:0 24px;border:0;border-radius:8px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+a.cart{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+@media (min-width:760px){.bar{display:none}.page{padding-bottom:24px}}
+</style>
+</head>
+<body>
+<main class="page"><h1 style="margin:0">Atlas 38 carry-on</h1><p>Long product description and reviews below.</p><div class="fill"></div></main>
+<section class="bar" aria-label="Buy">
+  <div class="info"><b>$189</b><small>Ships in 2 days</small></div>
+  <button id="add" type="button">Add to bag</button>
+  <a class="cart" id="cart" href="#cart" hidden>View bag (1)</a>
+  <span id="live" role="status" aria-live="polite" style="position:absolute;left:-9999px"></span>
+</section>
+<script>
+const add = document.getElementById('add'), cart = document.getElementById('cart'), live = document.getElementById('live')
+add.addEventListener('click', () => { add.hidden = true; cart.hidden = false; live.textContent = 'Atlas 38 added to your bag. 1 item.'; cart.focus() })
+</script>
+</body>
+</html>

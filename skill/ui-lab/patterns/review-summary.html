@@ -1,0 +1,53 @@
+<!doctype html>
+<!--
+pattern: review-summary
+title: Rating summary with a distribution and individual reviews
+category: Commerce
+tier: pro
+when: Product and service pages. An honest summary (average, count, distribution) followed by a few specific reviews, including a critical one.
+a11y: The average is text ("4.6 out of 5, 212 reviews"), not stars alone; the distribution is a list with counts; each review is an article with a heading; stars are decorative (aria-hidden) with the rating repeated in text.
+adapt: Show at least one lukewarm review; it raises trust. Show the reviewer's context (size bought, how long used). Never fake a count.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Review summary</title>
+<style>
+:root{--surface:#fff;--ink:#17191c;--ink-muted:#555a60;--accent:#233b52;--star:#b7791f;--border:#d6d9dc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.5 system-ui,sans-serif;padding:32px 16px}
+section{max-width:640px;margin:0 auto}
+h2{margin:0 0 16px;font-size:1.5rem}
+.sum{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;margin-bottom:24px}
+.avg{font-size:3.5rem;font-weight:800;line-height:1;letter-spacing:-.03em}
+.stars{color:var(--star);letter-spacing:2px}
+.avg small{display:block;font-size:.875rem;font-weight:400;letter-spacing:0;color:var(--ink-muted);margin-top:4px}
+ul.dist{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+ul.dist li{display:grid;grid-template-columns:56px 1fr 36px;gap:8px;align-items:center;font-size:.875rem;font-variant-numeric:tabular-nums}
+.track{height:8px;background:#e6e8ea;border-radius:4px}.track i{display:block;height:100%;background:var(--accent);border-radius:4px}
+article{border-top:1px solid var(--border);padding:16px 0}
+article h3{margin:0;font-size:1rem}
+article p{margin:6px 0;color:var(--ink)}
+.meta{font-size:.875rem;color:var(--ink-muted)}
+@media (max-width:480px){.sum{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<section aria-labelledby="r">
+  <h2 id="r">Reviews</h2>
+  <div class="sum">
+    <div class="avg">4.6<small><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><br>4.6 out of 5, 212 reviews</small></div>
+    <ul class="dist" aria-label="Rating distribution">
+      <li>5 stars<span class="track"><i style="width:72%"></i></span>153</li>
+      <li>4 stars<span class="track"><i style="width:18%"></i></span>38</li>
+      <li>3 stars<span class="track"><i style="width:6%"></i></span>13</li>
+      <li>2 stars<span class="track"><i style="width:2%"></i></span>5</li>
+      <li>1 star<span class="track"><i style="width:1.5%"></i></span>3</li>
+    </ul>
+  </div>
+  <article><h3><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 5 out of 5: Fits under every seat I tried</h3><p>Used it on nine flights this year, never gate-checked. The laptop sleeve is exactly the right depth.</p><p class="meta">Ines, 38 L, used for 7 months</p></article>
+  <article><h3><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;</span> 3 out of 5: Good bag, strap could be better</h3><p>Sturdy and light. The shoulder strap digs in when it is full; I added a pad.</p><p class="meta">Marcus, 45 L, used for 3 months</p></article>
+</section>
+</body>
+</html>

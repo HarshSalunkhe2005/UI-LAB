@@ -1,0 +1,46 @@
+<!doctype html>
+<!--
+pattern: bars-direct-labelled
+title: Horizontal bars with direct labels and a target tick
+category: Dense UI
+tier: lite
+when: Comparing one measure across categories (load by route, delay minutes by cause). Replaces donuts and rainbow legends. Sort by value; one accent for the series that matters.
+a11y: Built from HTML, not canvas: each bar is a labelled row with its value as text; the target is stated in words; colour is not the only way to find the problem row.
+adapt: Sort descending unless there is a natural order. Mark the target or limit with a tick. Use the signal colour only for rows over the limit.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Direct-labelled bars</title>
+<style>
+:root{--surface:#e8ecea;--surface-raised:#f7f8f6;--ink:#101615;--ink-muted:#46504d;--bar:#6f8a86;--signal:#b8301a;--border:#c5cdc9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:14px/1.4 system-ui,sans-serif;padding:24px}
+figure{max-width:520px;margin:0;background:var(--surface-raised);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+figcaption{font-weight:700;font-size:1rem;margin-bottom:2px}
+.note{margin:0 0 12px;color:var(--ink-muted);font-size:.8125rem}
+ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+li{display:grid;grid-template-columns:110px 1fr 90px;align-items:center;gap:10px}
+.track{position:relative;height:14px;background:#dfe5e2;border-radius:3px}
+.fill{position:absolute;inset:0 auto 0 0;background:var(--bar);border-radius:3px}
+.over .fill{background:var(--signal)}
+.tick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);left:95%}
+b{text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:420px){li{grid-template-columns:90px 1fr 76px}}
+</style>
+</head>
+<body>
+<figure>
+  <figcaption>Passenger load by route</figcaption>
+  <p class="note">Carried vs seats offered today. The tick marks 95% full; routes at or over it are red.</p>
+  <ul>
+    <li class="over"><span>H1 Kellan</span><span class="track"><span class="fill" style="width:98%"></span><span class="tick"></span></span><b>98% full</b></li>
+    <li><span>H5 Ostler Bay</span><span class="track"><span class="fill" style="width:69%"></span><span class="tick"></span></span><b>69%</b></li>
+    <li><span>H4 Pemberton</span><span class="track"><span class="fill" style="width:69%"></span><span class="tick"></span></span><b>69%</b></li>
+    <li><span>H2 Saltmarsh</span><span class="track"><span class="fill" style="width:62%"></span><span class="tick"></span></span><b>62%</b></li>
+    <li><span>H6 Cray Point</span><span class="track"><span class="fill" style="width:50%"></span><span class="tick"></span></span><b>50%</b></li>
+  </ul>
+</figure>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<!--
+pattern: reveal-once-bars
+title: Bars that grow once when they scroll into view
+category: Motion
+tier: lite
+when: The one entrance animation worth having: a chart or ranked list whose bars grow to their values the first time they are seen, explaining magnitude. Replaces a fade-up on every block.
+a11y: Values are real text and the bar widths are set in the markup, so content is complete without script; under prefers-reduced-motion the bars simply render at their final width; the animation runs once.
+adapt: Use IntersectionObserver with a single threshold. Animate transform: scaleX (cheap), not width. Set widths via a CSS variable from your data.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reveal once</title>
+<style>
+:root{--surface:#14392f;--ink:#f4f1e6;--bar:#f3c93e;--track:rgba(255,255,255,.18)}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;font:16px/1.5 system-ui,sans-serif}
+.spacer{height:70vh}
+section{background:var(--surface);color:var(--ink);padding:48px 16px}
+.in{max-width:560px;margin:0 auto}
+h2{margin:0 0 16px;font-size:1.5rem}
+ul{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+li{display:grid;grid-template-columns:1fr auto;gap:4px 12px}
+li b{font-variant-numeric:tabular-nums}
+.track{grid-column:1/-1;height:10px;border-radius:5px;background:var(--track);overflow:clip}
+.fill{display:block;height:100%;width:var(--w);background:var(--bar);border-radius:5px;transform-origin:left}
+.js .fill{transform:scaleX(0)}
+.js .shown .fill{transform:none;transition:transform .9s cubic-bezier(.16,1,.3,1)}
+@media (prefers-reduced-motion:reduce){.js .fill,.js .shown .fill{transform:none;transition:none}}
+</style>
+</head>
+<body>
+<div class="spacer"><p style="padding:16px">Scroll down.</p></div>
+<section id="s"><div class="in">
+  <h2>Where the requests came from</h2>
+  <ul>
+    <li><span>Bulk role assignment</span><b>94 tickets</b><span class="track"><span class="fill" style="--w:94%"></span></span></li>
+    <li><span>Export to Snowflake</span><b>58 tickets</b><span class="track"><span class="fill" style="--w:58%"></span></span></li>
+    <li><span>Slack alerts for failed syncs</span><b>41 tickets</b><span class="track"><span class="fill" style="--w:41%"></span></span></li>
+  </ul>
+</div></section>
+<div class="spacer"></div>
+<script>
+document.documentElement.classList.add('js')
+const io = new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) { e.target.classList.add('shown'); io.unobserve(e.target) } }, { threshold: 0.3 })
+io.observe(document.getElementById('s'))
+</script>
+</body>
+</html>

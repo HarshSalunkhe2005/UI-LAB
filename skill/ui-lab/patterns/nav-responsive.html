@@ -1,0 +1,62 @@
+<!doctype html>
+<!--
+pattern: nav-responsive
+title: Site header that collapses to a menu without a framework
+category: Navigation
+tier: lite
+when: Marketing and content sites with 4 to 7 links and one action. Inline links at desktop width, a disclosure menu at 375.
+a11y: Header and nav landmarks with a label; the toggle is a real button with aria-expanded and aria-controls; Escape closes and returns focus; links and the toggle are 44px high; current page marked with aria-current.
+adapt: Keep the action button visible at both widths. Do not hide the primary action inside the menu. If the site has more than 7 links, group them.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Responsive header</title>
+<style>
+:root{--surface:#fff;--ink:#14181b;--ink-muted:#4a5056;--accent:#c4300f;--accent-ink:#fff;--border:#d9dcde}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.4 system-ui,sans-serif;color:var(--ink);background:var(--surface)}
+header{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border);z-index:10}
+.in{max-width:1200px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:16px;min-height:64px}
+.logo{font-weight:800;font-size:1.25rem;color:inherit;text-decoration:none;margin-right:auto;min-height:44px;display:inline-flex;align-items:center}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0}
+nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;color:var(--ink);text-decoration:none}
+nav a[aria-current=page]{font-weight:700;text-decoration:underline;text-underline-offset:6px}
+.cta{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;border-radius:6px}
+button.menu{display:none;min-height:44px;min-width:44px;border:1px solid var(--border);background:#fff;border-radius:6px;font:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media (max-width:720px){
+  button.menu{display:inline-flex;align-items:center;justify-content:center}
+  nav{position:absolute;left:0;right:0;top:100%;background:var(--surface);border-bottom:1px solid var(--border)}
+  nav[hidden]{display:none}
+  nav ul{flex-direction:column;padding:8px 16px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="in">
+    <a class="logo" href="#">Relay</a>
+    <button class="menu" id="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav" aria-label="Main">
+      <ul>
+        <li><a href="#how" aria-current="page">How it works</a></li>
+        <li><a href="#features">What it does</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <a class="cta" href="#start">Get a sample</a>
+  </div>
+</header>
+<script>
+const btn = document.getElementById('menu'), nav = document.getElementById('nav')
+const mq = matchMedia('(max-width:720px)')
+function sync() { if (mq.matches) { nav.hidden = btn.getAttribute('aria-expanded') !== 'true' } else { nav.hidden = false } }
+btn.addEventListener('click', () => { btn.setAttribute('aria-expanded', String(btn.getAttribute('aria-expanded') !== 'true')); sync() })
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') { btn.setAttribute('aria-expanded', 'false'); sync(); btn.focus() } })
+mq.addEventListener('change', sync); sync()
+</script>
+</body>
+</html>
