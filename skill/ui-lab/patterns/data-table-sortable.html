@@ -19,10 +19,11 @@ adapt: Keep one row height. Add a sticky header for long tables. Choose the defa
 body{margin:0;background:var(--surface);color:var(--ink);font:14px/1.4 system-ui,sans-serif;padding:24px}
 .msort{display:none;align-items:center;gap:8px;padding:0 16px 12px}
 .msort select{min-height:44px;font:inherit;border:1px solid var(--border);border-radius:8px;padding:0 10px;background:#fff;color:var(--ink)}
-.wrap{max-width:860px;background:var(--surface-raised);border:1px solid var(--border);border-radius:10px;overflow:clip}
+.wrap{max-width:860px;background:var(--surface-raised);border:1px solid var(--border);border-radius:10px}
 caption{text-align:left;padding:14px 16px;font-weight:700;font-size:1rem}
 table{width:100%;border-collapse:collapse}
 th,td{padding:0 16px;height:44px;text-align:left;border-top:1px solid var(--border)}
+thead th:first-child{border-top-left-radius:9px}thead th:last-child{border-top-right-radius:9px}
 thead th{position:sticky;top:0;background:var(--surface-raised);font-size:.8125rem;color:var(--ink-muted)}
 th button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:44px;font-weight:700;color:var(--ink)}
 th button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
