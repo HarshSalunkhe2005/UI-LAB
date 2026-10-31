@@ -73,7 +73,7 @@ const LEAK = [
   ['author-machine', /\bHarsh\b|\bnightfury|HarshSalunkhe/i],
 ]
 const PKG_REF = /^(references|templates|scripts|examples|patterns)\/[\w./-]+$/
-const STALE_MARKER = /\{\{\/?pro(-line)?\}\}/
+const STALE_MARKER = /\{\{\/?(pro|lite)(-line)?\}\}/
 
 function scanLines(text, rules, onHit) {
   text.split(/\r?\n/).forEach((line, i) => {
@@ -142,7 +142,11 @@ export function validate(zipBuf, label = 'zip') {
       if (!isText(e)) continue
       const script = isScript(e.name)
       if ((scriptsOnly && !script) || (docsOnly && script)) continue
-      scanLines(textOf(e), rules, (r, line, snip) => f.push(`${e.name}:${line} [${r}] ${snip}`))
+      scanLines(textOf(e), rules, (r, line, snip) => {
+        // The one allowed process start: the verify script runs the user's own local browser on their own page.
+        if (r === 'spawn-process' && e.name === `${top}/scripts/verify.mjs`) return
+        f.push(`${e.name}:${line} [${r}] ${snip}`)
+      })
     }
     add(id, name, f)
   }
@@ -244,7 +248,7 @@ export function validate(zipBuf, label = 'zip') {
       if (!isText(e) || ext(e.name) !== '.md') continue
       const t = textOf(e)
       scanLines(t, LEAK, (r, line, snip) => f.push(`${e.name}:${line} [${r}] ${snip}`))
-      if (STALE_MARKER.test(t)) f.push(`${e.name} still contains a {{pro}} build marker`)
+      if (STALE_MARKER.test(t)) f.push(`${e.name} still contains a {{pro}} or {{lite}} build marker`)
       const dir = e.name.split('/').slice(0, -1).join('/')
       for (const m of t.matchAll(/`([^`\n]+)`/g)) {
         const tok = m[1].trim().split(/\s/)[0]

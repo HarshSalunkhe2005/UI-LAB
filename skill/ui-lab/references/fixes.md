@@ -1,6 +1,40 @@
-# Bug catalogue: problems already solved
+# Fixes: what failed verification, and what already-solved problems look like
 
-Check here before debugging from scratch. Grouped by area. Each row: what you see, the cause, the fix.
+{{pro}}`scripts/verify.mjs` prints a gate name for every failure. {{/pro}}Find the failing check below, apply the fix, check again. After the gate fixes comes the catalogue of problems already solved, grouped by area. Each row: what you see, the cause, the fix.
+
+## Gate failures
+
+### console
+A console error on a fresh load. Read the message: a missing file (wrong path), a script error (a null element, a typo) or a blocked resource. Fix the cause; do not silence it. A font or script that only fails because the machine is offline is reported as a note, not a failure.
+
+### overflow
+The page is wider than 375 px. One element is too wide: a long word, a fixed-width table, an image, a negative margin, an unbroken code line. Find it by listing elements whose right edge passes the viewport. Fixes: `min-width: 0` on grid and flex children, `overflow-wrap: anywhere`, `max-width: 100%`, `minmax(0, 1fr)` in grids, `overflow-x: auto` on a wrapper for tables and code.
+
+### targets
+An interactive element is under 44 px wide or tall at 375. The log lists up to eight with their sizes. Nav and footer links are the usual failures: a link is only as wide as its text. Give links `min-height: 44px; min-width: 44px` with padding, or make the whole row the link, and keep space between neighbours. Inline links inside a sentence are exempt.
+
+### h1-main
+Not exactly one `h1`, or no `main`. A one-page app with several views has one `h1`; the view titles are `h2` and inactive views are `hidden`. Wrap the page content in one `main`.
+
+### reduced-motion
+No `prefers-reduced-motion` rule in the CSS. Add `@media (prefers-reduced-motion: reduce)` that stops looping and decorative motion (animations, transitions, smooth scrolling, auto-playing media).
+
+### focus
+No `:focus` or `:focus-visible` rule. Add a visible ring (2 px or more, offset) to every interactive element; never `outline: none` without a replacement.
+
+### collisions
+Two text boxes overlap by more than a third. Open the slice at that spot. Usual causes: a badge or stamp placed over a label, a sticky header over a heading, text under an illustration, a wrapped headline running into the next block. Give the element its own row or reserved space; check at 1440 and 375.
+
+### audit-critical
+The static audit found a critical issue (for example missing alt text, an unlabelled form control, or a declared text colour pair that fails contrast). The log lists each with its line. Fix it in the source.
+
+## Loop and environment
+
+- Check, fix every failure in one batch, check again, then stop. Do not fix and re-run one thing at a time.
+- Software-rendered WebGL is slow. Wait before judging a 3D screenshot; do not "fix" slowness that is the test environment, but keep first paint cheap.
+- A jump-scroll is not a wheel scroll with a smooth-scroll library. Check both when a library is involved.
+- A hidden or throttled browser tab stalls transitions; finish animations before screenshots.
+- Not covered by any script, so check by hand and say so in the handoff: real devices, other browsers, screen readers, interactions that appear only after a click.
 
 ## Layout and responsive
 

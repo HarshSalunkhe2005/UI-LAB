@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit",
     "skill": "node tools/build-skill.mjs && node tools/validate-skill.mjs release/ui-lab.zip release/ui-lab-lite.zip && node tools/skill-budget.mjs --quiet",
     "skill:budget": "node tools/skill-budget.mjs",
-    "skill:test": "node tools/test-skill-install.mjs && node tools/tests/validate-skill.test.mjs && node tools/tests/worlds.test.mjs && node tools/tests/skill-content.test.mjs && node tools/tests/audit-ui.test.mjs"
+    "skill:test": "node tools/test-skill-install.mjs && node tools/tests/validate-skill.test.mjs && node tools/tests/worlds.test.mjs && node tools/tests/skill-content.test.mjs && node tools/tests/audit-ui.test.mjs && node tools/tests/verify.test.mjs"
   },
   "dependencies": {
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",

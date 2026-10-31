@@ -60,5 +60,7 @@ t('9 absolute windows path', () => assert.ok(failed(w({ 'ui-lab/references/a.md'
 t('9 repo path', () => assert.ok(failed(w({ 'ui-lab/references/a.md': 'read `src/router.ts` first' }), 9)))
 t('9 missing packaged file', () => assert.ok(failed(w({ 'ui-lab/references/a.md': 'see `references/nope.md`' }), 9)))
 t('9 leftover build marker', () => assert.ok(failed(w({ 'ui-lab/references/a.md': 'x {{pro}}y' }), 9)))
+t('3 process start in another script still fails', () => assert.ok(failed(w({ 'ui-lab/scripts/other.mjs': "import { spawnSync } from 'node:child_process'\nspawnSync('ls')\n" }), 3)))
+t('3 process start allowed only in scripts/verify.mjs', () => assert.ok(!failed(w({ 'ui-lab/scripts/verify.mjs': "import { spawnSync } from 'node:child_process'\nspawnSync('ls')\n" }), 3)))
 
 console.log(`validate-skill: ${n} passed${process.exitCode ? ', some FAILED' : ''}`)

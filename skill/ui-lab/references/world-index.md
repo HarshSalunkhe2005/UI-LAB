@@ -61,3 +61,11 @@
 | 1 Product Hero Scroll | a physical product that is the star, with a model or frames | no object worth looking at | `references/worlds/01-product-hero-scroll.md` |
 | 5 Cinematic Immersive | portfolios, studios, launches, games | task-first users, low-powered devices | `references/worlds/05-cinematic-immersive.md` |
 | 24 Explorable Explainer | teaching, documentation, science and data communication | nothing to manipulate | `references/worlds/24-explorable-explainer.md` |
+
+## Essentials that apply to every world
+
+The world file gives the tokens; these rules hold whichever world you chose. For depth, `typography.md`, `color.md` and `motion.md` are there when you need them.
+
+- **Type.** One display voice and one text voice, never the system default for display. Body 16 to 18 px, line height 1.5 to 1.65, measure 60 to 75 characters. Headings tighter (1.05 to 1.2). Size the display with `clamp()` and keep the hero headline to four lines or fewer at 1440. Tabular figures for any number that updates or sits in a column.
+- **Colour.** Name colours by role (surface, raised surface, ink, muted ink, accent, accent ink, border), not by hue. One accent, one meaning. Tint the neutrals toward the world's hue. Check every text pair at 4.5:1, including hover and disabled. Dark mode redefines the tokens; it does not invert the page.
+- **Motion.** State changes 150 to 250 ms, one entrance per page at 400 to 700 ms, ease-out. Animate transform and opacity. Move one thing that explains something, not a fade-up on every block. Wrap every loop and entrance in a `prefers-reduced-motion` guard.

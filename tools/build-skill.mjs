@@ -1,8 +1,7 @@
 // Builds the distributable skill from repo sources. Nothing in release/ is hand-copied.
 //
 //   skill/ui-lab/        every authored file (SKILL.md, README, references, templates, patterns, scripts, examples)
-//   src/meta*.ts         read to generate the "ideas" half of references/patterns-index.md
-//   patterns/*.html      their header comments generate patterns/INDEX.md and the packaged half of patterns-index.md
+//   patterns/*.html      their header comments generate patterns/INDEX.md
 //
 // Output: release/stage/<variant>/ui-lab/ (inspectable) and release/ui-lab.zip, release/ui-lab-lite.zip.
 // "pro" is everything; "lite" drops the parts marked {{pro}}...{{/pro}} / {{pro-line}}, the paths in LITE_EXCLUDE,
@@ -21,7 +20,7 @@ const NAME = 'ui-lab'
 
 const LITE_EXCLUDE = [
   'references/teardowns.md', 'references/briefs.md', 'references/site-types.md', 'references/glossary.md',
-  'references/patterns-index.md', 'scripts/', 'examples/',
+  'scripts/', 'examples/',
 ]
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -78,45 +77,15 @@ function patternsIndexFile(headers, variant) {
   return lines.join('\n')
 }
 
-async function patternsIndexReference(headers) {
-  const { META, CATEGORIES } = await import(pathToFileURL(join(ROOT, 'src', 'meta.ts')).href)
-  const one = (s, n) => {
-    const t = String(s).replace(/\s+/g, ' ').trim()
-    return t.length > n ? `${t.slice(0, n - 1).trimEnd()}…` : t
-  }
-  const lines = [
-    '# Pattern index',
-    '',
-    '## Packaged patterns (open these)',
-    '',
-    `${headers.length} patterns ship in \`patterns/\`. Each path below exists in this package; \`patterns/INDEX.md\` has the same list with accessibility notes.`,
-    '',
-  ]
-  for (const h of headers) lines.push(`- \`patterns/${h.pattern}.html\`: ${h.title} (${h.category}). ${one(h.when, 170)}`)
-  lines.push(
-    '',
-    '## Ideas from the wider library (names only, not bundled)',
-    '',
-    `${META.length} further patterns exist in the full UI Lab library, listed by category so you know what kinds of component, section, effect and whole-page direction exist. Their source is not in this package: use the entry as an idea and rebuild it, in the direction you chose.`,
-    '',
-  )
-  for (const cat of CATEGORIES) {
-    const items = META.filter((m) => m.category === cat)
-    if (!items.length) continue
-    lines.push(`### ${cat} (${items.length})`, '')
-    for (const m of items) lines.push(`- **${one(m.title, 60)}**: ${one(m.summary, 150)} [${(m.tags || []).slice(0, 5).join(', ')}]`)
-    lines.push('')
-  }
-  return { text: lines.join('\n'), count: META.length }
-}
-
 function applyMarkers(text, variant) {
-  if (variant === 'pro') return text.replace(/\{\{\/?pro\}\}/g, '').replace(/[ \t]*\{\{pro-line\}\}/g, '')
+  // {{lite}}...{{/lite}} is text only the lite package keeps; its pro counterpart sits in a {{pro}} span beside it
+  if (variant === 'pro') return text.replace(/\{\{lite\}\}[\s\S]*?\{\{\/lite\}\}/g, '').replace(/\{\{\/?pro\}\}/g, '').replace(/[ \t]*\{\{pro-line\}\}/g, '')
   return text
     .split('\n')
     .filter((l) => !l.includes('{{pro-line}}'))
     .join('\n')
     .replace(/[ \t]*\{\{pro\}\}[\s\S]*?\{\{\/pro\}\}/g, '')
+    .replace(/\{\{\/?lite\}\}/g, '')
 }
 
 const excluded = (path, variant) => variant === 'lite' && LITE_EXCLUDE.some((x) => (x.endsWith('/') ? path.startsWith(`${NAME}/${x}`) : path === `${NAME}/${x}`))
@@ -132,8 +101,6 @@ async function main() {
 
   // patterns: validate headers once
   const headers = [...set.keys()].filter((p) => /\/patterns\/[^/]+\.html$/.test(p)).map((p) => ({ ...parsePatternHeader(p, set.get(p)), path: p }))
-  const idx = await patternsIndexReference(headers)
-  set.set(`${NAME}/references/patterns-index.md`, idx.text)
 
   const summary = []
   for (const [variant, zipName] of [['pro', `${NAME}.zip`], ['lite', `${NAME}-lite.zip`]]) {
@@ -144,7 +111,6 @@ async function main() {
       if (excluded(path, variant)) continue
       if (/\/patterns\/[^/]+\.html$/.test(path) && !keep.some((h) => h.path === path)) continue
       let text = path.endsWith('.md') ? applyMarkers(rawText, variant) : rawText
-      if (path === `${NAME}/references/patterns-index.md`) text = idx.text.replace(/^- `patterns\/([^`]+)\.html`.*$/gm, (line, slug) => (keep.some((h) => h.pattern === slug) ? line : '')).replace(/\n{3,}/g, '\n\n')
       const data = Buffer.from(text.replace(/\r\n/g, '\n'), 'utf8')
       files.push({ name: path, data })
     }

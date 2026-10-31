@@ -29,7 +29,7 @@ Your first idea is the average of what you have seen. Name it, then leave it unl
 
 1. **Write the default.** In `design/direction.md`, one line per axis for the page you would produce if you did not think: **ground**, **type voice**, **layout grammar**, **accent strategy**, **motion**.
 2. **Check it against `references/anti-slop.md`.** It lists the 2023 defaults, the current convergent "tasteful" ones, the dense-UI ones and the defaults this very procedure tends to produce. Mark every match.
-3. **Roll, then draw two candidates from different world families.** Read `references/world-index.md` (24 worlds in 6 families, with what each fits and never fits); it is enough to choose, so do not open any world file yet. **Roll for variety:** draw a random number (for example `echo $RANDOM`, or the nanoseconds from `date +%N`; not the whole-second clock, which repeats when two runs start together), take it modulo 6, and write the number in `design/direction.md`. Families are numbered 0 to 5 in the order the index lists them. Candidate A is the best-fitting world in the first family at or after that number (wrapping round) that has a world whose "fits" column matches this brief; candidate B is the best-fitting world in the next family after that which also fits. Skip a family only when none of its worlds fit, and say so. Do not override the roll because another world feels more familiar: your taste is the thing being diversified. Pick one candidate and say why in a line. Adapt its tokens to this brand; never ship a world's hex values unchanged.
+3. **Roll, then draw two candidates from different world families.** Read `references/world-index.md` (24 worlds in 6 families, with what each fits and never fits); it is enough to choose, so do not open any world file yet. **Roll for variety:** draw a random number (for example `echo $RANDOM`, or the nanoseconds from `date +%N`; not the whole-second clock, which repeats when two runs start together), take it modulo 6, and write the number in `design/direction.md`. Families are numbered 0 to 5 in the order the index lists them. Candidate A is the best-fitting world in the first family at or after that number (wrapping round) that has a world whose "fits" column matches this brief; candidate B is the best-fitting world in the next family after that which also fits. Skip a family only when none of its worlds fit, and say so. Do not override the roll because another world feels more familiar: your taste is the thing being diversified. **A cream or off-white ground with a serif display voice (most of family 0, and any world adapted that way) needs a line of evidence from the brief, exactly as keeping a house-style default does.** It is the most common landing zone for a page that is trying to look considered, and blind reviewers keep calling it the typical one; choose it only when the brief is about reading, print, craft or heritage. Pick one candidate and say why in a line. Adapt its tokens to this brand; never ship a world's hex values unchanged.
 4. **Or defend the default.** For each axis you keep from your default, write one line of evidence from the brief. "It looks good" is not evidence. The winner must differ from your default on at least three of the five axes unless every kept axis is earned.
 5. **Different is not enough: it must be stronger.** Name the single boldest visual element on the first screen and the places where the page changes rhythm (ground, density or scale, at least twice). Austere and uniform loses to committed and varied.
 6. **Swap test.** Replace the brand name and content with a competitor's. If nothing about the design has to change, it is generic: redo steps 3 to 5.
@@ -42,7 +42,24 @@ Fill `templates/direction-card.md` into `design/direction.md`. Open only the cho
 
 ## Gate 4. Vertical slice, then build
 
-Put the tokens in `:root` first. Build the signature moment end to end with real content and real states (hover, focus, empty, error), then build outward. Semantic HTML first, then style. **Before writing any section or component, check `patterns/INDEX.md` for a match and adapt it:** take the structure and the accessibility behaviour, replace the tokens, and note in `design/direction.md` which patterns you adapted (or that none fitted). Small screens are designed, not squashed: decide at 375 what moves, what collapses and what disappears.
+Put the tokens in `:root` first. Build the signature moment end to end with real content and real states (hover, focus, empty, error), then build outward. Semantic HTML first, then style. **If the page has one of these, open the pattern and adapt it before writing your own:** take the structure and the accessibility behaviour, replace the tokens, and note in `design/direction.md` which you adapted.
+
+| The page has | Adapt this pattern file (in `patterns/`) |
+|---|---|
+| A dense, sortable table | `data-table-sortable.html` |
+| A lead figure or KPI row | `kpi-lead-figure.html` |
+| A hero that shows real evidence | `hero-evidence.html` |
+| Pricing tiers | `pricing-plain.html` |
+| A form with errors | `form-field-errors.html` |
+| An empty state | `empty-state.html` |
+| A navigation that must work at 375 | `nav-responsive.html` |
+| A product gallery | `product-gallery.html` |
+| An FAQ | `faq-details.html` |
+| A code block with a copy button | `code-block-copy.html` |
+| A toast or live status message | `toast-live.html` |
+| A docs outline that follows the scroll | `toc-scrollspy.html` |
+
+Nothing else is packaged. For anything not in the table, build it from the world's tokens. Small screens are designed, not squashed: decide at 375 what moves, what collapses and what disappears.
 
 Dense UI rules (details in `references/dense-ui.md`):
 - Lead with what needs action, not with a summary of everything.
@@ -56,11 +73,11 @@ Dense UI rules (details in `references/dense-ui.md`):
 
 Code that was never rendered is a guess. Do not write "works" or "responsive" in the handoff unless you rendered it.
 
-**Path A: you can render.** Use a browser tool, or headless Chrome or Edge with a screenshot flag (1440x900 and 375x812, and a tall height for full-page shots). Then open the screenshots and look at them. Headless browsers refuse windows narrower than about 500 px, so for the 375 view use `templates/viewport-probe.html`: it loads your page in a 375 px frame, shows every phone-screen slice side by side in one screenshot, and measures overflow, target sizes and labels. `references/verify.md` has the commands and the loop.{{pro}} Also run `node scripts/audit-ui.mjs <project-dir>` as a second pair of eyes: it reads your source and catches what a screenshot hides (missing alt text and labels, no focus style, declared colour pairs that fail contrast, no reduced-motion handling, and the house-style defaults in `references/anti-slop.md`, each tagged with its anti-slop id). Fix every critical and warning. Findings tagged heuristic come from pattern matching and can be wrong: confirm them in the render before acting.{{/pro}}
+**Path A: you can render.** {{pro}}Run one command: `node scripts/verify.mjs <project-dir>`. It runs the audit, loads your page in a local Chrome or Edge in a frame that is really 375 px wide (headless browsers refuse narrower windows, so a plain 375 screenshot comes back wider) and at 1440, measures checklist items 1 to 6 and the h1, saves screen-sized slices to `design/verify/`, and writes `design/verify.md` with the real numbers. It prints PASS or FAIL for every gate and exits non-zero on a failure. Fix every FAIL in one batch, run it again, and repeat until it exits 0 (the confirming round). Then open every slice the log lists and fill in the manual rows at the bottom of the log: contrast, keyboard, dead controls, balance. The script cannot judge a slice; you can. Do not write the log yourself: the script writes it, and a log you typed by hand is not evidence. If `scripts/verify.mjs` exits 2, no browser was found: treat that as Path B. The audit findings tagged heuristic come from pattern matching and can be wrong: confirm them in a slice before acting. Something rendering wrong? `references/fixes.md` lists each failure and the fix.{{/pro}}{{lite}}Use a browser tool, or headless Chrome or Edge with a screenshot flag, at 1440x900 and 375x812. Headless browsers refuse windows narrower than about 500 px, so for the 375 view load the page in a 375 px wide iframe or use the browser's device emulation. Open the screenshots and look at every screen-sized slice, then record the result in `design/verify.md` from `templates/verify-log.md`.{{/lite}}
 
-**Path B: you cannot render.** {{pro}}Run `node scripts/audit-ui.mjs <project-dir>` and fix every critical and warning it reports. State its limits in the handoff: it is a static lint that cannot see layout, collisions, images, overlays or the 375 px view, and its heuristic findings can be wrong. {{/pro}}Write NOT RENDERED in the handoff with the list of checks you could not do; a clean audit is not a pass of the checklist below.
+**Path B: you cannot render.** {{pro}}Run `node scripts/audit-ui.mjs <project-dir>` (verify.mjs does this and says so when it has no browser) and fix every critical and warning it reports. State its limits in the handoff: it is a static lint that cannot see layout, collisions, images, overlays or the 375 px view, and its heuristic findings can be wrong. {{/pro}}Write NOT RENDERED in the handoff with the list of checks you could not do; a clean audit is not a pass of the checklist below.
 
-Do one batched round, fix everything it found in one batch, then one confirming round, then stop. Record the result in `design/verify.md` from `templates/verify-log.md`, and paste the real output into its Evidence section: the audit's summary line, the 375 px measurements block, and one line per slice you viewed (what is in it and any defect). Defects that only show at native scale, such as a highlight crowding the line above or a badge covering a number, are found only by looking at each slice. An empty Evidence field means that step was skipped, and the handoff must say so. Something rendering wrong? Check `references/bugs.md` before debugging from scratch.
+Defects that only show at native scale, such as a highlight crowding the line above or a badge covering a number, are found only by looking at each slice. An empty manual row means that step was skipped, and the handoff must say so.
 
 Mechanical checklist, all pass/fail:
 1. Fresh load: console has zero errors and warnings you caused.
@@ -114,15 +131,11 @@ Output is `templates/critique-report.md`, filled. Rules:
 | Choosing or checking colour, building dark mode | `references/color.md` |
 | Anything moves, scrolls, loads or transitions | `references/motion.md` |
 | Forms, focus, contrast, keyboard, screen readers | `references/accessibility.md` |
-| Verification, or something renders wrong | `references/verify.md`, then `references/bugs.md` |
-| Need a hero, nav, table, chart, pricing, form, product or docs component | `patterns/INDEX.md`, then the file |
-| Wondering how a known site achieves an effect | `references/teardowns.md` | {{pro-line}}
+| Something fails verification or renders wrong | `references/fixes.md` |
+| One of the twelve situations in the Gate 4 table | that pattern file |
 | The brief is thin | `references/briefs.md` | {{pro-line}}
 | Structure for a known site type (SaaS, shop, docs, portfolio, dashboard) | `references/site-types.md` | {{pro-line}}
-| Wider list of component and section ideas | `references/patterns-index.md` | {{pro-line}}
-| A design term is unclear | `references/glossary.md` | {{pro-line}}
 | Writing an artifact | the matching file in `templates/` |
-| The 375 view, target sizes, viewing every slice without a browser tool | `templates/viewport-probe.html` |
 | Any project with source files (second pair of eyes), no browser, or seeding a critique | `scripts/audit-ui.mjs` | {{pro-line}}
 | Checking a colour pair | `scripts/contrast.mjs` | {{pro-line}}
 

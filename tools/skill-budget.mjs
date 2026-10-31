@@ -24,7 +24,7 @@ const pattern = avg('patterns', '.html')
 const base = [
   ['SKILL.md', tok('SKILL.md')], ['references/anti-slop.md', tok('references/anti-slop.md')], ['references/world-index.md', tok('references/world-index.md')],
   ['2 world files (average)', 2 * world], ['templates: brief, direction-card, verify-log, handoff', ['brief', 'direction-card', 'verify-log', 'handoff'].reduce((s, n) => s + tok(`templates/${n}.md`), 0)],
-  ['references/verify.md', tok('references/verify.md')], ['patterns/INDEX.md', tok('patterns/INDEX.md')], ['2 patterns (average)', 2 * pattern],
+  ['scripts/verify.mjs output (log + fixes.md when a gate fails)', tok('references/fixes.md') / 2], ['patterns/INDEX.md', tok('patterns/INDEX.md')], ['2 patterns (average)', 2 * pattern],
 ]
 const scenarios = {
   'Typical Build (landing page, product page)': base,
@@ -33,7 +33,7 @@ const scenarios = {
   'Critique or Redesign': [
     ['SKILL.md', tok('SKILL.md')], ['references/anti-slop.md', tok('references/anti-slop.md')], ['references/world-index.md', tok('references/world-index.md')], ['2 world files (average)', 2 * world],
     ['templates: critique-report, direction-card, verify-log, handoff', ['critique-report', 'direction-card', 'verify-log', 'handoff'].reduce((s, n) => s + tok(`templates/${n}.md`), 0)],
-    ['references/verify.md', tok('references/verify.md')], ['references/accessibility.md', tok('references/accessibility.md')],
+    ['scripts/verify.mjs output (log + fixes.md when a gate fails)', tok('references/fixes.md') / 2], ['references/accessibility.md', tok('references/accessibility.md')],
   ],
 }
 let typical = 0

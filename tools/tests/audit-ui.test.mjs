@@ -1,7 +1,7 @@
 // Tests for skill/ui-lab/scripts/audit-ui.mjs.
 //  1. every rule fires on a minimal snippet that has the problem, and a clean page produces no findings
 //  2. the generic Orbit fixture and the Phase 0 baseline pages surface their known issues
-//  3. the 32 packaged patterns and the skill-built pages in evals/runs come out nearly clean (false-positive budget)
+//  3. the 12 packaged patterns and the skill-built pages in evals/runs come out nearly clean (false-positive budget)
 //  4. CLI behaviour: exit codes and --json
 // Run: node tools/tests/audit-ui.test.mjs      (test-only: uses child_process to run the CLI, as the shipped script never does)
 import assert from 'node:assert/strict'
@@ -125,9 +125,9 @@ t('baseline 02 (dashboard) shows no h1, tiny text, system fonts, low contrast, s
 t('baseline 04 (restaurant) shows the italic accent, the ticker, blur and tiny text', () => has('evals/runs/baseline/04-restaurant-site', ['italic-serif-accent', 'marquee', 'backdrop-filter', 'tiny-text']))
 
 // false-positive budget on pages that were built with the skill and on the shipped patterns
-t('the 32 patterns: no criticals and at most 6 findings in total', () => {
+t('the 12 patterns: no criticals and at most 6 findings in total', () => {
   const r = auditPaths([join(ROOT, 'skill/ui-lab/patterns')], { fragment: true })
-  assert.equal(r.files.length, 32)
+  assert.equal(r.files.length, 12)
   assert.equal(r.summary.critical, 0)
   assert.ok(r.findings.length <= 6, `${r.findings.length}: ${r.findings.map((x) => x.rule).join(', ')}`)
 })
@@ -144,9 +144,9 @@ t('CLI exits 1 with a critical finding and 0 without; --json is valid', () => {
   const bad = spawnSync(process.execPath, [SCRIPT, join(ROOT, 'evals/fixtures/generic-landing')], { encoding: 'utf8' })
   assert.equal(bad.status, 1)
   assert.match(bad.stdout, /CRITICAL \(\d+\)/)
-  const good = spawnSync(process.execPath, [SCRIPT, join(ROOT, 'skill/ui-lab/patterns/status-chips.html'), '--fragment'], { encoding: 'utf8' })
+  const good = spawnSync(process.execPath, [SCRIPT, join(ROOT, 'skill/ui-lab/patterns/empty-state.html'), '--fragment'], { encoding: 'utf8' })
   assert.equal(good.status, 0)
-  const json = JSON.parse(execFileSync(process.execPath, [SCRIPT, join(ROOT, 'skill/ui-lab/patterns/status-chips.html'), '--fragment', '--json'], { encoding: 'utf8' }))
+  const json = JSON.parse(execFileSync(process.execPath, [SCRIPT, join(ROOT, 'skill/ui-lab/patterns/empty-state.html'), '--fragment', '--json'], { encoding: 'utf8' }))
   assert.ok(Array.isArray(json.findings) && json.summary)
   assert.equal(spawnSync(process.execPath, [SCRIPT], { encoding: 'utf8' }).status, 2)
   assert.match(spawnSync(process.execPath, [SCRIPT, '--rules'], { encoding: 'utf8' }).stdout, /purple-gradient\s+warning\s+A1\s+heuristic/)
