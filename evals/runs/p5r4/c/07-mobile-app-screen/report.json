@@ -1,0 +1,60 @@
+{
+  "375": {
+    "docWidth": 375,
+    "viewport": 375,
+    "hOverflow": false,
+    "docHeight": 812,
+    "interactive": 9,
+    "smallTargets": 0,
+    "smallSamples": [],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      false
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Archivo Black",
+      "h2": "Archivo Black",
+      "body": "Space Grotesk"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "1440": {
+    "docWidth": 1440,
+    "viewport": 1440,
+    "hOverflow": false,
+    "docHeight": 900,
+    "interactive": 9,
+    "smallTargets": 0,
+    "smallSamples": [],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      false
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Archivo Black",
+      "h2": "Archivo Black",
+      "body": "Space Grotesk"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "dir": "C:\\Users\\Harsh\\Projects\\UI-Lab\\evals\\runs\\p5r4\\c\\07-mobile-app-screen",
+  "url": "file:///C:/Users/Harsh/Projects/UI-Lab/evals/runs/p5r4/c/07-mobile-app-screen/index.html"
+}

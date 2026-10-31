@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tally - Today</title>
+<meta name="theme-color" content="#f1ece0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#f1ece0; --raised:#fffdf7; --ink:#14120d; --muted:#51493a; --accent:#ffc62e; --accent-ink:#14120d; --hot:#ff5a36; --border:#14120d;
+  --font-display:'Archivo Black','Arial Black',sans-serif; --font-text:'Space Grotesk',system-ui,sans-serif; --font-mono:'Space Mono',ui-monospace,monospace;
+  --dur-fast:100ms; --dur:200ms; --ease:cubic-bezier(.3,1.6,.5,1);
+  --bw:2.5px;
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{font-family:var(--font-text);color:var(--raised);background:#14120d;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-action:manipulation}
+:focus-visible{outline:3px solid var(--hot);outline-offset:2px}
+.stage{min-height:100%;display:grid;place-items:center;padding:24px;
+  background:
+    radial-gradient(circle at 1px 1px,#3a362b 1.2px,transparent 1.4px) 0 0/14px 14px,#14120d}
+.backdrop{position:fixed;left:max(24px,calc(50% - 560px));top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:left top;
+  font-family:var(--font-display);font-size:clamp(56px,9vw,120px);color:transparent;-webkit-text-stroke:2px #4a4535;letter-spacing:.02em;pointer-events:none;white-space:nowrap}
+.device{color:var(--ink);position:relative;width:390px;height:844px;max-height:calc(100dvh - 48px);background:var(--surface);border:var(--bw) solid var(--border);border-radius:44px;
+  box-shadow:0 0 0 10px #2a261c,0 0 0 12.5px #4a4535,14px 14px 0 12.5px var(--hot);overflow:hidden;display:flex;flex-direction:column}
+.status{flex:none;height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font:700 13px var(--font-mono)}
+.status svg{display:block}
+.notch{position:absolute;left:50%;top:10px;width:96px;height:26px;margin-left:-48px;background:var(--ink);border-radius:20px}
+.view{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:4px 20px 20px;scrollbar-width:none}
+.view::-webkit-scrollbar{display:none}
+.view[hidden]{display:none}
+header.top{display:flex;align-items:flex-end;justify-content:space-between;padding:6px 0 14px}
+.brand{font:28px/1 var(--font-display);letter-spacing:-.02em}
+.date{font:700 12px var(--font-mono);text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.hello{font:500 15px/1.3 var(--font-text);color:var(--muted);text-align:right}
+
+/* streak hero */
+.streak{position:relative;background:var(--accent);border:var(--bw) solid var(--border);box-shadow:5px 5px 0 var(--ink);padding:16px 18px 18px;margin:0 5px 0 0}
+.streak .lab{font:700 12px var(--font-mono);text-transform:uppercase;letter-spacing:.06em}
+.streak .num{display:flex;align-items:baseline;gap:10px;margin-top:2px}
+.streak .big{font:88px/.9 var(--font-display);letter-spacing:-.04em;font-variant-numeric:tabular-nums;display:inline-block}
+.streak .unit{font:700 18px var(--font-text)}
+.streak .rule{font:500 13px/1.35 var(--font-text);margin-top:10px}
+.sticker{position:absolute;right:14px;top:50px;transform:rotate(7deg);background:var(--raised);border:var(--bw) solid var(--border);padding:6px 10px;font:700 12px/1.1 var(--font-mono);text-align:center;box-shadow:3px 3px 0 var(--ink);text-transform:uppercase}
+.sticker.safe{background:var(--ink);color:var(--accent)}
+.bump{animation:bump .32s var(--ease)}
+@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.14) rotate(-2deg)}100%{transform:scale(1)}}
+
+.prog{margin-top:14px}
+.prog-head{display:flex;justify-content:space-between;align-items:baseline;font:700 12px var(--font-mono);text-transform:uppercase;letter-spacing:.04em}
+.prog-head b{font:20px var(--font-display);letter-spacing:0;text-transform:none;font-variant-numeric:tabular-nums}
+.bar{display:flex;gap:4px;margin-top:6px;height:14px}
+.bar i{flex:1;border:2px solid var(--ink);background:var(--raised);transition:background var(--dur),transform var(--dur) var(--ease)}
+.bar i.on{background:var(--ink)}
+.bar i.on.last{transform:scaleY(1.3)}
+
+/* week */
+.sect{display:flex;justify-content:space-between;align-items:baseline;margin:22px 0 8px;font:700 12px var(--font-mono);text-transform:uppercase;letter-spacing:.06em}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{display:flex;flex-direction:column;align-items:center;gap:4px;font:700 11px var(--font-mono);text-transform:uppercase;min-height:64px;padding:5px 0 6px;border:2px solid var(--ink);background:var(--raised)}
+.day .d{font:15px var(--font-display);letter-spacing:0;text-transform:none}
+.day .pip{width:22px;height:22px;border:2px solid var(--ink);background:var(--raised);overflow:hidden;position:relative}
+.day .pip s{position:absolute;left:0;right:0;bottom:0;background:var(--ink);text-decoration:none;transition:height var(--dur)}
+.day.hit .pip{background:var(--accent)}
+.day.miss .pip{background:repeating-linear-gradient(135deg,var(--raised) 0 3px,#d6cfbd 3px 5px)}
+.day.future{color:var(--muted);border-style:dashed}
+.day.future .pip{border-style:dashed}
+.day.today{background:var(--ink);color:var(--raised);box-shadow:3px 3px 0 var(--hot);transform:translate(-1px,-1px)}
+.day.today .pip{border-color:var(--raised)}
+.day.today .pip s{background:var(--accent)}
+
+/* habits */
+ul.habits{list-style:none;padding:0;display:grid;gap:10px}
+.habit{width:100%;min-height:64px;display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:12px;text-align:left;padding:10px 12px;background:var(--raised);border:var(--bw) solid var(--border);box-shadow:4px 4px 0 var(--ink);transition:transform var(--dur-fast),box-shadow var(--dur-fast),background var(--dur)}
+.habit:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.box{width:40px;height:40px;border:var(--bw) solid var(--border);display:grid;place-items:center;background:var(--surface);transition:background var(--dur)}
+.box svg{width:26px;height:26px;stroke:var(--ink);stroke-width:4;fill:none;stroke-linecap:square;stroke-dasharray:30;stroke-dashoffset:30;transition:stroke-dashoffset var(--dur) ease-out}
+.habit[aria-pressed=true]{background:var(--accent)}
+.habit[aria-pressed=true] .box{background:var(--raised)}
+.habit[aria-pressed=true] .box svg{stroke-dashoffset:0}
+.habit .nm{display:block;font:700 17px/1.2 var(--font-text)}
+.habit .sub{display:block;font:400 12px/1.3 var(--font-mono);color:var(--muted);margin-top:2px}
+.habit[aria-pressed=true] .sub{color:var(--ink)}
+.habit[aria-pressed=true] .nm{text-decoration:line-through;text-decoration-thickness:2.5px}
+.ico{width:28px;height:28px;flex:none;stroke:var(--ink);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.chip{font:700 12px var(--font-mono);border:2px solid var(--ink);padding:3px 6px;background:var(--surface);font-variant-numeric:tabular-nums;white-space:nowrap}
+.habit[aria-pressed=true] .chip{background:var(--ink);color:var(--accent)}
+.done-msg{margin-top:14px;border:var(--bw) dashed var(--ink);padding:12px;font:700 14px/1.3 var(--font-text);text-align:center}
+.done-msg[hidden]{display:none}
+
+/* stats + list */
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:var(--raised);border:var(--bw) solid var(--border);box-shadow:4px 4px 0 var(--ink);padding:12px}
+.stat b{display:block;font:36px/1 var(--font-display);font-variant-numeric:tabular-nums}
+.stat span{font:700 11px var(--font-mono);text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.chart{display:flex;align-items:flex-end;gap:8px;height:170px;border-bottom:var(--bw) solid var(--ink);padding:0 4px;margin-top:6px}
+.chart div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%;font:700 11px var(--font-mono)}
+.chart i{display:block;width:100%;background:var(--ink);border:2px solid var(--ink);min-height:3px}
+.chart .t i{background:var(--accent)}
+.chart-l{display:flex;gap:8px;padding:4px;font:700 11px var(--font-mono);text-transform:uppercase}
+.chart-l span{flex:1;text-align:center}
+.rowlist{list-style:none;padding:0;display:grid;gap:10px}
+.rowlist li{display:flex;align-items:center;gap:12px;background:var(--raised);border:var(--bw) solid var(--border);padding:10px 12px;min-height:56px;font-weight:700}
+.rowlist li em{margin-left:auto;font:700 12px var(--font-mono);font-style:normal}
+
+/* tab bar */
+nav.tabs{flex:none;display:grid;grid-template-columns:repeat(3,1fr);border-top:var(--bw) solid var(--border);background:var(--raised);padding-bottom:max(14px,env(safe-area-inset-bottom))}
+.tab{min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font:700 11px var(--font-mono);text-transform:uppercase;letter-spacing:.04em;position:relative;color:var(--muted)}
+.tab svg{width:24px;height:24px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tab[aria-selected=true]{color:var(--ink)}
+.tab[aria-selected=true]::before{content:"";position:absolute;top:-2.5px;left:18%;right:18%;height:6px;background:var(--hot);border:2px solid var(--ink)}
+.tab:active{background:var(--accent)}
+.home-ind{position:absolute;left:50%;bottom:6px;width:120px;height:5px;margin-left:-60px;background:var(--ink);border-radius:3px;pointer-events:none}
+.toast{position:absolute;left:20px;right:20px;bottom:90px;background:var(--ink);color:var(--accent);padding:10px 14px;font:700 13px var(--font-mono);border:2px solid var(--ink);transform:translateY(20px);opacity:0;pointer-events:none;transition:transform var(--dur) var(--ease),opacity var(--dur)}
+.toast.show{transform:none;opacity:1}
+
+@media (max-width:480px){
+  .stage{padding:0;display:block;background:var(--surface)}
+  .backdrop{display:none}
+  .device{width:100%;height:100dvh;max-height:none;border:0;border-radius:0;box-shadow:none}
+  .notch{display:none}
+  .status{padding:0 20px}
+  .home-ind{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="backdrop" aria-hidden="true">TALLY</div>
+  <div class="device" id="device">
+    <div class="notch" aria-hidden="true"></div>
+    <div class="status" aria-hidden="true">
+      <span id="clock">9:41</span>
+      <svg width="62" height="12" viewBox="0 0 62 12" fill="none" stroke="#14120d" stroke-width="2"><path d="M1 10V8M6 10V6M11 10V3M16 10V1" stroke-linecap="square"/><rect x="26" y="1" width="26" height="10"/><rect x="29" y="4" width="15" height="4" fill="#14120d" stroke="none"/><path d="M55 4v4" stroke-width="3"/></svg>
+    </div>
+
+    <main class="view" id="v-today" aria-labelledby="ttl">
+      <header class="top">
+        <div><div class="date" id="date">Sat 31 Oct</div><h1 class="brand" id="ttl">Today</h1></div>
+        <div class="hello" id="hello">Time to tally up.</div>
+      </header>
+
+      <section class="streak" aria-label="Streak">
+        <div class="sticker" id="sticker">Day not locked</div>
+        <div class="lab">Current streak</div>
+        <div class="num"><span class="big" id="streak">12</span><span class="unit">days</span></div>
+        <p class="rule" id="rule">Hit 4 of 6 habits to lock in today.</p>
+        <div class="prog">
+          <div class="prog-head"><span>Done today</span><b><span id="cnt">0</span>/<span id="tot">6</span></b></div>
+          <div class="bar" id="bar" role="progressbar" aria-label="Habits done today" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0"></div>
+        </div>
+      </section>
+
+      <div class="sect"><span>This week</span><span id="wkc">0 of 7 locked</span></div>
+      <div class="week" id="week" role="list" aria-label="Week"></div>
+
+      <div class="sect"><span>Today's habits</span><span>Tap to tally</span></div>
+      <ul class="habits" id="habits"></ul>
+      <p class="done-msg" id="doneMsg" hidden>All six. Close the app and go outside.</p>
+    </main>
+
+    <section class="view" id="v-stats" hidden aria-label="Stats">
+      <header class="top"><div><div class="date">This week so far</div><h2 class="brand">Stats</h2></div></header>
+      <div class="statgrid">
+        <div class="stat"><b id="s-best">0</b><span>Best streak</span></div>
+        <div class="stat"><b id="s-rate">0%</b><span>Done this week</span></div>
+      </div>
+      <div class="sect"><span>Habits per day</span><span>out of 6</span></div>
+      <div class="chart" id="chart"></div>
+      <div class="chart-l" id="chartl"></div>
+    </section>
+
+    <section class="view" id="v-habits" hidden aria-label="Habits">
+      <header class="top"><div><div class="date">Your set of six</div><h2 class="brand">Habits</h2></div></header>
+      <ul class="rowlist" id="hlist"></ul>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <nav class="tabs" role="tablist" aria-label="Tally sections">
+      <button class="tab" role="tab" data-v="today" aria-selected="true" aria-controls="v-today">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17"/><path d="M3 9h18M8 2v4M16 2v4M8 15l3 3 5-5"/></svg>Today</button>
+      <button class="tab" role="tab" data-v="stats" aria-selected="false" aria-controls="v-stats">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Stats</button>
+      <button class="tab" role="tab" data-v="habits" aria-selected="false" aria-controls="v-habits">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12M3 6h2M3 12h2M3 18h2"/></svg>Habits</button>
+    </nav>
+    <div class="home-ind" aria-hidden="true"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var NEED = 4;
+  var BASE_STREAK = 12;
+  var H = [
+    {id:'water', n:'Drink 2L water', s:'Bottle by the desk', st:12, i:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>'},
+    {id:'read', n:'Read 20 pages', s:'Before bed', st:9, i:'<path d="M3 5h7a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H3zM21 5h-7a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h7z"/>'},
+    {id:'walk', n:'Walk 30 minutes', s:'Outside, no headphones', st:12, i:'<circle cx="13" cy="4" r="2"/><path d="M12 8l-3 5 3 3v5M12 8l4 3 3 1M9 13l-3 1"/>'},
+    {id:'code', n:'One DSA problem', s:'Any difficulty', st:5, i:'<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>'},
+    {id:'sleep', n:'Phone down by 11', s:'Charger across the room', st:3, i:'<path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/>'},
+    {id:'stretch', n:'Stretch 5 minutes', s:'After waking', st:7, i:'<circle cx="12" cy="4" r="2"/><path d="M12 7v7M5 10l7 2 7-2M9 21l3-7 3 7"/>'}
+  ];
+  var PAST = [5,4,6,2,5];
+  var KEY = 'tally.v1';
+  var today = new Date(2026,9,31);
+  var state = {done:{}};
+  try { var raw = localStorage.getItem(KEY); if (raw) { var p = JSON.parse(raw); if (p && p.done) state = p; } } catch(e){}
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+
+  var $ = function(id){ return document.getElementById(id); };
+  var DN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var MN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var FULL = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  $('date').textContent = DN[today.getDay()]+' '+today.getDate()+' '+MN[today.getMonth()];
+  $('tot').textContent = H.length;
+
+  function count(){ return H.filter(function(h){ return state.done[h.id]; }).length; }
+
+  var ul = $('habits');
+  H.forEach(function(h){
+    var li = document.createElement('li');
+    li.innerHTML = '<button class="habit" type="button" aria-pressed="false" data-id="'+h.id+'">'+
+      '<span class="box" aria-hidden="true"><svg viewBox="0 0 26 26"><path d="M4 13.5l6 6L22 6"/></svg></span>'+
+      '<span><span class="nm">'+h.n+'</span><span class="sub">'+h.s+'</span></span>'+
+      '<span class="chip"></span></button>';
+    ul.appendChild(li);
+  });
+  var bar = $('bar');
+  H.forEach(function(){ bar.appendChild(document.createElement('i')); });
+  var wk = $('week');
+  var names = ['M','T','W','T','F','S','S'];
+  names.forEach(function(nm,i){
+    var el = document.createElement('div');
+    el.className = 'day'; el.setAttribute('role','listitem');
+    el.innerHTML = '<span>'+nm+'</span><span class="d">'+(26+i)+'</span><span class="pip"><s></s></span>';
+    wk.appendChild(el);
+  });
+  var hl = $('hlist');
+  H.forEach(function(h){
+    var li = document.createElement('li');
+    li.innerHTML = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">'+h.i+'</svg><span>'+h.n+'</span><em>'+h.st+' day run</em>';
+    hl.appendChild(li);
+  });
+
+  var lastCount = -1;
+  function render(){
+    var c = count(), locked = c >= NEED;
+    var streak = BASE_STREAK + (locked ? 1 : 0);
+    var st = $('streak');
+    if (st.textContent !== String(streak)) { st.textContent = streak; st.classList.remove('bump'); void st.offsetWidth; st.classList.add('bump'); }
+    $('cnt').textContent = c;
+    bar.setAttribute('aria-valuenow', c);
+    [].forEach.call(bar.children, function(b,i){ b.className = i < c ? 'on'+(i===c-1 ? ' last':'') : ''; });
+    var stk = $('sticker');
+    stk.textContent = locked ? 'Day locked' : (NEED-c)+' to lock day';
+    stk.className = 'sticker'+(locked ? ' safe':'');
+    $('rule').textContent = locked ? 'Streak is safe. Anything extra is a bonus.' : 'Hit '+NEED+' of '+H.length+' habits to lock in today.';
+    $('hello').textContent = c===0 ? 'Time to tally up.' : c===H.length ? 'Clean sheet.' : locked ? 'Locked in.' : c+' down.';
+    $('doneMsg').hidden = c !== H.length;
+    [].forEach.call(ul.querySelectorAll('.habit'), function(b){
+      var id = b.dataset.id, on = !!state.done[id];
+      var h = H.filter(function(x){return x.id===id;})[0];
+      b.setAttribute('aria-pressed', on ? 'true':'false');
+      b.querySelector('.chip').textContent = (h.st + (on?1:0)) + 'd';
+    });
+    var days = wk.children, locks = 0;
+    for (var i=0;i<7;i++){
+      var d = days[i], pip = d.querySelector('.pip'), v;
+      d.className = 'day';
+      if (i < 5){ v = PAST[i]; d.classList.add(v>=NEED?'hit':'miss'); if (v>=NEED) locks++; }
+      else if (i === 5){ v = c; d.classList.add('today'); if (locked){ d.classList.add('hit'); locks++; } }
+      else { v = 0; d.classList.add('future'); }
+      pip.querySelector('s').style.height = (v/H.length*100)+'%';
+      d.setAttribute('aria-label', FULL[i] + (i<6 ? ', '+v+' of 6 done'+(i===5?' so far':'') : ', upcoming'));
+    }
+    $('wkc').textContent = locks+' of 7 locked';
+    var ch = $('chart'), cl = $('chartl'); ch.innerHTML=''; cl.innerHTML='';
+    var series = PAST.concat([c]);
+    series.forEach(function(v,i){
+      var col = document.createElement('div'); if (i===5) col.className='t';
+      col.innerHTML = '<span>'+v+'</span><i style="height:'+(v/6*78)+'%"></i>';
+      ch.appendChild(col);
+      var l = document.createElement('span'); l.textContent = names[i]; cl.appendChild(l);
+    });
+    var tot = series.reduce(function(a,b){return a+b;},0);
+    $('s-rate').textContent = Math.round(tot/(series.length*6)*100)+'%';
+    $('s-best').textContent = Math.max(streak, 31);
+    lastCount = c;
+  }
+
+  ul.addEventListener('click', function(e){
+    var b = e.target.closest('.habit'); if (!b) return;
+    if (state.done[b.dataset.id]) delete state.done[b.dataset.id]; else state.done[b.dataset.id] = true;
+    var before = lastCount; save(); render();
+    var c = count();
+    if (before === NEED-1 && c === NEED) toast('Day locked. Streak is '+(BASE_STREAK+1)+'.');
+    else if (before === NEED && c === NEED-1) toast('Day unlocked. Streak back to '+BASE_STREAK+'.');
+  });
+
+  var tabs = [].slice.call(document.querySelectorAll('.tab'));
+  function show(v){
+    tabs.forEach(function(t){ t.setAttribute('aria-selected', t.dataset.v===v ? 'true':'false'); });
+    ['today','stats','habits'].forEach(function(n){ $('v-'+n).hidden = n!==v; });
+    $('v-'+v).scrollTop = 0;
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click', function(){ show(t.dataset.v); });
+    t.addEventListener('keydown', function(e){
+      var k = e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!k) return;
+      var n = tabs[(i+k+tabs.length)%tabs.length]; n.focus(); show(n.dataset.v);
+    });
+  });
+
+  var tt; function toast(m){ var t=$('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(tt); tt=setTimeout(function(){t.classList.remove('show');},1800); }
+  function tick(){ var d=new Date(); $('clock').textContent = d.getHours()+':'+('0'+d.getMinutes()).slice(-2); }
+  tick(); setInterval(tick, 30000);
+  render();
+})();
+</script>
+</body>
+</html>

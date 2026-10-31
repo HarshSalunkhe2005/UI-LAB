@@ -1,0 +1,48 @@
+<!doctype html><meta charset="utf-8"><title>verify probe</title>
+<style>html,body{margin:0;background:#222;overflow:hidden}</style><body><script>
+const PAGE = "file:///C:/Users/Harsh/Projects/UI-Lab/evals/runs/p5r4/a/01-saas-landing/index.html"
+const PROBE = "// Measurements that verify.mjs runs inside the rendered page (at 1440 and at 375).\n// It sets window.__probe to a plain object. Nothing here touches the network or changes the page.\nwindow.__probe = (() => {\n  const vw = innerWidth\n  const doc = document\n  const cs = (e) => getComputedStyle(e)\n  // Not visible: zero size, hidden, parked off-screen (visually-hidden text), or fully transparent.\n  const vis = (e) => {\n    const r = e.getBoundingClientRect()\n    const s = cs(e)\n    return r.width > 0 && r.height > 0 && r.right > 0 && r.bottom > 0 &&\n      s.visibility !== 'hidden' && s.display !== 'none' && s.opacity !== '0'\n  }\n  const TARGETS = 'a[href],button,input:not([type=hidden]),select,textarea,[role=button],[tabindex]:not([tabindex=\"-1\"])'\n  const inter = [...doc.querySelectorAll(TARGETS)].filter(vis)\n  // Inline text links are exempt from the 44px target rule (WCAG 2.5.8 inline exception).\n  const inlineLink = (e) => e.tagName === 'A' && cs(e).display === 'inline' && e.parentElement &&\n    [...e.parentElement.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim().length > 3)\n  const small = inter.filter((e) => {\n    const r = e.getBoundingClientRect()\n    return (r.height < 44 || r.width < 44) && !inlineLink(e)\n  })\n  // Text hidden by a collapsed or clipping ancestor is not visible, whatever its own rect says.\n  const clippedAway = (e) => {\n    const det = e.closest('details:not([open])')\n    if (det && !e.closest('summary')) return true\n    const r = e.getBoundingClientRect()\n    for (let a = e.parentElement; a && a !== doc.body; a = a.parentElement) {\n      const s = cs(a)\n      if (s.overflow !== 'visible' || s.overflowX !== 'visible' || s.overflowY !== 'visible' || s.clipPath !== 'none') {\n        const q = a.getBoundingClientRect()\n        if (q.height < 2 || q.width < 2 || r.top >= q.bottom - 1 || r.bottom <= q.top + 1 ||\n          r.left >= q.right - 1 || r.right <= q.left + 1) return true\n      }\n      if (s.opacity === '0') return true\n    }\n    return false\n  }\n  // Compare per-line client rects: a wrapped inline element's bounding box spans several lines.\n  const leaves = [...doc.querySelectorAll('body *')]\n    .filter((e) => !e.children.length && e.textContent.trim().length > 1 && vis(e) &&\n      !e.closest('[aria-hidden=true],svg,script,style') && !clippedAway(e))\n    .map((e) => ({ e, rs: [...e.getClientRects()].filter((r) => r.width > 8 && r.height > 8) }))\n    .filter((x) => x.rs.length)\n  // A position:fixed overlay (buy bar, cookie bar) sits over content that scrolls beneath it by design.\n  const fixedUp = (e) => {\n    for (let a = e; a && a !== doc.body; a = a.parentElement) if (cs(a).position === 'fixed') return true\n    return false\n  }\n  for (const l of leaves) l.fixed = fixedUp(l.e)\n  const hit = (a, b) => {\n    const w = Math.min(a.right, b.right) - Math.max(a.left, b.left)\n    const h = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top)\n    return w > 2 && h > 2 && (w * h) / Math.min(a.width * a.height, b.width * b.height) > 0.33\n  }\n  const collisions = []\n  for (let i = 0; i < leaves.length && collisions.length < 12; i++) {\n    for (let j = i + 1; j < leaves.length; j++) {\n      if (leaves[i].fixed !== leaves[j].fixed) continue\n      if (leaves[i].rs.some((a) => leaves[j].rs.some((b) => hit(a, b)))) {\n        collisions.push(leaves[i].e.textContent.trim().slice(0, 24) + ' x ' + leaves[j].e.textContent.trim().slice(0, 24))\n      }\n    }\n  }\n  const labelled = (e) => e.labels?.length || e.getAttribute('aria-label') ||\n    e.getAttribute('aria-labelledby') || e.getAttribute('title')\n  const fields = [...doc.querySelectorAll('input:not([type=hidden]):not([type=submit]):not([type=button]),select,textarea')]\n  const rules = (fn) => [...doc.styleSheets].some((s) => {\n    try { return [...s.cssRules].some(fn) } catch (e) { return false }\n  })\n  const label = (e) => e.tagName.toLowerCase() + ' \"' + (e.textContent || e.getAttribute('aria-label') || '').trim().slice(0, 24) + '\" ' +\n    Math.round(e.getBoundingClientRect().width) + 'x' + Math.round(e.getBoundingClientRect().height)\n  const h1 = [...doc.querySelectorAll('h1')]\n  return {\n    viewport: vw,\n    docWidth: doc.documentElement.scrollWidth,\n    docHeight: doc.documentElement.scrollHeight,\n    hOverflow: doc.documentElement.scrollWidth > vw + 1,\n    interactive: inter.length,\n    smallTargets: small.length,\n    smallSamples: small.slice(0, 8).map(label),\n    collisions: collisions.length,\n    collisionSamples: collisions.slice(0, 4),\n    imgsMissingAlt: [...doc.images].filter((i) => !i.hasAttribute('alt')).length,\n    inputsUnlabelled: fields.filter((e) => !labelled(e)).length,\n    hasMain: !!doc.querySelector('main,[role=main]'),\n    h1Count: h1.length,\n    h1Lines: h1[0] ? Math.round(h1[0].getBoundingClientRect().height / (parseFloat(cs(h1[0]).lineHeight) || parseFloat(cs(h1[0]).fontSize) * 1.2)) : 0,\n    hasReducedMotion: rules((r) => r.media && /prefers-reduced-motion/.test(r.media.mediaText)),\n    focusStyle: rules((r) => /:focus/.test(r.selectorText || '')),\n  }\n})()\n"
+const H = { 1440: 900, 375: 812 }
+const wait = (ms) => new Promise((r) => setTimeout(r, ms))
+function frame(w) {
+  const f = document.createElement('iframe')
+  f.style.cssText = 'position:absolute;left:0;top:0;border:0;background:#fff;width:' + w + 'px;height:' + H[w] + 'px'
+  f.src = PAGE
+  document.body.append(f)
+  return new Promise((res) => f.addEventListener('load', () => setTimeout(() => res(f), 700)))
+}
+async function reveal(f) {
+  const win = f.contentWindow
+  const total = win.document.documentElement.scrollHeight
+  for (let y = 0; y < total; y += 400) { win.scrollTo(0, y); await wait(100) }
+  win.scrollTo(0, 0)
+  await wait(500)
+}
+async function measure() {
+  const out = {}
+  for (const w of [1440, 375]) {
+    const f = await frame(w)
+    try {
+      await reveal(f)
+      const s = f.contentDocument.createElement('script')
+      s.textContent = PROBE
+      f.contentDocument.head.append(s)
+      out[w] = f.contentWindow.__probe
+    } catch (e) { out[w] = { error: String(e) } }
+    f.remove()
+  }
+  const el = document.createElement('script')
+  el.type = 'application/json'
+  el.id = 'result'
+  el.textContent = JSON.stringify(out)
+  document.body.append(el)
+}
+async function slice(w, i) {
+  const f = await frame(w)
+  await reveal(f)
+  f.contentWindow.scrollTo(0, i * H[w])
+  await wait(600)
+}
+const m = location.hash.match(/shot=(\d+),(\d+)/)
+if (m) slice(Number(m[1]), Number(m[2])); else measure()
+</script>

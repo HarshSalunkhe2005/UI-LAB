@@ -1,0 +1,60 @@
+{
+  "375": {
+    "docWidth": 375,
+    "viewport": 375,
+    "hOverflow": false,
+    "docHeight": 9928,
+    "interactive": 16,
+    "smallTargets": 0,
+    "smallSamples": [],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Newsreader",
+      "h2": "Newsreader",
+      "body": "Libre Franklin"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "1440": {
+    "docWidth": 1425,
+    "viewport": 1440,
+    "hOverflow": false,
+    "docHeight": 6081,
+    "interactive": 20,
+    "smallTargets": 0,
+    "smallSamples": [],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Newsreader",
+      "h2": "Newsreader",
+      "body": "Libre Franklin"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "dir": "C:\\Users\\Harsh\\Projects\\UI-Lab\\evals\\runs\\p5r4\\a\\01-saas-landing",
+  "url": "file:///C:/Users/Harsh/Projects/UI-Lab/evals/runs/p5r4/a/01-saas-landing/index.html"
+}

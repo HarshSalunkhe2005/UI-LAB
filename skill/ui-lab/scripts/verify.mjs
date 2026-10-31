@@ -37,7 +37,7 @@ if (!existsSync(pagePath)) { console.error(`No index.html in ${abs}`); process.e
 const root = isDir ? abs : dirname(abs)
 const outDir = resolve(opt('--out', join(root, 'design', 'verify')))
 const logPath = join(dirname(outDir), 'verify.md')
-const MAX = Math.max(1, Number(opt('--slices', 8)))
+const MAX = Math.max(1, Number(opt('--slices', 12)))
 mkdirSync(outDir, { recursive: true })
 
 // ---- 1. audit ----------------------------------------------------------------------------------------------------
@@ -57,7 +57,8 @@ const CANDIDATES = [
 ].filter(Boolean)
 const browser = CANDIDATES.find((p) => existsSync(p))
 
-const profile = join(tmpdir(), 'ui-lab-verify-profile')
+// one browser profile per run: two runs at once must not share one (the second would get no measurement)
+const profile = join(tmpdir(), `ui-lab-verify-${process.pid}`)
 const FLAGS = ['--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check', '--allow-file-access-from-files',
   `--user-data-dir=${profile}`, '--enable-logging=stderr', '--v=0']
 const run = (extra, url) => spawnSync(browser, [...FLAGS, ...extra, url], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, timeout: 120000 })
@@ -121,8 +122,11 @@ let consoleErrors = { 1440: [], 375: [] }
 const notes = []
 const slices = []
 if (browser) {
-  const r = run(['--virtual-time-budget=40000', '--window-size=1500,1000', '--dump-dom'], probeUrl)
-  const m = (r.stdout || '').match(/<script type="application\/json" id="result">([\s\S]*?)<\/script>/)
+  let r, m
+  for (let attempt = 0; attempt < 2 && !m; attempt++) {
+    r = run(['--virtual-time-budget=40000', '--window-size=1500,1000', '--dump-dom'], probeUrl)
+    m = (r.stdout || '').match(/<script type="application\/json" id="result">([\s\S]*?)<\/script>/)
+  }
   if (m) { try { probe = JSON.parse(m[1].replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')) } catch { probe = null } }
   // Console lines: [pid:tid:date:LEVEL:CONSOLE(n)] "message", source: file (line). Resource failures from the network are
   // reported as notes, not failures: this check runs offline-tolerant.

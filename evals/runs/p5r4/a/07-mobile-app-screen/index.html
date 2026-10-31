@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tally - Today</title>
+<meta name="theme-color" content="#2b2140">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#fff1d6; --raised:#ffffff; --ink:#2b2140; --ink-muted:#5f5479; --border:#e8d3ae;
+  --coral:#ff6b4a; --lemon:#ffd23f; --mint:#7fe0b5; --sky:#8ecbff; --pink:#ffa6c9; --lilac:#c9bcff; --peach:#ffb08f;
+  --font-display:'Bricolage Grotesque','Nunito',system-ui,sans-serif; --font-text:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --radius:28px; --dur-fast:150ms; --dur:420ms; --ease:cubic-bezier(.34,1.56,.64,1);
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{font-family:var(--font-text);color:#fff;background:#1d1630;-webkit-tap-highlight-color:transparent;overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;box-shadow:0 0 0 6px var(--lemon)}
+.stage{height:100dvh;display:grid;place-items:center;padding:24px;
+  background:#1d1630}
+.device{position:relative;width:390px;height:min(844px,calc(100dvh - 48px));border-radius:52px;padding:10px;background:#0f0a1b;
+  box-shadow:0 0 0 2px #4a3d68,0 40px 80px rgba(0,0,0,.5)}
+.screen{color:var(--ink);position:relative;height:100%;border-radius:42px;overflow:hidden;background:var(--surface);display:flex;flex-direction:column}
+.status{flex:none;height:44px;display:flex;align-items:center;justify-content:space-between;padding:6px 26px 0;font-weight:800;font-size:15px;background:var(--coral)}
+.status svg{display:block}
+.status .icons{display:flex;gap:6px;align-items:center}
+.scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+
+/* hero slab */
+.hero{background:var(--coral);padding:8px 20px 28px;border-radius:0 0 36px 36px;position:relative}
+.top{display:flex;align-items:center;justify-content:space-between;min-height:48px}
+.top p{font-weight:800;font-size:14px}
+h1{font-family:var(--font-display);font-weight:800;font-size:2rem;line-height:1.1;letter-spacing:-.02em}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--lemon);display:grid;place-items:center;font-family:var(--font-display);font-weight:800;font-size:18px}
+.streak{display:flex;align-items:center;gap:14px;margin-top:14px}
+.flame{width:84px;height:84px;flex:none;transition:transform var(--dur) var(--ease),filter var(--dur)}
+.flame .outer{fill:var(--ink)} .flame .inner{fill:var(--lemon);transition:opacity var(--dur-fast)}
+.flame.dim .inner{opacity:.25}
+.flame.pop{animation:pop .6s var(--ease)}
+@keyframes pop{0%{transform:scale(.7) rotate(-8deg)}60%{transform:scale(1.18) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
+.count{font-family:var(--font-display);font-weight:800;font-size:6.5rem;line-height:.85;letter-spacing:-.05em;font-variant-numeric:tabular-nums;display:inline-block}
+.count.pop{animation:pop .6s var(--ease)}
+.unit{font-weight:800;font-size:1.0625rem;line-height:1.2}
+.unit small{display:block;font-weight:700;font-size:.875rem;margin-top:4px}
+.prog{display:flex;align-items:center;gap:12px;margin-top:20px;background:var(--ink);color:#fff;border-radius:22px;padding:12px 16px}
+.ring{flex:none}
+.ring .t{stroke:rgba(255,255,255,.2)} .ring .p{stroke:var(--lemon);stroke-linecap:round;transition:stroke-dashoffset var(--dur) var(--ease);transform:rotate(-90deg);transform-origin:50% 50%}
+.prog b{font-family:var(--font-display);font-size:1.375rem;font-variant-numeric:tabular-nums;display:block;line-height:1.1}
+.prog span{font-size:.875rem;font-weight:700;color:#e9e3f7}
+
+/* week strip */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;list-style:none;padding:20px 12px 4px}
+.day{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0;border-radius:20px;font-weight:800;font-size:.8125rem;color:var(--ink-muted)}
+.day .n{font-family:var(--font-display);font-size:1.0625rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.day.today{background:var(--ink);color:#fff}
+.day.today .n{color:#fff}
+.dot{width:28px;height:28px;display:block}
+.dot circle{fill:none;stroke-width:4}
+.dot .t{stroke:var(--border)} .day.today .dot .t{stroke:rgba(255,255,255,.25)}
+.dot .p{stroke:var(--coral);stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset var(--dur) var(--ease)}
+.day.today .dot .p{stroke:var(--lemon)}
+.day.future .dot{opacity:.45}
+
+/* habits */
+.sec{display:flex;align-items:baseline;justify-content:space-between;padding:20px 20px 10px}
+h2{font-family:var(--font-display);font-weight:800;font-size:1.375rem;letter-spacing:-.01em}
+.sec span{font-weight:800;font-size:.875rem;color:var(--ink-muted)}
+ul.habits{list-style:none;display:grid;gap:10px;padding:0 16px 24px}
+.habit{width:100%;min-height:72px;display:flex;align-items:center;gap:14px;padding:10px 14px 10px 10px;border-radius:var(--radius);background:var(--raised);border:2px solid var(--border);
+  transition:background var(--dur-fast),border-color var(--dur-fast),transform var(--dur) var(--ease)}
+.habit:active{transform:scale(.97)}
+.ic{flex:none;width:52px;height:52px;border-radius:20px;display:grid;place-items:center;background:var(--c)}
+.ic svg{width:28px;height:28px;stroke:var(--ink);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.txt{flex:1;min-width:0}
+.txt b{display:block;font-family:var(--font-display);font-weight:800;font-size:1.125rem;line-height:1.2}
+.txt small{display:block;font-size:.875rem;font-weight:700;color:var(--ink-muted);margin-top:2px}
+.box{flex:none;width:36px;height:36px;border-radius:50%;border:3px solid var(--ink);display:grid;place-items:center;background:transparent;transition:background var(--dur-fast),transform var(--dur) var(--ease)}
+.box svg{width:20px;height:20px;stroke:var(--surface);fill:none;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset var(--dur) var(--ease)}
+.habit[aria-checked="true"]{background:var(--c);border-color:var(--ink)}
+.habit[aria-checked="true"] .ic{background:var(--ink)}
+.habit[aria-checked="true"] .ic svg{stroke:var(--c)}
+.habit[aria-checked="true"] .txt small{color:var(--ink)}
+.habit[aria-checked="true"] .box{background:var(--ink);transform:scale(1.08)}
+.habit[aria-checked="true"] .box svg{stroke-dashoffset:0}
+.habit[aria-checked="true"] .txt b{text-decoration:line-through;text-decoration-thickness:2px}
+
+/* tab bar */
+.tabs{flex:none;display:grid;grid-template-columns:repeat(4,1fr);background:var(--ink);padding:8px 10px calc(14px + env(safe-area-inset-bottom));border-radius:28px 28px 0 0}
+.tab{min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-weight:800;font-size:.75rem;color:#d9d1ee;border-radius:18px;transition:color var(--dur-fast)}
+.tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.tab[aria-current="page"]{color:var(--lemon)}
+.tab[aria-current="page"] svg{fill:rgba(255,210,63,.2)}
+.tab:focus-visible{outline-color:var(--lemon);box-shadow:none}
+
+.toast{position:absolute;left:50%;bottom:92px;transform:translate(-50%,20px);background:var(--ink);color:#fff;border:2px solid var(--lemon);padding:10px 16px;border-radius:999px;font-weight:800;font-size:.875rem;opacity:0;pointer-events:none;transition:opacity var(--dur-fast),transform var(--dur) var(--ease);white-space:nowrap;z-index:5}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.spark{position:absolute;width:10px;height:10px;border-radius:50%;pointer-events:none;z-index:6}
+
+@media (max-width:500px){
+  .stage{padding:0;display:block}
+  .device{width:100%;height:100dvh;border-radius:0;padding:0;box-shadow:none;background:none}
+  .screen{border-radius:0}
+  .status{display:none}
+  .hero{padding-top:max(8px,env(safe-area-inset-top))}
+}
+@media (max-width:359px){.count{font-size:5.25rem}.flame{width:64px;height:64px}}
+@media (max-height:640px) and (min-width:501px){.device{height:calc(100dvh - 24px)}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .spark{display:none}
+}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="device">
+    <div class="screen">
+      <div class="status" aria-hidden="true">
+        <span>9:41</span>
+        <span class="icons">
+          <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="#2b2140"/><rect x="5" y="5" width="3" height="7" rx="1" fill="#2b2140"/><rect x="10" y="2" width="3" height="10" rx="1" fill="#2b2140"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#2b2140"/></svg>
+          <svg width="26" height="12" viewBox="0 0 26 12"><rect x=".75" y=".75" width="21" height="10.5" rx="3.5" fill="none" stroke="#2b2140" stroke-width="1.5"/><rect x="3" y="3" width="15" height="6" rx="2" fill="#2b2140"/><rect x="23.5" y="4" width="2" height="4" rx="1" fill="#2b2140"/></svg>
+        </span>
+      </div>
+
+      <main class="scroll" id="scroll">
+        <header class="hero">
+          <div class="top">
+            <div><p id="dateline">Saturday, 31 Oct</p><h1>Today</h1></div>
+            <div class="avatar" aria-hidden="true">H</div>
+          </div>
+          <div class="streak">
+            <svg class="flame" id="flame" viewBox="0 0 64 64" aria-hidden="true">
+              <path class="outer" d="M33 4c2 10 11 15 15 25 4 10-1 27-16 27S12 44 14 33c1-6 5-9 7-14 1 5 4 7 7 7 3-5 3-14 5-22z"/>
+              <path class="inner" d="M32 32c1 6 8 9 8 16 0 5-4 8-8 8s-8-3-8-8c0-5 4-7 5-11 1 2 2 3 3 3z"/>
+            </svg>
+            <div>
+              <span class="count" id="streak" aria-live="polite">11</span>
+            </div>
+            <div class="unit">day streak<small id="streakNote">Finish all to make it 12</small></div>
+          </div>
+          <div class="prog">
+            <svg class="ring" width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
+              <circle class="t" cx="26" cy="26" r="21" fill="none" stroke-width="6"/>
+              <circle class="p" id="ring" cx="26" cy="26" r="21" fill="none" stroke-width="6" stroke-dasharray="131.95" stroke-dashoffset="131.95"/>
+            </svg>
+            <div><b id="progNum">0 of 6</b><span id="progText">habits done today</span></div>
+          </div>
+        </header>
+
+        <ol class="week" id="week" aria-label="This week"></ol>
+
+        <div class="sec"><h2>Today's habits</h2><span id="left">6 left</span></div>
+        <ul class="habits" id="habits"></ul>
+      </main>
+
+      <div class="toast" id="toast" role="status"></div>
+
+      <nav class="tabs" aria-label="Main">
+        <button class="tab" data-tab="today" aria-current="page"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="4"/><path d="M8 3v4M16 3v4M8.5 13l2.5 2.5 4.5-5"/></svg>Today</button>
+        <button class="tab" data-tab="habits"><svg viewBox="0 0 24 24"><path d="M5 6h14M5 12h14M5 18h9"/></svg>Habits</button>
+        <button class="tab" data-tab="stats"><svg viewBox="0 0 24 24"><path d="M5 20V12M12 20V5M19 20v-5"/></svg>Stats</button>
+        <button class="tab" data-tab="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.7"/><path d="M4.5 20.5c.8-4 3.7-6 7.5-6s6.7 2 7.5 6"/></svg>Me</button>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var BASE = 11; // days in a row up to yesterday
+  var C = 2*Math.PI*21; // ring circumference
+  var habits = [
+    {id:'water', name:'Drink 8 glasses', sub:'Hydration', c:'var(--sky)', ico:'<path d="M12 3.5c3.2 4 5.5 6.8 5.5 10a5.5 5.5 0 0 1-11 0c0-3.2 2.3-6 5.5-10z"/>', run:14, done:false},
+    {id:'read', name:'Read 20 pages', sub:'Before bed', c:'var(--lilac)', ico:'<path d="M4 5.5C7 4.5 10 5 12 7c2-2 5-2.500 8-1.500V19c-3-1-6-.5-8 1.500C10 18.500 7 18 4 19z"/><path d="M12 7v13"/>', run:6, done:false},
+    {id:'walk', name:'Walk 6,000 steps', sub:'Outside, ideally', c:'var(--mint)', ico:'<circle cx="13" cy="4.500" r="1.800"/><path d="M11 21l2-6-3-3 1-5 4 2 3 1M8 12l-2 3M13 15l3 6"/>', run:11, done:false},
+    {id:'stretch', name:'Stretch for 10 min', sub:'Morning', c:'var(--pink)', ico:'<circle cx="12" cy="5" r="2"/><path d="M12 8v6M5 9.500l7 2 7-2M9 21l3-7 3 7"/>', run:3, done:false},
+    {id:'journal', name:'Write 3 lines', sub:'Journal', c:'var(--lemon)', ico:'<path d="M4 20l1-4L16.500 4.500a2.100 2.100 0 0 1 3 3L8 19z"/><path d="M14 7l3 3"/>', run:9, done:false},
+    {id:'sleep', name:'Lights out by 11', sub:'Wind down', c:'var(--peach)', ico:'<path d="M20 14.500A8 8 0 1 1 9.500 4a6.500 6.500 0 0 0 10.500 10.500z"/>', run:5, done:false}
+  ];
+  // earlier days this week, fraction done (Mon..Fri)
+  var prior = [
+    {d:'M',n:26,f:1},{d:'T',n:27,f:1},{d:'W',n:28,f:1},{d:'T',n:29,f:1},{d:'F',n:30,f:1},
+    {d:'S',n:31,today:true},{d:'S',n:1,future:true}
+  ];
+  var KEY='tally-today-v1';
+  try{var s=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(s&&s.date===new Date().toDateString()){habits.forEach(function(h){h.done=!!s.d[h.id];});}
+  }catch(e){}
+  var $=function(id){return document.getElementById(id)};
+  var NS='http://www.w3.org/2000/svg';
+
+  function ringSvg(f){
+    return '<svg class="dot" viewBox="0 0 28 28" aria-hidden="true"><circle class="t" cx="14" cy="14" r="11"/><circle class="p" cx="14" cy="14" r="11" stroke-dasharray="'+(2*Math.PI*11).toFixed(2)+'" stroke-dashoffset="'+((1-f)*2*Math.PI*11).toFixed(2)+'"/></svg>';
+  }
+  // week strip
+  var weekEl=$('week');
+  prior.forEach(function(p){
+    var li=document.createElement('li');
+    li.className='day'+(p.today?' today':'')+(p.future?' future':'');
+    var state=p.today?'today':(p.future?'upcoming':'all habits done');
+    li.setAttribute('aria-label',p.d+' '+p.n+', '+state);
+    li.innerHTML='<span>'+p.d+'</span><span class="n">'+p.n+'</span>'+ringSvg(p.f||0);
+    if(p.today) li.id='todayCell';
+    weekEl.appendChild(li);
+  });
+  var todayRing=function(){return $('todayCell').querySelector('.p')};
+
+  // habit rows
+  var list=$('habits');
+  habits.forEach(function(h){
+    var li=document.createElement('li');
+    li.innerHTML='<button class="habit" role="checkbox" aria-checked="false" data-id="'+h.id+'" style="--c:'+h.c+'">'+
+      '<span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">'+h.ico+'</svg></span>'+
+      '<span class="txt"><b>'+h.name+'</b><small></small></span>'+
+      '<span class="box"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.500l4 4 8-9"/></svg></span></button>';
+    h.el=li.firstChild;
+    list.appendChild(li);
+  });
+
+  var prevAll=null, prevStreak=null;
+  function render(firstRun, burstFrom){
+    var n=habits.filter(function(h){return h.done}).length, tot=habits.length, all=n===tot;
+    habits.forEach(function(h){
+      h.el.setAttribute('aria-checked',h.done);
+      h.el.querySelector('small').textContent=(h.done?'Done · ':'')+h.sub+' · '+(h.run+(h.done?1:0))+(h.run+(h.done?1:0)===1?' day':' days');
+    });
+    var streak=BASE+(all?1:0);
+    var sEl=$('streak');
+    if(String(streak)!==sEl.textContent){
+      sEl.textContent=streak;
+      if(!firstRun){sEl.classList.remove('pop');void sEl.offsetWidth;sEl.classList.add('pop');
+        var f=$('flame');f.classList.remove('pop');void f.offsetWidth;f.classList.add('pop');}
+    }
+    $('flame').classList.toggle('dim',!all);
+    $('streakNote').textContent=all?'Streak extended. Nice.':(tot-n===1?'1 more to make it '+(BASE+1):'Finish all to make it '+(BASE+1));
+    $('ring').style.strokeDashoffset=(C*(1-n/tot)).toFixed(2);
+    todayRing().style.strokeDashoffset=(2*Math.PI*11*(1-n/tot)).toFixed(2);
+    $('progNum').textContent=n+' of '+tot;
+    $('progText').textContent=all?'all done, see you tomorrow':(n===0?'habits done today':'habits done today');
+    $('left').textContent=all?'All done':(tot-n)+' left';
+    $('todayCell').setAttribute('aria-label','S 31, today, '+n+' of '+tot+' done');
+    try{var d={};habits.forEach(function(h){d[h.id]=h.done});localStorage.setItem(KEY,JSON.stringify({date:new Date().toDateString(),d:d}))}catch(e){}
+    if(all&&!firstRun&&burstFrom) burst(burstFrom);
+  }
+
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+  function burst(el){
+    if(reduce.matches) return;
+    var screen=document.querySelector('.screen'), r=el.getBoundingClientRect(), sr=screen.getBoundingClientRect();
+    var cols=['#ff6b4a','#ffd23f','#7fe0b5','#8ecbff','#ffa6c9','#c9bcff'];
+    for(var i=0;i<18;i++){
+      var s=document.createElement('i');s.className='spark';
+      var x=r.left-sr.left+r.width-34, y=r.top-sr.top+r.height/2;
+      s.style.cssText='left:'+x+'px;top:'+y+'px;background:'+cols[i%6];
+      screen.appendChild(s);
+      var a=Math.random()*Math.PI*2, d=50+Math.random()*80;
+      s.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+Math.cos(a)*d+'px,'+(Math.sin(a)*d-30)+'px) scale(.2)',opacity:0}],{duration:700+Math.random()*300,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=(function(n){return function(){n.remove()}})(s);
+    }
+  }
+
+  list.addEventListener('click',function(e){
+    var b=e.target.closest('.habit'); if(!b) return;
+    var h=habits.filter(function(x){return x.id===b.dataset.id})[0];
+    h.done=!h.done;
+    render(false,h.done?b:null);
+    if(navigator.vibrate){try{navigator.vibrate(h.done?12:6)}catch(e){}}
+  });
+
+  // tabs
+  var toast=$('toast'),tt;
+  function say(m){toast.textContent=m;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('show')},1800)}
+  var labels={habits:'Habits',stats:'Stats',me:'Me'};
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      if(t.dataset.tab==='today'){$('scroll').scrollTo({top:0,behavior:reduce.matches?'auto':'smooth'});return;}
+      say(labels[t.dataset.tab]+' opens in the full app');
+    });
+  });
+
+  var d=new Date();
+  render(true,null);
+})();
+</script>
+</body>
+</html>

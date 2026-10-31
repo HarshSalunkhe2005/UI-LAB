@@ -1,0 +1,4 @@
+# Direction
+Roll: 16643 mod 6 = 5 (Cinematic). Candidate A: World 1 Product Hero Scroll (family 5). Candidate B: World 22 Blueprint (family 3; families 0-2 skipped, none fit a trust-led buy page without cream/serif or brutalism). Chosen: World 1, adapted: flat saturated stage colour per bag colour (complement of the bag), Anton + Hanken Grotesk, calm cream buy panel, ink band for the cutaway.
+Default (rejected): cream ground, serif display, centred card grid, single blue accent, fade-up motion. Changed: ground, type voice, accent (one signal orange for buying only), layout (gallery sticky vs. buy column), rhythm (stage / cream / ink band / raised / cream).
+Boldest element: the stage with the oversized ATLAS word behind the bag, which re-colours with the swatch. Refusals: no dark gradient hero, no glass cards, no second competing animation.
