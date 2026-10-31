@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14160f">
+<title>Tally: Today</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#14160f;        /* app ground, green-black */
+  --raised:#1f2217;        /* rows */
+  --raised-2:#2a2e20;
+  --ink:#f3f0e4;
+  --ink-muted:#a9ab98;
+  --line:#33372a;
+  --accent:#ffb224;        /* tally amber, the one signal colour */
+  --accent-ink:#1a1405;
+  --done:#c9e265;          /* completed state */
+  --display:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --dur-fast:120ms; --dur:260ms; --ease:cubic-bezier(.2,.8,.2,1);
+  --r:18px;
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{
+  font-family:var(--body);color:var(--ink);background:#0b0c07;
+  -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
+  display:grid;place-items:center;overflow:hidden;
+}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-action:manipulation}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:10px}
+
+/* ---------- device frame (desktop) ---------- */
+.device{
+  width:430px;height:min(880px,100dvh - 32px);padding:14px;border-radius:62px;
+  background:#050604;box-shadow:0 0 0 2px #2b2e22,0 40px 90px rgba(0,0,0,.6);
+}
+.screen{
+  position:relative;width:100%;height:100%;border-radius:48px;overflow:hidden;
+  background:var(--ground);display:flex;flex-direction:column;
+}
+.status{
+  flex:none;height:46px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;
+  font:600 15px var(--body);font-variant-numeric:tabular-nums;
+}
+.status .notch{position:absolute;left:50%;top:10px;transform:translateX(-50%);width:104px;height:28px;border-radius:20px;background:#000}
+.status svg{height:12px;fill:var(--ink)}
+/* ---------- phone viewport: full bleed, no frame ---------- */
+@media (max-width:520px),(max-height:620px){
+  body{display:block;background:var(--ground)}
+  .device{width:100%;height:100dvh;padding:0;border-radius:0;background:none;box-shadow:none}
+  .screen{border-radius:0}
+  .status{display:none}
+}
+
+/* ---------- views ---------- */
+.views{flex:1;min-height:0;position:relative}
+.view{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;padding:8px 20px 24px;
+  opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease),visibility 0s var(--dur)}
+.view.on{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.view::-webkit-scrollbar{width:0}
+
+h1,h2.h1{font:800 30px/1.05 var(--display);letter-spacing:-.02em}
+.date{color:var(--ink-muted);font-size:14px;margin-bottom:2px}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--raised-2);display:grid;place-items:center;font:700 16px var(--display);flex:none}
+
+/* ---------- streak slab: the loud block ---------- */
+.slab{
+  background:var(--accent);color:var(--accent-ink);border-radius:26px;padding:18px 20px 18px;
+  position:relative;overflow:hidden;
+}
+.slab .row{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.slab .lbl{font:600 13px var(--body);letter-spacing:.02em;text-transform:uppercase;opacity:.75}
+.streak-num{font:800 112px/.82 var(--display);letter-spacing:-.05em;font-variant-numeric:tabular-nums;display:inline-block;margin-top:10px}
+.streak-num.bump{animation:bump 480ms var(--ease)}
+@keyframes bump{0%{transform:scale(1)}35%{transform:scale(1.12) rotate(-2deg)}100%{transform:scale(1)}}
+.slab .unit{font:700 22px var(--display);margin-left:6px}
+.tally{height:74px;width:auto;flex:none;stroke:var(--accent-ink);stroke-width:5;stroke-linecap:round;fill:none}
+.tally .t{transition:opacity var(--dur) var(--ease)}
+.slab .msg{margin-top:14px;font:500 15px/1.3 var(--body);min-height:20px}
+
+/* ---------- week strip ---------- */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:18px 0 8px}
+.day{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0 6px;border-radius:16px;font-size:12px;color:var(--ink-muted)}
+.day b{font:700 15px var(--display);color:var(--ink);font-variant-numeric:tabular-nums}
+.day.today{background:var(--raised-2)}
+.day.future b{color:var(--ink-muted);font-weight:500}
+.ring{width:26px;height:26px}
+.ring circle{fill:none;stroke-width:3.5}
+.ring .bg{stroke:var(--line)}
+.ring .fg{stroke:var(--done);stroke-linecap:round;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset var(--dur) var(--ease)}
+.day.today .ring .fg{stroke:var(--accent)}
+
+/* ---------- progress + habit list ---------- */
+.sec{display:flex;align-items:baseline;justify-content:space-between;margin:20px 0 10px}
+h2{font:700 19px var(--display);letter-spacing:-.01em}
+.count{font:600 14px var(--body);color:var(--ink-muted);font-variant-numeric:tabular-nums}
+.count b{color:var(--ink)}
+.bar{display:flex;gap:5px;margin-bottom:14px}
+.bar i{flex:1;height:8px;border-radius:4px;background:var(--line);transition:background var(--dur-fast) var(--ease)}
+.bar i.on{background:var(--done)}
+
+ul.habits{list-style:none;padding:0;display:grid;gap:10px}
+.habit{
+  width:100%;min-height:68px;display:flex;align-items:center;gap:14px;text-align:left;
+  padding:10px 16px 10px 12px;border-radius:var(--r);background:var(--raised);
+  border:1.5px solid transparent;
+  transition:transform var(--dur-fast) var(--ease),background var(--dur) var(--ease),border-color var(--dur) var(--ease);
+}
+.habit:active{transform:scale(.975)}
+.ico{width:44px;height:44px;border-radius:14px;background:var(--raised-2);display:grid;place-items:center;flex:none;transition:background var(--dur) var(--ease)}
+.ico svg{width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.habit .txt{flex:1;min-width:0}
+.habit .name{display:block;font:600 16.5px/1.2 var(--body)}
+.habit .sub{display:block;font-size:13px;color:var(--ink-muted);margin-top:2px}
+.check{width:32px;height:32px;border-radius:50%;border:2px solid #5a5e49;display:grid;place-items:center;flex:none;transition:background var(--dur-fast),border-color var(--dur-fast)}
+.check svg{width:18px;height:18px;stroke:var(--ground);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset var(--dur) var(--ease)}
+.habit[aria-checked="true"]{background:#232a17;border-color:#4b5a24}
+.habit[aria-checked="true"] .name{color:var(--ink-muted);text-decoration:line-through;text-decoration-thickness:1.5px}
+.habit[aria-checked="true"] .check{background:var(--done);border-color:var(--done)}
+.habit[aria-checked="true"] .check svg{stroke-dashoffset:0}
+.habit[aria-checked="true"] .ico{background:#33401b}
+
+/* ---------- tab bar ---------- */
+.tabbar{
+  flex:none;display:grid;grid-template-columns:repeat(3,1fr);
+  padding:6px 10px calc(10px + env(safe-area-inset-bottom));
+  background:#0f110a;border-top:1px solid var(--line);
+}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:56px;border-radius:14px;color:var(--ink-muted);font:600 11.5px var(--body);transition:color var(--dur-fast)}
+.tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tab[aria-selected="true"]{color:var(--accent)}
+.tab[aria-selected="true"] svg{fill:rgba(255,178,36,.18)}
+
+/* ---------- stats + me ---------- */
+.stat-card{background:var(--raised);border-radius:var(--r);padding:14px 16px;margin-bottom:10px}
+.stat-card .head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.stat-card .head span{font:600 15.5px var(--body)}
+.stat-card .head em{font-style:normal;color:var(--ink-muted);font-size:13px;font-variant-numeric:tabular-nums}
+.dots{display:flex;gap:6px}
+.dots i{flex:1;height:26px;border-radius:7px;background:var(--line)}
+.dots i.on{background:var(--done)}
+.dots i.today{outline:2px solid var(--accent);outline-offset:1px}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.big div{background:var(--raised);border-radius:var(--r);padding:14px 16px}
+.big strong{display:block;font:800 40px/1 var(--display);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.big span{font-size:13px;color:var(--ink-muted)}
+.setting{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:60px;padding:8px 16px;background:var(--raised);border-radius:var(--r);margin-bottom:10px;text-align:left}
+.setting small{display:block;color:var(--ink-muted);font-size:13px}
+.sw{width:50px;height:30px;border-radius:15px;background:var(--line);position:relative;flex:none;transition:background var(--dur-fast)}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--ink);transition:transform var(--dur) var(--ease)}
+.setting[aria-checked="true"] .sw{background:var(--accent)}
+.setting[aria-checked="true"] .sw::after{transform:translateX(20px);background:var(--accent-ink)}
+.link{color:var(--accent);font-weight:600;min-height:44px;padding:0 4px}
+
+.toast{position:absolute;left:50%;bottom:92px;transform:translate(-50%,16px);background:var(--ink);color:var(--ground);padding:11px 18px;border-radius:30px;font:600 14px var(--body);opacity:0;pointer-events:none;transition:opacity var(--dur),transform var(--dur) var(--ease);white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:1ms!important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-water" viewBox="0 0 24 24"><path d="M12 3c3.5 4.4 6 7.2 6 10.5a6 6 0 0 1-12 0C6 10.2 8.5 7.4 12 3z"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></symbol>
+    <symbol id="i-stretch" viewBox="0 0 24 24"><circle cx="12" cy="4.5" r="2"/><path d="M4 9l8 2 8-2M12 11v5l-4 5M12 16l4 5"/></symbol>
+    <symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4.5" r="2"/><path d="M9 21l2.5-6-2-3 1.5-4 3 2 3 1M13 11l1 4 3 5M8 11l-2 3"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19zM14 7l3 3"/></symbol>
+    <symbol id="i-today" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></symbol>
+    <symbol id="i-stats" viewBox="0 0 24 24"><path d="M5 20V12M12 20V5M19 20v-9"/></symbol>
+    <symbol id="i-me" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></symbol>
+  </defs>
+</svg>
+
+<div class="device">
+ <div class="screen">
+  <div class="status" aria-hidden="true">
+    <span>9:41</span><span class="notch"></span>
+    <svg viewBox="0 0 60 12"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/><rect x="26" y="1" width="26" height="11" rx="3.5" fill="none" stroke="#f3f0e4" stroke-width="1.2"/><rect x="28" y="3" width="19" height="7" rx="2"/><rect x="54" y="4.5" width="2" height="4" rx="1"/></svg>
+  </div>
+
+  <main class="views">
+    <!-- TODAY -->
+    <section class="view on" id="v-today" aria-labelledby="h-today">
+      <header class="top">
+        <div><p class="date" id="date">Friday, 30 October</p><h1 id="h-today">Today</h1></div>
+        <div class="avatar" aria-hidden="true">H</div>
+      </header>
+
+      <div class="slab" aria-live="polite">
+        <div class="lbl">Current streak</div>
+        <div class="row">
+          <div><span class="streak-num" id="streak">11</span><span class="unit" id="unit">days</span></div>
+          <svg class="tally" id="tally" viewBox="0 0 64 74" aria-hidden="true">
+            <path class="t" d="M10 8v58"/><path class="t" d="M23 8v58"/><path class="t" d="M36 8v58"/><path class="t" d="M49 8v58"/><path class="t" id="strike" d="M3 52L58 22"/>
+          </svg>
+        </div>
+        <p class="msg" id="msg"></p>
+      </div>
+
+      <div class="week" id="week" aria-label="This week"></div>
+
+      <div class="sec"><h2>Habits</h2><p class="count" id="count"></p></div>
+      <div class="bar" id="bar" aria-hidden="true"></div>
+      <ul class="habits" id="list"></ul>
+    </section>
+
+    <!-- STATS -->
+    <section class="view" id="v-stats" aria-labelledby="h-stats">
+      <header class="top"><div><p class="date">Last 7 days</p><h2 class="h1" id="h-stats">Stats</h2></div></header>
+      <div class="big">
+        <div><strong id="s-best">23</strong><span>Best streak, days</span></div>
+        <div><strong id="s-rate">0%</strong><span>Done this week</span></div>
+      </div>
+      <div id="s-list"></div>
+    </section>
+
+    <!-- ME -->
+    <section class="view" id="v-me" aria-labelledby="h-me">
+      <header class="top"><div><p class="date">Harsh</p><h2 class="h1" id="h-me">Settings</h2></div></header>
+      <button class="setting" role="switch" aria-checked="true" data-k="remind"><span>Evening reminder<small>Nudge at 8:30 pm if habits are open</small></span><span class="sw"></span></button>
+      <button class="setting" role="switch" aria-checked="true" data-k="haptic"><span>Haptics<small>Short tick when you check off</small></span><span class="sw"></span></button>
+      <button class="link" id="reset">Reset today's check-offs</button>
+    </section>
+  </main>
+
+  <nav class="tabbar" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" aria-selected="true" data-v="today"><svg><use href="#i-today"/></svg>Today</button>
+    <button class="tab" role="tab" aria-selected="false" data-v="stats"><svg><use href="#i-stats"/></svg>Stats</button>
+    <button class="tab" role="tab" aria-selected="false" data-v="me"><svg><use href="#i-me"/></svg>Settings</button>
+  </nav>
+  <div class="toast" id="toast" role="status"></div>
+ </div>
+</div>
+
+<script>
+(function(){
+  var BASE_STREAK = 11;   // consecutive complete days up to yesterday
+  var BEST = 23;
+  // hist = last 6 days before today (oldest first), 1 = done
+  var HABITS = [
+    {id:'water',  name:'Drink 2 litres of water', sub:'Morning, 4 glasses so far',  icon:'i-water',   hist:[1,1,1,1,1,1]},
+    {id:'read',   name:'Read 20 pages',           sub:'Currently: Deep Work',        icon:'i-book',    hist:[1,1,1,1,1,1]},
+    {id:'stretch',name:'Stretch for 10 minutes',  sub:'After waking up',             icon:'i-stretch', hist:[0,1,1,1,1,1]},
+    {id:'walk',   name:'Walk 8,000 steps',        sub:'Before dinner',               icon:'i-walk',    hist:[1,1,1,0,1,1]},
+    {id:'journal',name:'Write in journal',        sub:'Three lines is enough',       icon:'i-pen',     hist:[1,1,0,1,1,1]}
+  ];
+  // Streak is the number of fully complete days; stats history above is per-habit detail
+  // so the demo streak is defined only by BASE_STREAK.
+  var store = {done:{water:1,stretch:1}, remind:1, haptic:1};
+  try{ var s = JSON.parse(localStorage.getItem('tally.v1')); if(s && s.done) store = s; }catch(e){}
+  function save(){ try{ localStorage.setItem('tally.v1', JSON.stringify(store)); }catch(e){} }
+
+  var $ = function(id){ return document.getElementById(id); };
+  var list=$('list'), bar=$('bar'), streakEl=$('streak'), msg=$('msg'), toastT;
+  var DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var DATES=[26,27,28,29,30,31,1];
+  var TODAY_I=4;
+
+  // list
+  HABITS.forEach(function(h){
+    var li=document.createElement('li');
+    li.innerHTML='<button class="habit" role="checkbox" aria-checked="false" data-id="'+h.id+'">'+
+      '<span class="ico"><svg><use href="#'+h.icon+'"/></svg></span>'+
+      '<span class="txt"><span class="name">'+h.name+'</span><span class="sub">'+h.sub+'</span></span>'+
+      '<span class="check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button>';
+    list.appendChild(li);
+    bar.appendChild(document.createElement('i'));
+  });
+
+  function doneCount(){ return HABITS.filter(function(h){return store.done[h.id];}).length; }
+
+  function ringSVG(frac){
+    var c=2*Math.PI*10.5;
+    return '<svg class="ring" viewBox="0 0 26 26" aria-hidden="true"><circle class="bg" cx="13" cy="13" r="10.5"/><circle class="fg" cx="13" cy="13" r="10.5" stroke-dasharray="'+c.toFixed(2)+'" stroke-dashoffset="'+(c*(1-frac)).toFixed(2)+'"/></svg>';
+  }
+
+  function render(){
+    var n=doneCount(), total=HABITS.length, all=n===total;
+    // rows
+    list.querySelectorAll('.habit').forEach(function(b){ b.setAttribute('aria-checked', store.done[b.dataset.id]?'true':'false'); });
+    bar.querySelectorAll('i').forEach(function(i,k){ i.className = k<n?'on':''; });
+    $('count').innerHTML='<b>'+n+'</b> of '+total+' done';
+    // streak
+    var st=BASE_STREAK+(all?1:0);
+    if(String(st)!==streakEl.textContent){
+      streakEl.textContent=st; streakEl.classList.remove('bump'); void streakEl.offsetWidth; streakEl.classList.add('bump');
+    }
+    $('unit').textContent = st===1?'day':'days';
+    msg.textContent = all ? 'Day complete. Streak extended, see you tomorrow.' :
+      (total-n)+(total-n===1?' habit':' habits')+' left to make today day '+(BASE_STREAK+1)+'.';
+    // tally marks: first 4 strokes + strike show how far through the day
+    var strokes=$('tally').querySelectorAll('.t');
+    var lit=Math.round(n/total*5);
+    strokes.forEach(function(p,k){ p.style.opacity = k<lit?1:.18; });
+    // week strip
+    var w='';
+    for(var d=0;d<7;d++){
+      var frac = d<TODAY_I?1 : d===TODAY_I? n/total : 0;
+      var cls='day'+(d===TODAY_I?' today':'')+(d>TODAY_I?' future':'');
+      var lbl = d<TODAY_I ? 'all habits done' : d===TODAY_I ? n+' of '+total+' done' : 'upcoming';
+      w+='<div class="'+cls+'" role="img" aria-label="'+DAYS[d]+' '+DATES[d]+', '+lbl+'"><span aria-hidden="true">'+DAYS[d]+'</span>'+ringSVG(frac)+'<b aria-hidden="true">'+DATES[d]+'</b></div>';
+    }
+    $('week').innerHTML=w;
+    renderStats(n,total);
+  }
+
+  function renderStats(n,total){
+    var html='', doneAll=0, possible=0;
+    HABITS.forEach(function(h){
+      var t = store.done[h.id]?1:0;
+      var run=h.hist.concat([t]);
+      var cnt=run.reduce(function(a,b){return a+b;},0);
+      doneAll+=cnt; possible+=run.length;
+      html+='<div class="stat-card"><div class="head"><span>'+h.name+'</span><em>'+cnt+'/7</em></div><div class="dots" aria-hidden="true">'+
+        run.map(function(v,k){return '<i class="'+(v?'on':'')+(k===6?' today':'')+'"></i>';}).join('')+'</div></div>';
+    });
+    $('s-list').innerHTML=html;
+    $('s-rate').textContent=Math.round(doneAll/possible*100)+'%';
+    $('s-best').textContent=Math.max(BEST, BASE_STREAK+(n===total?1:0));
+  }
+
+  function toast(t){ var el=$('toast'); el.textContent=t; el.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove('on');},1800); }
+
+  list.addEventListener('click',function(e){
+    var b=e.target.closest('.habit'); if(!b) return;
+    var id=b.dataset.id, was=!!store.done[id];
+    if(was) delete store.done[id]; else store.done[id]=1;
+    if(store.haptic && navigator.vibrate){ try{navigator.vibrate(12);}catch(x){} }
+    save(); render();
+    if(!was && doneCount()===HABITS.length) toast('Day '+(BASE_STREAK+1)+' locked in');
+  });
+
+  // tabs
+  var tabs=document.querySelectorAll('.tab');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(o){o.setAttribute('aria-selected', o===t?'true':'false');});
+      document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('on', v.id==='v-'+t.dataset.v);});
+    });
+  });
+
+  // settings
+  document.querySelectorAll('.setting').forEach(function(b){
+    var k=b.dataset.k; b.setAttribute('aria-checked', store[k]?'true':'false');
+    b.addEventListener('click',function(){ store[k]=store[k]?0:1; b.setAttribute('aria-checked', store[k]?'true':'false'); save(); toast(b.firstElementChild.firstChild.textContent+(store[k]?' on':' off')); });
+  });
+  $('reset').addEventListener('click',function(){ store.done={}; save(); render(); toast('Today cleared'); });
+
+  render();
+})();
+</script>
+</body>
+</html>

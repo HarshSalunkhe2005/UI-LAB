@@ -8,7 +8,9 @@ If your tools include a browser, use it. If not, and you can run shell commands,
 
 - A first-screen screenshot: run the browser executable with `--headless --screenshot=<out.png> --window-size=1440,900 <url>`. Repeat with `--window-size=375,812` for mobile.
 - For a long page, give a tall window (for example `1440,6000`), or scroll in the page and shoot in slices.
-- Some headless builds refuse windows narrower than about 500 px. If the 375 screenshot comes back wider or cropped, measure instead: load the page in a 375 px wide iframe inside a test page, or read `document.documentElement.scrollWidth` at that width, and say which method you used.
+- Headless Chrome and Edge refuse windows narrower than about 500 px, so a screenshot "at 375" of the page itself is really wider. Use `templates/viewport-probe.html` instead (below).
+- A full-page screenshot of a long page is downscaled when you open it, which hides defects. View it in screen-sized slices.
+
 - Always open the PNG and look at it. A screenshot you did not look at is not a check.
 
 If you can run neither, {{pro}}use `scripts/audit-ui.mjs` and {{/pro}}write NOT RENDERED in the handoff, with the list of checks you could not do.
@@ -62,3 +64,15 @@ Record each as PASS, FAIL or NOT CHECKED in `design/verify.md` (template: `templ
 ```
 
 When something renders wrong, check `bugs.md` first.
+
+## The viewport probe (375 px view, every slice, measurements)
+
+`templates/viewport-probe.html` needs no tools beyond a headless browser and does not touch the network. Copy it next to your page, set `PAGE` at the top of its script (default `index.html`), then:
+
+1. Screenshot: run the browser with `--headless --allow-file-access-from-files --window-size=1700,1900 --screenshot=probe.png` and the probe's file URL. The image shows your page at 375 px wide as consecutive phone-screen slices (numbered 1, 2, 3, ...), side by side, with a measurements block at the top. Open it and look at every slice.
+2. Numbers: run the same command with `--virtual-time-budget=6000 --dump-dom` instead of `--screenshot`; the measurements are in the `<pre id="report">` element. They list horizontal overflow, every interactive element under 44 px in width or height (inline links excepted), elements past the right edge, the `h1` count, images without alt and inputs without labels.
+3. If the page is served over http, the `--allow-file-access-from-files` flag is not needed.
+
+For the 1440 view, screenshot the page itself with a tall window (for example `--window-size=1440,6000`) and look at it in parts.
+
+What the probe cannot do: it does not capture the console, it does not tab through the page, and it measures after load only (anything that appears on interaction needs a manual check).

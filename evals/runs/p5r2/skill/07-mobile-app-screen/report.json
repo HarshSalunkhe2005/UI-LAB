@@ -1,0 +1,66 @@
+{
+  "375": {
+    "docWidth": 375,
+    "viewport": 375,
+    "hOverflow": false,
+    "docHeight": 812,
+    "interactive": 15,
+    "smallTargets": 0,
+    "smallSamples": [],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      false,
+      true,
+      true,
+      false
+    ],
+    "h1Count": 3,
+    "fonts": {
+      "h1": "Rubik",
+      "h2": "Rubik",
+      "body": "Lora"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "1440": {
+    "docWidth": 1440,
+    "viewport": 1440,
+    "hOverflow": false,
+    "docHeight": 900,
+    "interactive": 15,
+    "smallTargets": 7,
+    "smallSamples": [
+      "button \"Mon26\" 44x75",
+      "button \"Tue27\" 44x75",
+      "button \"Wed28\" 44x75",
+      "button \"Thu29\" 44x75",
+      "button \"Fri30\" 44x75"
+    ],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      false,
+      true,
+      true,
+      false
+    ],
+    "h1Count": 3,
+    "fonts": {
+      "h1": "Rubik",
+      "h2": "Rubik",
+      "body": "Lora"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "dir": "C:\\Users\\Harsh\\Projects\\UI-Lab\\evals\\runs\\p5r2\\skill\\07-mobile-app-screen",
+  "url": "file:///C:/Users/Harsh/Projects/UI-Lab/evals/runs/p5r2/skill/07-mobile-app-screen/index.html"
+}

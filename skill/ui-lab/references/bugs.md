@@ -16,6 +16,8 @@ Check here before debugging from scratch. Grouped by area. Each row: what you se
 | Header text and a styled span stack vertically | `display: grid` on a flex or inline container makes each node a grid item | `display: flex; gap` for inline lockups |
 | Image collapses to nothing inside a zero-size 3D or flex parent | Global `img { max-width: 100% }` resolves against a 0-width parent | `max-width: none` on that image, or give the parent a size |
 | Sections look cramped on one screen and loose on another | Padding in `vh` or fixed px | A spacing scale; `clamp()` for section padding |
+| Hero headline wraps to five or six lines and pushes the form or button below the fold | Display size set in `vw` or a large fixed size with a narrow column | Cap the size with `clamp()`, widen the column, shorten the headline; the headline and the primary action must both fit in 1440x900 and 375x812 |
+| A band has a narrow text column and an empty half | A two-column layout where the second column holds nothing or a figure that did not load | Use the width: a wider measure, a second element of real content, or a single full-width column |
 | Text sits behind a decorative illustration | Absolutely positioned art overlaps a text column | Reserve the column (padding or grid track) for the art; check at 1440 and 375 |
 | A badge or stamp overlaps a neighbouring label | Rotated or absolutely positioned element with no reserved room | Give it its own row or space; verify no collisions in the render |
 
@@ -29,6 +31,10 @@ Check here before debugging from scratch. Grouped by area. Each row: what you se
 | Numbers jump as they update | Proportional figures | `font-variant-numeric: tabular-nums` |
 | Inputs zoom the page on iOS | Input font size under 16px | 16px minimum on inputs at touch widths |
 | Wrapped inline text looks like it collides in a checker | The inline element's bounding box spans several lines | Compare per-line rects, not the bounding box, when testing for collisions |
+| Code blocks show a background box behind every line | Inline-code styling (`code { background; padding }`) also applies to `code` inside `pre` | `pre code { background: none; padding: 0; border-radius: 0 }`; style `pre` once as the block |
+| A badge or illustration is covered by another element | A positioned badge over the main image on a narrow screen | Give the badge its own row below the image at small widths |
+| A navigation link is 32px wide and fails the target rule | Height was set to 44px but the link is only as wide as its text | `min-width: 44px` with horizontal padding, or make the whole row the link |
+| More than one `h1` in a one-page app with several views | Each view has its own `h1` in the same document | One `h1` for the page; the view titles are `h2`; hide inactive views with `hidden` |
 | Placeholder disclaimers show up on the shipped page | "Sample content" notes placed in the UI | Put disclosure in the handoff; keep the page clean |
 
 ## Interaction and accessibility

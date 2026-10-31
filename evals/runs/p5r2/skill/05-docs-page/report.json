@@ -1,0 +1,72 @@
+{
+  "375": {
+    "docWidth": 375,
+    "viewport": 375,
+    "hOverflow": false,
+    "docHeight": 8527,
+    "interactive": 44,
+    "smallTargets": 11,
+    "smallSamples": [
+      "a \"Docs\" 34x44",
+      "a \"Dates\" 38x44",
+      "a \"Parsing strings\" 210x32",
+      "a \"ISO 8601 input\" 177x27",
+      "a \"Input with a format\" 225x27"
+    ],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Schibsted Grotesk",
+      "h2": "Schibsted Grotesk",
+      "body": "Schibsted Grotesk"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "1440": {
+    "docWidth": 1425,
+    "viewport": 1440,
+    "hOverflow": false,
+    "docHeight": 6571,
+    "interactive": 66,
+    "smallTargets": 27,
+    "smallSamples": [
+      "a \"Parsing strings\" 224x36",
+      "a \"Strict and loose mode\" 224x36",
+      "a \"Formatting dates\" 224x36",
+      "a \"Format tokens\" 224x36",
+      "a \"Escaping literal text\" 224x36"
+    ],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Schibsted Grotesk",
+      "h2": "Schibsted Grotesk",
+      "body": "Schibsted Grotesk"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "dir": "C:\\Users\\Harsh\\Projects\\UI-Lab\\evals\\runs\\p5r2\\skill\\05-docs-page",
+  "url": "file:///C:/Users/Harsh/Projects/UI-Lab/evals/runs/p5r2/skill/05-docs-page/index.html"
+}

@@ -1,0 +1,72 @@
+{
+  "375": {
+    "docWidth": 488,
+    "viewport": 488,
+    "hOverflow": false,
+    "docHeight": 7783,
+    "interactive": 18,
+    "smallTargets": 6,
+    "smallSamples": [
+      "a \"Salt & Ember\" 133x36",
+      "a \"Book\" 84x36",
+      "a \"Reserve a table\" 205x44",
+      "a \"01736 000 428\" 109x19",
+      "a \"tables@saltandember.exam\" 220x19"
+    ],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Fraunces",
+      "h2": "Fraunces",
+      "body": "Inter"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "1440": {
+    "docWidth": 1482,
+    "viewport": 1440,
+    "hOverflow": true,
+    "docHeight": 6082,
+    "interactive": 22,
+    "smallTargets": 9,
+    "smallSamples": [
+      "a \"Salt & Ember\" 133x36",
+      "a \"Story\" 51x16",
+      "a \"Menu\" 45x16",
+      "a \"Visit\" 40x16",
+      "a \"Private\" 62x16"
+    ],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      false,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Fraunces",
+      "h2": "Fraunces",
+      "body": "Inter"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "dir": "C:\\Users\\Harsh\\Projects\\UI-Lab\\evals\\runs\\p5\\baseline\\04-restaurant-site",
+  "url": "file:///C:/Users/Harsh/Projects/UI-Lab/evals/runs/p5/baseline/04-restaurant-site/index.html"
+}

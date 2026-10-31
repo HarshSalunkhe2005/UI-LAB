@@ -1,0 +1,3 @@
+# Critique of the fixture (before)
+Accessibility 1/2: gradient-clipped text, light-grey on white, nav links hidden at 375 with no replacement, emoji icons. Typography 0/2: Inter only, no scale. Layout 0/2: centred column, equal 80px padding, three identical cards twice. Colour 0/2: purple gradient on every surface. Motion 1/2: hover lift on all cards. Copy 0/2: "Unlock the Power", "supercharge", "next level".
+Top defects: (1) A1/A2 gradient wash and gradient text; (2) A4 identical cards carrying no information; (3) A13 vacuous copy. Fixes applied: flat colour fields, ruled feature rows with one lead, specific copy. Convergent defaults present: B9 scaled middle plan, B11 hero formula; neither earned.

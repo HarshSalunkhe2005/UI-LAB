@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salt &amp; Ember | Wood-fire restaurant, Porth Ennis</title>
+<meta name="description" content="Salt & Ember is a 28-seat wood-fire restaurant on the harbour at Porth Ennis. Oak and apple wood, local boats, one hearth.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0f1c27; --night-2:#16293a; --deep:#1d2b3a;
+  --paper:#efe9d6; --paper-2:#f7f2e2;
+  --ink:#1d2b3a; --ink-muted:#44546a;
+  --sea-1:#dbe6ea; --sea-2:#b9d0d9; --sea-3:#8fb2c2; --sea-4:#5f90a6;
+  --ember:#e2552b; --ember-deep:#b8391a; --coal:#ffb27a;
+  --on-night:#efe9d6; --on-night-muted:#a9b9c6;
+  --rule:#7d93a8;
+  --font-display:'Crimson Pro',Georgia,'Times New Roman',serif;
+  --font-text:'Public Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --s-1:4px; --s-2:8px; --s-3:12px; --s-4:20px; --s-5:40px; --s-6:72px; --s-7:120px;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.6 var(--font-text);overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.02;margin:0}
+p{margin:0 0 1em}
+a{color:inherit}
+.wrap{width:100%;max-width:1240px;margin:0 auto;padding:0 var(--s-4)}
+:focus-visible{outline:3px solid var(--ember);outline-offset:3px}
+.night :focus-visible{outline-color:var(--coal)}
+.skip{position:absolute;left:-999px;top:8px;background:var(--paper);color:var(--ink);padding:12px 16px;z-index:100}
+.skip:focus{left:8px}
+
+/* header */
+header.top{position:absolute;top:0;left:0;right:0;z-index:10}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;min-height:76px}
+.logo{font-family:var(--font-display);font-weight:700;font-size:1.6rem;text-decoration:none;color:var(--on-night);letter-spacing:.01em;min-height:44px;display:inline-flex;align-items:center}
+.logo b{color:var(--ember);font-weight:700}
+nav ul{list-style:none;display:flex;gap:var(--s-4);margin:0;padding:0;align-items:center}
+nav a{color:var(--on-night);text-decoration:none;font-size:.9rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;min-height:44px;display:inline-flex;align-items:center;padding:0 4px}
+nav a:hover{color:var(--coal)}
+nav a.btn-nav{border:1.5px solid var(--ember);padding:0 18px;color:var(--on-night)}
+nav a.btn-nav:hover{background:var(--ember);color:#150a05}
+
+/* hero */
+.night{background:var(--night);color:var(--on-night)}
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;padding:130px 0 var(--s-5)}
+.hero-art{position:absolute;inset:0;z-index:0}
+.hero-art svg{width:100%;height:100%}
+.hero .wrap{position:relative;z-index:2}
+.hero-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:var(--s-5);align-items:end}
+.hero h1{font-size:clamp(3.1rem,9.2vw,8.6rem);font-weight:700;letter-spacing:-.02em;line-height:.9}
+.hero h1 span{display:block}
+.hero h1 .amp{color:var(--ember);font-weight:400;font-style:normal;margin:0 .04em}
+.hero .lede{max-width:34ch;font-size:1.2rem;color:var(--on-night);margin:var(--s-4) 0 var(--s-4)}
+.facts{font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;color:var(--on-night-muted);margin:0 0 var(--s-4)}
+.facts span+span::before{content:"\00b7";margin:0 10px;color:var(--ember)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 28px;background:var(--ember);color:#150a05;font:600 .95rem var(--font-text);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:0;cursor:pointer;transition:background .15s var(--ease)}
+.btn:hover{background:var(--coal)}
+.btn.line{background:transparent;color:var(--on-night);border:1.5px solid var(--on-night-muted);margin-left:8px}
+.btn.line:hover{border-color:var(--coal);color:var(--coal)}
+.coals{background:rgba(15,28,39,.82);border:1px solid #2c4358;padding:var(--s-4);backdrop-filter:none}
+.coals label{display:block;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--on-night-muted);margin-bottom:6px}
+.coals output{font-family:var(--font-display);font-size:2.6rem;font-weight:600;color:var(--coal);line-height:1}
+.coals output small{font-size:1rem;color:var(--on-night-muted);font-family:var(--font-text)}
+.coals .state{font-size:.9rem;color:var(--on-night);margin:6px 0 10px;min-height:2.8em}
+.coals input[type=range]{width:100%;height:44px;accent-color:var(--ember);background:transparent;margin:0}
+
+/* story */
+.story{padding:var(--s-7) 0 var(--s-6);background:var(--paper)}
+.story-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:var(--s-6);align-items:start}
+.story h2{font-size:clamp(2.4rem,5vw,4.2rem);letter-spacing:-.01em}
+.story .big{font-family:var(--font-display);font-size:clamp(1.5rem,2.4vw,2.1rem);line-height:1.25;color:var(--ink);margin-bottom:var(--s-4)}
+.story p{max-width:58ch;color:var(--ink-muted)}
+.story p strong{color:var(--ink);font-weight:600}
+.sig{border-top:1.5px solid var(--ink);margin-top:var(--s-5);padding-top:var(--s-3);display:flex;gap:var(--s-5);flex-wrap:wrap}
+.sig div{min-width:110px}
+.sig b{display:block;font:700 2.4rem/1 var(--font-display);color:var(--ember-deep)}
+.sig span{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted)}
+
+/* menu */
+.menu{background:var(--sea-1);padding:var(--s-6) 0 var(--s-7);border-top:1.5px solid var(--ink)}
+.menu-head{display:flex;justify-content:space-between;align-items:end;gap:var(--s-4);flex-wrap:wrap;margin-bottom:var(--s-5)}
+.menu h2{font-size:clamp(2.6rem,6vw,5rem)}
+.menu-head p{max-width:40ch;color:var(--ink-muted);margin:0}
+.menu-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-6) var(--s-6)}
+.course h3{font-size:2rem;border-bottom:3px double var(--ink);padding-bottom:6px;margin-bottom:var(--s-3);display:flex;justify-content:space-between;align-items:baseline}
+.course h3 small{font:500 .78rem var(--font-text);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted)}
+.dish{display:grid;grid-template-columns:1fr auto;gap:2px var(--s-3);padding:14px 0;border-bottom:1px dotted var(--rule)}
+.dish h4{margin:0;font:600 1.4rem/1.15 var(--font-display)}
+.dish .price{font:600 1.05rem var(--font-text);font-variant-numeric:tabular-nums;white-space:nowrap;align-self:start;padding-top:4px}
+.dish p{grid-column:1/-1;margin:0;font-size:.94rem;color:var(--ink-muted);line-height:1.45}
+.dish .tag{font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ember-deep);margin-left:8px;white-space:nowrap}
+.menu-note{margin-top:var(--s-5);font-size:.9rem;color:var(--ink-muted);max-width:70ch}
+
+/* hours: tide table */
+.hours{background:var(--night-2);color:var(--on-night);padding:var(--s-6) 0}
+.hours-grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:var(--s-6);align-items:start}
+.hours h2{font-size:clamp(2.4rem,5vw,4.2rem)}
+.hours .now{margin-top:var(--s-4);font-size:1.05rem;color:var(--coal);min-height:3em}
+.hours p.small{color:var(--on-night-muted);font-size:.95rem;max-width:36ch}
+table.tides{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.tides caption{text-align:left;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--on-night-muted);padding-bottom:var(--s-3)}
+.tides th,.tides td{padding:14px 8px;text-align:left;border-top:1px solid #34506a;font-weight:400}
+.tides th{font:600 1.5rem var(--font-display);width:34%}
+.tides td{font-size:1.05rem}
+.tides td.r{text-align:right;color:var(--on-night-muted);font-size:.9rem}
+.tides tr.closed th,.tides tr.closed td{color:#8a9bab}
+.tides tr.today{background:#1f3a52}
+.tides tr.today th{color:var(--coal)}
+.tides tr.today td:last-child::after{content:" Today";color:var(--coal);font-weight:600}
+
+/* location */
+.where{background:var(--paper);padding:var(--s-6) 0}
+.where-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:var(--s-6);align-items:center}
+.where h2{font-size:clamp(2.4rem,5vw,4.2rem);margin-bottom:var(--s-4)}
+.where address{font-style:normal;font-family:var(--font-display);font-size:1.7rem;line-height:1.25;margin-bottom:var(--s-4)}
+.where ul{list-style:none;padding:0;margin:0 0 var(--s-4)}
+.where li{padding:10px 0;border-top:1px solid var(--rule);color:var(--ink-muted);font-size:.98rem}
+.where li b{color:var(--ink);font-weight:600}
+.chart{border:1.5px solid var(--ink);background:var(--sea-1)}
+
+/* reserve */
+.reserve{background:var(--ember);color:#1a0a04;padding:var(--s-6) 0 var(--s-7)}
+.reserve-grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:var(--s-6);align-items:start}
+.reserve h2{font-size:clamp(2.8rem,6vw,5.2rem);color:#150a05}
+.reserve .intro{font-size:1.1rem;max-width:32ch;margin-top:var(--s-4)}
+.reserve .intro strong{font-weight:700}
+form{background:var(--paper-2);padding:var(--s-5);color:var(--ink)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-4)}
+.field{margin-bottom:var(--s-4)}
+.field label{display:block;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;color:var(--ink)}
+.field input,.field select,.field textarea{width:100%;min-height:48px;padding:10px 12px;font:400 1rem var(--font-text);color:var(--ink);background:#fff;border:1.5px solid var(--ink);border-radius:0;appearance:none;-webkit-appearance:none}
+.field select{background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 20px) 21px,calc(100% - 14px) 21px;background-size:6px 6px;background-repeat:no-repeat;padding-right:36px}
+.field textarea{min-height:92px;resize:vertical}
+.field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{outline:3px solid var(--ember-deep);outline-offset:2px}
+.field .hint{font-size:.85rem;color:var(--ink-muted);margin-top:6px;min-height:1.3em}
+.field .err{color:#9b1c1c;font-size:.85rem;font-weight:600;margin-top:6px;min-height:0}
+form .btn{background:var(--ink);color:var(--paper);width:100%;min-height:54px}
+form .btn:hover{background:var(--ember-deep)}
+.done{display:none;padding:var(--s-5);background:var(--paper-2);color:var(--ink);border-left:6px solid var(--ink)}
+.done h3{font-size:2.2rem;margin-bottom:var(--s-3)}
+.done.show{display:block}
+
+/* private */
+.private{background:var(--night);color:var(--on-night);padding:var(--s-6) 0;position:relative;overflow:hidden}
+.private-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:var(--s-6);align-items:center}
+.private h2{font-size:clamp(2.4rem,5vw,4.2rem);margin-bottom:var(--s-4)}
+.private p{color:var(--on-night-muted);max-width:52ch}
+.private a.mail{color:var(--coal);font-weight:600;display:inline-flex;min-height:44px;align-items:center}
+.table-svg{border:1px solid #2c4358;background:var(--night-2)}
+
+footer{background:#091219;color:var(--on-night-muted);padding:var(--s-5) 0;font-size:.9rem}
+footer .wrap{display:flex;justify-content:space-between;gap:var(--s-4);flex-wrap:wrap}
+footer a{display:inline-flex;min-height:44px;align-items:center}
+
+/* motion */
+.flame{transform-origin:50% 100%;animation:none}
+@media (prefers-reduced-motion:no-preference){
+  .flame{animation:flick 3.4s ease-in-out infinite alternate}
+  .flame.b{animation-duration:2.7s;animation-delay:-1s}
+  @keyframes flick{from{transform:scale(1,1) skewX(0)}to{transform:scale(.94,1.06) skewX(2deg)}}
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+}
+
+/* tablet / mobile */
+@media (max-width:980px){
+  .hero-grid,.story-grid,.hours-grid,.where-grid,.reserve-grid,.private-grid{grid-template-columns:minmax(0,1fr)}
+  .story-grid,.hours-grid,.where-grid,.reserve-grid,.private-grid{gap:var(--s-5)}
+  .menu-cols{grid-template-columns:minmax(0,1fr);gap:var(--s-5)}
+  .story{padding:var(--s-6) 0 var(--s-5)}
+}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  nav ul li:not(:last-child){display:none}
+  header.top .wrap{min-height:64px}
+  .hero{padding-top:360px;padding-bottom:var(--s-4);min-height:auto}
+  .hero-art{bottom:auto;height:400px}
+  .hero-art svg{width:190%;max-width:none;height:100%;margin-left:-62%}
+  .hero h1{font-size:clamp(3rem,17vw,4.6rem)}
+  .hero .lede{font-size:1.08rem}
+  .btn.line{margin-left:0;margin-top:8px}
+  .hero-art svg{object-position:center}
+  form{padding:var(--s-4)}
+  .row{grid-template-columns:1fr;gap:0}
+  .dish h4{font-size:1.3rem}
+  .tides th{font-size:1.25rem;width:30%}
+  .tides td.r{display:none}
+  .tides th,.tides td{padding:14px 4px}
+  .where address{font-size:1.45rem}
+  .menu,.hours,.where,.reserve,.private{padding-top:var(--s-5)}
+  .reserve{padding-bottom:var(--s-6)}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top night" style="background:transparent">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Salt and Ember, home">Salt <b>&amp;</b> Ember</a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#story">Story</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#hours">Hours</a></li>
+        <li><a href="#where">Find us</a></li>
+        <li><a class="btn-nav" href="#reserve">Reserve</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero night" id="top" aria-labelledby="h1">
+  <div class="hero-art" aria-hidden="true">
+    <svg id="heat" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#ff8a3d" stop-opacity=".55"/>
+          <stop offset=".5" stop-color="#e2552b" stop-opacity=".16"/>
+          <stop offset="1" stop-color="#e2552b" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle id="glowc" cx="1000" cy="470" r="480" fill="url(#glow)"/>
+      <g id="rings" fill="none" stroke-linejoin="round"></g>
+      <g id="soundings" font-family="Crimson Pro, Georgia, serif" font-style="italic" font-size="22" fill="#a9b9c6"></g>
+      <!-- compass rose -->
+      <g transform="translate(1290 230)" stroke="#5f7a90" fill="none" stroke-width="1.2">
+        <circle r="46"/><circle r="34" stroke-dasharray="2 4"/>
+        <path d="M0-62 L7-8 L0 0 L-7-8Z" fill="#e2552b" stroke="none"/>
+        <path d="M0 62 L7 8 L0 0 L-7 8Z"/><path d="M-62 0 L-8-7 L0 0 L-8 7Z"/><path d="M62 0 L8-7 L0 0 L8 7Z"/>
+        <text x="0" y="-70" text-anchor="middle" font-family="Public Sans, sans-serif" font-size="14" fill="#a9b9c6" stroke="none">N</text>
+      </g>
+      <!-- hearth -->
+      <g transform="translate(1000 520)">
+        <ellipse cx="0" cy="38" rx="90" ry="14" fill="#050b10" opacity=".8"/>
+        <path d="M-70 40 L-60 8 L60 8 L70 40Z" fill="#26323d"/>
+        <g class="flame"><path d="M0-86 C26-50 44-26 40 4 C38 22 18 30 0 30 C-18 30 -38 22 -40 4 C-44-26 -26-50 0-86Z" fill="#e2552b"/></g>
+        <g class="flame b"><path d="M0-52 C14-30 24-14 20 6 C18 20 8 26 0 26 C-8 26 -18 20 -20 6 C-24-14 -14-30 0-52Z" fill="#ffb27a"/></g>
+        <path d="M-6 14 C-3 0 4 0 6 14 C4 22 -4 22 -6 14Z" fill="#fff2d6"/>
+        <g fill="#a33b1d"><circle cx="-38" cy="32" r="5"/><circle cx="-18" cy="34" r="6"/><circle cx="14" cy="34" r="6"/><circle cx="36" cy="32" r="5"/></g>
+      </g>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1 id="h1"><span>Salt</span><span><span class="amp" style="display:inline">&amp;</span>Ember</span></h1>
+        <p class="lede">Twenty-eight seats and one oak-fired hearth, forty paces from where the boats come in.</p>
+        <p class="facts"><span>Wood-fire</span><span>Porth Ennis</span><span>Wed to Sun</span></p>
+        <a class="btn" href="#reserve">Book a table</a><a class="btn line" href="#menu">Read the menu</a>
+      </div>
+      <div class="coals" role="group" aria-labelledby="coals-l">
+        <label id="coals-l" for="heatrange">Hearth, tonight</label>
+        <output id="heatout" for="heatrange">480<small> &deg;C</small></output>
+        <div class="state" id="heatstate" aria-live="polite">Full fire. Oysters, scallops, anything that wants a hard sear.</div>
+        <input id="heatrange" type="range" min="0" max="2" step="1" value="2" aria-describedby="heatstate">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="story" aria-labelledby="story-h">
+  <div class="wrap story-grid">
+    <h2 id="story-h" class="reveal">One fire,<br>no gas line.</h2>
+    <div class="reveal">
+      <p class="big">Mara Pengelly took the old net loft on the quay in 2021 and put a hearth where the winch used to be. There is no gas in the building.</p>
+      <p>Every plate at Salt &amp; Ember is cooked over <strong>oak and apple wood</strong> from a coppice six miles inland, split on Mondays when we are shut. The fire is lit at two, is ready by five, and dictates what leaves the kitchen: the langoustines go on the hot end, the leeks sit in the embers until they collapse, the bread goes in last when the heat has dropped.</p>
+      <p>The boats land at Porth Ennis before light. What the <em>Marnie J</em> and the <em>Girl Kitty</em> don't bring in, we don't cook. The menu is chalked each afternoon, so some dishes below will have moved on by the time you sit down.</p>
+      <div class="sig" role="list">
+        <div role="listitem"><b>28</b><span>seats, one sitting</span></div>
+        <div role="listitem"><b>6 mi</b><span>to the woodlot</span></div>
+        <div role="listitem"><b>0</b><span>gas burners</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="menu" id="menu" aria-labelledby="menu-h">
+  <div class="wrap">
+    <div class="menu-head">
+      <h2 id="menu-h">The menu</h2>
+      <p>Chalked daily from the morning landing. Prices in pounds, service discretionary.</p>
+    </div>
+    <div class="menu-cols">
+      <div class="course">
+        <h3>Starters <small>to share, or not</small></h3>
+        <div class="dish"><h4>Hearth-baked oysters, smoked butter</h4><span class="price">&pound;4.50 ea</span><p>Porth Ennis rock oysters, opened on the coals, finished with samphire and lemon.</p></div>
+        <div class="dish"><h4>Embered leeks, hazelnut romesco</h4><span class="price">&pound;9</span><p>Whole leeks left in the ash until soft, charred skins peeled at the table.<span class="tag">V</span></p></div>
+        <div class="dish"><h4>Mackerel on the bone, pickled rhubarb</h4><span class="price">&pound;12</span><p>Line-caught that morning, skin blistered over oak, horseradish crème fraîche.</p></div>
+        <div class="dish"><h4>Flatbread, whipped cod's roe, chilli oil</h4><span class="price">&pound;8</span><p>Dough proved all day, slapped on the hearth stone, eaten while it still puffs.</p></div>
+      </div>
+      <div class="course">
+        <h3>Mains <small>from the fire</small></h3>
+        <div class="dish"><h4>Whole turbot, brown shrimp butter</h4><span class="price">&pound;68</span><p>For two. About 1.4kg, grilled on the bone over apple wood, carved at the table.</p></div>
+        <div class="dish"><h4>Wood-roasted monkfish tail, nduja, fennel</h4><span class="price">&pound;29</span><p>Roasted in the hearth oven with its own fat and a spoon of Cornish nduja.</p></div>
+        <div class="dish"><h4>Dry-aged rump of Devon beef, bone marrow</h4><span class="price">&pound;34</span><p>Thirty-five days on the bone, seared hard, rested in the embers, salsa verde.</p></div>
+        <div class="dish"><h4>Ember-roast celeriac, brown butter, sage</h4><span class="price">&pound;21</span><p>Baked in a salt crust for four hours, cracked open at the pass.<span class="tag">V</span></p></div>
+      </div>
+      <div class="course">
+        <h3>Desserts <small>last off the fire</small></h3>
+        <div class="dish"><h4>Burnt honey tart, clotted cream</h4><span class="price">&pound;9</span><p>Honey from the hives above the harbour, taken to the edge of bitter.</p></div>
+        <div class="dish"><h4>Smoked chocolate pot, sea salt, olive oil</h4><span class="price">&pound;9</span><p>Set with oak-smoked cream and finished with Maldon.</p></div>
+        <div class="dish"><h4>Baked apple, caramel, oat crumble</h4><span class="price">&pound;8.50</span><p>Apple wood, apple. It seemed rude not to.</p></div>
+        <div class="dish"><h4>Local cheese, quince, charcoal cracker</h4><span class="price">&pound;11</span><p>Two Cornish cheeses, whatever is ripe.</p></div>
+      </div>
+      <div class="course">
+        <h3>Drinks <small>glass / bottle</small></h3>
+        <div class="dish"><h4>Ember Old Fashioned</h4><span class="price">&pound;12</span><p>Rye, burnt orange peel, a smoked demerara syrup.</p></div>
+        <div class="dish"><h4>Camel Valley Brut, English sparkling</h4><span class="price">&pound;11 / &pound;58</span><p>Chalk and green apple, a good match for oysters.</p></div>
+        <div class="dish"><h4>Muscadet sur lie, Domaine de la Haute Févrie</h4><span class="price">&pound;8.50 / &pound;38</span><p>Salty, lean, built for shellfish.</p></div>
+        <div class="dish"><h4>Harbour Pale, Tintagel Brewery (33cl)</h4><span class="price">&pound;5.50</span><p>Light, hoppy, cold. Non-alcoholic Pale at the same price.</p></div>
+      </div>
+    </div>
+    <p class="menu-note">V: vegetarian. Please tell us about allergies when you book; the hearth is a shared surface and we cannot guarantee anything is free of shellfish, gluten or nuts.</p>
+  </div>
+</section>
+
+<section class="hours night" id="hours" aria-labelledby="hours-h" style="background:var(--night-2)">
+  <div class="wrap hours-grid" style="padding-top:var(--s-6);padding-bottom:var(--s-6)">
+    <div class="reveal">
+      <h2 id="hours-h">Opening hours</h2>
+      <p class="small" style="margin-top:var(--s-4)">The fire is lit at two. Kitchen takes its last order forty-five minutes before close, and the bar keeps pouring until the last table leaves.</p>
+      <p class="now" id="nowline" aria-live="polite"></p>
+    </div>
+    <div class="reveal">
+      <table class="tides" id="tides">
+        <caption>Weekly service, Porth Ennis time</caption>
+        <thead class="sr" style="position:absolute;left:-999px"><tr><th>Day</th><th>Service</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr data-d="1" class="closed"><th scope="row">Monday</th><td>Closed</td><td class="r">Wood-splitting day</td></tr>
+          <tr data-d="2" class="closed"><th scope="row">Tuesday</th><td>Closed</td><td class="r">Fish orders, lamp oil</td></tr>
+          <tr data-d="3"><th scope="row">Wednesday</th><td>5:30 pm to 10:00 pm</td><td class="r">Dinner</td></tr>
+          <tr data-d="4"><th scope="row">Thursday</th><td>5:30 pm to 10:00 pm</td><td class="r">Dinner</td></tr>
+          <tr data-d="5"><th scope="row">Friday</th><td>5:30 pm to 11:00 pm</td><td class="r">Dinner, bar late</td></tr>
+          <tr data-d="6"><th scope="row">Saturday</th><td>12:30 pm to 3:30 pm<br>5:30 pm to 11:00 pm</td><td class="r">Lunch and dinner</td></tr>
+          <tr data-d="0"><th scope="row">Sunday</th><td>12:30 pm to 5:00 pm</td><td class="r">Long lunch, last fire</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="where" id="where" aria-labelledby="where-h">
+  <div class="wrap where-grid">
+    <div class="reveal">
+      <h2 id="where-h">Find us</h2>
+      <address>Salt &amp; Ember<br>The Net Loft, Fish Quay<br>Porth Ennis, Cornwall TR27 4QL</address>
+      <ul>
+        <li><b>On foot.</b> Ten minutes down the hill from Porth Ennis station. Follow the smell of oak smoke.</li>
+        <li><b>By car.</b> Quay Road car park, 90 metres away, is pay and display until 8 pm.</li>
+        <li><b>By boat.</b> Visitor pontoon at the end of the quay; tie up, climb the steps, ring the bell.</li>
+        <li><b>Call.</b> <a href="tel:+441736000428">01736 000 428</a>, from 2 pm on service days.</li>
+      </ul>
+    </div>
+    <div class="chart reveal">
+      <svg viewBox="0 0 600 460" role="img" aria-label="Chart of Porth Ennis harbour. Salt and Ember stands on Fish Quay on the east side of the harbour, with the station up the hill to the north-west and the pontoon at the quay head." xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="460" fill="#dbe6ea"/>
+        <path d="M0 280 C90 250 150 300 250 270 C340 244 410 292 600 250 L600 460 L0 460Z" fill="#b9d0d9"/>
+        <path d="M0 340 C100 312 170 352 270 330 C360 310 430 346 600 316 L600 460 L0 460Z" fill="#8fb2c2"/>
+        <path d="M0 400 C110 380 190 410 280 394 C380 376 460 404 600 384 L600 460 L0 460Z" fill="#5f90a6"/>
+        <!-- land -->
+        <path d="M0 0 L600 0 L600 210 C540 214 500 226 460 222 L420 228 L405 210 L340 214 C300 228 250 236 190 226 C110 212 60 232 0 222Z" fill="#efe9d6" stroke="#1d2b3a" stroke-width="1.5"/>
+        <!-- quay -->
+        <path d="M388 224 L388 300 L408 300 L408 224Z" fill="#efe9d6" stroke="#1d2b3a" stroke-width="1.5"/>
+        <g stroke="#1d2b3a" stroke-width="1" fill="#f7f2e2">
+          <rect x="300" y="152" width="26" height="18"/><rect x="336" y="160" width="24" height="20"/><rect x="440" y="150" width="30" height="20"/><rect x="480" y="165" width="22" height="16"/><rect x="210" y="146" width="28" height="18"/>
+        </g>
+        <path d="M30 0 C60 60 120 90 180 130 C230 164 290 190 380 200" fill="none" stroke="#7d93a8" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round"/>
+        <g font-family="Public Sans, sans-serif" font-size="11" fill="#1d2b3a" letter-spacing="1.4">
+          <text x="46" y="40">STATION</text>
+          <text x="86" y="108">HILL ROAD</text>
+          <text x="446" y="140">QUAY ROAD P</text>
+          <text x="420" y="312">PONTOON</text>
+        </g>
+        <g font-family="Crimson Pro, Georgia, serif" font-style="italic" font-size="17" fill="#1d2b3a">
+          <text x="40" y="300">3</text><text x="130" y="330">5</text><text x="500" y="285">4</text><text x="240" y="360">7</text><text x="520" y="350">9</text><text x="90" y="416">12</text><text x="380" y="424">14</text>
+          <text x="210" y="300" fill="#44546a" font-size="19">Porth Ennis Harbour</text>
+        </g>
+        <!-- marker -->
+        <g transform="translate(380 206)">
+          <circle r="22" fill="#e2552b" opacity=".25"/><circle r="11" fill="#e2552b" stroke="#150a05" stroke-width="2"/>
+          <path d="M0-4 C3-1 4 1 3 3 C2 5-2 5-3 3 C-4 1-3-1 0-4Z" fill="#fff2d6"/>
+        </g>
+        <g font-family="Public Sans, sans-serif" font-weight="700" font-size="13" fill="#150a05"><text x="316" y="190" text-anchor="end">SALT &amp; EMBER</text></g>
+        <g transform="translate(540 70)" stroke="#1d2b3a" fill="none" stroke-width="1.2">
+          <circle r="26"/><path d="M0-34 L5-5 L0 0 L-5-5Z" fill="#1d2b3a"/><path d="M0 34 L5 5 L0 0 L-5 5Z"/><path d="M-34 0 L-5-5 L0 0 L-5 5Z"/><path d="M34 0 L5-5 L0 0 L5 5Z"/>
+          <text y="-40" text-anchor="middle" font-family="Public Sans, sans-serif" font-size="11" fill="#1d2b3a" stroke="none">N</text>
+        </g>
+        <text x="14" y="448" font-family="Public Sans, sans-serif" font-size="10" fill="#1d2b3a" letter-spacing="1">SOUNDINGS IN FATHOMS AT LOW WATER. NOT FOR NAVIGATION.</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="reserve" id="reserve" aria-labelledby="reserve-h">
+  <div class="wrap reserve-grid">
+    <div>
+      <h2 id="reserve-h">Reserve<br>a table</h2>
+      <p class="intro"><strong>28 seats, one sitting a night.</strong> Tables are held for fifteen minutes. Walk-ins are welcome at the bar when the fire allows.</p>
+    </div>
+    <div>
+      <form id="resform" novalidate aria-labelledby="reserve-h">
+        <div class="row">
+          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required><div class="err" id="e-name" role="alert"></div></div>
+          <div class="field"><label for="phone">Phone or email</label><input id="phone" name="contact" type="text" autocomplete="email" required><div class="err" id="e-phone" role="alert"></div></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="date">Date</label><input id="date" name="date" type="date" required><div class="err" id="e-date" role="alert"></div></div>
+          <div class="field"><label for="time">Time</label>
+            <select id="time" name="time" required>
+              <option value="">Choose a date first</option>
+            </select>
+            <div class="hint" id="timehint"></div><div class="err" id="e-time" role="alert"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="size">Guests</label>
+            <select id="size" name="size">
+              <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7 or more</option>
+            </select>
+            <div class="hint" id="sizehint"></div>
+          </div>
+          <div class="field"><label for="diet">Allergies or occasion</label><input id="diet" name="notes" type="text" placeholder="Shellfish allergy, an anniversary..."></div>
+        </div>
+        <button class="btn" type="submit">Request this table</button>
+      </form>
+      <div class="done" id="done" role="status" tabindex="-1">
+        <h3>Table requested.</h3>
+        <p id="donetext"></p>
+        <p>We confirm by message within a day, usually by the time the fire is lit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="private night" id="private" aria-labelledby="priv-h">
+  <div class="wrap private-grid">
+    <div class="reveal">
+      <h2 id="priv-h">Private dining</h2>
+      <p>On Mondays and Tuesdays the hearth is ours, and we will light it for you. The whole room takes up to <strong style="color:var(--on-night)">28 seated</strong>, or a long table of 10 to 12 beside the fire on any service night, after the main room has finished.</p>
+      <p>A set menu cooked entirely over wood, from &pound;62 a head, with the wine list priced at cost for private bookings. Weddings, wakes, crews coming ashore: we have fed all three.</p>
+      <a class="mail" href="mailto:fire@saltandember.example">fire@saltandember.example</a>
+    </div>
+    <svg class="table-svg reveal" viewBox="0 0 440 320" role="img" aria-label="Plan of the long table: twelve seats around a table beside the hearth." xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="440" height="320" fill="none"/>
+      <rect x="30" y="110" width="120" height="100" fill="#26323d" stroke="#5f7a90"/>
+      <g class="flame"><path d="M90 128 C104 150 112 160 108 178 C106 188 98 192 90 192 C82 192 74 188 72 178 C68 160 76 150 90 128Z" fill="#e2552b"/></g>
+      <text x="90" y="232" text-anchor="middle" font-family="Public Sans, sans-serif" font-size="11" letter-spacing="1.4" fill="#a9b9c6">HEARTH</text>
+      <rect x="190" y="120" width="210" height="80" fill="#efe9d6"/>
+      <g fill="#8fb2c2">
+        <circle cx="212" cy="104" r="11"/><circle cx="252" cy="104" r="11"/><circle cx="292" cy="104" r="11"/><circle cx="332" cy="104" r="11"/><circle cx="372" cy="104" r="11"/>
+        <circle cx="212" cy="216" r="11"/><circle cx="252" cy="216" r="11"/><circle cx="292" cy="216" r="11"/><circle cx="332" cy="216" r="11"/><circle cx="372" cy="216" r="11"/>
+        <circle cx="410" cy="160" r="11"/><circle cx="180" cy="160" r="11"/>
+      </g>
+      <g stroke="#e2552b" stroke-width="2"><path d="M165 160 H178" stroke-dasharray="3 3"/></g>
+      <text x="295" y="165" text-anchor="middle" font-family="Crimson Pro, Georgia, serif" font-style="italic" font-size="20" fill="#1d2b3a">twelve at the long table</text>
+      <text x="30" y="290" font-family="Public Sans, sans-serif" font-size="11" letter-spacing="1.2" fill="#a9b9c6">ONE ARM'S LENGTH FROM THE FIRE</text>
+    </svg>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Salt &amp; Ember, The Net Loft, Fish Quay, Porth Ennis TR27 4QL</span>
+    <a href="#top">Back to the fire</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  /* ---------- hero heat contours, redrawn (not faded) per level ---------- */
+  var levels=[
+    {t:180,label:'Low coals. Slow things: celeriac, leeks, bread at the end of the night.',n:5,spread:46,glow:260,op:.25},
+    {t:320,label:'Steady heat. Fish on the bone, roasted tails, flatbreads.',n:7,spread:52,glow:380,op:.42},
+    {t:480,label:'Full fire. Oysters, scallops, anything that wants a hard sear.',n:9,spread:60,glow:520,op:.58}
+  ];
+  var rings=document.getElementById('rings'),snd=document.getElementById('soundings'),
+      glowc=document.getElementById('glowc'),out=document.getElementById('heatout'),
+      st=document.getElementById('heatstate'),rng=document.getElementById('heatrange'),
+      svg=document.getElementById('heat');
+  function blob(cx,cy,r,seed){
+    var pts=[],k=36;
+    for(var i=0;i<k;i++){
+      var a=i/k*Math.PI*2;
+      var w=1+.07*Math.sin(a*3+seed)+.05*Math.sin(a*5+seed*1.7)+.03*Math.sin(a*8+seed*.6);
+      /* heat drifts up and to the left on the sea wind */
+      var x=cx+Math.cos(a)*r*w*1.18-r*.06;
+      var y=cy+Math.sin(a)*r*w*.88-(Math.sin(a)<0?r*.08:0);
+      pts.push([x,y]);
+    }
+    var d='M'+pts[0][0].toFixed(1)+' '+pts[0][1].toFixed(1);
+    for(var j=0;j<k;j++){
+      var p0=pts[(j-1+k)%k],p1=pts[j],p2=pts[(j+1)%k],p3=pts[(j+2)%k];
+      var c1x=p1[0]+(p2[0]-p0[0])/6,c1y=p1[1]+(p2[1]-p0[1])/6;
+      var c2x=p2[0]-(p3[0]-p1[0])/6,c2y=p2[1]-(p3[1]-p1[1])/6;
+      d+=' C'+c1x.toFixed(1)+' '+c1y.toFixed(1)+','+c2x.toFixed(1)+' '+c2y.toFixed(1)+','+p2[0].toFixed(1)+' '+p2[1].toFixed(1);
+    }
+    return d+'Z';
+  }
+  function draw(i){
+    var L=levels[i];
+    while(rings.firstChild)rings.removeChild(rings.firstChild);
+    while(snd.firstChild)snd.removeChild(snd.firstChild);
+    var cx=1000,cy=470;
+    for(var k=0;k<L.n;k++){
+      var r=70+k*L.spread;
+      var p=document.createElementNS(NS,'path');
+      p.setAttribute('d',blob(cx,cy,r,k*.9+i));
+      var f=k/(L.n-1||1);
+      p.setAttribute('stroke',f<.34?'#ff8a3d':(f<.67?'#c2603a':'#4d6c85'));
+      p.setAttribute('stroke-width',k%4===0?'1.8':'1');
+      p.setAttribute('stroke-opacity',(1-f*.55).toFixed(2));
+      rings.appendChild(p);
+      if(k%2===1){
+        var t=document.createElementNS(NS,'text');
+        var temp=Math.round(L.t*Math.pow(.62,k)+24);
+        t.setAttribute('x',(cx+r*1.18-14).toFixed(0));t.setAttribute('y',(cy+6).toFixed(0));
+        t.textContent=temp;snd.appendChild(t);
+      }
+    }
+    glowc.setAttribute('r',L.glow);glowc.setAttribute('opacity',L.op+.4);
+    out.innerHTML=L.t+'<small> &deg;C</small>';
+    st.textContent=L.label;
+  }
+  rng.addEventListener('input',function(){draw(+rng.value)});
+  draw(2);
+
+  /* ---------- hours: today + open state ---------- */
+  var sched={0:[[12.5,17]],1:[],2:[],3:[[17.5,22]],4:[[17.5,22]],5:[[17.5,23]],6:[[12.5,15.5],[17.5,23]]};
+  var names=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var now=new Date(),d=now.getDay(),h=now.getHours()+now.getMinutes()/60;
+  var row=document.querySelector('#tides tr[data-d="'+d+'"]');
+  if(row)row.classList.add('today');
+  var line=document.getElementById('nowline'),open=false,nextTxt='';
+  (sched[d]||[]).forEach(function(s){if(h>=s[0]&&h<s[1])open=true;});
+  function fmt(x){var hh=Math.floor(x),m=Math.round((x-hh)*60);return (hh%12||12)+(m?':'+('0'+m).slice(-2):'')+(hh>=12?' pm':' am');}
+  if(open){line.textContent='The fire is lit and we are open now.';}
+  else{
+    var found=false;
+    for(var i=0;i<8&&!found;i++){
+      var dd=(d+i)%7,sl=sched[dd]||[];
+      for(var j=0;j<sl.length;j++){
+        if(i>0||sl[j][0]>h){nextTxt='We open '+(i===0?'today':(i===1?'tomorrow':names[dd]))+' at '+fmt(sl[j][0])+'.';found=true;break;}
+      }
+    }
+    line.textContent=nextTxt;
+  }
+
+  /* ---------- reservation form ---------- */
+  var date=document.getElementById('date'),time=document.getElementById('time'),
+      th=document.getElementById('timehint'),size=document.getElementById('size'),
+      sh=document.getElementById('sizehint');
+  var pad=function(n){return ('0'+n).slice(-2)};
+  var today=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate());
+  date.min=today;
+  function slots(day){
+    var out=[];
+    (sched[day]||[]).forEach(function(s){
+      for(var t=s[0];t<=s[1]-1.5;t+=.5){out.push(t);}
+    });
+    return out;
+  }
+  function fillTimes(){
+    time.innerHTML='';
+    if(!date.value){time.innerHTML='<option value="">Choose a date first</option>';th.textContent='';return;}
+    var parts=date.value.split('-'),day=new Date(+parts[0],+parts[1]-1,+parts[2]).getDay();
+    var s=slots(day);
+    if(!s.length){
+      time.innerHTML='<option value="">Closed that day</option>';
+      th.textContent=names[day]+' the hearth is cold. Try Wednesday to Sunday, or ask about private dining.';
+      return;
+    }
+    time.innerHTML='<option value="">Choose a time</option>'+s.map(function(t){return '<option value="'+fmt(t)+'">'+fmt(t)+'</option>'}).join('');
+    th.textContent='';
+  }
+  date.addEventListener('change',fillTimes);
+  size.addEventListener('change',function(){
+    sh.textContent=(size.value==='7 or more')?'For seven or more, write to us about private dining below.':'';
+  });
+  var form=document.getElementById('resform'),done=document.getElementById('done');
+  function setErr(id,msg){document.getElementById(id).textContent=msg;return !msg;}
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var ok=true;
+    ok=setErr('e-name',document.getElementById('name').value.trim()?'':'Tell us who to look for.')&&ok;
+    ok=setErr('e-phone',document.getElementById('phone').value.trim()?'':'A phone number or email, so we can confirm.')&&ok;
+    ok=setErr('e-date',date.value?'':'Pick a date.')&&ok;
+    ok=setErr('e-time',time.value?'':'Pick a time.')&&ok;
+    if(!ok){var f=form.querySelector('.err:not(:empty)');if(f){var inp=f.parentNode.querySelector('input,select');if(inp)inp.focus();}return;}
+    var p=date.value.split('-'),dt=new Date(+p[0],+p[1]-1,+p[2]);
+    document.getElementById('donetext').textContent=
+      'Thank you, '+document.getElementById('name').value.trim()+'. '+size.value+(size.value==='1'?' guest':(size.value==='7 or more'?' guests':' guests'))+', '+names[dt.getDay()]+' '+dt.getDate()+'/'+(dt.getMonth()+1)+' at '+time.value+'.';
+    form.style.display='none';done.classList.add('show');done.focus();
+  });
+
+  /* ---------- reveal ---------- */
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els=document.querySelectorAll('.reveal');
+  if(!reduce&&'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{threshold:.12});
+    els.forEach(function(el){io.observe(el)});
+  }else{els.forEach(function(el){el.classList.add('in')});}
+})();
+</script>
+</body>
+</html>

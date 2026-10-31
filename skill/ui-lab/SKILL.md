@@ -29,7 +29,7 @@ Your first idea is the average of what you have seen. Name it, then leave it unl
 
 1. **Write the default.** In `design/direction.md`, one line per axis for the page you would produce if you did not think: **ground**, **type voice**, **layout grammar**, **accent strategy**, **motion**.
 2. **Check it against `references/anti-slop.md`.** It lists the 2023 defaults, the current convergent "tasteful" ones, the dense-UI ones and the defaults this very procedure tends to produce. Mark every match.
-3. **Draw two candidates from different world families.** Read `references/world-index.md` (24 worlds in 6 families, with what each fits and never fits). Choose two worlds from two different families that could serve this brief; the index is enough to choose, so do not open any world file yet. The worlds supply the ground, type, accent logic, tokens and refusals, so your own taste is not the source of variety. Pick one and say why in a line. Adapt its tokens to this brand; never ship a world's hex values unchanged.
+3. **Roll, then draw two candidates from different world families.** Read `references/world-index.md` (24 worlds in 6 families, with what each fits and never fits); it is enough to choose, so do not open any world file yet. **Roll for variety:** draw a random number (for example `echo $RANDOM`, or the nanoseconds from `date +%N`; not the whole-second clock, which repeats when two runs start together), take it modulo 6, and write the number in `design/direction.md`. Families are numbered 0 to 5 in the order the index lists them. Candidate A is the best-fitting world in the first family at or after that number (wrapping round) that has a world whose "fits" column matches this brief; candidate B is the best-fitting world in the next family after that which also fits. Skip a family only when none of its worlds fit, and say so. Do not override the roll because another world feels more familiar: your taste is the thing being diversified. Pick one candidate and say why in a line. Adapt its tokens to this brand; never ship a world's hex values unchanged.
 4. **Or defend the default.** For each axis you keep from your default, write one line of evidence from the brief. "It looks good" is not evidence. The winner must differ from your default on at least three of the five axes unless every kept axis is earned.
 5. **Different is not enough: it must be stronger.** Name the single boldest visual element on the first screen and the places where the page changes rhythm (ground, density or scale, at least twice). Austere and uniform loses to committed and varied.
 6. **Swap test.** Replace the brand name and content with a competitor's. If nothing about the design has to change, it is generic: redo steps 3 to 5.
@@ -56,23 +56,25 @@ Dense UI rules (details in `references/dense-ui.md`):
 
 Code that was never rendered is a guess. Do not write "works" or "responsive" in the handoff unless you rendered it.
 
-**Path A: you can render.** Use a browser tool, or headless Chrome or Edge with a screenshot flag (1440x900 and 375x812, and a tall height for full-page shots). Then open the screenshots and look at them. `references/verify.md` has the commands and the loop.{{pro}} Also run `node scripts/audit-ui.mjs <project-dir>` as a second pair of eyes: it reads your source and catches what a screenshot hides (missing alt text and labels, no focus style, declared colour pairs that fail contrast, no reduced-motion handling, and the house-style defaults in `references/anti-slop.md`, each tagged with its anti-slop id). Fix every critical and warning. Findings tagged heuristic come from pattern matching and can be wrong: confirm them in the render before acting.{{/pro}}
+**Path A: you can render.** Use a browser tool, or headless Chrome or Edge with a screenshot flag (1440x900 and 375x812, and a tall height for full-page shots). Then open the screenshots and look at them. Headless browsers refuse windows narrower than about 500 px, so for the 375 view use `templates/viewport-probe.html`: it loads your page in a 375 px frame, shows every phone-screen slice side by side in one screenshot, and measures overflow, target sizes and labels. `references/verify.md` has the commands and the loop.{{pro}} Also run `node scripts/audit-ui.mjs <project-dir>` as a second pair of eyes: it reads your source and catches what a screenshot hides (missing alt text and labels, no focus style, declared colour pairs that fail contrast, no reduced-motion handling, and the house-style defaults in `references/anti-slop.md`, each tagged with its anti-slop id). Fix every critical and warning. Findings tagged heuristic come from pattern matching and can be wrong: confirm them in the render before acting.{{/pro}}
 
 **Path B: you cannot render.** {{pro}}Run `node scripts/audit-ui.mjs <project-dir>` and fix every critical and warning it reports. State its limits in the handoff: it is a static lint that cannot see layout, collisions, images, overlays or the 375 px view, and its heuristic findings can be wrong. {{/pro}}Write NOT RENDERED in the handoff with the list of checks you could not do; a clean audit is not a pass of the checklist below.
 
-Do one batched round, fix everything it found in one batch, then one confirming round, then stop. Record the result in `design/verify.md` from `templates/verify-log.md`. Something rendering wrong? Check `references/bugs.md` before debugging from scratch.
+Do one batched round, fix everything it found in one batch, then one confirming round, then stop. Record the result in `design/verify.md` from `templates/verify-log.md`, and paste the real output into its Evidence section: the audit's summary line, the 375 px measurements block, and one line per slice you viewed (what is in it and any defect). Defects that only show at native scale, such as a highlight crowding the line above or a badge covering a number, are found only by looking at each slice. An empty Evidence field means that step was skipped, and the handoff must say so. Something rendering wrong? Check `references/bugs.md` before debugging from scratch.
 
 Mechanical checklist, all pass/fail:
 1. Fresh load: console has zero errors and warnings you caused.
 2. No horizontal scroll at 375 (the page is not wider than the viewport).
-3. Every interactive element at least 44x44 px at 375 (inline text links in a sentence excepted).
-4. Exactly one `h1`; landmarks `header`, `nav`, `main`, `footer` present where the page has those parts; images have `alt`; form controls have labels.
+3. Every interactive element at least 44x44 px at 375, in width and in height (inline text links in a sentence excepted). Nav links and footer links are the usual failures.
+4. Exactly one `h1` per page (extra views in a one-page app use `h2`); landmarks `header`, `nav`, `main`, `footer` present where the page has those parts; images have `alt`; form controls have labels.
 5. Visible focus on every control (tab through the page); no keyboard trap.
 6. `prefers-reduced-motion: reduce` is handled: nothing loops or moves for decoration.
 7. Text contrast at least 4.5:1 (3:1 for large text){{pro}}; check pairs with `node scripts/contrast.mjs <fg> <bg>`{{/pro}}.
 8. No collisions or clipping: stamps over text, sticky headers over headings, labels cut off, tables cut off at 375, text under illustrations.
 9. Every control does something: no dead buttons, no dead anchors.
-10. Look at each screenshot as a reviewer would. Hierarchy clear in three seconds? Then squint (or view the full page small): do the sections differ in ground, density or scale, and is there one place with real visual weight? A page that is correct but uniform and flat is not done.
+10. Look at every screen-sized slice, not only the top: a downscaled full-page image hides defects. For each: hierarchy clear in three seconds? Then squint: do the sections differ in ground, density or scale, and is there one place with real visual weight? A page that is correct but uniform and flat is not done.
+11. First screen: the headline and the primary action are both visible without scrolling at 1440x900 and at 375x812, and the hero headline is no longer than four lines at 1440.
+12. Balance and rendering: no band with text in a narrow column beside an empty half; no figure or badge covering other content; code and pre blocks render as one block (inline-code styles must not leak into them); a table at 375 keeps the columns a reader needs, not just the first two.
 
 ## Gate 6. Handoff
 
@@ -120,6 +122,7 @@ Output is `templates/critique-report.md`, filled. Rules:
 | Wider list of component and section ideas | `references/patterns-index.md` | {{pro-line}}
 | A design term is unclear | `references/glossary.md` | {{pro-line}}
 | Writing an artifact | the matching file in `templates/` |
+| The 375 view, target sizes, viewing every slice without a browser tool | `templates/viewport-probe.html` |
 | Any project with source files (second pair of eyes), no browser, or seeding a critique | `scripts/audit-ui.mjs` | {{pro-line}}
 | Checking a colour pair | `scripts/contrast.mjs` | {{pro-line}}
 

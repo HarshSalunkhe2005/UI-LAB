@@ -1,0 +1,88 @@
+<!doctype html>
+<!--
+  Viewport probe: shows your page at a narrow width in screen-sized slices and measures it, without a browser tool.
+  Headless Chrome and Edge refuse windows narrower than about 500 px, so a 375 px screenshot of the page itself comes back
+  wider. This page loads yours into a 375 px wide frame instead, so the layout really is 375 px wide.
+
+  Use: copy this file next to your index.html (or any page), set PAGE below, then run, for example:
+    chrome --headless --allow-file-access-from-files --window-size=1500,2400 --screenshot=probe.png file:///path/to/probe.html
+    chrome --headless --allow-file-access-from-files --virtual-time-budget=4000 --dump-dom file:///path/to/probe.html
+  The screenshot shows every screen-sized slice side by side (open it and look at each one). The dump-dom output contains
+  the measurements in <pre id="report">. When the page is served over http, the flag is not needed.
+  Nothing here touches the network; it only loads the page you name.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Viewport probe</title>
+<style>
+body{margin:0;padding:16px;font:14px/1.4 system-ui,sans-serif;background:#2b2f36;color:#e8eaed}
+h1{font-size:16px;margin:0 0 8px}
+pre{background:#14171c;padding:12px;border-radius:6px;white-space:pre-wrap;margin:0 0 16px}
+.row{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.slice{position:relative;overflow:hidden;background:#fff;border:1px solid #556}
+.slice iframe{position:absolute;left:0;border:0;background:#fff}
+.slice b{position:absolute;right:4px;top:4px;z-index:2;background:#000a;color:#fff;font:11px system-ui;padding:2px 6px;border-radius:4px}
+</style>
+</head>
+<body>
+<h1>Viewport probe</h1>
+<pre id="report">measuring...</pre>
+<div class="row" id="row"></div>
+<script>
+const PAGE = 'index.html'   // the page to test, relative to this file
+const W = 375               // width of the narrow view
+const SLICE = 812           // height of one slice (one phone screen)
+const MAX_SLICES = 10
+
+const row = document.getElementById('row'), report = document.getElementById('report')
+const probe = document.createElement('iframe')
+probe.style.cssText = `position:absolute;left:-9999px;top:0;width:${W}px;height:${SLICE}px;border:0`
+probe.src = PAGE
+document.body.append(probe)
+probe.addEventListener('load', () => setTimeout(run, 600))
+
+function run() {
+  let doc, win
+  try { doc = probe.contentDocument; win = probe.contentWindow; doc.body.innerHTML.length } catch (e) {
+    report.textContent = 'Cannot read the page (file access blocked). Add --allow-file-access-from-files or serve the folder over http.'
+    return
+  }
+  const lines = []
+  const html = doc.documentElement
+  const H = Math.max(html.scrollHeight, doc.body.scrollHeight)
+  lines.push(`page: ${PAGE} at ${W}px wide, ${H}px tall`)
+  lines.push(`horizontal overflow: ${html.scrollWidth > W + 1 ? 'YES, document is ' + html.scrollWidth + 'px wide' : 'no'}`)
+  const vis = (e) => { const r = e.getBoundingClientRect(); const s = win.getComputedStyle(e); return r.width > 0 && r.height > 0 && r.right > 0 && r.bottom > 0 && s.visibility !== 'hidden' && s.display !== 'none' && s.opacity !== '0' }
+  const inline = (e) => e.tagName === 'A' && win.getComputedStyle(e).display === 'inline' && e.parentElement && [...e.parentElement.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim().length > 3)
+  const targets = [...doc.querySelectorAll('a[href],button,input:not([type=hidden]),select,textarea,summary,[role=button]')].filter(vis).filter((e) => !inline(e))
+  const small = targets.filter((e) => { const r = e.getBoundingClientRect(); return r.width < 44 || r.height < 44 })
+  lines.push(`interactive elements: ${targets.length}; under 44px in width or height: ${small.length}`)
+  for (const e of small.slice(0, 12)) { const r = e.getBoundingClientRect(); lines.push(`  ${e.tagName.toLowerCase()} "${(e.textContent || e.getAttribute('aria-label') || '').trim().slice(0, 28)}" ${Math.round(r.width)}x${Math.round(r.height)}`) }
+  const wide = [...doc.body.querySelectorAll('*')].filter((e) => vis(e) && e.getBoundingClientRect().right > W + 1 && !e.closest('[style*="overflow"]'))
+  lines.push(`elements extending past the right edge: ${wide.length}`)
+  for (const e of wide.slice(0, 6)) lines.push(`  <${e.tagName.toLowerCase()}${e.className ? ' class="' + String(e.className).slice(0, 30) + '"' : ''}> right edge at ${Math.round(e.getBoundingClientRect().right)}px`)
+  const noAlt = [...doc.images].filter((i) => !i.hasAttribute('alt')).length
+  const fields = [...doc.querySelectorAll('input:not([type=hidden]):not([type=submit]):not([type=button]),select,textarea')]
+  const unlabelled = fields.filter((e) => !(e.labels && e.labels.length) && !e.getAttribute('aria-label') && !e.getAttribute('aria-labelledby')).length
+  lines.push(`h1 count: ${doc.querySelectorAll('h1').length}; images without alt: ${noAlt}; inputs without a label: ${unlabelled}`)
+  lines.push(`slices shown: ${Math.min(MAX_SLICES, Math.ceil(H / SLICE))} of ${Math.ceil(H / SLICE)} (each ${W}x${SLICE})`)
+  report.textContent = lines.join('\n')
+  document.title = 'probe done'
+  probe.remove()
+  for (let i = 0; i < Math.min(MAX_SLICES, Math.ceil(H / SLICE)); i++) {
+    const box = document.createElement('div')
+    box.className = 'slice'
+    box.style.cssText = `width:${W}px;height:${SLICE}px`
+    box.innerHTML = `<b>${i + 1}</b>`
+    const f = document.createElement('iframe')
+    f.src = PAGE
+    f.style.cssText = `width:${W}px;height:${H}px;top:${-i * SLICE}px`
+    box.append(f)
+    row.append(box)
+  }
+}
+</script>
+</body>
+</html>

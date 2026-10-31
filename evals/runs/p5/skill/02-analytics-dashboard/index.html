@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harbor Operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@1,500;1,600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#efe9d6; --surface-raised:#f7f2e2; --ink:#1d2b3a; --ink-muted:#4a5a6a; --accent:#a3166b; --accent-ink:#fff; --border:#7d93a8; --rule:#cfc8b0;
+  --sea1:#dbe6ea; --sea2:#b9d0d9; --sea3:#8fb2c2; --sea4:#5f90a6; --deep:#16303f; --deep-ink:#f2ecd9; --deep-muted:#b9cbd3;
+  --font-display:'Crimson Pro',Georgia,serif; --font-text:'Public Sans',system-ui,sans-serif;
+  --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:24px;
+  --dur-fast:150ms;
+}
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{margin:0;background:var(--surface);color:var(--ink);font:400 14px/1.4 var(--font-text);-webkit-text-size-adjust:100%}
+button,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;box-shadow:0 0 0 5px var(--surface-raised)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+.app{display:flex;flex-direction:column;gap:var(--s-3);padding:0 16px 24px;max-width:1600px;margin:0 auto}
+/* header */
+header.top{display:flex;align-items:center;gap:var(--s-3);padding:12px 0 0;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand svg{flex:none}
+h1{margin:0;font:600 15px/1.2 var(--font-text);letter-spacing:.01em}
+h1 b{font-family:var(--font-display);font-style:italic;font-size:26px;font-weight:600;margin-right:6px;letter-spacing:0}
+.stamp{color:var(--ink-muted);font-size:12px}
+.filter-toggle{display:none}
+.filters{display:flex;flex-wrap:wrap;gap:var(--s-3);align-items:flex-end;padding:var(--s-3);background:var(--surface-raised);border:1px solid var(--border)}
+.field{display:flex;flex-direction:column;gap:3px}
+.field>span,.field>legend{font-size:12px;color:var(--ink-muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:0}
+fieldset.field{border:0;margin:0;padding:0;min-width:0}
+.seg{display:inline-flex;border:1px solid var(--ink)}
+.seg button{background:transparent;border:0;border-right:1px solid var(--ink);padding:0 14px;height:36px;cursor:pointer;font-weight:500}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface-raised);font-weight:600}
+select{height:36px;border:1px solid var(--ink);background:var(--surface-raised);padding:0 8px;min-width:210px}
+.btn{height:36px;border:1px solid var(--ink);background:transparent;padding:0 14px;cursor:pointer;font-weight:500}
+.range-note{margin-left:auto;color:var(--ink-muted);font-size:12px;align-self:center}
+
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--s-3)}
+.lead{grid-column:span 4;position:relative;overflow:hidden;background:var(--deep);color:var(--deep-ink);padding:16px 20px;min-height:104px}
+.lead svg.contours{position:absolute;right:-20px;top:-30px;width:70%;height:200%;pointer-events:none}
+.lead>*{position:relative}
+.lead .lbl{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--deep-muted);font-weight:600}
+.lead .big{font:italic 600 64px/1 var(--font-display);margin:2px 0 2px;display:flex;align-items:baseline;gap:6px}
+.lead .big small{font-size:26px}
+.lead .sub{font-size:13px;color:var(--deep-ink)}
+.lead .sub span{color:var(--deep-muted)}
+.minis{display:contents}
+.kpi{grid-column:span 2;background:var(--surface-raised);border:1px solid var(--border);padding:12px 14px}
+.kpi .lbl{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);font-weight:600}
+.kpi .val{font:italic 600 34px/1.1 var(--font-display);margin:2px 0}
+.kpi .val small{font:500 13px var(--font-text);color:var(--ink-muted);margin-left:3px}
+.kpi .cmp{font-size:12px;color:var(--ink-muted)}
+
+/* panels */
+.charts{display:grid;grid-template-columns:5fr 4fr 3fr;gap:var(--s-3)}
+.panel{background:var(--surface-raised);border:1px solid var(--border);padding:12px 14px;min-width:0}
+.panel h2{margin:0;font:600 15px/1.25 var(--font-text)}
+.panel .find{margin:2px 0 6px;font-size:12px;color:var(--ink-muted)}
+.chart{width:100%}
+.chart svg{display:block;width:100%;overflow:visible}
+svg text{font-family:var(--font-text);fill:var(--ink)}
+svg .m{fill:var(--ink-muted);font-size:12px}
+svg .v{font-size:12px;font-weight:700}
+svg .rowlbl{font-size:12px}
+
+.sail{display:flex;flex-direction:column;min-height:0}
+.sail-head{display:flex;flex-wrap:wrap;gap:var(--s-3);align-items:center;justify-content:space-between;margin-bottom:8px}
+.sail-head .l{display:flex;flex-direction:column}
+.sort-m{display:none}
+.table-wrap{overflow:auto;max-height:420px;border-top:1px solid var(--ink);min-height:0}
+table{width:100%;border-collapse:collapse}
+thead th{position:sticky;top:0;background:var(--surface-raised);text-align:left;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);padding:0;border-bottom:1px solid var(--ink);z-index:1;white-space:nowrap}
+thead th.r{text-align:right}
+th button{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:4px;height:34px;padding:0 10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:12px;color:inherit;width:100%}
+th.r button{justify-content:flex-end}
+th button:focus-visible{outline:3px solid var(--ink);outline-offset:-3px}
+th[aria-sort="ascending"] button,th[aria-sort="descending"] button{color:var(--ink)}
+th button i{font-style:normal;width:12px;font-size:12px}
+tbody td{height:36px;padding:0 10px;border-bottom:1px solid var(--rule);white-space:nowrap}
+tbody tr.flag td:first-child{box-shadow:inset 4px 0 0 var(--accent)}
+td.r{text-align:right}
+td.note{white-space:normal;min-width:220px;color:var(--ink-muted)}
+td.note .why{color:var(--accent);font-weight:700;margin-right:4px}
+.route-c{font-weight:700}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:1px 8px 1px 6px;border:1px solid var(--ink-muted);font-size:12px;font-weight:600;color:var(--ink)}
+.chip svg{flex:none}
+.chip.x{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chip.d{border-color:var(--accent);color:var(--accent)}
+.late{color:var(--accent);font-weight:700}
+.loadc{display:inline-flex;align-items:center;gap:8px;justify-content:flex-end}
+.bar{display:inline-block;width:56px;height:8px;background:var(--sea1);border:1px solid var(--border);position:relative}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--sea4)}
+.bar.hot i{background:var(--accent)}
+.empty{padding:24px 12px;color:var(--ink-muted)}
+.empty button{margin-left:8px}
+
+/* desktop single screen */
+@media (min-width:1000px) and (min-height:760px){
+  body{height:100dvh;overflow:hidden}
+  .app{height:100dvh;padding-bottom:16px}
+  .sail{flex:1;min-height:0}
+  .table-wrap{flex:1;max-height:none}
+}
+/* tablet */
+@media (max-width:999px){
+  .charts{grid-template-columns:1fr 1fr}
+  .charts .panel:first-child{grid-column:span 2}
+  .lead{grid-column:span 12}
+  .kpi{grid-column:span 3}
+}
+/* phone: designed, not squashed */
+@media (max-width:640px){
+  .app{padding:0 16px 32px}
+  header.top{flex-wrap:wrap}
+  .stamp{width:100%}
+  .filter-toggle{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:44px;padding:0 12px;border:1px solid var(--ink);background:var(--surface-raised);cursor:pointer;font-weight:600;text-align:left}
+  .filter-toggle span{font-weight:400;color:var(--ink-muted);font-size:13px}
+  .filters{display:none;flex-direction:column;align-items:stretch}
+  .filters.open{display:flex}
+  .seg{display:flex}.seg button{flex:1;height:44px}
+  select{height:44px;width:100%;min-width:0}
+  .btn{height:44px}
+  .range-note{margin:0}
+  .kpis{display:contents}
+  .lead{order:1}
+  .lead .big{font-size:60px}
+  .sail{order:2}
+  .minis{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-3);order:3}
+  .kpi{grid-column:auto}
+  .charts{order:4;grid-template-columns:1fr}
+  .charts .panel:first-child{grid-column:auto}
+  .sort-m{display:flex;gap:8px;align-items:flex-end}
+  .sort-m .field{flex:1}.sort-m select{width:100%;height:44px}
+  .sort-m .btn{width:44px;padding:0}
+  .seg.attn button{height:44px}
+  .table-wrap{max-height:none;border-top:0;overflow:visible}
+  table,tbody{display:block}
+  thead{display:none}
+  tbody tr{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"time status" "route route" "delay load" "vessel vessel" "note note";gap:4px 12px;padding:12px 4px 12px 12px;border-bottom:1px solid var(--rule)}
+  tbody tr.flag{box-shadow:inset 4px 0 0 var(--accent)}
+  tbody tr.flag td:first-child{box-shadow:none}
+  tbody td{height:auto;padding:0;border:0;white-space:normal;text-align:left}
+  td.c-time{grid-area:time;font:italic 600 26px/1.1 var(--font-display)}
+  td.c-status{grid-area:status;text-align:right}
+  td.c-route{grid-area:route}
+  td.c-delay{grid-area:delay}td.c-load{grid-area:load}td.c-vessel{grid-area:vessel}
+  td.c-note{grid-area:note;min-width:0}
+  td.r{text-align:left}
+  td.c-delay::before,td.c-load::before,td.c-vessel::before{content:attr(data-label);display:block;font-size:12px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+  .loadc{justify-content:flex-start}
+  .minis .kpi .val{font-size:30px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15" fill="none" stroke="#1d2b3a" stroke-width="1.5"/><circle cx="17" cy="17" r="10" fill="none" stroke="#7d93a8" stroke-width="1"/><path d="M17 2 20 17 17 32 14 17Z" fill="#1d2b3a"/><path d="M2 17 17 14 32 17 17 20Z" fill="#5f90a6"/><circle cx="17" cy="17" r="2" fill="#efe9d6"/></svg>
+      <h1><b>Harbor</b>Operations, Friday 30 October</h1>
+    </div>
+    <div class="stamp num">Updated 07:05 · AIS + booking feed · 34 sailings today</div>
+  </header>
+
+  <button class="filter-toggle" id="ftoggle" aria-expanded="false" aria-controls="filters"><span id="fsum">Last 7 days · All routes</span><b>Filters</b></button>
+  <section class="filters" id="filters" aria-label="Filters">
+    <fieldset class="field"><legend>Date range</legend>
+      <div class="seg" id="rangeSeg">
+        <button type="button" data-r="7" aria-pressed="true">7 days</button>
+        <button type="button" data-r="14" aria-pressed="false">14 days</button>
+        <button type="button" data-r="30" aria-pressed="false">30 days</button>
+      </div>
+    </fieldset>
+    <label class="field"><span>Route</span>
+      <select id="routeSel"></select>
+    </label>
+    <button class="btn" type="button" id="reset">Reset</button>
+    <div class="range-note num" id="rangeNote" aria-live="polite"></div>
+  </section>
+
+  <main style="display:contents">
+  <section class="kpis" aria-label="Key figures">
+    <div class="lead">
+      <svg class="contours" id="contours" viewBox="0 0 300 300" aria-hidden="true"></svg>
+      <div class="lbl">On-time rate</div>
+      <div class="big num" id="kOn">--</div>
+      <div class="sub num" id="kOnSub"></div>
+    </div>
+    <div class="minis">
+      <div class="kpi"><div class="lbl">Passengers</div><div class="val num" id="kPax"></div><div class="cmp num" id="kPaxC"></div></div>
+      <div class="kpi"><div class="lbl">Average load</div><div class="val num" id="kLoad"></div><div class="cmp num" id="kLoadC"></div></div>
+      <div class="kpi"><div class="lbl">Delay minutes</div><div class="val num" id="kDel"></div><div class="cmp num" id="kDelC"></div></div>
+      <div class="kpi"><div class="lbl">Cancelled</div><div class="val num" id="kCx"></div><div class="cmp num" id="kCxC"></div></div>
+    </div>
+  </section>
+
+  <section class="charts" aria-label="Charts">
+    <div class="panel"><h2>On-time rate by day, %</h2><p class="find" id="fTrend"></p><div class="chart" id="cTrend"></div></div>
+    <div class="panel"><h2>Passenger load vs capacity, by route</h2><p class="find" id="fLoad"></p><div class="chart" id="cLoad"></div></div>
+    <div class="panel"><h2>Delay minutes by cause</h2><p class="find" id="fCause"></p><div class="chart" id="cCause"></div></div>
+  </section>
+
+  <section class="panel sail" aria-labelledby="sailH">
+    <div class="sail-head">
+      <div class="l"><h2 id="sailH">Today's sailings</h2><p class="find num" id="count" aria-live="polite" style="margin:0"></p></div>
+      <div class="sort-m">
+        <label class="field"><span>Sort by</span><select id="sortSel" style="min-width:0">
+          <option value="time">Departure</option><option value="status">Status</option><option value="delay">Delay</option><option value="load">Load</option><option value="route">Route</option></select></label>
+        <button class="btn" type="button" id="dirBtn" aria-label="Reverse sort direction">↑</button>
+      </div>
+      <div class="seg attn" id="attnSeg" role="group" aria-label="Sailings shown">
+        <button type="button" data-a="1" aria-pressed="true" id="bAtt">Needs attention</button>
+        <button type="button" data-a="0" aria-pressed="false" id="bAll">All sailings</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="tbl">
+        <caption class="sr">Today's sailings, sortable by column</caption>
+        <thead><tr>
+          <th scope="col" data-k="time"><button type="button">Dep<i></i></button></th>
+          <th scope="col" data-k="route"><button type="button">Route<i></i></button></th>
+          <th scope="col">Vessel</th>
+          <th scope="col" data-k="status"><button type="button">Status<i></i></button></th>
+          <th scope="col" class="r" data-k="delay"><button type="button">Delay<i></i></button></th>
+          <th scope="col" class="r" data-k="load"><button type="button">Load<i></i></button></th>
+          <th scope="col">Note</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="empty" id="empty" hidden>No sailings match these filters. <button class="btn" type="button" id="clearF">Show all sailings</button></div>
+    </div>
+  </section>
+  </main>
+</div>
+
+<script>
+(function(){
+'use strict';
+var ROUTES=[
+ {id:'R1',name:'Meridian Quay – Saltwick',short:'Quay–Saltwick',cap:320,vessel:'MV Kittiwake',p:.93,lf:.66,w:{fog:2,mech:1,inb:3,tide:2,load:3,crew:1}},
+ {id:'R2',name:'Meridian Quay – Corran Island',short:'Quay–Corran',cap:240,vessel:'MV Corran Star',p:.95,lf:.58,w:{fog:2,mech:1,inb:2,tide:3,load:2,crew:1}},
+ {id:'R3',name:'Saltwick – Corran Island',short:'Saltwick–Corran',cap:180,vessel:'MV Saltwick Lady',p:.84,lf:.71,w:{fog:5,mech:1,inb:2,tide:3,load:1,crew:1}},
+ {id:'R4',name:'Meridian Quay – Hallow Point',short:'Quay–Hallow Pt',cap:400,vessel:'MV Gannet',p:.91,lf:.78,w:{fog:1,mech:1,inb:3,tide:1,load:4,crew:1}},
+ {id:'R5',name:'Hallow Point – Orrin Isles',short:'Hallow–Orrin',cap:150,vessel:'MV Hallow Belle',p:.88,lf:.52,w:{fog:4,mech:1,inb:1,tide:2,load:1,crew:3}},
+ {id:'R6',name:'Saltwick – Penhallow',short:'Saltwick–Penhallow',cap:120,vessel:'MV Penhallow',p:.79,lf:.69,w:{fog:1,mech:6,inb:1,tide:2,load:1,crew:1}}
+];
+var CAUSES={fog:'Fog & weather',mech:'Mechanical',inb:'Late inbound vessel',tide:'Tide & berth',load:'Boarding & loading',crew:'Crew'};
+var SAIL={R1:8,R2:6,R3:5,R4:7,R5:4,R6:4};
+var RM={};ROUTES.forEach(function(r){RM[r.id]=r});
+var DAYS=60, LAST=new Date(2026,9,29), FOG=56, TARGET=90;
+
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+var rand=rng(20261030);
+function pick(w){var tot=0,k;for(k in w)tot+=w[k];var x=rand()*tot;for(k in w){x-=w[k];if(x<=0)return k}return 'inb'}
+
+var hist=[];
+for(var d=0;d<DAYS;d++){
+  var dt=new Date(LAST);dt.setDate(LAST.getDate()-(DAYS-1-d));
+  var dow=dt.getDay(), wk=(dow===0||dow===6)?1.14:(dow===5?1.06:0.96);
+  var day={date:dt,s:[]};
+  ROUTES.forEach(function(r){
+    for(var i=0;i<SAIL[r.id];i++){
+      var fog=d===FOG, p=r.p, cw=r.w;
+      if(fog){p=(r.id==='R3'||r.id==='R5'||r.id==='R6')?.25:.62;cw={fog:9,tide:1,inb:2}}
+      var s={r:r.id,cx:false,delay:0,cause:null,pax:0};
+      if(rand()<(r.id==='R5'?.03:.012)+(fog?.05:0)){s.cx=true;s.cause=fog?'fog':pick(r.w);}
+      else{
+        var lf=Math.min(1,Math.max(.12,r.lf*wk*(.7+.6*rand())));
+        s.pax=Math.round(r.cap*lf);
+        if(rand()>p){s.delay=6+Math.min(60,Math.floor(-Math.log(1-rand())*(fog?14:9)));s.cause=pick(cw)}
+        else s.delay=Math.floor(rand()*5);
+      }
+      day.s.push(s);
+    }
+  });
+  hist.push(day);
+}
+function agg(a,b,rid){
+  var o={n:0,cx:0,on:0,run:0,pax:0,seats:0,dm:0,late:0,peak:{},causes:{},daily:[]};
+  ROUTES.forEach(function(r){o.peak[r.id]={sum:0,seats:0,max:0,n:0}});
+  for(var i=a;i<b;i++){
+    var dn=0,dr=0,dc={};
+    hist[i].s.forEach(function(s){
+      var inF=(rid==='all'||s.r===rid), c=RM[s.r].cap;
+      if(s.cx){ if(inF){o.n++;o.cx++} return }
+      var pk=o.peak[s.r];pk.sum+=s.pax;pk.seats+=c;pk.n++;pk.max=Math.max(pk.max,s.pax/c);
+      if(!inF)return;
+      o.n++;o.run++;o.pax+=s.pax;o.seats+=c;dr++;
+      if(s.delay<=5){o.on++;dn++}else{o.late++;o.dm+=s.delay;o.causes[s.cause]=(o.causes[s.cause]||0)+s.delay;dc[s.cause]=(dc[s.cause]||0)+s.delay}
+    });
+    var top=null,tm=0;for(var k in dc){if(dc[k]>tm){tm=dc[k];top=k}}
+    o.daily.push({date:hist[i].date,pct:dr?100*dn/dr:null,top:top});
+  }
+  return o;
+}
+
+/* today's sailings */
+var TODAY_RAW=[
+'05:45 R1 A 2 211','07:00 R1 B 6 298','08:15 R1 S 0 318','09:30 R1 S 0 276','12:00 R1 S 0 203','14:30 R1 S 0 241','17:00 R1 S 0 309','19:30 R1 S 0 142',
+'06:15 R2 A 1 118','08:00 R2 S 0 205','10:30 R2 S 0 188','13:00 R2 S 0 166','16:00 R2 S 0 231','18:30 R2 S 0 119',
+'06:30 R3 A 4 87','08:45 R3 D 22 140 fog','11:15 R3 D 15 122 inb','14:00 R3 S 0 151','17:30 R3 S 0 176',
+'05:30 R4 A 0 264','07:15 R4 B 3 352','09:00 R4 S 0 389','11:30 R4 S 0 301','14:15 R4 S 0 318','16:45 R4 S 0 372','19:00 R4 S 0 198',
+'07:30 R5 S 0 96','10:00 R5 X 0 62 crew','13:30 R5 S 0 96 sub','17:00 R5 S 0 71',
+'06:45 R6 A 38 64 mech','09:15 R6 D 30 82 mech','12:45 R6 S 0 97','16:15 R6 S 0 104'
+];
+var NOTES={
+ 'R3 08:45':'Fog on Saltwick approach, harbour master holding departures.',
+ 'R3 11:15':'Vessel still on the 08:45 rotation; knock-on from fog.',
+ 'R5 10:00':'Master off sick, no relief crew. 62 booked to rebook.',
+ 'R5 13:30':'Substitute MV Tern (96 seats); 35 waitlisted from the 10:00.',
+ 'R6 06:45':'Arrived 38 min late; bow thruster fault logged.',
+ 'R6 09:15':'Bow thruster fault, engineer aboard, ETA to berth +30.',
+ 'R1 07:00':'Boarding on time; foot passengers only on car deck B.',
+ 'R4 09:00':'Weekend-pattern demand on a Friday, 11 seats left.',
+ 'R3 17:30':'Evening commuter peak, 4 seats left.',
+ 'R1 08:15':'Commuter peak, 2 seats left.'
+};
+var ST={X:{t:'Cancelled',o:0},D:{t:'Delayed',o:1},B:{t:'Boarding',o:2},S:{t:'Scheduled',o:3},A:{t:'Arrived',o:4}};
+var today=TODAY_RAW.map(function(l){
+  var p=l.split(' '),r=RM[p[1]],sub=p[5]==='sub',cap=sub?96:r.cap,pax=+p[4],st=p[2];
+  var o={time:p[0],mins:+p[0].slice(0,2)*60+ +p[0].slice(3),r:p[1],vessel:sub?'MV Tern':r.vessel,st:st,delay:+p[3],pax:pax,cap:cap,cause:p[5]&&!sub?p[5]:null,note:NOTES[p[1]+' '+p[0]]||''};
+  o.pct=st==='X'?-1:Math.round(100*pax/cap);
+  var why=[];
+  if(st==='X')why.push('Cancelled');
+  if(st!=='A'&&st!=='X'&&o.delay>=15)why.push('+'+o.delay+' min'+(st==='D'?' (est.)':''));
+  if(st!=='A'&&st!=='X'&&o.pct>=95)why.push(o.pct+'% full');
+  o.why=why.join(' · ');o.flag=why.length>0;
+  return o;
+});
+var flagged=today.filter(function(x){return x.flag}).length;
+
+/* state */
+var S={range:7,route:'all',att:true,key:'time',dir:1};
+var DEF=JSON.stringify(S);
+var $=function(i){return document.getElementById(i)};
+function fd(d){return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}
+function fdl(d){return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})}
+function sgn(x,u){return (x>0?'+':x<0?'−':'')+Math.abs(x).toFixed(1)+u}
+function nf(x){return x.toLocaleString('en-GB')}
+
+/* select */
+var sel=$('routeSel');
+sel.innerHTML='<option value="all">All routes (6)</option>'+ROUTES.map(function(r){return '<option value="'+r.id+'">'+r.id+' · '+r.name+'</option>'}).join('');
+
+function ranges(){
+  var n=S.range,cur=agg(DAYS-n,DAYS,S.route),pri=agg(DAYS-2*n,DAYS-n,S.route);
+  return {n:n,cur:cur,pri:pri};
+}
+function pctOn(o){return o.run?100*o.on/o.run:0}
+function lf(o){return o.seats?100*o.pax/o.seats:0}
+
+function renderKPIs(R){
+  var c=R.cur,p=R.pri,on=pctOn(c),po=pctOn(p),diff=on-TARGET;
+  $('kOn').innerHTML=on.toFixed(1)+'<small>%</small>';
+  $('kOnSub').innerHTML=(diff>=0?'Above':'Below')+' the '+TARGET+'% target by '+Math.abs(diff).toFixed(1)+' pts<br><span>Prior '+R.n+' days '+po.toFixed(1)+'% ('+sgn(on-po,' pts')+')</span>';
+  $('kPax').innerHTML=nf(c.pax);
+  $('kPaxC').textContent=sgn(100*(c.pax-p.pax)/Math.max(1,p.pax),'%')+' vs prior '+R.n+'d';
+  $('kLoad').innerHTML=lf(c).toFixed(0)+'<small>%</small>';
+  $('kLoadC').textContent=sgn(lf(c)-lf(p),' pts')+' vs prior '+R.n+'d';
+  $('kDel').innerHTML=nf(c.dm)+'<small>min</small>';
+  $('kDelC').textContent=c.late+' late sailings of '+c.run;
+  $('kCx').innerHTML=c.cx+'<small>of '+c.n+'</small>';
+  $('kCxC').textContent=(c.n?(100*c.cx/c.n).toFixed(1):'0.0')+'% · prior '+p.cx;
+  var a=c.daily[0].date,b=c.daily[c.daily.length-1].date;
+  $('rangeNote').textContent=fd(a)+' – '+fd(b)+' · '+(S.route==='all'?'6 routes':RM[S.route].short);
+  $('fsum').textContent='Last '+R.n+' days · '+(S.route==='all'?'All routes':S.route+' '+RM[S.route].short);
+}
+
+function W(el){return Math.max(240,Math.floor(el.clientWidth))}
+function svgOpen(w,h,label){return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" role="img" aria-label="'+label+'">'}
+
+function renderTrend(R){
+  var el=$('cTrend'),w=W(el),h=176,m={l:34,r:12,t:12,b:24},c=R.cur,d=c.daily.filter(function(x){return x.pct!==null});
+  var vals=d.map(function(x){return x.pct}),mn=Math.min.apply(null,vals.concat([TARGET]));
+  var lo=Math.max(0,Math.floor((mn-6)/10)*10),hi=100,iw=w-m.l-m.r,ih=h-m.t-m.b;
+  var X=function(i){return m.l+iw*(c.daily.length===1?.5:i/(c.daily.length-1))},Y=function(v){return m.t+ih*(1-(v-lo)/(hi-lo))};
+  var s=svgOpen(w,h,'Daily on-time rate. '+c.daily.map(function(x){return fd(x.date)+' '+(x.pct===null?'n/a':Math.round(x.pct)+'%')}).join(', '));
+  for(var t=lo;t<=hi;t+=10){s+='<line x1="'+m.l+'" x2="'+(w-m.r)+'" y1="'+Y(t)+'" y2="'+Y(t)+'" stroke="#cfc8b0" stroke-width="1"/><text class="m" x="'+(m.l-6)+'" y="'+(Y(t)+4)+'" text-anchor="end">'+t+'</text>'}
+  s+='<line x1="'+m.l+'" x2="'+(w-m.r)+'" y1="'+Y(TARGET)+'" y2="'+Y(TARGET)+'" stroke="#1d2b3a" stroke-width="1.2" stroke-dasharray="5 4"/><text class="m" x="'+(w-m.r)+'" y="'+(Y(TARGET)-4)+'" text-anchor="end">Target '+TARGET+'</text>';
+  var pts=[];c.daily.forEach(function(x,i){if(x.pct!==null)pts.push(X(i).toFixed(1)+','+Y(x.pct).toFixed(1))});
+  s+='<polygon points="'+X(0).toFixed(1)+','+Y(lo)+' '+pts.join(' ')+' '+X(c.daily.length-1).toFixed(1)+','+Y(lo)+'" fill="#b9d0d9" opacity=".55"/>';
+  s+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="#1d2b3a" stroke-width="2" stroke-linejoin="round"/>';
+  var minI=0;c.daily.forEach(function(x,i){if(x.pct!==null&&x.pct<(c.daily[minI].pct===null?999:c.daily[minI].pct))minI=i});
+  c.daily.forEach(function(x,i){if(x.pct===null)return;var below=x.pct<TARGET;s+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(x.pct).toFixed(1)+'" r="'+(c.daily.length>14?2.5:3.5)+'" fill="'+(below?'#f7f2e2':'#1d2b3a')+'" stroke="#1d2b3a" stroke-width="1.5"/>'});
+  var mi=c.daily[minI],mx=X(minI),anchor=mx>w*.7?'end':mx<w*.3?'start':'middle';
+  s+='<text class="v" stroke="#f7f2e2" stroke-width="4" paint-order="stroke" x="'+mx+'" y="'+(Y(mi.pct)+(Y(mi.pct)>h-m.b-26?-10:18))+'" text-anchor="'+anchor+'">'+fd(mi.date)+' · '+Math.round(mi.pct)+'%</text>';
+  [0,Math.floor((c.daily.length-1)/2),c.daily.length-1].forEach(function(i,k){s+='<text class="m" x="'+X(i)+'" y="'+(h-6)+'" text-anchor="'+(k===0?'start':k===2?'end':'middle')+'">'+fd(c.daily[i].date)+'</text>'});
+  el.innerHTML=s+'</svg>';
+  var below=d.filter(function(x){return x.pct<TARGET}).length;
+  $('fTrend').textContent='Below target on '+below+' of '+d.length+' days. Lowest '+fd(mi.date)+' at '+Math.round(mi.pct)+'%'+(mi.top?' ('+CAUSES[mi.top].toLowerCase()+')':'')+'. Hollow dot = below target.';
+}
+
+function renderLoad(R){
+  var el=$('cLoad'),w=W(el),rowH=28,h=ROUTES.length*rowH+22,lw=128,rw=72,bw=w-lw-rw;
+  var rows=ROUTES.map(function(r){var p=R.cur.peak[r.id];return {r:r,avg:100*p.sum/p.seats,peak:100*p.max}}).sort(function(a,b){return b.avg-a.avg});
+  var s=svgOpen(w,h,'Average load against seat capacity per route. '+rows.map(function(x){return x.r.id+' '+x.r.short+' average '+Math.round(x.avg)+' percent, peak '+Math.round(x.peak)+' percent'}).join('; '));
+  rows.forEach(function(x,i){
+    var y=i*rowH+4,dim=(S.route!=='all'&&S.route!==x.r.id),hot=x.peak>=95;
+    s+='<g opacity="'+(dim?.4:1)+'"><text class="rowlbl" x="0" y="'+(y+14)+'"><tspan font-weight="700">'+x.r.id+'</tspan> '+x.r.short.replace('Saltwick–Penhallow','Saltw.–Penhall.')+'</text>';
+    s+='<rect x="'+lw+'" y="'+y+'" width="'+bw+'" height="18" fill="#dbe6ea" stroke="#7d93a8"/>';
+    s+='<rect x="'+lw+'" y="'+y+'" width="'+(bw*x.avg/100).toFixed(1)+'" height="18" fill="#5f90a6"/>';
+    s+='<rect x="'+(lw+bw*Math.min(100,x.peak)/100-2)+'" y="'+(y-3)+'" width="3" height="24" fill="'+(hot?'#a3166b':'#1d2b3a')+'"/>';
+    s+='<text class="v" x="'+(w)+'" y="'+(y+14)+'" text-anchor="end">'+Math.round(x.avg)+'%<tspan class="m" font-weight="400" fill="#4a5a6a"> pk '+Math.round(x.peak)+'</tspan></text></g>';
+  });
+  s+='<text class="m" x="'+lw+'" y="'+(h-4)+'">0</text><text class="m" x="'+(lw+bw)+'" y="'+(h-4)+'" text-anchor="end">100% of seats</text>';
+  el.innerHTML=s+'</svg>';
+  var hotN=rows.filter(function(x){return x.peak>=95}).length,t=rows[0];
+  $('fLoad').textContent=t.r.id+' runs fullest at '+Math.round(t.avg)+'% average; '+hotN+' of 6 routes touched 95%+ on a sailing (magenta tick = peak).';
+}
+
+function renderCauses(R){
+  var el=$('cCause'),w=W(el),rowH=28,keys=Object.keys(CAUSES),c=R.cur;
+  var rows=keys.map(function(k){return {k:k,v:c.causes[k]||0}}).sort(function(a,b){return b.v-a.v});
+  var h=rows.length*rowH+4,lw=w<300?100:116,rw=82,bw=Math.max(40,w-lw-rw),mx=Math.max(1,rows[0].v);
+  var s=svgOpen(w,h,'Delay minutes by cause. '+rows.map(function(x){return CAUSES[x.k]+' '+x.v+' minutes'}).join(', '));
+  rows.forEach(function(x,i){
+    var y=i*rowH+2;
+    s+='<text class="rowlbl" x="0" y="'+(y+14)+'">'+CAUSES[x.k].replace('Late inbound vessel','Late inbound').replace('Boarding & loading','Boarding')+'</text>';
+    s+='<rect x="'+lw+'" y="'+y+'" width="'+Math.max(1,bw*x.v/mx).toFixed(1)+'" height="18" fill="'+(i===0?'#1d2b3a':'#5f90a6')+'"/>';
+    s+='<text class="v" x="'+w+'" y="'+(y+14)+'" text-anchor="end">'+nf(x.v)+'<tspan class="m" font-weight="400" fill="#4a5a6a"> · '+(c.dm?Math.round(100*x.v/c.dm):0)+'%</tspan></text>';
+  });
+  el.innerHTML=s+'</svg>';
+  $('fCause').textContent=c.dm?CAUSES[rows[0].k]+' is '+Math.round(100*rows[0].v/c.dm)+'% of '+nf(c.dm)+' delay minutes (minutes, not sailings).':'No delays in range.';
+}
+
+var ICON={
+ A:'<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5 5 9.5 10 3" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+ B:'<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="3.5" fill="currentColor"/></svg>',
+ S:'<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 3.5V6l2 1" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>',
+ D:'<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.5 11 10.5H1Z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>',
+ X:'<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5 9.5 9.5M9.5 2.5 2.5 9.5" stroke="currentColor" stroke-width="2"/></svg>'
+};
+var KEYF={
+ time:function(a){return a.mins},route:function(a){return a.r+a.mins/10000},status:function(a){return ST[a.st].o*10000+a.mins},
+ delay:function(a){return a.st==='X'?-1:a.delay},load:function(a){return a.pct}
+};
+function renderTable(){
+  var rows=today.filter(function(x){return (S.route==='all'||x.r===S.route)&&(!S.att||x.flag)});
+  var f=KEYF[S.key];
+  rows.sort(function(a,b){var d=f(a)-f(b);return (d||a.mins-b.mins)*S.dir});
+  var tb=$('tbody');
+  tb.innerHTML=rows.map(function(x){
+    var hot=x.pct>=95&&x.st!=='A';
+    var chip='<span class="chip'+(x.st==='X'?' x':x.st==='D'?' d':'')+'">'+ICON[x.st]+ST[x.st].t+'</span>';
+    var delay=x.st==='X'?'<span class="m">–</span>':'<span class="'+(x.delay>=15&&x.st!=='A'?'late':'')+'">'+(x.st==='D'?'+'+x.delay+' est.':x.delay>5?'+'+x.delay:x.delay?'+'+x.delay:'0')+' min</span>';
+    var load=x.st==='X'?'<span class="m">'+x.pax+' to rebook</span>':'<span class="loadc"><span class="bar'+(hot?' hot':'')+'" aria-hidden="true"><i style="width:'+Math.min(100,x.pct)+'%"></i></span><span class="num"><b>'+x.pct+'%</b> '+x.pax+'/'+x.cap+'</span></span>';
+    var note=(x.flag?'<span class="why"><span class="sr">Needs attention: </span>'+x.why+'.</span> ':'')+x.note;
+    return '<tr class="'+(x.flag?'flag':'')+'"><td class="c-time num"><b>'+x.time+'</b></td><td class="c-route"><span class="route-c">'+x.r+'</span> '+RM[x.r].short+'</td><td class="c-vessel" data-label="Vessel">'+x.vessel+'</td><td class="c-status">'+chip+'</td><td class="r num c-delay" data-label="Delay">'+delay+'</td><td class="r c-load" data-label="Load">'+load+'</td><td class="note c-note">'+note+'</td></tr>';
+  }).join('');
+  $('empty').hidden=rows.length>0;
+  var tot=today.filter(function(x){return S.route==='all'||x.r===S.route}).length;
+  $('count').textContent='Showing '+rows.length+' of '+tot+' sailings'+(S.route==='all'?'':' on '+S.route)+' · '+today.filter(function(x){return x.flag&&(S.route==='all'||x.r===S.route)}).length+' need attention';
+  document.querySelectorAll('#tbl th[data-k]').forEach(function(th){
+    var on=th.dataset.k===S.key;
+    th.setAttribute('aria-sort',on?(S.dir>0?'ascending':'descending'):'none');
+    th.querySelector('i').textContent=on?(S.dir>0?'▲':'▼'):'';
+  });
+  $('sortSel').value=S.key;$('dirBtn').textContent=S.dir>0?'↑':'↓';
+  $('bAtt').textContent='Needs attention ('+today.filter(function(x){return x.flag&&(S.route==='all'||x.r===S.route)}).length+')';
+  $('bAll').textContent='All sailings ('+tot+')';
+  $('bAtt').setAttribute('aria-pressed',S.att);$('bAll').setAttribute('aria-pressed',!S.att);
+}
+
+function renderAll(){
+  document.querySelectorAll('#rangeSeg button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.r===S.range))});
+  sel.value=S.route;
+  var R=ranges();renderKPIs(R);renderTrend(R);renderLoad(R);renderCauses(R);renderTable();
+}
+
+/* events */
+$('rangeSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.range=+b.dataset.r;renderAll()});
+$('rangeSeg').addEventListener('keydown',function(e){
+  if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
+  var bs=[].slice.call(this.querySelectorAll('button')),i=bs.indexOf(document.activeElement);if(i<0)return;
+  var n=bs[(i+(e.key==='ArrowRight'?1:bs.length-1))%bs.length];n.focus();n.click();e.preventDefault();
+});
+sel.addEventListener('change',function(){S.route=sel.value;renderAll()});
+$('reset').addEventListener('click',function(){S=JSON.parse(DEF);renderAll()});
+$('clearF').addEventListener('click',function(){S.att=false;S.route='all';renderAll()});
+$('attnSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.att=b.dataset.a==='1';renderTable()});
+document.querySelectorAll('#tbl th[data-k] button').forEach(function(b){b.addEventListener('click',function(){
+  var k=b.parentNode.dataset.k;if(S.key===k)S.dir=-S.dir;else{S.key=k;S.dir=(k==='delay'||k==='load')?-1:1}renderTable()})});
+$('sortSel').addEventListener('change',function(){S.key=this.value;S.dir=(S.key==='delay'||S.key==='load')?-1:1;renderTable()});
+$('dirBtn').addEventListener('click',function(){S.dir=-S.dir;renderTable()});
+$('ftoggle').addEventListener('click',function(){var o=$('filters').classList.toggle('open');this.setAttribute('aria-expanded',o)});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('filters').classList.contains('open')){$('filters').classList.remove('open');$('ftoggle').setAttribute('aria-expanded','false');$('ftoggle').focus()}});
+var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){var R=ranges();renderTrend(R);renderLoad(R);renderCauses(R)},80)});
+
+/* contour field behind the lead figure */
+(function(){
+  var s='',cx=190,cy=140;
+  for(var k=1;k<=14;k++){
+    var pts=[],r0=k*9;
+    for(var a=0;a<=64;a++){var t=a/64*Math.PI*2,r=r0*(1+.16*Math.sin(3*t+k*.35)+.09*Math.cos(5*t-k*.2));pts.push((cx+r*Math.cos(t)*1.2).toFixed(1)+','+(cy+r*Math.sin(t)).toFixed(1))}
+    s+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="#b9cbd3" stroke-opacity="'+(k%4===0?.34:.16)+'" stroke-width="'+(k%4===0?1.4:1)+'"/>';
+  }
+  $('contours').innerHTML=s;
+})();
+
+renderAll();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+# Verify
+Rendered 1440 and 375 in browser pane. Console: no errors. scrollWidth 375 at 375 (no h-scroll); 1425<=1440 at 1440. Copy button works (label -> Copied). Outline scrollspy builds 9 links. Mobile: nav+outline in details disclosure; touch targets 44+ (copy, summary, pager). audit-ui.mjs: 0 critical, 0 warning. Not done: full keyboard tab-through, contrast script run (pairs chosen by hand), dark scheme render.

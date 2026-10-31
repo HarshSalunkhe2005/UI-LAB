@@ -1,0 +1,72 @@
+{
+  "375": {
+    "docWidth": 375,
+    "viewport": 375,
+    "hOverflow": false,
+    "docHeight": 8052,
+    "interactive": 27,
+    "smallTargets": 8,
+    "smallSamples": [
+      "a \"Fieldwork\" 115x37",
+      "a \"312 reviews\" 78x22",
+      "button \"Size guide\" 70x23",
+      "button \"Add\" 140x40",
+      "button \"Add\" 140x40"
+    ],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Fraunces",
+      "h2": "Fraunces",
+      "body": "Inter"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "1440": {
+    "docWidth": 1425,
+    "viewport": 1440,
+    "hOverflow": false,
+    "docHeight": 5080,
+    "interactive": 29,
+    "smallTargets": 11,
+    "smallSamples": [
+      "a \"Fieldwork\" 115x37",
+      "a \"Backpacks\" 78x23",
+      "a \"Duffels\" 50x23",
+      "a \"Organisers\" 77x23",
+      "a \"Our materials\" 95x23"
+    ],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Fraunces",
+      "h2": "Fraunces",
+      "body": "Inter"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "dir": "C:\\Users\\Harsh\\Projects\\UI-Lab\\evals\\runs\\p5\\baseline\\06-ecommerce-product-page",
+  "url": "file:///C:/Users/Harsh/Projects/UI-Lab/evals/runs/p5/baseline/06-ecommerce-product-page/index.html"
+}

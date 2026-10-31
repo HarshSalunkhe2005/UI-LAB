@@ -1,0 +1,66 @@
+{
+  "375": {
+    "docWidth": 375,
+    "viewport": 375,
+    "hOverflow": false,
+    "docHeight": 6765,
+    "interactive": 42,
+    "smallTargets": 0,
+    "smallSamples": [],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      false
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Inter Tight",
+      "h2": "Inter Tight",
+      "body": "Inter Tight"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "1440": {
+    "docWidth": 1425,
+    "viewport": 1440,
+    "hOverflow": false,
+    "docHeight": 6011,
+    "interactive": 55,
+    "smallTargets": 25,
+    "smallSamples": [
+      "a \"Introduction\" 247x36",
+      "a \"Installation\" 247x36",
+      "a \"Quick start\" 247x36",
+      "a \"Parsing and formatting\" 247x36",
+      "a \"Arithmetic\" 247x36"
+    ],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      false
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Inter Tight",
+      "h2": "Inter Tight",
+      "body": "Inter Tight"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "dir": "C:\\Users\\Harsh\\Projects\\UI-Lab\\evals\\runs\\p5r3\\skill\\05-docs-page",
+  "url": "file:///C:/Users/Harsh/Projects/UI-Lab/evals/runs/p5r3/skill/05-docs-page/index.html"
+}

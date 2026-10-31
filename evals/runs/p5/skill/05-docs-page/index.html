@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parsing and formatting - Quill docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Libre+Franklin:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#f4f1e8; --surface-raised:#fbf9f3; --ink:#1a1712; --ink-muted:#5a5446; --accent:#0b5d5a; --accent-ink:#fbf9f3; --border:#cfc8b4; --rule:#1a1712;
+  --warn-bg:#f6e3b4; --warn-ink:#4a3200; --warn-bar:#8a5a00;
+  --code-bg:#1b1d1a; --code-ink:#ebe7d8; --code-mute:#a29e8c; --code-key:#8fd3c9; --code-str:#e6c27a; --code-num:#f0a58a;
+  --font-text:'Newsreader',Georgia,serif; --font-ui:'Libre Franklin',system-ui,sans-serif; --font-code:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  --step-0:1.125rem; --step-1:1.375rem; --step-2:2rem; --step-3:2.75rem;
+  --space-2:8px; --space-3:14px; --space-4:24px; --space-5:44px; --space-6:80px;
+}
+@media (prefers-color-scheme:dark){
+  :root{--surface:#14130f;--surface-raised:#1d1b16;--ink:#ece8da;--ink-muted:#aca58f;--accent:#7fd0c6;--accent-ink:#0f1a19;--border:#3a3629;--rule:#ece8da;--warn-bg:#3a2e12;--warn-ink:#f1e0b0;--warn-bar:#e0a63a;--code-bg:#0b0c0a}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--surface);color:var(--ink);font:400 var(--step-0)/1.65 var(--font-text);-webkit-text-size-adjust:100%}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:var(--surface);padding:10px 14px;z-index:50;font:500 .9rem var(--font-ui)}
+.skip:focus{left:8px}
+.top{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:2px solid var(--rule);display:flex;align-items:center;gap:var(--space-4);padding:0 var(--space-4);height:60px;font-family:var(--font-ui)}
+.brand{display:flex;align-items:center;gap:10px;font:700 1.25rem var(--font-text);color:var(--ink);text-decoration:none;min-height:44px}
+.brand svg{width:26px;height:26px}
+.brand small{font:500 .75rem var(--font-ui);color:var(--ink-muted);border:1px solid var(--border);padding:2px 6px}
+.top nav{margin-left:auto;display:flex;gap:var(--space-3)}
+.top nav a{color:var(--ink-muted);text-decoration:none;font-size:.9rem;padding:12px 6px}
+.top nav a:hover{color:var(--ink)}
+.shell{display:grid;grid-template-columns:260px minmax(0,1fr) 220px;max-width:1360px;margin:0 auto}
+.side{position:sticky;top:60px;align-self:start;height:calc(100vh - 60px);overflow:auto;padding:var(--space-4);border-right:1px solid var(--border);font-family:var(--font-ui)}
+.toc{position:sticky;top:60px;align-self:start;max-height:calc(100vh - 60px);overflow:auto;padding:var(--space-4);font-family:var(--font-ui)}
+.side h2,.toc h2{font:600 .72rem var(--font-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-muted);margin:var(--space-4) 0 var(--space-2)}
+.toc h2{margin-top:0}
+.side ul,.toc ul{list-style:none;margin:0;padding:0}
+.side a,.toc a{display:block;color:var(--ink-muted);text-decoration:none;font-size:.9rem;line-height:1.35;padding:6px 10px;border-left:2px solid transparent}
+.side a:hover,.toc a:hover{color:var(--ink);background:var(--surface-raised)}
+.side a[aria-current="page"]{color:var(--ink);font-weight:600;border-left-color:var(--accent);background:var(--surface-raised)}
+.toc a{border-left-color:var(--border)}
+.toc a.on{color:var(--ink);font-weight:600;border-left-color:var(--accent)}
+.toc li.sub a{padding-left:22px;font-size:.84rem}
+.find{width:100%;font:400 .9rem var(--font-ui);padding:10px 12px;border:1px solid var(--ink-muted);background:var(--surface-raised);color:var(--ink);min-height:44px}
+.find::placeholder{color:var(--ink-muted)}
+.sr{position:absolute;left:-999px}
+.mobile-nav{display:none}
+main{padding:var(--space-5) var(--space-5) var(--space-6);min-width:0}
+.crumbs{font:500 .8rem var(--font-ui);color:var(--ink-muted);margin-bottom:var(--space-3)}
+.crumbs a{color:inherit}
+h1{font:700 var(--step-3)/1.08 var(--font-text);letter-spacing:-.02em;margin:0 0 var(--space-3);max-width:20ch}
+.lede{font-size:1.3rem;line-height:1.5;color:var(--ink-muted);max-width:60ch;margin:0 0 var(--space-3)}
+.meta{font:500 .8rem var(--font-ui);color:var(--ink-muted);padding:var(--space-3) 0;border-top:2px solid var(--rule);border-bottom:1px solid var(--border);margin-bottom:var(--space-5);display:flex;gap:var(--space-4);flex-wrap:wrap}
+article>*{max-width:68ch}
+article>.code,article>.tablewrap,article>.pager{max-width:none}
+h2.sec{font:700 var(--step-2)/1.15 var(--font-text);letter-spacing:-.015em;margin:var(--space-6) 0 var(--space-3);padding-top:var(--space-3);border-top:2px solid var(--rule);max-width:none}
+h2.sec:first-child{margin-top:0}
+h3{font:700 var(--step-1)/1.25 var(--font-text);margin:var(--space-5) 0 var(--space-2)}
+.anchor{font:400 .8em var(--font-ui);margin-left:.4em;text-decoration:none;opacity:0;color:var(--ink-muted)}
+h2:hover .anchor,h3:hover .anchor,.anchor:focus{opacity:1}
+p{margin:0 0 var(--space-3)}
+code{font:500 .86em var(--font-code);background:var(--surface-raised);border:1px solid var(--border);padding:.08em .35em;overflow-wrap:anywhere}
+.list{padding-left:1.3em;margin:0 0 var(--space-3)}
+.list li{margin-bottom:6px}
+.code{margin:var(--space-3) 0 var(--space-4);background:var(--code-bg);color:var(--code-ink)}
+.code header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #35382f;padding-left:var(--space-3);font:500 .75rem var(--font-ui);color:var(--code-mute);letter-spacing:.04em}
+.copy{display:inline-flex;align-items:center;gap:6px;min-height:44px;min-width:44px;padding:0 14px;background:transparent;color:var(--code-ink);border:0;border-left:1px solid #35382f;font:500 .8rem var(--font-ui);cursor:pointer}
+.copy:hover{background:#2a2d27}
+.copy:focus-visible{outline:3px solid #8fd3c9;outline-offset:-3px}
+.copy svg{width:16px;height:16px}
+.copy.done{color:var(--code-key)}
+pre{margin:0;padding:var(--space-3);overflow-x:auto;font:400 .875rem/1.65 var(--font-code);tab-size:2}
+pre:focus-visible{outline:3px solid #8fd3c9;outline-offset:-3px}
+.c{color:var(--code-mute)}.k{color:var(--code-key)}.s{color:var(--code-str)}.n{color:var(--code-num)}
+.tablewrap{overflow-x:auto;margin:var(--space-3) 0 var(--space-4);border-top:2px solid var(--rule);border-bottom:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;font:400 .92rem/1.4 var(--font-ui);min-width:640px}
+caption{text-align:left;font:600 .8rem var(--font-ui);padding:10px 12px;color:var(--ink-muted)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+thead th{font:600 .72rem var(--font-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);background:var(--surface-raised)}
+tbody th{font:500 .9rem var(--font-code);white-space:nowrap}
+td.ex{font-family:var(--font-code);font-size:.85rem;white-space:nowrap}
+tr.grp th{background:var(--surface-raised);font:600 .72rem var(--font-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);white-space:normal}
+.callout{margin:var(--space-4) 0;padding:var(--space-3) var(--space-4);background:var(--warn-bg);color:var(--warn-ink);border-left:6px solid var(--warn-bar);font-size:1.02rem;line-height:1.55}
+.callout strong.t{display:flex;align-items:center;gap:8px;font:700 .8rem var(--font-ui);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.callout svg{width:18px;height:18px;flex:none}
+.callout p:last-child{margin:0}
+.callout code{background:transparent;border-color:currentColor}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);margin-top:var(--space-6);border-top:2px solid var(--rule);padding-top:var(--space-4);font-family:var(--font-ui)}
+.pager a{display:block;padding:var(--space-3) var(--space-4);border:1px solid var(--border);background:var(--surface-raised);text-decoration:none;color:var(--ink);min-height:44px}
+.pager a:hover{border-color:var(--accent)}
+.pager small{display:block;font:600 .72rem var(--font-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted)}
+.pager span{font:700 1.15rem var(--font-text);color:var(--accent)}
+.pager .next{text-align:right}
+@media (max-width:1180px){
+  .shell{grid-template-columns:240px minmax(0,1fr)}
+  .toc{display:none}
+  .top nav a.hide-md{display:none}
+}
+@media (max-width:820px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .side{display:none}
+  .top{padding:0 16px}
+  .top nav{display:none}
+  main{padding:var(--space-4) 16px var(--space-5)}
+  :root{--step-0:1.0625rem;--step-3:2.1rem;--step-2:1.6rem}
+  .lede{font-size:1.15rem}
+  h1{max-width:none}
+  .mobile-nav{display:block;font-family:var(--font-ui);margin:0 0 var(--space-3);border:1px solid var(--ink-muted);background:var(--surface-raised)}
+  .mobile-nav summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 14px;font:600 .9rem var(--font-ui)}
+  .mobile-nav summary::-webkit-details-marker{display:none}
+  .mobile-nav summary::after{content:"+";font-size:1.3rem}
+  .mobile-nav[open] summary::after{content:"\2212"}
+  .mobile-nav .in{padding:0 8px 12px;border-top:1px solid var(--border);max-height:60vh;overflow:auto}
+  .mobile-nav h2{font:600 .72rem var(--font-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-muted);margin:14px 6px 4px}
+  .mobile-nav ul{list-style:none;margin:0;padding:0}
+  .mobile-nav a{display:flex;align-items:center;min-height:44px;padding:0 10px;color:var(--ink);text-decoration:none;font-size:.95rem}
+  .mobile-nav a[aria-current="page"]{font-weight:600;color:var(--accent)}
+  .mobile-nav li.sub a{padding-left:24px;color:var(--ink-muted)}
+  .pager{grid-template-columns:1fr}
+  .pager .next{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+
+<header class="top">
+  <a class="brand" href="#top" aria-label="Quill documentation home">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M26 4C14 5 8 12 7 22l-2 6 6-2c10-1 17-8 15-22Z" fill="var(--accent)"/><path d="M7 22C11 16 15 12 21 9" stroke="var(--surface)" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+    Quill <small>v3.4</small>
+  </a>
+  <nav aria-label="Site">
+    <a href="#top">Docs</a><a class="hide-md" href="#top">API reference</a><a class="hide-md" href="#top">Changelog</a><a href="#top">GitHub</a>
+  </nav>
+</header>
+
+<div class="shell" id="top">
+  <aside class="side" aria-label="Documentation">
+    <label class="sr" for="find">Filter docs pages</label>
+    <input class="find" id="find" type="search" placeholder="Filter pages" autocomplete="off">
+    <div id="navlist">
+      <section><h2>Getting started</h2>
+      <ul><li><a href="#top">Installation</a></li><li><a href="#top">Quick start</a></li><li><a href="#top">Core concepts</a></li></ul></section>
+      <section><h2>Working with dates</h2>
+      <ul><li><a href="#content" aria-current="page">Parsing and formatting</a></li><li><a href="#top">Arithmetic</a></li><li><a href="#top">Comparison</a></li><li><a href="#top">Durations and ranges</a></li></ul></section>
+      <section><h2>Time zones</h2>
+      <ul><li><a href="#top">Zones and offsets</a></li><li><a href="#top">Daylight saving</a></li></ul></section>
+      <section><h2>Localisation</h2>
+      <ul><li><a href="#top">Locales</a></li><li><a href="#top">Custom locales</a></li></ul></section>
+      <section><h2>Guides</h2>
+      <ul><li><a href="#top">Migrating from v2</a></li><li><a href="#top">Testing with fake clocks</a></li></ul></section>
+    </div>
+  </aside>
+
+  <main id="content">
+    <details class="mobile-nav">
+      <summary>Docs menu and page outline</summary>
+      <div class="in" id="mnavbody"></div>
+    </details>
+
+    <div class="crumbs"><a href="#top">Docs</a> / <a href="#top">Working with dates</a> / Parsing and formatting</div>
+    <h1>Parsing and formatting</h1>
+    <p class="lede">Turn strings into <code>Quill</code> objects and back again, with explicit formats, strict validation and no surprises from the host's locale.</p>
+    <div class="meta"><span>Reading time: 7 min</span><span>Applies to Quill 3.x</span><span>Updated 14 October 2026</span></div>
+
+    <article>
+      <h2 class="sec" id="parsing">Parsing<a class="anchor" href="#parsing" aria-label="Link to Parsing">#</a></h2>
+      <p>Every Quill object starts with <code>quill.parse()</code>. It takes a string and, optionally, a format and an options object, and returns an immutable <code>Quill</code> instance. When parsing fails you get an invalid instance rather than an exception, so check <code>.isValid</code> before using the result.</p>
+
+      <h3 id="iso">ISO 8601 strings<a class="anchor" href="#iso" aria-label="Link to ISO 8601 strings">#</a></h3>
+      <p>With no format argument, Quill accepts the ISO 8601 family: dates, date-times, week dates and ordinal dates. A string without an offset is read in the zone you pass, or the system zone if you pass none.</p>
+      <div class="code"><header><span>JavaScript</span><button class="copy" type="button" aria-label="Copy code: ISO 8601 strings"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M11 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2"/></svg><span class="lbl">Copy</span></button></header>
+<pre tabindex="0"><code><span class="k">import</span> { parse } <span class="k">from</span> <span class="s">'quill'</span>;
+
+parse(<span class="s">'2026-10-14'</span>);                    <span class="c">// date only, midnight local</span>
+parse(<span class="s">'2026-10-14T09:30:00Z'</span>);          <span class="c">// UTC instant</span>
+parse(<span class="s">'2026-W42-3'</span>);                    <span class="c">// ISO week date</span>
+parse(<span class="s">'2026-10-14T09:30'</span>, { zone: <span class="s">'Asia/Kolkata'</span> });</code></pre></div>
+
+      <h3 id="custom">Custom formats<a class="anchor" href="#custom" aria-label="Link to Custom formats">#</a></h3>
+      <p>For anything else, pass a format string as the second argument. Tokens are listed in the <a href="#tokens">token reference</a> below. Literal text goes in square brackets so it is not read as tokens.</p>
+      <div class="code"><header><span>JavaScript</span><button class="copy" type="button" aria-label="Copy code: Custom formats"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M11 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2"/></svg><span class="lbl">Copy</span></button></header>
+<pre tabindex="0"><code>parse(<span class="s">'14/10/2026'</span>, <span class="s">'DD/MM/YYYY'</span>);
+parse(<span class="s">'Oct 14, 2026 9:30 PM'</span>, <span class="s">'MMM D, YYYY h:mm A'</span>);
+parse(<span class="s">'Due on 2026-10-14'</span>, <span class="s">'[Due on] YYYY-MM-DD'</span>);</code></pre></div>
+
+      <div class="callout" role="note">
+        <strong class="t"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2 1.5 17h17L10 2Z"/><path d="M10 8v4M10 14.5v.01"/></svg>Gotcha: MM is month, mm is minute</strong>
+        <p>Tokens are case sensitive. <code>'YYYY-mm-DD'</code> parses without error and gives you a date in January with the minutes set to the month number. Quill cannot tell you meant months, so use <code>strict: true</code> (below) to catch the shape of the mistake early.</p>
+      </div>
+
+      <h3 id="strict">Strict mode and validation<a class="anchor" href="#strict" aria-label="Link to Strict mode and validation">#</a></h3>
+      <p>By default Quill is forgiving: <code>'2026-02-31'</code> rolls over to 3 March. Pass <code>strict: true</code> and the same input returns an invalid instance, with a reason on <code>.invalidReason</code>.</p>
+      <div class="code"><header><span>JavaScript</span><button class="copy" type="button" aria-label="Copy code: Strict mode"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M11 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2"/></svg><span class="lbl">Copy</span></button></header>
+<pre tabindex="0"><code><span class="k">const</span> d = parse(<span class="s">'2026-02-31'</span>, <span class="s">'YYYY-MM-DD'</span>, { strict: <span class="n">true</span> });
+
+d.isValid;        <span class="c">// false</span>
+d.invalidReason;  <span class="c">// "day 31 is out of range for February 2026"</span></code></pre></div>
+
+      <h2 class="sec" id="formatting">Formatting<a class="anchor" href="#formatting" aria-label="Link to Formatting">#</a></h2>
+      <p>Call <code>.format()</code> with a token string. With no argument it returns an ISO 8601 string with the instance's offset, which is what you want for storage and APIs.</p>
+
+      <h3 id="tokens">Format tokens<a class="anchor" href="#tokens" aria-label="Link to Format tokens">#</a></h3>
+      <p>The same tokens work for parsing and formatting. Examples use 14 October 2026, 21:05:09 in <code>en-GB</code>.</p>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Format tokens table, scrolls horizontally on small screens">
+      <table>
+        <caption>Format tokens</caption>
+        <thead><tr><th scope="col">Token</th><th scope="col">Meaning</th><th scope="col">Output</th></tr></thead>
+        <tbody>
+          <tr class="grp"><th scope="colgroup" colspan="3">Year</th></tr>
+          <tr><th scope="row">YYYY</th><td>Four-digit year</td><td class="ex">2026</td></tr>
+          <tr><th scope="row">YY</th><td>Two-digit year</td><td class="ex">26</td></tr>
+          <tr class="grp"><th scope="colgroup" colspan="3">Month</th></tr>
+          <tr><th scope="row">MMMM</th><td>Full month name</td><td class="ex">October</td></tr>
+          <tr><th scope="row">MMM</th><td>Short month name</td><td class="ex">Oct</td></tr>
+          <tr><th scope="row">MM</th><td>Month, zero-padded</td><td class="ex">10</td></tr>
+          <tr><th scope="row">M</th><td>Month</td><td class="ex">10</td></tr>
+          <tr class="grp"><th scope="colgroup" colspan="3">Day</th></tr>
+          <tr><th scope="row">DD</th><td>Day of month, zero-padded</td><td class="ex">14</td></tr>
+          <tr><th scope="row">D</th><td>Day of month</td><td class="ex">14</td></tr>
+          <tr><th scope="row">dddd</th><td>Full weekday name</td><td class="ex">Wednesday</td></tr>
+          <tr><th scope="row">ddd</th><td>Short weekday name</td><td class="ex">Wed</td></tr>
+          <tr class="grp"><th scope="colgroup" colspan="3">Time</th></tr>
+          <tr><th scope="row">HH</th><td>Hour, 24-hour, zero-padded</td><td class="ex">21</td></tr>
+          <tr><th scope="row">hh</th><td>Hour, 12-hour, zero-padded</td><td class="ex">09</td></tr>
+          <tr><th scope="row">h</th><td>Hour, 12-hour</td><td class="ex">9</td></tr>
+          <tr><th scope="row">mm</th><td>Minute, zero-padded</td><td class="ex">05</td></tr>
+          <tr><th scope="row">ss</th><td>Second, zero-padded</td><td class="ex">09</td></tr>
+          <tr><th scope="row">SSS</th><td>Milliseconds</td><td class="ex">000</td></tr>
+          <tr><th scope="row">A</th><td>AM or PM</td><td class="ex">PM</td></tr>
+          <tr class="grp"><th scope="colgroup" colspan="3">Zone</th></tr>
+          <tr><th scope="row">Z</th><td>Offset with colon</td><td class="ex">+01:00</td></tr>
+          <tr><th scope="row">ZZ</th><td>Offset without colon</td><td class="ex">+0100</td></tr>
+          <tr><th scope="row">z</th><td>Zone identifier</td><td class="ex">Europe/London</td></tr>
+          <tr class="grp"><th scope="colgroup" colspan="3">Escaping</th></tr>
+          <tr><th scope="row">[text]</th><td>Literal text, not parsed as tokens</td><td class="ex">[at] &rarr; at</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3 id="presets">Locale presets<a class="anchor" href="#presets" aria-label="Link to Locale presets">#</a></h3>
+      <p>When the output is for a person, prefer a preset over a hand-written format. Presets follow the locale's own ordering and punctuation, so you don't have to maintain a format per country.</p>
+      <div class="code"><header><span>JavaScript</span><button class="copy" type="button" aria-label="Copy code: Locale presets"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M11 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2"/></svg><span class="lbl">Copy</span></button></header>
+<pre tabindex="0"><code><span class="k">const</span> d = parse(<span class="s">'2026-10-14T21:05:09'</span>, { zone: <span class="s">'Europe/London'</span> });
+
+d.format(<span class="s">'date.long'</span>, { locale: <span class="s">'en-GB'</span> });   <span class="c">// "14 October 2026"</span>
+d.format(<span class="s">'date.long'</span>, { locale: <span class="s">'en-US'</span> });   <span class="c">// "October 14, 2026"</span>
+d.format(<span class="s">'datetime.short'</span>, { locale: <span class="s">'de-DE'</span> }); <span class="c">// "14.10.26, 21:05"</span></code></pre></div>
+
+      <h3 id="relative">Relative time<a class="anchor" href="#relative" aria-label="Link to Relative time">#</a></h3>
+      <p><code>.fromNow()</code> and <code>.from(other)</code> give phrases such as "3 hours ago". They round down, and switch unit at the largest whole unit that fits, so 90 minutes reads "1 hour ago".</p>
+      <ul class="list">
+        <li>Pass <code>{ style: 'short' }</code> for "3h ago".</li>
+        <li>Pass <code>{ numeric: 'auto' }</code> for "yesterday" instead of "1 day ago".</li>
+        <li>Relative output is not stable between calls. Do not use it as a cache key.</li>
+      </ul>
+
+      <h2 class="sec" id="errors">Handling errors<a class="anchor" href="#errors" aria-label="Link to Handling errors">#</a></h2>
+      <p>Invalid instances are contagious: arithmetic on them returns another invalid instance, and <code>.format()</code> returns the string <code>"Invalid date"</code>. Validate at the boundary, where user input enters, not at the point of display.</p>
+      <div class="code"><header><span>JavaScript</span><button class="copy" type="button" aria-label="Copy code: Handling errors"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M11 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2"/></svg><span class="lbl">Copy</span></button></header>
+<pre tabindex="0"><code><span class="k">function</span> readDueDate(input) {
+  <span class="k">const</span> d = parse(input, <span class="s">'DD/MM/YYYY'</span>, { strict: <span class="n">true</span> });
+  <span class="k">if</span> (!d.isValid) <span class="k">throw new</span> RangeError(d.invalidReason);
+  <span class="k">return</span> d;
+}</code></pre></div>
+
+      <nav class="pager" aria-label="Previous and next pages">
+        <a class="prev" href="#top" rel="prev"><small>Previous</small><span>&larr; Core concepts</span></a>
+        <a class="next" href="#top" rel="next"><small>Next</small><span>Arithmetic &rarr;</span></a>
+      </nav>
+    </article>
+  </main>
+
+  <aside class="toc" aria-label="On this page">
+    <h2>On this page</h2>
+    <ul id="outline"></ul>
+  </aside>
+</div>
+
+<script>
+(function(){
+  var heads=[].slice.call(document.querySelectorAll('article h2, article h3'));
+  var ol=document.getElementById('outline');
+  heads.forEach(function(h){
+    var li=document.createElement('li');if(h.tagName==='H3')li.className='sub';
+    var a=document.createElement('a');a.href='#'+h.id;
+    a.textContent=h.childNodes[0].textContent;li.appendChild(a);ol.appendChild(li);
+  });
+  // mobile menu
+  var mb=document.getElementById('mnavbody');
+  var html='<h2>On this page</h2><ul>'+heads.map(function(h){return '<li'+(h.tagName==='H3'?' class="sub"':'')+'><a href="#'+h.id+'">'+h.childNodes[0].textContent+'</a></li>'}).join('')+'</ul>';
+  html+=document.getElementById('navlist').innerHTML.replace(/<section>/g,'').replace(/<\/section>/g,'');
+  mb.innerHTML=html;
+  mb.addEventListener('click',function(e){if(e.target.closest('a'))mb.parentNode.open=false});
+  // scrollspy
+  var links=[].slice.call(ol.querySelectorAll('a'));
+  function spy(){
+    var y=window.scrollY+110,cur=0;
+    heads.forEach(function(h,i){if(h.getBoundingClientRect().top+window.scrollY<=y)cur=i});
+    links.forEach(function(l,i){l.classList.toggle('on',i===cur);if(i===cur)l.setAttribute('aria-current','location');else l.removeAttribute('aria-current')});
+  }
+  window.addEventListener('scroll',spy,{passive:true});spy();
+  // copy
+  document.querySelectorAll('.copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=b.closest('.code').querySelector('pre').innerText;
+      var lbl=b.querySelector('.lbl');
+      function ok(){b.classList.add('done');lbl.textContent='Copied';setTimeout(function(){b.classList.remove('done');lbl.textContent='Copy'},1800)}
+      function fb(){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){lbl.textContent='Press Ctrl+C'}document.body.removeChild(ta)}
+      if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(ok,fb);else fb();
+    });
+  });
+  // filter
+  var f=document.getElementById('find');
+  f.addEventListener('input',function(){
+    var q=f.value.trim().toLowerCase();
+    document.querySelectorAll('#navlist section').forEach(function(s){
+      var any=false;
+      s.querySelectorAll('li').forEach(function(li){var m=!q||li.textContent.toLowerCase().indexOf(q)>-1;li.hidden=!m;if(m)any=true});
+      s.hidden=!any;
+    });
+  });
+})();
+</script>
+</body>
+</html>

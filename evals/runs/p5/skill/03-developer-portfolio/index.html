@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mira Okafor, front-end engineer for data-heavy interfaces</title>
+<meta name="description" content="Mira Okafor is a freelance front-end engineer. Large tables, dense charts, accessibility that survives an audit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#efe9d6; --surface-raised:#f7f2e2; --ink:#1d2b3a; --ink-muted:#46566a; --accent:#a3166b; --accent-ink:#fff; --border:#7d93a8;
+  --deep:#142b38; --deep-ink:#e9eef0; --deep-muted:#a9bfca; --deep-accent:#ff8fc4;
+  --tint:#dbe6ea;
+  --font-display:'Crimson Pro',Georgia,serif; --font-text:'Public Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --step--1:.8125rem; --step-0:1rem; --step-1:1.1875rem; --step-2:1.75rem; --step-3:2.5rem; --step-4:clamp(2.75rem,6.2vw,5rem);
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:20px; --space-5:40px; --space-6:88px;
+  --dur-fast:150ms; --ease:cubic-bezier(.4,0,.2,1);
+  --gutter:clamp(16px,4vw,56px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--surface);color:var(--ink);font:400 var(--step-0)/1.6 var(--font-text);font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.08;margin:0;letter-spacing:-.01em}
+p{margin:0 0 1em;max-width:62ch}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.deep :focus-visible{outline-color:var(--deep-accent)}
+.skip{position:absolute;left:var(--gutter);top:-80px;background:var(--ink);color:#fff;padding:12px 16px;z-index:10}
+.skip:focus{top:8px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 var(--gutter)}
+section{padding:var(--space-6) 0}
+.label{font:600 var(--step--1)/1.3 var(--font-text);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.site{border-bottom:1px solid var(--border)}
+header.site .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0 var(--space-4)}
+.name{font:600 1.25rem/1 var(--font-display);text-decoration:none;display:inline-flex;align-items:center;min-height:56px}
+nav ul{display:flex;flex-wrap:wrap;gap:0 var(--space-4);list-style:none;margin:0;padding:0}
+nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 4px;text-decoration:none;font-weight:500;font-size:.9375rem}
+nav a:hover{text-decoration:underline;text-underline-offset:5px}
+
+.hero{padding:var(--space-5) 0 var(--space-6)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--space-5) 64px;align-items:end}
+.hero h1{font-size:var(--step-4);font-weight:400;margin:var(--space-4) 0}
+.hero h1 em{font-weight:600;font-style:normal}
+.hero .lede{font-size:var(--step-1);max-width:48ch}
+.avail{display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-4);margin-top:var(--space-4)}
+.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;background:var(--ink);color:var(--surface);font-weight:600;text-decoration:none;border:2px solid var(--ink);transition:background var(--dur-fast) var(--ease),color var(--dur-fast) var(--ease)}
+.btn:hover{background:transparent;color:var(--ink)}
+.btn.alt{background:transparent;color:var(--ink)}
+.btn.alt:hover{background:var(--ink);color:var(--surface)}
+.plate{margin:0;background:var(--surface-raised);border:2px solid var(--ink);padding:var(--space-3)}
+.plate svg{display:block;width:100%;height:auto}
+.plate .cap{display:flex;justify-content:space-between;gap:12px;font-size:var(--step--1);color:var(--ink-muted);padding:var(--space-2) 2px 0}
+.tide{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:center;padding:var(--space-3) 2px 2px;font-size:.875rem}
+.tide label{font-weight:600}
+.tide input[type=range]{width:100%;min-height:44px;accent-color:var(--accent)}
+.tide .note{grid-column:1/-1;margin:0;font-size:var(--step--1);color:var(--ink-muted);min-height:2.6em}
+.ring{stroke:var(--ink);stroke-width:1}
+.snd{font:italic 400 16px var(--font-display);fill:var(--ink)}
+.snd.haz{fill:var(--accent);font-weight:600}
+
+.deep{background:var(--deep);color:var(--deep-ink)}
+.deep .label{color:var(--deep-muted)}
+.sec-head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--space-3) 64px;margin-bottom:var(--space-5);align-items:end}
+.sec-head h2{font-size:var(--step-3);font-weight:400}
+.sec-head h2 b{font-weight:600}
+.sec-head p{margin:0}
+.deep .sec-head p{color:var(--deep-muted)}
+.proj{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--space-3) 64px;padding:var(--space-5) 0;border-top:1px solid #3c5766}
+.proj:first-of-type{border-top:2px solid var(--deep-ink)}
+.proj h3{font-size:var(--step-2);margin:6px 0 var(--space-3)}
+.proj .meta{color:var(--deep-muted);font-size:.9375rem;margin:0}
+.proj dl{margin:0;display:grid;gap:var(--space-3)}
+.proj dt{font-weight:600;font-size:var(--step--1);letter-spacing:.08em;text-transform:uppercase;color:var(--deep-muted)}
+.proj dd{margin:2px 0 0;max-width:60ch}
+.proj .out dd{font-family:var(--font-display);font-size:1.5rem;line-height:1.25;color:#fff}
+.proj .out strong{color:var(--deep-accent);font-weight:600}
+.bars{margin:var(--space-3) 0 0;padding:0;list-style:none;display:grid;gap:6px;max-width:520px;font-family:var(--font-text)}
+.bars li{display:grid;grid-template-columns:5em 1fr 5.5em;gap:10px;align-items:center;font-size:.875rem;color:var(--deep-ink)}
+.bars .track{height:12px;background:#2a4656;display:block}
+.bars .fill{display:block;height:100%;background:var(--deep-muted)}
+.bars .after .fill{background:var(--deep-accent)}
+.bars .v{text-align:right;font-weight:600}
+
+.about .cols{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--space-4) 64px}
+.about h2{font-size:var(--step-3);font-weight:400}
+.about h2 b{font-weight:600}
+.about p{font-size:var(--step-1)}
+.facts{margin:var(--space-4) 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-3) var(--space-4);max-width:520px}
+.facts div{border-top:2px solid var(--ink);padding-top:8px}
+.facts dt{font-size:var(--step--1);color:var(--ink-muted)}
+.facts dd{margin:0;font:600 1.375rem/1.2 var(--font-display)}
+
+.services{background:var(--tint)}
+.svc{border-top:2px solid var(--ink)}
+.svc-row{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,5fr) minmax(0,3fr);gap:var(--space-2) 40px;padding:var(--space-4) 0;border-bottom:1px solid var(--border)}
+.svc-row h3{font-size:var(--step-2)}
+.svc-row p{margin:0}
+.svc-row .for{font-size:.9375rem;color:var(--ink-muted)}
+.rates{margin:var(--space-4) 0 0;font-size:.9375rem;color:var(--ink-muted)}
+
+.contact h2{font-size:var(--step-4);font-weight:400;max-width:14ch}
+.contact h2 b{font-weight:600}
+.contact .grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--space-5) 64px;align-items:end}
+.contact .sub{margin:20px 0 8px;color:var(--deep-muted)}
+.contact a.mail{display:inline-block;font:600 clamp(1.5rem,3.4vw,2.5rem)/1.3 var(--font-display);color:#fff;overflow-wrap:anywhere;padding:6px 0;min-height:44px;text-underline-offset:8px;text-decoration-thickness:2px}
+.contact a.mail:hover{color:var(--deep-accent)}
+.contact ul{list-style:none;margin:0;padding:0}
+.contact li a{display:inline-flex;align-items:center;min-height:44px}
+footer{background:var(--deep);color:var(--deep-muted);border-top:1px solid #3c5766;padding:var(--space-4) 0 var(--space-5);font-size:var(--step--1)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px}
+footer p{margin:0}
+
+@media (max-width:860px){
+  :root{--space-6:56px;--space-5:32px}
+  .hero .wrap,.sec-head,.proj,.about .cols,.contact .grid{grid-template-columns:minmax(0,1fr)}
+  .svc-row{grid-template-columns:minmax(0,1fr);gap:6px}
+  .hero{padding-top:var(--space-4)}
+}
+@media (max-width:420px){
+  nav ul{gap:0 4px}
+  nav a{padding:0 6px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#work">Skip to selected work</a>
+<header class="site">
+  <div class="wrap">
+    <a class="name" href="#top">Mira Okafor</a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" aria-labelledby="h1">
+  <div class="wrap">
+    <div>
+      <p class="label">Freelance front-end engineer, Leeds, working remotely</p>
+      <h1 id="h1">Interfaces for <em>a lot of data</em>, that everyone can use.</h1>
+      <p class="lede">I build the tables, filters and charts that sit on top of forty thousand rows and still respond to a keyboard. Eleven years in, nine of them freelance. I take on two clients at a time.</p>
+      <div class="avail">
+        <a class="btn" href="#contact">Check availability</a>
+        <a class="btn alt" href="#work">Read the work</a>
+      </div>
+    </div>
+    <figure class="plate">
+      <svg viewBox="0 0 400 340" role="img" aria-labelledby="chart-t chart-d">
+        <title id="chart-t">Depth chart of a shoal with three sounding values</title>
+        <desc id="chart-d">Concentric depth contours around a shoal. The tide control changes the soundings and shades the areas shallower than a six metre draught.</desc>
+        <defs>
+          <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#b9d0d9"/><line x1="0" y1="0" x2="0" y2="6" stroke="#a3166b" stroke-width="2"/></pattern>
+        </defs>
+        <rect width="400" height="340" fill="#dbe6ea"/>
+        <g id="rings"></g>
+        <g id="sounds"></g>
+        <g transform="translate(352 46)" aria-hidden="true">
+          <circle r="26" fill="none" stroke="#1d2b3a"/><circle r="3" fill="#1d2b3a"/>
+          <path d="M0-26V26M-26 0H26" stroke="#1d2b3a"/>
+          <path d="M0-24L5 0L0 24L-5 0Z" fill="#1d2b3a"/>
+          <text y="-31" text-anchor="middle" font-size="12" font-family="Public Sans,sans-serif" font-weight="600" fill="#1d2b3a">N</text>
+        </g>
+      </svg>
+      <div class="tide">
+        <label for="tide">Tide</label>
+        <input id="tide" type="range" min="-2" max="2" step="0.1" value="0" aria-describedby="tnote">
+        <p class="note" id="tnote" aria-live="polite"></p>
+      </div>
+      <div class="cap"><span>Depths in metres</span><span>Shaded: under 6.0 m draught</span></div>
+    </figure>
+  </div>
+</section>
+
+<section id="work" class="deep" aria-labelledby="work-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="label">Selected work, 4 of 31</p><h2 id="work-h"><b>Four jobs</b> where the data was the hard part.</h2></div>
+      <p>Each one started with a screen that was slow, inaccessible or both. Client names are withheld where contracts ask for it. The numbers come from their own monitoring, not mine.</p>
+    </div>
+
+    <article class="proj" aria-labelledby="p1">
+      <div>
+        <p class="meta">2024, 5 months, port logistics</p>
+        <h3 id="p1">Container tracking grid</h3>
+        <p class="meta">React, TypeScript, virtualised rows, ARIA grid</p>
+      </div>
+      <dl>
+        <div><dt>Problem</dt><dd>Planners filtered a 40,000-row manifest by pasting into a spreadsheet, because the web grid froze for two seconds on every keystroke and could not be used without a mouse.</dd></div>
+        <div><dt>What I did</dt><dd>Rebuilt the grid with windowed rows and filtering off the main thread. Wrote the keyboard model as a spec first, then tested it with NVDA and VoiceOver users on the planning team.</dd></div>
+        <div class="out"><dt>Outcome</dt><dd>Filter response went from 2.1 s to <strong>90 ms</strong>. The spreadsheet workaround was retired in March.
+          <ul class="bars" aria-label="Filter response time, before and after">
+            <li><span>Before</span><span class="track"><span class="fill" style="width:100%"></span></span><span class="v">2,100 ms</span></li>
+            <li class="after"><span>After</span><span class="track"><span class="fill" style="width:4.3%"></span></span><span class="v">90 ms</span></li>
+          </ul></dd></div>
+      </dl>
+    </article>
+
+    <article class="proj" aria-labelledby="p2">
+      <div>
+        <p class="meta">2023, 3 months, diagnostics</p>
+        <h3 id="p2">Lab results, made auditable</h3>
+        <p class="meta">Vue, WCAG 2.2 AA remediation, axe in CI</p>
+      </div>
+      <dl>
+        <div><dt>Problem</dt><dd>A results portal for clinicians failed a procurement accessibility review. Reference ranges were conveyed by colour alone and the date picker trapped focus.</dd></div>
+        <div><dt>What I did</dt><dd>Triaged 212 findings by who they stopped from working, not by count. Replaced the picker, gave every flag a word and a shape, and put axe and a keyboard test into the pipeline so it stays fixed.</dd></div>
+        <div class="out"><dt>Outcome</dt><dd>Open issues fell from 212 to <strong>9</strong>, all minor. The portal passed the second review and the contract renewed.
+          <ul class="bars" aria-label="Open accessibility issues, before and after">
+            <li><span>Before</span><span class="track"><span class="fill" style="width:100%"></span></span><span class="v">212</span></li>
+            <li class="after"><span>After</span><span class="track"><span class="fill" style="width:4.2%"></span></span><span class="v">9</span></li>
+          </ul></dd></div>
+      </dl>
+    </article>
+
+    <article class="proj" aria-labelledby="p3">
+      <div>
+        <p class="meta">2022, 4 months, energy trading</p>
+        <h3 id="p3">Live price charts with a table behind them</h3>
+        <p class="meta">Canvas, Web Workers, WebSocket, TypeScript</p>
+      </div>
+      <dl>
+        <div><dt>Problem</dt><dd>Traders watched 60 price series on charts that redrew the whole canvas on every tick. Laptops stalled, and the charts offered nothing to a screen reader.</dd></div>
+        <div><dt>What I did</dt><dd>Drew only the changed region, batched ticks per frame, and put the same data in a sortable table one key away. The chart announces thresholds crossed, not every tick.</dd></div>
+        <div class="out"><dt>Outcome</dt><dd>Frame time dropped from 48 ms to <strong>9 ms</strong> with all 60 series live. Two traders now use the table view by choice.
+          <ul class="bars" aria-label="Frame time with 60 live series, before and after">
+            <li><span>Before</span><span class="track"><span class="fill" style="width:100%"></span></span><span class="v">48 ms</span></li>
+            <li class="after"><span>After</span><span class="track"><span class="fill" style="width:18.8%"></span></span><span class="v">9 ms</span></li>
+          </ul></dd></div>
+      </dl>
+    </article>
+
+    <article class="proj" aria-labelledby="p4">
+      <div>
+        <p class="meta">2021, 2 months, public statistics</p>
+        <h3 id="p4">Statistics portal that works on a phone</h3>
+        <p class="meta">HTML, CSS, a little JavaScript, no framework</p>
+      </div>
+      <dl>
+        <div><dt>Problem</dt><dd>Forty-odd wide tables were clipped on mobile, and 61% of the agency's visitors arrive on one. Journalists were screenshotting numbers instead of linking them.</dd></div>
+        <div><dt>What I did</dt><dd>Redesigned the tables around column priority: the columns that answer the question stay, the rest fold into a row detail. Every table got a stable URL and a CSV link.</dd></div>
+        <div class="out"><dt>Outcome</dt><dd>Mobile bounce rate on table pages fell from 71% to <strong>38%</strong>. Direct table links in press coverage went from rare to routine.
+          <ul class="bars" aria-label="Mobile bounce rate on table pages, before and after">
+            <li><span>Before</span><span class="track"><span class="fill" style="width:100%"></span></span><span class="v">71%</span></li>
+            <li class="after"><span>After</span><span class="track"><span class="fill" style="width:53.5%"></span></span><span class="v">38%</span></li>
+          </ul></dd></div>
+      </dl>
+    </article>
+  </div>
+</section>
+
+<section id="about" class="about" aria-labelledby="about-h">
+  <div class="wrap cols">
+    <h2 id="about-h"><b>About</b>, briefly.</h2>
+    <div>
+      <p>I started in a bank's reporting team, where I learned that a number in the wrong column is a more expensive bug than a crash. I went freelance in 2017 and kept the habit.</p>
+      <p>I work alone, in writing where possible, and I say when something is not worth building. I use a screen reader daily as part of testing, and I have never been talked out of a keyboard test.</p>
+      <dl class="facts">
+        <div><dt>Years freelance</dt><dd>9</dd></div>
+        <div><dt>Projects shipped</dt><dd>31</dd></div>
+        <div><dt>Time zone</dt><dd>UTC, overlap to 17:00 CET</dd></div>
+        <div><dt>Current queue</dt><dd>Booking from January</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="services" aria-labelledby="svc-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="label">Services</p><h2 id="svc-h"><b>Three things</b>, done properly.</h2></div>
+      <p>Fixed scope where the scope is knowable, a day rate where it is not. I will tell you which one before you ask.</p>
+    </div>
+    <div class="svc">
+      <div class="svc-row"><h3>Data interface build</h3><p>Tables, grids, filters and charts for large datasets. Performance budget agreed up front and measured at the end.</p><p class="for">For teams whose screen has outgrown its framework. Typically 6 to 16 weeks.</p></div>
+      <div class="svc-row"><h3>Accessibility remediation</h3><p>An audit against WCAG 2.2 AA with screen reader and keyboard testing, then the fixes, then the checks that keep them fixed.</p><p class="for">For anyone with a procurement review or a legal letter coming. Typically 3 to 8 weeks.</p></div>
+      <div class="svc-row"><h3>Review and pairing</h3><p>A written review of your front-end code, or a few sessions alongside your team, focused on rendering cost and semantics.</p><p class="for">For when you need a second opinion, not a contractor. From two days.</p></div>
+    </div>
+    <p class="rates">Day rate on request. I do not do logo work, marketing sites or anything that needs a carousel.</p>
+  </div>
+</section>
+
+<section id="contact" class="deep contact" aria-labelledby="contact-h">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <h2 id="contact-h">Have a <b>slow table?</b></h2>
+        <p class="sub">Send two lines on the problem and a rough date. I reply within two working days, usually sooner.</p>
+        <a class="mail" href="mailto:hello@miraokafor.dev">hello@miraokafor.dev</a>
+      </div>
+      <div>
+        <p class="label">Elsewhere</p>
+        <ul>
+          <li><a href="https://github.com/miraokafor">GitHub, miraokafor</a></li>
+          <li><a href="https://www.linkedin.com/in/miraokafor">LinkedIn, miraokafor</a></li>
+          <li><a href="#top">Back to top</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Mira Okafor, front-end engineering</p>
+    <p>Set in Crimson Pro and Public Sans. Passes its own keyboard test.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  var rings=document.getElementById('rings'), sounds=document.getElementById('sounds');
+  var depths=[18,15,12,9,6,3];
+  var fills=['#dbe6ea','#c8dce3','#b9d0d9','#a5c3cf','#8fb2c2','#7aa3b5'];
+  var cx=170, cy=180, DRAUGHT=6;
+  function pts(r,k){
+    var a=[],n=96;
+    for(var i=0;i<n;i++){
+      var t=i/n*Math.PI*2;
+      var w=1+.13*Math.sin(2*t+k)+.08*Math.sin(3*t+2*k)+.05*Math.sin(5*t+k*3);
+      a.push([cx+Math.cos(t)*r*w*1.25, cy+Math.sin(t)*r*w*.92]);
+    }
+    return 'M'+a.map(function(p){return p[0].toFixed(1)+' '+p[1].toFixed(1);}).join('L')+'Z';
+  }
+  var els=depths.map(function(d,i){
+    var p=document.createElementNS(NS,'path');
+    p.setAttribute('d',pts(150-i*24,i*.4));
+    p.setAttribute('class','ring');
+    rings.appendChild(p);
+    return p;
+  });
+  var spots=[[250,236],[96,150],[160,188]], base=[16.4,10.2,2.7];
+  var texts=spots.map(function(s){
+    var t=document.createElementNS(NS,'text');
+    t.setAttribute('x',s[0]);t.setAttribute('y',s[1]);
+    sounds.appendChild(t);
+    return t;
+  });
+  var input=document.getElementById('tide'), note=document.getElementById('tnote');
+  function draw(){
+    var tide=parseFloat(input.value), shaded=0;
+    depths.forEach(function(d,i){
+      var shallow=(d+tide)<DRAUGHT;
+      els[i].setAttribute('fill',shallow?'url(#hatch)':fills[i]);
+      if(shallow) shaded++;
+    });
+    texts.forEach(function(t,i){
+      var v=base[i]+tide;
+      t.textContent=v.toFixed(1);
+      t.setAttribute('class','snd'+(v<DRAUGHT?' haz':''));
+    });
+    var sign=tide>0?'+':'';
+    note.textContent='Tide '+sign+tide.toFixed(1)+' m. '+(shaded?shaded+(shaded>1?' contours':' contour')+' shaded, under 6 m there.':'Nothing shallower than the 6 m draught.');
+  }
+  input.addEventListener('input',draw);
+  draw();
+})();
+</script>
+</body>
+</html>

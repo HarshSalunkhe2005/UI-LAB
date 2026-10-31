@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relay: what your customers are actually asking for</title>
+<meta name="description" content="Relay reads your support tickets and sends product managers one weekly digest of what customers are asking for, ranked, with the tickets behind every line.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#eef1ea; --surface-raised:#fafbf7; --ink:#14181f; --ink-muted:#4b5360;
+  --control:#2447d6; --control-ink:#ffffff;
+  --computed:#f2b01e; --computed-text:#8a5300;
+  --night:#14181f; --night-muted:#aab2bf; --night-rule:#2e3542;
+  --border:#c9d0c2;
+  --font-display:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-text:'Newsreader',Georgia,'Times New Roman',serif;
+  --step--1:.875rem; --step-0:1.125rem; --step-1:1.3125rem; --step-2:1.875rem; --step-3:2.75rem; --step-4:clamp(2.5rem,5.6vw,4.75rem);
+  --space-1:4px; --space-2:8px; --space-3:16px; --space-4:28px; --space-5:52px; --space-6:96px;
+  --radius:8px; --dur-fast:100ms; --dur:250ms; --ease:cubic-bezier(.2,.8,.2,1);
+  --gutter:clamp(16px,4vw,48px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--surface);color:var(--ink);font-family:var(--font-text);font-size:var(--step-0);line-height:1.55;font-variant-numeric:tabular-nums}
+img,svg{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--control);outline-offset:3px;border-radius:2px}
+.on-dark :focus-visible,.band-blue :focus-visible{outline-color:var(--computed)}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:var(--gutter)}
+h1,h2,h3{font-family:var(--font-display);line-height:1.05;margin:0;letter-spacing:-.02em}
+h2{font-size:clamp(1.9rem,4vw,var(--step-3));font-weight:800;max-width:18ch}
+h3{font-size:var(--step-1);font-weight:700;letter-spacing:-.01em}
+p{margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;font:700 1rem/1 var(--font-display);background:var(--control);color:var(--control-ink);border:0;border-radius:var(--radius);cursor:pointer;text-decoration:none;transition:background var(--dur-fast)}
+.btn:hover{background:#1a37ad}
+.btn.light{background:var(--surface-raised);color:var(--ink)}
+.btn.light:hover{background:#fff}
+.btn.line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn.line:hover{background:var(--ink);color:var(--surface)}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:#fff;padding:12px 16px;z-index:10;font-family:var(--font-display)}
+.skip:focus{left:8px}
+
+/* header */
+header.top{border-bottom:1px solid var(--border)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;min-height:68px;gap:var(--space-3)}
+.brand{display:flex;align-items:center;gap:10px;font:800 1.4rem/1 var(--font-display);text-decoration:none;letter-spacing:-.03em;min-height:44px}
+nav.main{display:flex;align-items:center;gap:var(--space-2)}
+nav.main a.l{font:600 .95rem var(--font-display);text-decoration:none;padding:0 14px;min-height:44px;display:inline-flex;align-items:center}
+nav.main a.l:hover{text-decoration:underline;text-underline-offset:4px}
+nav.main .btn{min-height:44px;padding:0 18px}
+@media(max-width:760px){nav.main a.l{display:none}}
+
+/* hero */
+.hero{padding:clamp(28px,5vw,64px) 0 clamp(40px,6vw,88px)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(24px,5vw,72px);align-items:start}
+.hero h1{font-size:var(--step-4);font-weight:800;letter-spacing:-.035em;line-height:1}
+.hero .lede{margin-top:var(--space-4);font-size:var(--step-1);max-width:34ch;color:var(--ink)}
+.hero .lede em{font-style:normal;background:linear-gradient(transparent 62%,var(--computed) 62%)}
+form.start{margin-top:var(--space-4);max-width:460px}
+form.start label{display:block;font:700 .9rem var(--font-display);margin-bottom:6px}
+.row{display:flex;gap:8px}
+.row input{flex:1;min-width:0;min-height:48px;padding:0 14px;font:500 1rem var(--font-display);background:var(--surface-raised);color:var(--ink);border:2px solid var(--ink);border-radius:var(--radius)}
+.row input[aria-invalid="true"]{border-color:#b3261e}
+.err{color:#9a1c14;font:600 .9rem var(--font-display);margin-top:6px;min-height:1.3em}
+.fine{margin-top:6px;font-size:var(--step--1);color:var(--ink-muted);max-width:44ch}
+.ok{padding:16px;border:2px solid var(--ink);border-radius:var(--radius);background:var(--surface-raised);font-family:var(--font-display)}
+.ok strong{display:block;font-size:1.1rem}
+@media(max-width:560px){.row{flex-direction:column}.row .btn{width:100%}}
+
+/* figure */
+.fig{background:var(--surface-raised);border:2px solid var(--ink);border-radius:var(--radius);padding:clamp(14px,2.2vw,24px)}
+.fig-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font:700 .8rem var(--font-display);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted)}
+.ctl{margin-top:var(--space-3);padding:14px 0 6px;border-block:1px solid var(--border)}
+.ctl label{font:700 1rem var(--font-display)}
+.ctl output{font:700 1rem var(--font-display);color:var(--control);float:right}
+input[type=range]{width:100%;height:44px;margin:6px 0 0;background:transparent;accent-color:var(--control);cursor:pointer}
+.ticks{display:flex;justify-content:space-between;font:600 .8rem var(--font-display);color:var(--ink-muted)}
+.themes{margin-top:var(--space-3);display:grid;gap:12px;min-height:420px;align-content:start}
+.theme{border-left:6px solid var(--control);padding:2px 0 2px 12px}
+.theme .t{display:flex;justify-content:space-between;gap:10px;font:700 1rem/1.25 var(--font-display)}
+.theme .n{font-variant-numeric:tabular-nums}
+.theme .bar{height:8px;background:var(--computed);margin:6px 0;border-radius:2px;transition:width var(--dur) var(--ease)}
+.theme ul{list-style:none;margin:0;padding:0;font-size:.9rem;line-height:1.35;color:var(--ink-muted)}
+.theme li{padding:1px 0}
+.result{margin-top:var(--space-3);background:var(--night);color:#fff;border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;gap:16px}
+.result .big{font:800 2.4rem/1 var(--font-display);color:var(--computed);white-space:nowrap}
+.result p{font:500 .95rem/1.35 var(--font-display);color:#e4e8ef}
+@media(max-width:900px){.hero .wrap{grid-template-columns:1fr}.themes{min-height:0}}
+@media(max-width:480px){.result{flex-direction:column;align-items:flex-start;gap:8px}}
+
+/* how it works */
+.band-night{background:var(--night);color:#fff;padding:var(--space-6) 0}
+.on-dark{color:#fff}
+.how{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,6vw,88px);margin-top:var(--space-5);align-items:start}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-4)}
+.steps li{border-top:1px solid var(--night-rule);padding-top:var(--space-3)}
+.steps h3{color:#fff}
+.steps h3 span{color:var(--computed)}
+.steps p{margin-top:8px;color:var(--night-muted);max-width:42ch}
+.digest{background:var(--surface-raised);color:var(--ink);border-radius:var(--radius);padding:clamp(16px,3vw,32px)}
+.digest .meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font:600 .85rem var(--font-display);color:var(--ink-muted);border-bottom:2px solid var(--ink);padding-bottom:10px}
+.digest h3{margin-top:14px;font-size:1.5rem}
+.digest ol{list-style:none;margin:14px 0 0;padding:0}
+.digest li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;padding:12px 0;border-bottom:1px solid var(--border);align-items:start}
+.digest .rk{font:800 1.1rem var(--font-display)}
+.digest .what b{font:700 1rem var(--font-display);display:block}
+.digest .what span{font-size:.95rem;color:var(--ink-muted);display:block;line-height:1.35}
+.digest .stat{text-align:right;font:700 .95rem var(--font-display);white-space:nowrap}
+.digest .stat small{display:block;font-weight:600;font-size:.8rem;color:var(--computed-text)}
+.digest .stat small.dn{color:var(--ink-muted)}
+.digest .foot{margin-top:12px;font:500 .85rem var(--font-display);color:var(--ink-muted)}
+@media(max-width:900px){.how{grid-template-columns:1fr}}
+
+/* features */
+.features{padding:var(--space-6) 0}
+.features .intro{max-width:56ch;margin-top:var(--space-3);color:var(--ink-muted)}
+table.ft{width:100%;border-collapse:collapse;margin-top:var(--space-5)}
+.ft caption{position:absolute;left:-999px}
+.ft th,.ft td{text-align:left;vertical-align:top;padding:18px 16px 18px 0;border-top:1px solid var(--ink)}
+.ft thead th{font:700 .8rem var(--font-display);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);border-top:0;padding-bottom:10px}
+.ft tbody th{font:800 1.15rem/1.2 var(--font-display);width:24%}
+.ft td:nth-child(2){width:40%}
+.ft td:nth-child(3){color:var(--computed-text);font-family:var(--font-display);font-weight:600;font-size:.95rem}
+@media(max-width:760px){
+  .ft thead{position:absolute;left:-999px}
+  .ft,.ft tbody,.ft tr,.ft th,.ft td{display:block;width:auto!important}
+  .ft tr{border-top:1px solid var(--ink);padding:16px 0}
+  .ft th,.ft td{border:0;padding:0}
+  .ft td{margin-top:6px}
+  .ft td:nth-child(3)::before{content:"Limit: ";color:var(--ink)}
+}
+
+/* proof */
+.band-blue{background:var(--control);color:#fff;padding:var(--space-6) 0}
+.proof{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:clamp(28px,6vw,88px);align-items:end}
+blockquote{margin:0}
+.big-q{font:500 clamp(1.7rem,3.6vw,3rem)/1.12 var(--font-text);letter-spacing:-.01em}
+.who{margin-top:var(--space-3);font:600 1rem var(--font-display)}
+.who span{display:block;font-weight:500;opacity:.88}
+.small-qs{display:grid;gap:var(--space-4)}
+.small-qs blockquote{border-top:1px solid rgba(255,255,255,.5);padding-top:14px;font-size:1.05rem;line-height:1.4}
+.small-qs cite{display:block;margin-top:8px;font:600 .9rem var(--font-display);font-style:normal}
+@media(max-width:900px){.proof{grid-template-columns:1fr}}
+
+/* pricing */
+.pricing{padding:var(--space-6) 0 var(--space-5)}
+.plans{margin-top:var(--space-5);border-top:2px solid var(--ink)}
+.plan{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,5fr) minmax(0,2.2fr) auto;gap:var(--space-3) var(--space-4);align-items:center;padding:var(--space-4) 0;border-bottom:1px solid var(--ink)}
+.plan h3{font-size:1.6rem;font-weight:800}
+.plan .for{font:600 .85rem var(--font-display);color:var(--ink-muted);margin-top:4px;display:block}
+.plan ul{margin:0;padding:0;list-style:none;display:grid;gap:3px;font-size:1rem;line-height:1.4}
+.plan li::before{content:"+ ";font-family:var(--font-display);font-weight:700;color:var(--control)}
+.price{font:800 2.4rem/1 var(--font-display);letter-spacing:-.03em}
+.price small{display:block;margin-top:4px;font:600 .85rem var(--font-display);letter-spacing:0;color:var(--ink-muted)}
+@media(max-width:900px){.plan{grid-template-columns:1fr;align-items:start}.plan .btn{width:100%}}
+.note{margin-top:var(--space-3);font-size:var(--step--1);color:var(--ink-muted);max-width:70ch}
+
+/* faq */
+.faq{padding:var(--space-5) 0 var(--space-6)}
+.faq .wrap{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(24px,6vw,88px);align-items:start}
+.faq-list{border-top:2px solid var(--ink)}
+details{border-bottom:1px solid var(--ink)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:60px;padding:14px 0;font:700 1.1rem/1.25 var(--font-display)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.6rem;line-height:1;color:var(--control);flex:none;width:28px;text-align:center}
+details[open] summary::after{content:"\2212"}
+details p{padding:0 40px 18px 0;color:var(--ink-muted);max-width:60ch}
+@media(max-width:900px){.faq .wrap{grid-template-columns:1fr}}
+
+/* footer */
+footer{background:var(--night);color:#fff;padding:var(--space-5) 0 var(--space-4)}
+.fgrid{display:grid;grid-template-columns:minmax(0,4fr) repeat(3,minmax(0,2fr));gap:var(--space-4)}
+footer .brand{color:#fff}
+footer p.tag{margin-top:10px;color:var(--night-muted);max-width:30ch;font-size:1rem}
+footer h3{font:700 .8rem var(--font-display);text-transform:uppercase;letter-spacing:.08em;color:var(--night-muted);margin-bottom:6px}
+footer ul{list-style:none;margin:0;padding:0}
+footer li a{display:flex;align-items:center;min-height:44px;font:500 1rem var(--font-display);text-decoration:none}
+footer li a:hover{text-decoration:underline;text-underline-offset:4px}
+.legal{margin-top:var(--space-4);padding-top:var(--space-3);border-top:1px solid var(--night-rule);color:var(--night-muted);font:500 .85rem var(--font-display)}
+@media(max-width:760px){.fgrid{grid-template-columns:1fr 1fr}.fgrid>div:first-child{grid-column:1/-1}}
+
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Relay home">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" rx="7" fill="#14181f"/><circle cx="9" cy="10" r="2.6" fill="#f2b01e"/><circle cx="9" cy="20" r="2.6" fill="#f2b01e"/><circle cx="21" cy="15" r="3.6" fill="#fff"/><path d="M11.4 10.8 18 14M11.4 19.2 18 16" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Relay
+    </a>
+    <nav class="main" aria-label="Primary">
+      <a class="l" href="#how">How it works</a>
+      <a class="l" href="#pricing">Pricing</a>
+      <a class="l" href="#faq">FAQ</a>
+      <a class="btn" href="#start" data-start>Get a digest</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top" aria-labelledby="h1">
+  <div class="wrap">
+    <div>
+      <h1 id="h1">Your support queue, read for you.</h1>
+      <p class="lede">Every Monday, one page: the <em>six things customers asked for most</em> last week, ranked, with the tickets behind each line.</p>
+      <form class="start" id="start" novalidate>
+        <label for="email">Work email</label>
+        <div class="row">
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" aria-describedby="email-err">
+          <button class="btn" type="submit">Send me a sample digest</button>
+        </div>
+        <p class="err" id="email-err" role="alert"></p>
+        <p class="fine">Built from a demo queue of 400 tickets, so you can read one before you connect anything. No card.</p>
+      </form>
+    </div>
+
+    <div class="fig" role="group" aria-labelledby="fig-t">
+      <div class="fig-head"><span id="fig-t">Try it: 14 tickets from one week</span><span>Drag the slider</span></div>
+      <div class="ctl">
+        <label for="merge">How alike must tickets be to merge?</label>
+        <output id="mergeOut" for="merge">Balanced</output>
+        <input id="merge" type="range" min="0" max="2" step="1" value="1" aria-valuetext="Balanced">
+        <div class="ticks" aria-hidden="true"><span>Strict</span><span>Balanced</span><span>Loose</span></div>
+      </div>
+      <div class="themes" id="themes"></div>
+      <div class="result" aria-live="polite">
+        <div class="big" id="bigNum">14 &rarr; 4</div>
+        <p id="resultText"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band-night on-dark" id="how" aria-labelledby="how-h">
+  <div class="wrap">
+    <h2 id="how-h">Read once by Relay. Read once by you.</h2>
+    <div class="how">
+      <ol class="steps">
+        <li>
+          <h3><span>Before Friday.</span> Connect the helpdesk.</h3>
+          <p>Read-only access to Zendesk, Intercom, Help Scout or Front. Names, emails and anything that looks like a card or key are stripped before a ticket is read.</p>
+        </li>
+        <li>
+          <h3><span>Overnight.</span> Group by the ask, not the keyword.</h3>
+          <p>&ldquo;CSV ignores my date filter&rdquo; and &ldquo;export is wrong after I filter&rdquo; land in one theme. Bugs, how-to questions and feature requests are kept apart.</p>
+        </li>
+        <li>
+          <h3><span>Monday 8:00.</span> One page in your inbox or Slack.</h3>
+          <p>Ranked by tickets and by the revenue of the accounts asking. Every line opens the exact tickets, so you can check Relay before you believe it.</p>
+        </li>
+      </ol>
+
+      <article class="digest" aria-label="Sample weekly digest">
+        <div class="meta"><span>Relay digest &middot; week of 19 Oct</span><span>412 tickets read</span></div>
+        <h3>What customers asked for</h3>
+        <ol>
+          <li><span class="rk">1</span><span class="what"><b>Exports that respect filters</b><span>&ldquo;I filtered to Q3 and the CSV still has everything.&rdquo;</span></span><span class="stat">61 tickets<small>Up 18 vs last week</small></span></li>
+          <li><span class="rk">2</span><span class="what"><b>Okta sign-in loops after reset</b><span>Bug, not a request. Sent to support-eng.</span></span><span class="stat">38 tickets<small>New this week</small></span></li>
+          <li><span class="rk">3</span><span class="what"><b>Add many teammates at once</b><span>&ldquo;We are onboarding 40 people on Monday.&rdquo;</span></span><span class="stat">27 tickets<small class="dn">Down 4 vs last week</small></span></li>
+          <li><span class="rk">4</span><span class="what"><b>Webhook payload and retries docs</b><span>A docs gap, not a product gap.</span></span><span class="stat">19 tickets<small class="dn">Same as last week</small></span></li>
+        </ol>
+        <p class="foot">Accounts on the Team plan or above filed 44 of the 145 tickets shown. Open any line to read them.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="features" aria-labelledby="feat-h">
+  <div class="wrap">
+    <h2 id="feat-h">What it does, and where it stops.</h2>
+    <p class="intro">A digest you cannot check is a rumour. These are the parts of Relay a PM leans on, and the limit of each.</p>
+    <table class="ft">
+      <caption>Relay features and their limits</caption>
+      <thead><tr><th scope="col">Feature</th><th scope="col">What you get</th><th scope="col">Limit</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Themes</th><td>Tickets grouped by what the customer is asking for, with a one-line summary written in their words.</td><td>Needs about 150 tickets a week to group reliably.</td></tr>
+        <tr><th scope="row">Quote trail</th><td>Every line links to the tickets behind it. Nothing is paraphrased without a source.</td><td>You see only tickets your helpdesk role can see.</td></tr>
+        <tr><th scope="row">Week over week</th><td>Rank movement against the last four weeks, so a slow climb shows before it is loud.</td><td>The first digest has no trend; it starts with the second.</td></tr>
+        <tr><th scope="row">Revenue weighting</th><td>Rank by plan or account value from your CRM, next to the plain ticket count.</td><td>HubSpot and Salesforce only.</td></tr>
+        <tr><th scope="row">Mute rules</th><td>Silence themes you have already decided on, so the digest stays about what is new.</td><td>Muted themes still count in the totals.</td></tr>
+        <tr><th scope="row">Delivery</th><td>Email, Slack channel, or a Notion page, on the day and hour you choose.</td><td>One delivery time per workspace.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="band-blue" aria-labelledby="proof-h">
+  <div class="wrap">
+    <h2 id="proof-h" style="position:absolute;left:-999px">What product managers say</h2>
+    <div class="proof">
+      <blockquote>
+        <p class="big-q">&ldquo;We had a roadmap item for a whole quarter. The digest showed three mentions in about 900 tickets. We dropped it the same Monday and built bulk invite instead.&rdquo;</p>
+        <p class="who">Priya Raman<span>Group Product Manager, Tallyfold &middot; 210 people</span></p>
+      </blockquote>
+      <div class="small-qs">
+        <blockquote>
+          <p>&ldquo;I stopped asking support for &lsquo;the top issues&rsquo;. The quote trail ends the argument about whether it is real.&rdquo;</p>
+          <cite>Marcus Oyelaran, Product Lead, Kestrel Billing</cite>
+        </blockquote>
+        <blockquote>
+          <p>&ldquo;Our CEO now forwards it to the whole leadership channel. I did not ask her to.&rdquo;</p>
+          <cite>Hannah Brandt, PM, Northlane</cite>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing" aria-labelledby="price-h">
+  <div class="wrap">
+    <h2 id="price-h">Priced by how many people read it.</h2>
+    <div class="plans">
+      <article class="plan">
+        <div><h3>Solo</h3><span class="for">One PM, one helpdesk</span></div>
+        <ul><li>Up to 2,000 tickets a month</li><li>Weekly digest by email</li><li>Quote trail and week over week</li></ul>
+        <div class="price">$49<small>per month, billed monthly</small></div>
+        <a class="btn line" href="#start" data-start>Start Solo</a>
+      </article>
+      <article class="plan">
+        <div><h3>Product team</h3><span class="for">A product org of up to 8 PMs</span></div>
+        <ul><li>Up to 15,000 tickets a month, 3 helpdesks</li><li>Revenue weighting from your CRM</li><li>Slack and Notion delivery, mute rules</li></ul>
+        <div class="price">$199<small>per month, billed monthly</small></div>
+        <a class="btn line" href="#start" data-start>Start Product team</a>
+      </article>
+      <article class="plan">
+        <div><h3>Company</h3><span class="for">500 people, security review required</span></div>
+        <ul><li>Unlimited tickets and seats</li><li>SSO, audit log, EU data residency</li><li>Named contact, signed DPA</li></ul>
+        <div class="price">Talk to us<small>annual contract</small></div>
+        <a class="btn line" href="#start" data-start>Request a quote</a>
+      </article>
+    </div>
+    <p class="note">Every plan starts with 14 days free and no card. Cancel from the settings page; your digests stay yours.</p>
+  </div>
+</section>
+
+<section class="faq" id="faq" aria-labelledby="faq-h">
+  <div class="wrap">
+    <h2 id="faq-h">Questions PMs ask first.</h2>
+    <div class="faq-list">
+      <details><summary>Does Relay send customer data to a model provider?</summary><p>Tickets are scrubbed of names, emails, phone numbers and card or key patterns before they are read. Scrubbed text is processed under a no-training agreement and deleted after 30 days. The Company plan can run in the EU only.</p></details>
+      <details><summary>How is this different from tagging tickets?</summary><p>Tags are what an agent had time to type. Relay reads the whole ticket and groups by the ask, so a request nobody thought to tag still shows up. You can keep your tags; Relay uses them as a hint.</p></details>
+      <details><summary>What if the grouping is wrong?</summary><p>Split or merge a theme from the digest and Relay remembers the correction for later weeks. Every line links to its tickets, so a wrong group is easy to spot.</p></details>
+      <details><summary>How long until the first useful digest?</summary><p>The first digest arrives the next Monday after you connect, built from the last four weeks of history. Trend arrows begin with the second.</p></details>
+      <details><summary>Which helpdesks and languages work?</summary><p>Zendesk, Intercom, Help Scout and Front. Tickets in English, Spanish, German and French are grouped; other languages appear as &ldquo;unclear&rdquo; with a count.</p></details>
+      <details><summary>Who else can read the digest?</summary><p>Anyone you add by email or Slack channel. Account names are hidden by default, and the quote trail respects each reader&rsquo;s helpdesk permissions.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="brand" href="#top">
+          <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" rx="7" fill="#fff"/><circle cx="9" cy="10" r="2.6" fill="#b36a00"/><circle cx="9" cy="20" r="2.6" fill="#b36a00"/><circle cx="21" cy="15" r="3.6" fill="#14181f"/><path d="M11.4 10.8 18 14M11.4 19.2 18 16" stroke="#14181f" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Relay
+        </a>
+        <p class="tag">Support tickets, read for the people who decide what to build.</p>
+      </div>
+      <div><h3>Product</h3><ul><li><a href="#how">How it works</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+      <div><h3>Company</h3><ul><li><a href="#top">About</a></li><li><a href="#start" data-start>Contact</a></li><li><a href="#top">Careers</a></li></ul></div>
+      <div><h3>Trust</h3><ul><li><a href="#faq">Data handling</a></li><li><a href="#top">Security</a></li><li><a href="#top">Privacy</a></li></ul></div>
+    </div>
+    <p class="legal">&copy; 2026 Relay Labs. Made for people who read the queue so nobody else has to.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var T=[
+    {q:"CSV export ignores my date filter",f:0,m:0,c:0},
+    {q:"Exported file has rows I filtered out",f:0,m:0,c:0},
+    {q:"Can the report be scheduled to S3?",f:1,m:0,c:0},
+    {q:"Email me this report every Monday",f:1,m:0,c:0},
+    {q:"Dashboard takes 20s with 90 days",f:2,m:1,c:0},
+    {q:"Charts time out on large accounts",f:2,m:1,c:0},
+    {q:"Okta SSO loops after password reset",f:3,m:2,c:1},
+    {q:"Okta login bounces back to sign-in",f:3,m:2,c:1},
+    {q:"We need SAML for Azure AD",f:4,m:2,c:1},
+    {q:"Invite 40 teammates in one go?",f:5,m:2,c:1},
+    {q:"Bulk add users from a spreadsheet",f:5,m:2,c:1},
+    {q:"Webhook retries are not documented",f:6,m:3,c:2},
+    {q:"What does the webhook payload look like?",f:6,m:3,c:2},
+    {q:"Where are the API rate limits?",f:7,m:3,c:2}
+  ];
+  var N=[
+    ["Exports ignore filters","Scheduled reports","Slow dashboards","Okta sign-in loop","Azure AD SAML","Bulk invite","Webhook docs","API rate limits"],
+    ["Exports and reports","Slow dashboards","Sign-in and seats","Docs gaps"],
+    ["Reporting","Admin and access","Docs"]
+  ];
+  var LV=[{k:"f",n:"Strict"},{k:"m",n:"Balanced"},{k:"c",n:"Loose"}];
+  var range=document.getElementById("merge"),out=document.getElementById("mergeOut"),box=document.getElementById("themes"),big=document.getElementById("bigNum"),txt=document.getElementById("resultText");
+  function esc(s){return s.replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+  function render(){
+    var lv=+range.value,k=LV[lv].k,groups={};
+    T.forEach(function(t){(groups[t[k]]=groups[t[k]]||[]).push(t)});
+    var arr=Object.keys(groups).map(function(id){return{id:id,list:groups[id]}}).sort(function(a,b){return b.list.length-a.list.length||a.id-b.id});
+    var max=arr[0].list.length;
+    box.innerHTML=arr.map(function(g){
+      var show=g.list.slice(0,lv===0?2:3);
+      var more=g.list.length-show.length;
+      return '<div class="theme"><div class="t"><span>'+esc(N[lv][g.id])+'</span><span class="n">'+g.list.length+(g.list.length===1?' ticket':' tickets')+'</span></div><div class="bar" style="width:'+Math.round(g.list.length/max*100)+'%"></div><ul>'+show.map(function(t){return'<li>&ldquo;'+esc(t.q)+'&rdquo;</li>'}).join('')+(more>0?'<li>+ '+more+' more</li>':'')+'</ul></div>';
+    }).join('');
+    big.innerHTML='14 &rarr; '+arr.length;
+    var top=arr[0];
+    txt.textContent=arr.length+' themes from 14 tickets. Biggest: '+N[lv][top.id]+', '+top.list.length+' tickets ('+Math.round(top.list.length/14*100)+'% of the week).';
+    out.textContent=LV[lv].n;
+    range.setAttribute("aria-valuetext",LV[lv].n+", "+arr.length+" themes");
+  }
+  range.addEventListener("input",render);render();
+
+  var form=document.getElementById("start"),email=document.getElementById("email"),err=document.getElementById("email-err");
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    var v=email.value.trim();
+    if(!v){err.textContent="Enter your work email so we know where to send it.";email.setAttribute("aria-invalid","true");email.focus();return}
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v)){err.textContent="That does not look like an email address. Check for a missing @ or domain.";email.setAttribute("aria-invalid","true");email.focus();return}
+    var d=document.createElement("div");d.className="ok";d.setAttribute("role","status");d.tabIndex=-1;
+    var s=document.createElement("strong");s.textContent="Sample digest on its way.";
+    var p=document.createElement("span");p.textContent="Check "+v+" in a few minutes. It is built from a demo queue, not your data.";
+    d.appendChild(s);d.appendChild(p);form.innerHTML="";form.appendChild(d);d.focus();
+  });
+  email.addEventListener("input",function(){err.textContent="";email.removeAttribute("aria-invalid")});
+  document.querySelectorAll("[data-start]").forEach(function(a){
+    a.addEventListener("click",function(){setTimeout(function(){var i=document.getElementById("email");if(i)i.focus({preventScroll:true})},50)});
+  });
+})();
+</script>
+</body>
+</html>

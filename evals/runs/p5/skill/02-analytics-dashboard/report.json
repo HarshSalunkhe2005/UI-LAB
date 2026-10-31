@@ -1,0 +1,66 @@
+{
+  "375": {
+    "docWidth": 375,
+    "viewport": 375,
+    "hOverflow": false,
+    "docHeight": 3719,
+    "interactive": 5,
+    "smallTargets": 0,
+    "smallSamples": [],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      false,
+      true,
+      false
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Public Sans",
+      "h2": "Public Sans",
+      "body": "Public Sans"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "1440": {
+    "docWidth": 1440,
+    "viewport": 1440,
+    "hOverflow": false,
+    "docHeight": 1034,
+    "interactive": 12,
+    "smallTargets": 12,
+    "smallSamples": [
+      "button \"7 days\" 72x36",
+      "button \"14 days\" 77x36",
+      "button \"30 days\" 79x36",
+      "select \"All routes (6)R1 · Merid\" 262x36",
+      "button \"Reset\" 68x36"
+    ],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      false,
+      true,
+      false
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "Public Sans",
+      "h2": "Public Sans",
+      "body": "Public Sans"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "dir": "C:\\Users\\Harsh\\Projects\\UI-Lab\\evals\\runs\\p5\\skill\\02-analytics-dashboard",
+  "url": "file:///C:/Users/Harsh/Projects/UI-Lab/evals/runs/p5/skill/02-analytics-dashboard/index.html"
+}

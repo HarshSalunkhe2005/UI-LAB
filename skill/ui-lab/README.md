@@ -23,7 +23,7 @@ On Windows the folder is `%USERPROFILE%\.claude\skills\`. Other agents that read
 | `SKILL.md` | The workflow. Loaded first; names the other files to read and when. |
 | `references/` | 24 design worlds in 6 families with exact token blocks, a 40-entry anti-slop catalogue, dense-UI guidance, 15 font pairings, colour, motion and accessibility rules, the verify loop and a bug catalogue. {{pro}}Also a technique index distilled from 68 site teardowns, site-type skeletons and a glossary.{{/pro}} |
 | `patterns/` | Canonical HTML, CSS and vanilla JavaScript patterns (heroes, dense-UI parts, navigation, sections, commerce, forms and states, motion, docs), each with when-to-use and accessibility notes, plus an index. |
-| `templates/` | Fill-in formats for the brief, house-style check and direction card, verification log, critique report and handoff. |
+| `templates/` | Fill-in formats for the brief, house-style check and direction card, verification log, critique report and handoff, plus a viewport probe page that shows and measures your page at 375 px without a browser tool. |
 | `scripts/` | Zero-dependency helpers run locally: a static UI audit and a contrast checker. They read only the folder you point them at and use no network. | {{pro-line}}
 | `examples/` | Worked examples. | {{pro-line}}
 

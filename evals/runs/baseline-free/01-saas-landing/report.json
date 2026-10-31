@@ -6,6 +6,13 @@
     "docHeight": 10193,
     "interactive": 19,
     "smallTargets": 13,
+    "smallSamples": [
+      "a \"Relay\" 108x40",
+      "a \"Get the first digest\" 162x44",
+      "a \"See how it works ↓\" 150x25",
+      "a \"Relay\" 339x40",
+      "a \"How it works\" 92x19"
+    ],
     "collisions": 0,
     "collisionSamples": [],
     "imgsMissingAlt": 0,
@@ -33,6 +40,13 @@
     "docHeight": 6045,
     "interactive": 23,
     "smallTargets": 17,
+    "smallSamples": [
+      "a \"Relay\" 108x40",
+      "a \"How it works\" 92x23",
+      "a \"Features\" 61x23",
+      "a \"Pricing\" 49x23",
+      "a \"FAQ\" 29x23"
+    ],
     "collisions": 0,
     "collisionSamples": [],
     "imgsMissingAlt": 0,

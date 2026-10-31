@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atlas 38 Carry-on Backpack | Fieldwork</title>
+<meta name="description" content="Atlas 38: a 38 L carry-on backpack in recycled sailcloth. Ships in 2 days, 60-day returns.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf8f4; --surface:#fff; --ink:#1d2327; --muted:#5b6670; --line:#e4e0d8;
+  --accent:#1f4d47; --accent-ink:#fff; --accent-soft:#e3eeeb; --warn:#8a4b00; --star:#c97a12;
+  --radius:12px; --shadow:0 1px 2px rgba(20,30,30,.06),0 8px 24px rgba(20,30,30,.06);
+  --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid #2b7bd6;outline-offset:2px;border-radius:6px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* top */
+.announce{background:var(--accent);color:#fff;font-size:14px;text-align:center;padding:8px 16px}
+header.site{background:var(--surface);border-bottom:1px solid var(--line)}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:var(--serif);font-size:24px;font-weight:600;text-decoration:none;letter-spacing:-.01em}
+.logo span{color:var(--accent)}
+nav.main{display:flex;gap:28px;font-size:15px}
+nav.main a{text-decoration:none;color:var(--muted)}
+nav.main a:hover{color:var(--ink)}
+.cart-btn{display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--line);border-radius:999px;padding:8px 14px;min-height:44px}
+.cart-btn b{background:var(--accent);color:#fff;border-radius:999px;min-width:22px;height:22px;display:inline-grid;place-items:center;font-size:12px;padding:0 6px}
+.crumbs{font-size:14px;color:var(--muted);padding:18px 0 8px}
+.crumbs a{color:var(--muted)}
+.crumbs span{margin:0 6px}
+
+/* product */
+.product{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:56px;padding:12px 0 56px;align-items:start}
+.gallery{position:sticky;top:16px}
+.stage{background:var(--stage,#e9e4da);border-radius:16px;aspect-ratio:1/1;display:grid;place-items:center;position:relative;overflow:hidden;transition:background .3s}
+.stage svg{width:86%;height:86%}
+.stage .badge{position:absolute;top:16px;left:16px;background:#fff;border-radius:999px;font-size:13px;font-weight:600;padding:6px 12px;display:flex;gap:6px;align-items:center}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+.thumb{border:2px solid transparent;background:var(--stage,#e9e4da);border-radius:10px;aspect-ratio:1/1;padding:4px;display:grid;place-items:center;transition:background .3s}
+.thumb svg{width:92%;height:92%}
+.thumb[aria-pressed=true]{border-color:var(--accent)}
+.brand-kicker{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(32px,4vw,46px);line-height:1.1;margin:6px 0 10px;letter-spacing:-.015em}
+.sub{color:var(--muted);margin:0 0 14px}
+.rating-line{display:flex;align-items:center;gap:10px;font-size:14px;margin-bottom:18px}
+.rating-line a{color:var(--muted)}
+.stars{display:inline-flex;gap:2px;color:var(--star)}
+.stars svg{width:16px;height:16px}
+.price-row{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.price{font-size:32px;font-weight:700;letter-spacing:-.01em}
+.price-note{color:var(--muted);font-size:14px}
+.fieldset{border:0;padding:0;margin:24px 0 0}
+.fieldset legend{padding:0;font-weight:600;font-size:15px;margin-bottom:10px;display:flex;justify-content:space-between;width:100%}
+.fieldset legend em{font-style:normal;font-weight:400;color:var(--muted)}
+.swatches{display:flex;gap:12px;flex-wrap:wrap}
+.swatch{position:relative}
+.swatch input,.size input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.swatch label{display:flex;align-items:center;gap:10px;padding:8px 14px 8px 8px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface);font-size:14px;cursor:pointer;min-height:44px}
+.swatch i{width:28px;height:28px;border-radius:50%;border:1px solid rgba(0,0,0,.15);display:block}
+.swatch input:checked+label{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.swatch input:focus-visible+label,.size input:focus-visible+label{outline:3px solid #2b7bd6;outline-offset:2px}
+.sizes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.size{position:relative}
+.size label{display:flex;flex-direction:column;align-items:center;padding:10px 6px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;min-height:56px;text-align:center}
+.size label b{font-size:16px}
+.size label span{font-size:12px;color:var(--muted)}
+.size input:checked+label{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);background:var(--accent-soft)}
+.size input:disabled+label{opacity:.5;cursor:not-allowed;text-decoration:line-through}
+.size input:disabled{cursor:not-allowed}
+.link-btn{background:none;border:0;padding:0;text-decoration:underline;color:var(--accent);font-size:14px}
+.size-help{display:none;margin-top:10px;font-size:14px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--muted)}
+.size-help.open{display:block}
+.buy{margin-top:26px;display:grid;grid-template-columns:auto 1fr;gap:12px}
+.qty{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:10px;background:var(--surface)}
+.qty button{width:44px;height:52px;border:0;background:none;font-size:20px}
+.qty output{min-width:28px;text-align:center;font-weight:600}
+.add{background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;font-weight:600;font-size:17px;min-height:52px;padding:0 20px;transition:transform .1s,background .2s}
+.add:hover{background:#17403b}
+.add:active{transform:scale(.99)}
+.stock{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:14px}
+.dot{width:9px;height:9px;border-radius:50%;background:#2e8b57;flex:none}
+.assure{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:10px;font-size:14px}
+.assure li{display:flex;gap:10px;align-items:flex-start}
+.assure svg{flex:none;width:20px;height:20px;color:var(--accent);margin-top:2px}
+.pay{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.pay span{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:2px 8px;font-weight:600;color:var(--ink);font-size:12px}
+.highlights{margin:22px 0 0;padding-left:18px;color:var(--ink)}
+.highlights li{margin:4px 0}
+
+/* sections */
+section.block{padding:56px 0;border-top:1px solid var(--line)}
+h2{font-family:var(--serif);font-weight:600;font-size:clamp(26px,3vw,34px);margin:0 0 8px;letter-spacing:-.01em;line-height:1.15}
+.lede{color:var(--muted);margin:0 0 28px;max-width:60ch}
+.specs{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.spec{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.spec b{display:block;font-size:26px;font-family:var(--serif);font-weight:600;letter-spacing:-.01em}
+.spec span{color:var(--muted);font-size:14px}
+table.tech{width:100%;border-collapse:collapse;margin-top:24px;background:var(--surface);border-radius:var(--radius);overflow:hidden;border:1px solid var(--line)}
+table.tech th,table.tech td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line);font-size:15px;vertical-align:top}
+table.tech th{width:34%;font-weight:500;color:var(--muted)}
+table.tech tr:last-child th,table.tech tr:last-child td{border-bottom:0}
+
+.bag-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:center}
+.cutaway{background:#ece7dd;border-radius:16px;padding:20px}
+.cutaway svg{width:100%;height:auto;display:block}
+.hot{cursor:pointer}
+.hot circle.ring{transition:fill .15s}
+.zones{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.zone{width:100%;text-align:left;display:grid;grid-template-columns:32px 1fr auto;gap:14px;align-items:center;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 16px;min-height:60px}
+.zone .n{width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700;font-size:14px}
+.zone b{display:block;font-size:16px}
+.zone small{color:var(--muted);font-size:14px}
+.zone .vol{font-weight:600;font-size:14px;color:var(--muted)}
+.zone[aria-pressed=true]{border-color:var(--accent);background:var(--accent-soft)}
+.zone[aria-pressed=true] .n{background:var(--accent);color:#fff}
+
+.reviews-grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:48px}
+.score{font-family:var(--serif);font-size:64px;line-height:1;font-weight:600}
+.bars{display:grid;gap:6px;margin:18px 0}
+.bar{display:grid;grid-template-columns:28px 1fr 34px;gap:10px;align-items:center;font-size:14px;color:var(--muted)}
+.bar div{height:8px;background:#e8e3d9;border-radius:99px;overflow:hidden}
+.bar div i{display:block;height:100%;background:var(--star)}
+.fit{margin-top:20px;font-size:14px}
+.fit .track{position:relative;height:8px;background:#e8e3d9;border-radius:99px;margin:8px 0 4px}
+.fit .track i{position:absolute;top:-4px;width:16px;height:16px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 0 1px var(--accent)}
+.fit .lbl{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}
+.review{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:14px}
+.review header{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.review h3{margin:6px 0 6px;font-size:17px}
+.review p{margin:0 0 10px}
+.meta{font-size:13px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap}
+.verified{color:var(--accent);font-weight:600}
+
+.policy{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.card h3{margin:10px 0 6px;font-size:18px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.card svg{width:28px;height:28px;color:var(--accent)}
+.ship-table{width:100%;border-collapse:collapse;margin-top:18px;font-size:15px}
+.ship-table td,.ship-table th{padding:10px 0;border-bottom:1px solid var(--line);text-align:left}
+.ship-table td:last-child,.ship-table th:last-child{text-align:right}
+details.faq{border-bottom:1px solid var(--line);padding:2px 0}
+details.faq summary{cursor:pointer;padding:14px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;min-height:48px;align-items:center}
+details.faq summary::after{content:'+';font-size:22px;color:var(--muted)}
+details.faq[open] summary::after{content:'\2212'}
+details.faq p{margin:0 0 14px;color:var(--muted)}
+.faq-wrap{margin-top:28px;max-width:760px}
+
+.related{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.rel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.rel .img{aspect-ratio:1/1;display:grid;place-items:center}
+.rel .img svg{width:70%;height:70%}
+.rel .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:2px;flex:1}
+.rel h3{margin:0;font-size:16px}
+.rel .desc{font-size:13px;color:var(--muted)}
+.rel .row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px}
+.rel .row b{font-size:16px}
+.mini{border:1.5px solid var(--accent);color:var(--accent);background:none;border-radius:8px;font-weight:600;font-size:14px;padding:0 12px;min-height:40px}
+.mini:hover{background:var(--accent-soft)}
+
+footer.site{background:#18211f;color:#c9d2cf;padding:40px 0 100px;font-size:14px}
+footer.site .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer.site a{color:#e8eeec}
+
+/* toast + mobile bar */
+.toast{position:fixed;right:20px;top:20px;z-index:50;background:var(--ink);color:#fff;border-radius:12px;padding:14px 16px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:center;max-width:360px;transform:translateY(-140%);opacity:0;transition:transform .3s,opacity .3s;font-size:14px}
+.toast.show{transform:none;opacity:1}
+.toast a{color:#fff;font-weight:600;white-space:nowrap}
+.sticky-bar{display:none}
+
+@media (max-width:1000px){
+  .product{grid-template-columns:1fr;gap:28px}
+  .gallery{position:static}
+  .specs{grid-template-columns:repeat(2,1fr)}
+  .bag-grid,.reviews-grid{grid-template-columns:1fr;gap:28px}
+  .related{grid-template-columns:repeat(2,1fr)}
+  .policy{grid-template-columns:1fr}
+  nav.main{display:none}
+}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  .stage{border-radius:12px}
+  .thumbs{gap:8px}
+  .sizes{grid-template-columns:repeat(3,1fr);gap:8px}
+  section.block{padding:40px 0}
+  .zone{grid-template-columns:32px 1fr;}
+  .zone .vol{grid-column:2;margin-top:-6px}
+  .related{gap:12px}
+  .rel .body{padding:12px}
+  .rel .row{flex-direction:column;align-items:stretch;gap:8px}
+  table.tech th{width:42%}
+  table.tech th,table.tech td{padding:10px 12px;font-size:14px}
+  .toast{left:16px;right:16px;max-width:none;top:auto;bottom:84px;transform:translateY(140%)}
+  .sticky-bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));gap:12px;align-items:center;transform:translateY(110%);transition:transform .25s}
+  .sticky-bar.show{transform:none}
+  .sticky-bar div{line-height:1.2;flex:1;min-width:0}
+  .sticky-bar b{font-size:18px;display:block}
+  .sticky-bar small{color:var(--muted);font-size:12px}
+  .sticky-bar .add{flex:none;min-height:48px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div class="announce">Ships in 2 days &middot; Free returns for 60 days &middot; Free shipping over $75</div>
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="Fieldwork home">Field<span>work</span></a>
+    <nav class="main" aria-label="Main"><a href="#">Backpacks</a><a href="#">Duffels</a><a href="#">Organisers</a><a href="#">Our materials</a></nav>
+    <button class="cart-btn" id="cartBtn" type="button" aria-label="Cart, 0 items">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.2 12H6.2z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+      Cart <b id="cartCount">0</b>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="#">Home</a><span aria-hidden="true">/</span><a href="#">Backpacks</a><span aria-hidden="true">/</span>Atlas 38</nav>
+
+  <div class="product">
+    <!-- Gallery -->
+    <div class="gallery" aria-label="Product images">
+      <div class="stage" id="stage">
+        <div class="badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/><path d="m9 12 2 2 4-4"/></svg>Airline carry-on approved</div>
+        <div id="stageArt" role="img" aria-label="Atlas 38 backpack, front view" style="display:contents"></div>
+      </div>
+      <div class="thumbs" id="thumbs" role="group" aria-label="Choose image">
+        <button class="thumb" type="button" data-view="front" aria-pressed="true" aria-label="Front view"></button>
+        <button class="thumb" type="button" data-view="side" aria-pressed="false" aria-label="Side view"></button>
+        <button class="thumb" type="button" data-view="open" aria-pressed="false" aria-label="Open interior view"></button>
+        <button class="thumb" type="button" data-view="back" aria-pressed="false" aria-label="Back panel and straps"></button>
+      </div>
+    </div>
+
+    <!-- Buy box -->
+    <div class="buybox">
+      <div class="brand-kicker">Fieldwork &middot; Travel</div>
+      <h1>Atlas 38 carry-on backpack</h1>
+      <p class="sub">38 L &middot; recycled sailcloth &middot; fits under the seat and in the overhead bin</p>
+      <div class="rating-line">
+        <span class="stars" aria-hidden="true" data-stars="4.7"></span>
+        <strong>4.7</strong>
+        <a href="#reviews">312 reviews</a>
+      </div>
+
+      <div class="price-row"><span class="price" id="price">$189</span><span class="price-note">Tax included. Free shipping over $75.</span></div>
+
+      <form id="buyForm" novalidate>
+        <fieldset class="fieldset">
+          <legend><span>Colour</span><em id="colourName">Harbour Navy</em></legend>
+          <div class="swatches" id="swatches"></div>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend><span>Harness size</span><button type="button" class="link-btn" id="sizeToggle" aria-expanded="false" aria-controls="sizeHelp">Size guide</button></legend>
+          <div class="sizes" id="sizes">
+            <div class="size"><input type="radio" name="size" id="s-s" value="S" aria-describedby="sizeHint"><label for="s-s"><b>S</b><span>Torso 15&ndash;17&Prime;</span></label></div>
+            <div class="size"><input type="radio" name="size" id="s-m" value="M" checked aria-describedby="sizeHint"><label for="s-m"><b>M</b><span>Torso 17&ndash;19&Prime;</span></label></div>
+            <div class="size"><input type="radio" name="size" id="s-l" value="L" aria-describedby="sizeHint"><label for="s-l"><b>L</b><span>Torso 19&ndash;21&Prime;</span></label></div>
+          </div>
+          <div class="size-help" id="sizeHelp" role="region" aria-label="Size guide">Measure from the bony bump at the base of your neck down to the line between your hip bones. All three sizes carry the same 38 L bag; only the back panel and shoulder straps change. Between sizes? Pick the smaller one and loosen the load-lifters.</div>
+          <p id="sizeHint" class="sr">Same 38 litre bag in every size.</p>
+        </fieldset>
+
+        <div class="buy">
+          <div class="qty" role="group" aria-label="Quantity">
+            <button type="button" id="qMinus" aria-label="Decrease quantity">&minus;</button>
+            <output id="qty" aria-live="polite">1</output>
+            <button type="button" id="qPlus" aria-label="Increase quantity">+</button>
+          </div>
+          <button class="add" type="submit" id="addBtn">Add to cart &middot; <span id="addPrice">$189</span></button>
+        </div>
+      </form>
+
+      <div class="stock"><span class="dot" aria-hidden="true"></span><span><strong>In stock.</strong> Order today, ships in 2 days from our Portland warehouse.</span></div>
+
+      <ul class="assure">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span><strong>60-day free returns.</strong> Use it on a real trip; send it back if it is not right.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/></svg><span><strong>Lifetime repair guarantee.</strong> Zips, straps and seams, fixed or replaced.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c4 4 6 7 6 10a6 6 0 0 1-12 0c0-3 2-6 6-10z"/></svg><span><strong>Made from 14 recycled sail panels</strong> per bag, certified by GRS.</span></li>
+      </ul>
+
+      <ul class="highlights">
+        <li>Clamshell opening, so it packs like a suitcase</li>
+        <li>Padded 16&Prime; laptop sleeve and hidden passport pocket</li>
+        <li>Water-resistant coating, taped seams</li>
+      </ul>
+
+      <div class="pay" aria-label="Accepted payment methods">Secure checkout: <span>Visa</span><span>Mastercard</span><span>Amex</span><span>PayPal</span><span>Apple Pay</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Specs -->
+<section class="block" id="specs" aria-labelledby="h-specs">
+  <div class="wrap">
+    <h2 id="h-specs">Key specs</h2>
+    <p class="lede">Built to the 40 L carry-on limit of most major airlines, with a little room to spare.</p>
+    <div class="specs">
+      <div class="spec"><b>38 L</b><span>Total capacity</span></div>
+      <div class="spec"><b>1.3 kg</b><span>Weight (2.9 lb)</span></div>
+      <div class="spec"><b>55 &times; 35 &times; 22 cm</b><span>External size (21.7 &times; 13.8 &times; 8.7 in)</span></div>
+      <div class="spec"><b>14 panels</b><span>Reclaimed sailcloth per bag</span></div>
+    </div>
+    <table class="tech">
+      <tr><th scope="row">Outer fabric</th><td>Recycled sailcloth, 420D, PU-free water-resistant finish</td></tr>
+      <tr><th scope="row">Lining</th><td>100% recycled ripstop nylon, light grey so you can see inside</td></tr>
+      <tr><th scope="row">Hardware</th><td>YKK AquaGuard zips, Duraflex buckles, aluminium hooks</td></tr>
+      <tr><th scope="row">Laptop sleeve</th><td>Fits up to 16&Prime;, suspended 2 cm above the base</td></tr>
+      <tr><th scope="row">Carry system</th><td>Padded back panel, stowable hip belt, top and side grab handles</td></tr>
+      <tr><th scope="row">Care</th><td>Spot clean with mild soap. Air dry. Do not machine wash.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- What's in the bag -->
+<section class="block" id="inside" aria-labelledby="h-inside">
+  <div class="wrap">
+    <h2 id="h-inside">What&rsquo;s in the bag</h2>
+    <p class="lede">Five zones add up to 38 L. Tap a zone to see what fits.</p>
+    <div class="bag-grid">
+      <div class="cutaway">
+        <svg viewBox="0 0 320 400" role="img" aria-label="Cutaway of the Atlas 38 showing five storage zones" id="cutaway">
+          <rect x="40" y="20" width="240" height="360" rx="44" fill="#f6f2ea" stroke="#1d2327" stroke-width="3"/>
+          <!-- zones -->
+          <g id="zoneShapes">
+            <rect data-z="1" x="62" y="140" width="196" height="190" rx="18" fill="#cfe0dc" stroke="#1f4d47" stroke-width="2"/>
+            <rect data-z="2" x="62" y="84" width="196" height="48" rx="12" fill="#e9d5b5" stroke="#8a6a2e" stroke-width="2"/>
+            <rect data-z="3" x="74" y="198" width="172" height="104" rx="8" fill="#b9cfe0" stroke="#2e5a82" stroke-width="2"/>
+            <rect data-z="4" x="92" y="40" width="136" height="34" rx="10" fill="#e8c3bd" stroke="#8d3d34" stroke-width="2"/>
+            <rect data-z="5" x="40" y="250" width="30" height="86" rx="12" fill="#d6d0e6" stroke="#5a4a8a" stroke-width="2"/>
+            <rect data-z="5" x="250" y="250" width="30" height="86" rx="12" fill="#d6d0e6" stroke="#5a4a8a" stroke-width="2"/>
+          </g>
+          <g font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="700" fill="#1d2327" text-anchor="middle">
+            <text x="160" y="172">1 Main</text>
+            <text x="160" y="113">2 Front</text>
+            <text x="160" y="254">3 Laptop</text>
+            <text x="160" y="62">4 Quick</text>
+            <text x="55" y="298" font-size="11">5</text>
+            <text x="265" y="298" font-size="11">5</text>
+          </g>
+        </svg>
+      </div>
+      <ul class="zones" id="zones">
+        <li><button class="zone" type="button" data-z="1" aria-pressed="true"><span class="n">1</span><span><b>Main compartment</b><small>Clamshell. 3 days of clothes, shoes, toiletry bag.</small></span><span class="vol">22 L</span></button></li>
+        <li><button class="zone" type="button" data-z="2" aria-pressed="false"><span class="n">2</span><span><b>Front organiser</b><small>Chargers, cables, power bank, notebook, pens.</small></span><span class="vol">5 L</span></button></li>
+        <li><button class="zone" type="button" data-z="3" aria-pressed="false"><span class="n">3</span><span><b>Laptop and tablet sleeve</b><small>16&Prime; laptop, 13&Prime; tablet, padded and suspended.</small></span><span class="vol">4 L</span></button></li>
+        <li><button class="zone" type="button" data-z="4" aria-pressed="false"><span class="n">4</span><span><b>Quick-grab top pocket</b><small>Passport, boarding pass, sunglasses. Lined and zipped.</small></span><span class="vol">2 L</span></button></li>
+        <li><button class="zone" type="button" data-z="5" aria-pressed="false"><span class="n">5</span><span><b>Side pockets (pair)</b><small>Bottle up to 1 L each, or an umbrella and a jacket.</small></span><span class="vol">5 L</span></button></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews -->
+<section class="block" id="reviews" aria-labelledby="h-reviews">
+  <div class="wrap">
+    <h2 id="h-reviews">Reviews</h2>
+    <p class="lede">312 verified buyers. Sorted by most helpful.</p>
+    <div class="reviews-grid">
+      <div>
+        <div class="score">4.7</div>
+        <div class="stars" aria-hidden="true" data-stars="4.7" style="margin-top:6px"></div>
+        <p style="margin:6px 0 0;color:var(--muted);font-size:14px">Based on 312 reviews. 94% would recommend.</p>
+        <div class="bars" role="list" aria-label="Rating breakdown">
+          <div class="bar" role="listitem"><span>5 &#9733;</span><div><i style="width:78%"></i></div><span>243</span></div>
+          <div class="bar" role="listitem"><span>4 &#9733;</span><div><i style="width:15%"></i></div><span>47</span></div>
+          <div class="bar" role="listitem"><span>3 &#9733;</span><div><i style="width:4%"></i></div><span>13</span></div>
+          <div class="bar" role="listitem"><span>2 &#9733;</span><div><i style="width:1%"></i></div><span>5</span></div>
+          <div class="bar" role="listitem"><span>1 &#9733;</span><div><i style="width:1%"></i></div><span>4</span></div>
+        </div>
+        <div class="fit">
+          <strong>How it fits</strong>
+          <div class="track" role="img" aria-label="Most reviewers say it fits true to size"><i style="left:48%"></i></div>
+          <div class="lbl"><span>Runs small</span><span>True to size</span><span>Runs large</span></div>
+        </div>
+      </div>
+      <div>
+        <article class="review">
+          <header><span class="stars" aria-label="5 out of 5 stars" data-stars="5"></span><span class="meta"><span class="verified">Verified purchase</span><span>Mar 2026</span></span></header>
+          <h3>Two weeks through Japan with one bag</h3>
+          <p>Fits under the seat on budget airlines and I never once paid for a checked bag. The clamshell opening is the real win: I can see everything without digging. Zips still feel brand new after nine trains and four flights.</p>
+          <div class="meta"><span>Priya N., Pune</span><span>Colour: Harbour Navy</span><span>Size M</span></div>
+        </article>
+        <article class="review">
+          <header><span class="stars" aria-label="4 out of 5 stars" data-stars="4"></span><span class="meta"><span class="verified">Verified purchase</span><span>Feb 2026</span></span></header>
+          <h3>Comfortable, with one small gripe</h3>
+          <p>The harness is genuinely comfortable with a full 9 kg load. The sailcloth looks better as it ages. I would like one more internal pocket, but the front organiser is handling my cables well enough. Shipping took two days, as promised.</p>
+          <div class="meta"><span>Daniel K., Leeds</span><span>Colour: Sand</span><span>Size L</span></div>
+        </article>
+        <article class="review">
+          <header><span class="stars" aria-label="5 out of 5 stars" data-stars="5"></span><span class="meta"><span class="verified">Verified purchase</span><span>Jan 2026</span></span></header>
+          <h3>Tested the return, then kept it</h3>
+          <p>I was unsure about the size, so I used the 60-day window. Support swapped my S for an M within a week and paid the postage both ways. That honesty is why I bought a second one for my brother.</p>
+          <div class="meta"><span>Marta L., Lisbon</span><span>Colour: Forest</span><span>Size M</span></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Shipping and returns -->
+<section class="block" id="shipping" aria-labelledby="h-ship">
+  <div class="wrap">
+    <h2 id="h-ship">Shipping and returns</h2>
+    <p class="lede">Clear costs and a long window to change your mind.</p>
+    <div class="policy">
+      <div class="card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h12v10H2z"/><path d="M14 9h4l4 4v3h-8z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+        <h3>Ships in 2 days</h3>
+        <p>Orders placed before 2 pm leave our warehouse within two working days, with tracking by email.</p>
+        <table class="ship-table"><thead class="sr"><tr><th>Method</th><th>Cost</th></tr></thead>
+          <tr><td>Standard (3&ndash;5 days)</td><td>Free over $75</td></tr>
+          <tr><td>Express (1&ndash;2 days)</td><td>$14</td></tr>
+          <tr><td>International</td><td>from $19</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+        <h3>60-day free returns</h3>
+        <p>Not right? Send it back within 60 days for a full refund or an exchange. We email a prepaid label, and refunds land within 5 working days of arrival. Bags should be clean and unmodified.</p>
+      </div>
+      <div class="card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-.7-.7-2.5z"/></svg>
+        <h3>Lifetime repair</h3>
+        <p>If a zip fails or a seam splits, we repair or replace it. Send a photo to help@fieldwork.example and we will sort it out.</p>
+      </div>
+    </div>
+    <div class="faq-wrap">
+      <details class="faq"><summary>Will it fit as a carry-on on my airline?</summary><p>At 55 &times; 35 &times; 22 cm, the Atlas 38 meets the size limit of most major carriers when packed normally. Budget airlines with under-seat limits may need it slimmed down. Check your airline&rsquo;s current rules before you fly.</p></details>
+      <details class="faq"><summary>Is it waterproof?</summary><p>It is water-resistant with a taped-seam finish, good for heavy rain at a run. It is not submersible. A rain cover pocket is built into the base.</p></details>
+      <details class="faq"><summary>Can I change my order after buying?</summary><p>Yes, until it ships. Reply to your confirmation email and we will update the colour, size or address.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- Related -->
+<section class="block" id="related" aria-labelledby="h-rel">
+  <div class="wrap">
+    <h2 id="h-rel">Pairs well with</h2>
+    <p class="lede">Other pieces from the Fieldwork travel line.</p>
+    <div class="related" id="relatedGrid"></div>
+  </div>
+</section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div><strong style="color:#fff;font-family:var(--serif);font-size:20px">Fieldwork</strong><br>Travel gear built from reclaimed materials.</div>
+    <div>Help &middot; <a href="#shipping">Shipping</a> &middot; <a href="#shipping">Returns</a> &middot; <a href="#">Contact</a></div>
+    <div>&copy; 2026 Fieldwork Goods Co. Demo storefront.</div>
+  </div>
+</footer>
+
+<div class="sticky-bar" id="stickyBar" aria-label="Quick add to cart">
+  <div><b id="stickyPrice">$189</b><small id="stickyOpt">Harbour Navy &middot; M</small></div>
+  <button class="add" type="button" id="stickyAdd">Add to cart</button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><a href="#" id="toastLink">View cart</a></div>
+
+<script>
+(function(){
+  var COLOURS = [
+    {id:'navy',  name:'Harbour Navy', cloth:'#27405e', dark:'#1a2d44', trim:'#d8b26a', stage:'#e5e9ee'},
+    {id:'sand',  name:'Sand',         cloth:'#cdb994', dark:'#a8946d', trim:'#2f3b3a', stage:'#efe9dd'},
+    {id:'forest',name:'Forest',       cloth:'#3d5a4a', dark:'#2a4034', trim:'#e1c58a', stage:'#e3eae4'},
+    {id:'rust',  name:'Rust',         cloth:'#b4573a', dark:'#8a3f28', trim:'#f0e1c4', stage:'#f0e4dc'}
+  ];
+  var PRICE = 189;
+  var state = {colour:COLOURS[0], view:'front', qty:1, cart:0};
+  var $ = function(s,r){return (r||document).querySelector(s)};
+  var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+  /* ---------- bag illustrations ---------- */
+  function bag(view, c){
+    var s='<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">';
+    s+='<ellipse cx="200" cy="372" rx="120" ry="9" fill="rgba(0,0,0,.14)"/>';
+    var weave='<pattern id="w'+view+'" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 0h6M0 3h6" stroke="rgba(255,255,255,.07)" stroke-width="1"/><path d="M3 0v6" stroke="rgba(0,0,0,.06)" stroke-width="1"/></pattern>';
+    s+='<defs>'+weave+'<linearGradient id="sh'+view+'" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".18"/><stop offset=".25" stop-color="#000" stop-opacity="0"/><stop offset=".8" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient></defs>';
+    var fill=function(x){return 'fill="'+x+'"'};
+    if(view==='front'){
+      s+='<path d="M170 40c0-16 60-16 60 0" fill="none" stroke="'+c.dark+'" stroke-width="12" stroke-linecap="round"/>';
+      s+='<rect x="96" y="52" width="208" height="310" rx="46" '+fill(c.cloth)+'/>';
+      s+='<rect x="96" y="52" width="208" height="310" rx="46" fill="url(#w'+view+')"/><rect x="96" y="52" width="208" height="310" rx="46" fill="url(#sh'+view+')"/>';
+      s+='<rect x="128" y="84" width="144" height="46" rx="18" '+fill(c.dark)+'/><rect x="140" y="104" width="120" height="4" rx="2" '+fill(c.trim)+'/>';
+      s+='<rect x="118" y="150" width="164" height="150" rx="22" '+fill(c.dark)+' opacity=".55"/>';
+      s+='<path d="M130 190h140" stroke="'+c.trim+'" stroke-width="5" stroke-linecap="round"/>';
+      s+='<rect x="172" y="184" width="22" height="14" rx="4" '+fill(c.trim)+'/>';
+      s+='<rect x="76" y="230" width="30" height="86" rx="14" '+fill(c.dark)+'/><rect x="294" y="230" width="30" height="86" rx="14" '+fill(c.dark)+'/>';
+      s+='<rect x="150" y="314" width="100" height="30" rx="6" '+fill(c.trim)+'/><text x="200" y="334" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="15" letter-spacing="2" '+fill(c.dark)+'>ATLAS 38</text>';
+    } else if(view==='side'){
+      s+='<path d="M170 48c0-18 40-18 40 0" fill="none" stroke="'+c.dark+'" stroke-width="12" stroke-linecap="round"/>';
+      s+='<rect x="140" y="58" width="130" height="304" rx="40" '+fill(c.cloth)+'/><rect x="140" y="58" width="130" height="304" rx="40" fill="url(#w'+view+')"/><rect x="140" y="58" width="130" height="304" rx="40" fill="url(#sh'+view+')"/>';
+      s+='<path d="M205 70v280" stroke="'+c.dark+'" stroke-width="3" stroke-dasharray="2 6" stroke-linecap="round"/>';
+      s+='<path d="M140 300c-32 0-44-30-44-74s10-60 44-60" '+fill(c.dark)+'/>';
+      s+='<rect x="120" y="190" width="150" height="10" rx="5" '+fill(c.trim)+' opacity=".9"/>';
+      s+='<path d="M270 130c42 16 56 70 56 130 0 40-30 60-56 60z" '+fill(c.dark)+'/>';
+      s+='<path d="M270 130c-10 40-10 150 0 190" stroke="'+c.trim+'" stroke-width="3" fill="none"/>';
+    } else if(view==='back'){
+      s+='<path d="M170 40c0-16 60-16 60 0" fill="none" stroke="'+c.dark+'" stroke-width="12" stroke-linecap="round"/>';
+      s+='<rect x="96" y="52" width="208" height="310" rx="46" '+fill(c.cloth)+'/><rect x="96" y="52" width="208" height="310" rx="46" fill="url(#w'+view+')"/>';
+      s+='<rect x="136" y="96" width="128" height="214" rx="20" '+fill('#2a2f33')+'/>';
+      s+='<g stroke="rgba(255,255,255,.14)" stroke-width="3"><path d="M164 112v182M200 112v182M236 112v182"/></g>';
+      s+='<path d="M120 70c-40 40-50 160-20 270" fill="none" stroke="'+c.dark+'" stroke-width="22" stroke-linecap="round"/><path d="M280 70c40 40 50 160 20 270" fill="none" stroke="'+c.dark+'" stroke-width="22" stroke-linecap="round"/>';
+      s+='<rect x="108" y="300" width="184" height="26" rx="10" '+fill(c.dark)+'/><rect x="186" y="304" width="28" height="18" rx="4" '+fill(c.trim)+'/>';
+    } else { // open
+      s+='<rect x="76" y="44" width="248" height="318" rx="46" '+fill(c.dark)+'/>';
+      s+='<rect x="94" y="62" width="212" height="282" rx="34" fill="#dfe3e1"/>';
+      s+='<rect x="94" y="62" width="212" height="282" rx="34" fill="url(#sh'+view+')"/>';
+      s+='<rect x="112" y="82" width="176" height="104" rx="12" fill="#c5ccca"/><path d="M112 134h176" stroke="#b1bab7" stroke-width="2"/>';
+      s+='<rect x="112" y="200" width="82" height="120" rx="12" '+fill(c.cloth)+'/><rect x="206" y="200" width="82" height="52" rx="12" '+fill(c.trim)+' opacity=".85"/><rect x="206" y="262" width="82" height="58" rx="12" fill="#b6bfbc"/>';
+      s+='<path d="M94 70c60 18 152 18 212 0" fill="none" stroke="'+c.trim+'" stroke-width="4" stroke-dasharray="1 8" stroke-linecap="round"/>';
+      s+='<circle cx="153" cy="146" r="6" '+fill(c.cloth)+'/><circle cx="247" cy="226" r="5" '+fill(c.dark)+'/>';
+    }
+    return s+'</svg>';
+  }
+  var VIEW_LABEL = {front:'front view',side:'side view',open:'open interior view',back:'back panel and straps'};
+
+  function setStage(){
+    document.documentElement.style.setProperty('--stage', state.colour.stage);
+    $('#stageArt').innerHTML = bag(state.view, state.colour);
+    $('#stageArt').setAttribute('aria-label','Atlas 38 in '+state.colour.name+', '+VIEW_LABEL[state.view]);
+    $$('.thumb').forEach(function(b){
+      var v=b.getAttribute('data-view');
+      b.innerHTML = bag(v, state.colour).replace(/id="(w|sh)/g,'id="t$1').replace(/url\(#(w|sh)/g,'url(#t$1');
+      b.setAttribute('aria-pressed', String(v===state.view));
+    });
+  }
+
+  /* ---------- stars ---------- */
+  function starSvg(fill){
+    var id='g'+Math.random().toString(36).slice(2,7);
+    var path='M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z';
+    return '<svg viewBox="0 0 24 24"><defs><linearGradient id="'+id+'"><stop offset="'+fill*100+'%" stop-color="currentColor"/><stop offset="'+fill*100+'%" stop-color="#d9d3c7"/></linearGradient></defs><path d="'+path+'" fill="url(#'+id+')"/></svg>';
+  }
+  $$('[data-stars]').forEach(function(el){
+    var v=parseFloat(el.getAttribute('data-stars')),h='';
+    for(var i=0;i<5;i++) h+=starSvg(Math.max(0,Math.min(1,v-i)));
+    el.innerHTML=h;
+  });
+
+  /* ---------- swatches ---------- */
+  var sw=$('#swatches');
+  COLOURS.forEach(function(c,i){
+    var d=document.createElement('div'); d.className='swatch';
+    d.innerHTML='<input type="radio" name="colour" id="c-'+c.id+'" value="'+c.id+'"'+(i===0?' checked':'')+'><label for="c-'+c.id+'"><i style="background:'+c.cloth+'"></i>'+c.name+'</label>';
+    sw.appendChild(d);
+  });
+  sw.addEventListener('change',function(e){
+    state.colour = COLOURS.filter(function(c){return c.id===e.target.value})[0];
+    $('#colourName').textContent = state.colour.name;
+    setStage(); sync();
+  });
+  $('#thumbs').addEventListener('click',function(e){
+    var b=e.target.closest('.thumb'); if(!b) return;
+    state.view=b.getAttribute('data-view'); setStage();
+  });
+
+  /* ---------- size guide ---------- */
+  $('#sizeToggle').addEventListener('click',function(){
+    var o=$('#sizeHelp').classList.toggle('open');
+    this.setAttribute('aria-expanded',String(o));
+  });
+
+  /* ---------- qty / price / cart ---------- */
+  function money(n){return '$'+n}
+  function size(){return $('input[name=size]:checked').value}
+  function sync(){
+    var t=PRICE*state.qty;
+    $('#qty').textContent=state.qty;
+    $('#addPrice').textContent=money(t);
+    $('#stickyPrice').textContent=money(t);
+    $('#stickyOpt').textContent=state.colour.name+' · '+size();
+    $('#qMinus').disabled = state.qty<=1;
+    $('#qPlus').disabled = state.qty>=10;
+    $('#qMinus').style.opacity = state.qty<=1?.4:1;
+    $('#qPlus').style.opacity = state.qty>=10?.4:1;
+  }
+  $('#qMinus').onclick=function(){ if(state.qty>1){state.qty--;sync()} };
+  $('#qPlus').onclick=function(){ if(state.qty<10){state.qty++;sync()} };
+  $('#sizes').addEventListener('change',sync);
+
+  var toastT;
+  function toast(msg){
+    $('#toastMsg').textContent=msg;
+    var t=$('#toast'); t.classList.add('show');
+    clearTimeout(toastT); toastT=setTimeout(function(){t.classList.remove('show')},4500);
+  }
+  function addToCart(n,label){
+    state.cart+=n;
+    $('#cartCount').textContent=state.cart;
+    $('#cartBtn').setAttribute('aria-label','Cart, '+state.cart+(state.cart===1?' item':' items'));
+    toast(label+' added to cart.');
+  }
+  $('#buyForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    addToCart(state.qty,'Atlas 38 ('+state.colour.name+', '+size()+')'+(state.qty>1?' ×'+state.qty:''));
+  });
+  $('#stickyAdd').onclick=function(){ $('#buyForm').requestSubmit ? $('#buyForm').requestSubmit() : $('#addBtn').click(); };
+  $('#cartBtn').onclick=function(){ toast(state.cart? state.cart+' in your cart. Checkout is not part of this demo.' : 'Your cart is empty.') };
+  $('#toastLink').onclick=function(e){ e.preventDefault(); $('#cartBtn').click(); };
+
+  /* sticky bar on mobile once the main button leaves the viewport */
+  if('IntersectionObserver' in window){
+    var bar=$('#stickyBar');
+    new IntersectionObserver(function(es){
+      var visible=es[0].isIntersecting;
+      var below = es[0].boundingClientRect.top > 0;
+      bar.classList.toggle('show', !visible && !below);
+    }).observe($('#addBtn'));
+  }
+
+  /* ---------- inside the bag ---------- */
+  function setZone(z){
+    $$('.zone').forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-z')===z))});
+    $$('#zoneShapes rect').forEach(function(r){
+      var on=r.getAttribute('data-z')===z;
+      r.style.opacity = on?1:.35;
+      r.setAttribute('stroke-width', on?4:2);
+    });
+  }
+  $('#zones').addEventListener('click',function(e){var b=e.target.closest('.zone'); if(b) setZone(b.getAttribute('data-z'))});
+  $('#zoneShapes').addEventListener('click',function(e){var z=e.target.getAttribute('data-z'); if(z) setZone(z)});
+  setZone('1');
+
+  /* ---------- related ---------- */
+  var REL=[
+    {n:'Atlas Packing Cubes',d:'Set of 3, recycled ripstop',p:42,bg:'#e8e4da',draw:function(){return '<svg viewBox="0 0 200 200" aria-hidden="true"><rect x="30" y="80" width="90" height="80" rx="10" fill="#27405e"/><rect x="60" y="50" width="90" height="80" rx="10" fill="#3d5a4a"/><rect x="90" y="40" width="80" height="70" rx="10" fill="#cdb994"/><path d="M40 100h70M70 70h70" stroke="#d8b26a" stroke-width="3" stroke-linecap="round"/></svg>'}},
+    {n:'Cable Pouch',d:'Zipped, elastic loops',p:24,bg:'#e3eae4',draw:function(){return '<svg viewBox="0 0 200 200" aria-hidden="true"><rect x="40" y="70" width="120" height="70" rx="22" fill="#3d5a4a"/><path d="M52 90h96" stroke="#e1c58a" stroke-width="4" stroke-linecap="round"/><circle cx="148" cy="106" r="7" fill="#e1c58a"/><path d="M70 70c0-20 60-20 60 0" fill="none" stroke="#2a4034" stroke-width="6"/></svg>'}},
+    {n:'Atlas 22 Daypack',d:'22 L, same sailcloth',p:129,bg:'#f0e4dc',draw:function(){return '<svg viewBox="0 0 200 200" aria-hidden="true"><path d="M85 28c0-10 30-10 30 0" fill="none" stroke="#8a3f28" stroke-width="7" stroke-linecap="round"/><rect x="52" y="34" width="96" height="136" rx="30" fill="#b4573a"/><rect x="68" y="50" width="64" height="26" rx="12" fill="#8a3f28"/><rect x="66" y="92" width="68" height="52" rx="14" fill="#8a3f28" opacity=".6"/></svg>'}},
+    {n:'Weekender Duffel 45',d:'45 L, shoulder strap',p:159,bg:'#e5e9ee',draw:function(){return '<svg viewBox="0 0 200 200" aria-hidden="true"><path d="M60 80c10-40 70-40 80 0" fill="none" stroke="#1a2d44" stroke-width="8" stroke-linecap="round"/><rect x="26" y="78" width="148" height="70" rx="30" fill="#27405e"/><path d="M40 108h120" stroke="#d8b26a" stroke-width="4" stroke-linecap="round"/><rect x="88" y="100" width="24" height="14" rx="4" fill="#d8b26a"/></svg>'}}
+  ];
+  var rg=$('#relatedGrid');
+  REL.forEach(function(r){
+    var el=document.createElement('article'); el.className='rel';
+    el.innerHTML='<div class="img" style="background:'+r.bg+'">'+r.draw()+'</div><div class="body"><h3>'+r.n+'</h3><span class="desc">'+r.d+'</span><div class="row"><b>$'+r.p+'</b><button type="button" class="mini" aria-label="Add '+r.n+' to cart">Add</button></div></div>';
+    el.querySelector('.mini').onclick=function(){addToCart(1,r.n)};
+    rg.appendChild(el);
+  });
+
+  setStage(); sync();
+})();
+</script>
+</body>
+</html>

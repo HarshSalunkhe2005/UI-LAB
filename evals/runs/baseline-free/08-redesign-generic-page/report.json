@@ -6,6 +6,13 @@
     "docHeight": 5955,
     "interactive": 11,
     "smallTargets": 5,
+    "smallSamples": [
+      "a \"Orbit\" 86x43",
+      "a \"Get started →\" 138x43",
+      "a \"Features\" 56x22",
+      "a \"Pricing\" 44x22",
+      "a \"Customers\" 71x22"
+    ],
     "collisions": 0,
     "collisionSamples": [],
     "imgsMissingAlt": 0,
@@ -33,6 +40,13 @@
     "docHeight": 4723,
     "interactive": 14,
     "smallTargets": 8,
+    "smallSamples": [
+      "a \"Orbit\" 86x43",
+      "a \"Features\" 60x23",
+      "a \"Pricing\" 47x23",
+      "a \"About\" 43x23",
+      "a \"Get started →\" 138x43"
+    ],
     "collisions": 0,
     "collisionSamples": [],
     "imgsMissingAlt": 0,

@@ -6,9 +6,9 @@
 
 ## How to choose
 
-1. List the 2 or 3 families whose "fits" column matches the product, audience and the job of the page.
-2. From each of two different families pick the world that fits best. Two worlds from the same family are one candidate, not two.
-3. Run the swap test on each. Drop a world that would only be a skin on the content.
+1. **Roll** (Gate 2): draw a random number (`echo $RANDOM`, or `date +%N`), take it modulo 6, and start at that family. The families below are numbered 0 to 5 in the order listed (0 Paper and Print, 1 Loud and Graphic, 2 Machine and Signal, 3 Instrument and Spec, 4 Soft and Living, 5 Cinematic and Spatial).
+2. From the rolled family, going forward and wrapping, find the first family with a world whose "Fits" matches the product, audience and the job of the page. The best-fitting world there is candidate A. Continue to the next fitting family for candidate B. Two worlds from the same family are one candidate, not two.
+3. Run the swap test on each. Drop a world that would only be a skin on the content, and take the next fitting family.
 4. Adapt: take the logic and token structure; move hues, fonts and shapes toward this brand. Never use a world's hex values unchanged and call it done.
 5. Cross techniques freely (a Swiss grid's number treatment inside a Soft Playful page), never identities.
 
@@ -61,16 +61,3 @@
 | 1 Product Hero Scroll | a physical product that is the star, with a model or frames | no object worth looking at | `references/worlds/01-product-hero-scroll.md` |
 | 5 Cinematic Immersive | portfolios, studios, launches, games | task-first users, low-powered devices | `references/worlds/05-cinematic-immersive.md` |
 | 24 Explorable Explainer | teaching, documentation, science and data communication | nothing to manipulate | `references/worlds/24-explorable-explainer.md` |
-
-## Quick pairing examples
-
-| Brief | Candidate from one family | Candidate from another |
-|---|---|---|---|
-| SaaS landing for a data product | 7 Swiss Grid (Instrument and Spec) | 6 Soft Playful (Soft and Living) |
-| Developer tool | 3 Technical Dark (Machine and Signal) | 12 Broadsheet (Paper and Print) |
-| Restaurant | 8 Warm Organic (Soft and Living) | 4 Neo-Brutalist Print (Loud and Graphic) |
-| Operations dashboard | 21 Plain Text Sheet (Paper and Print) | 9 Departures Board (Machine and Signal) |
-| E-commerce product page | 1 Product Hero Scroll (Cinematic and Spatial) | 23 Thermal Receipt (Instrument and Spec) |
-| Documentation | 24 Explorable Explainer (Cinematic and Spatial) | 12 Broadsheet (Paper and Print) |
-
-These are examples of the mechanism, not a lookup table. If neither candidate in a row fits your brief, choose others.

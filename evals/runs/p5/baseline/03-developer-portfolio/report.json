@@ -1,0 +1,72 @@
+{
+  "375": {
+    "docWidth": 375,
+    "viewport": 375,
+    "hOverflow": false,
+    "docHeight": 7892,
+    "interactive": 9,
+    "smallTargets": 7,
+    "smallSamples": [
+      "a \"Mira Okafor\" 90x27",
+      "a \"Work\" 32x40",
+      "a \"About\" 41x40",
+      "a \"Services\" 65x40",
+      "a \"hello@miraokafor.dev\" 276x39"
+    ],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "IBM Plex Serif",
+      "h2": "IBM Plex Serif",
+      "body": "IBM Plex Sans"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "1440": {
+    "docWidth": 1425,
+    "viewport": 1440,
+    "hOverflow": false,
+    "docHeight": 6070,
+    "interactive": 10,
+    "smallTargets": 7,
+    "smallSamples": [
+      "a \"Mira Okafor\" 90x27",
+      "a \"Work\" 32x40",
+      "a \"About\" 41x40",
+      "a \"Services\" 65x40",
+      "a \"Contact\" 57x40"
+    ],
+    "collisions": 0,
+    "collisionSamples": [],
+    "imgsMissingAlt": 0,
+    "inputsUnlabelled": 0,
+    "landmarks": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "h1Count": 1,
+    "fonts": {
+      "h1": "IBM Plex Serif",
+      "h2": "IBM Plex Serif",
+      "body": "IBM Plex Sans"
+    },
+    "hasReducedMotion": true,
+    "focusStyle": true,
+    "consoleErrors": 0
+  },
+  "dir": "C:\\Users\\Harsh\\Projects\\UI-Lab\\evals\\runs\\p5\\baseline\\03-developer-portfolio",
+  "url": "file:///C:/Users/Harsh/Projects/UI-Lab/evals/runs/p5/baseline/03-developer-portfolio/index.html"
+}

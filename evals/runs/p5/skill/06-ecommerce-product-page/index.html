@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atlas 38 Carry-On Backpack - Harbour &amp; Co.</title>
+<meta name="description" content="Atlas 38: 38 L carry-on backpack in recycled sailcloth. Ships in 2 days, 60-day returns.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#efeadf; --raised:#fbf8f1; --ink:#1d2328; --muted:#555d62; --border:#cfc7b6;
+  --accent:#b83f10; --accent-ink:#fff; --ok:#2c6a3f;
+  --bag:#2f4558; --bag-dark:#223342; --bag-light:#496680; --field:#d6dee4;
+  --font:'Archivo','Helvetica Neue',Arial,sans-serif; --mono:'Space Mono',ui-monospace,Menlo,monospace;
+  --s1:4px; --s2:8px; --s3:12px; --s4:20px; --s5:36px; --s6:64px; --r:6px;
+  --dur:180ms; --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--surface);color:var(--ink);font:400 1rem/1.55 var(--font);-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:8px;top:-60px;background:var(--ink);color:#fff;padding:10px 14px;z-index:50}
+.skip:focus{top:8px}
+
+/* header */
+.promo{background:var(--ink);color:#f3efe4;font-size:.875rem;text-align:center;padding:8px 16px}
+header.top{background:var(--raised);border-bottom:1px solid var(--border)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:16px}
+.brand{font-weight:800;font-stretch:112%;letter-spacing:.02em;text-decoration:none;font-size:1.15rem;display:flex;align-items:center;gap:10px;min-height:44px}
+nav.main{display:flex;gap:4px}
+nav.main a{text-decoration:none;padding:10px 12px;min-height:44px;display:inline-flex;align-items:center;font-size:.9375rem}
+nav.main a:hover{text-decoration:underline}
+.cartbtn{display:inline-flex;align-items:center;gap:8px;min-height:44px;min-width:44px;padding:0 12px;border:1px solid var(--ink);background:transparent;border-radius:var(--r);font:600 .9375rem var(--font);cursor:pointer;color:var(--ink)}
+.cartbtn .n{background:var(--ink);color:#fff;border-radius:99px;min-width:22px;height:22px;display:inline-grid;place-items:center;font-size:.75rem;padding:0 6px}
+.crumbs{font-size:.875rem;color:var(--muted);padding:16px 0 8px}
+.crumbs a{display:inline-block;padding:10px 0}
+
+/* product layout */
+.pdp{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:56px;padding-bottom:var(--s6);align-items:start}
+.gallery{position:sticky;top:16px}
+.stage{background:var(--field);border-radius:var(--r);aspect-ratio:1/1;display:grid;place-items:center;position:relative;overflow:hidden;transition:background var(--dur) var(--ease)}
+.stage svg{width:78%;height:auto}
+.stage .tag{position:absolute;left:16px;top:16px;background:var(--raised);padding:6px 10px;border-radius:99px;font-size:.8125rem;font-weight:600}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+.thumbs button{border:2px solid transparent;background:var(--field);border-radius:var(--r);aspect-ratio:1/1;padding:6px;cursor:pointer;min-height:44px;transition:background var(--dur)}
+.thumbs button[aria-pressed=true]{border-color:var(--ink)}
+.thumbs svg{width:100%;height:100%}
+.capt{font-size:.875rem;color:var(--muted);margin:10px 2px 0}
+
+h1{font-size:clamp(2.4rem,4.2vw,3.6rem);line-height:1;margin:6px 0 10px;font-weight:800;font-stretch:100%;letter-spacing:-.025em}
+.sub{font-size:1.125rem;color:var(--muted);margin:0 0 14px;max-width:46ch}
+.rating{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.9375rem}
+.rating a{padding:10px 0;display:inline-block}
+.stars{display:inline-flex;gap:2px}
+.stars svg{width:18px;height:18px;fill:#c9801a}
+.price{display:flex;align-items:baseline;gap:12px;margin:18px 0 4px}
+.price strong{font-size:2.25rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.price small{color:var(--muted);font-size:.9375rem}
+.fieldset{border:0;padding:0;margin:22px 0 0}
+.fieldset legend{font-weight:700;padding:0;margin-bottom:10px;display:flex;justify-content:space-between;width:100%}
+.fieldset legend span{font-weight:400;color:var(--muted)}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.opt label{display:flex;align-items:center;gap:10px;min-height:48px;padding:0 16px 0 10px;border:1.5px solid var(--border);background:var(--raised);border-radius:var(--r);cursor:pointer;font-weight:600;transition:border-color var(--dur)}
+.opt input:checked+label{border-color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.opt input:focus-visible+label{outline:3px solid var(--accent);outline-offset:2px}
+.opt .sw{width:28px;height:28px;border-radius:50%;border:1px solid rgba(0,0,0,.25)}
+.opt.size label{padding:0 16px;flex-direction:column;align-items:flex-start;justify-content:center;gap:0;min-width:140px;line-height:1.25;padding-top:6px;padding-bottom:6px}
+.opt.size label small{font-weight:400;color:var(--muted);font-size:.8125rem}
+.sizehelp{font-size:.875rem;color:var(--muted);margin:8px 0 0}
+.sizehelp a{display:inline}
+.buyrow{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.qty{display:inline-flex;border:1.5px solid var(--border);border-radius:var(--r);background:var(--raised)}
+.qty button{width:48px;min-height:52px;border:0;background:transparent;font-size:1.25rem;cursor:pointer;color:var(--ink)}
+.qty output{min-width:36px;display:grid;place-items:center;font-weight:700;font-variant-numeric:tabular-nums}
+.add{flex:1;min-width:200px;min-height:52px;border:0;border-radius:var(--r);background:var(--accent);color:var(--accent-ink);font:700 1.0625rem var(--font);cursor:pointer;transition:background var(--dur)}
+.add:hover{background:#9a3309}
+.assure{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:8px;font-size:.9375rem}
+.assure li{display:flex;gap:10px;align-items:flex-start}
+.assure svg{width:20px;height:20px;flex:none;margin-top:2px;stroke:var(--ok);fill:none;stroke-width:2}
+.status{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--ok);margin-top:14px}
+.status i{width:9px;height:9px;border-radius:50%;background:var(--ok)}
+
+/* receipt */
+.receipt{margin-top:24px;background:#f7f4ea;color:#1c1b19;font-family:var(--mono);font-size:.8125rem;padding:18px 18px 16px;border-radius:2px;border-top:6px solid var(--ink);position:relative}
+.receipt h2{font:700 .8125rem var(--mono);letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px}
+.receipt dl{margin:0}
+.receipt .ln{display:flex;justify-content:space-between;gap:12px;padding:3px 0}
+.receipt .ln dt,.receipt .ln dd{margin:0}
+.receipt .ln dd{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.receipt .tot{border-top:1px dashed #1c1b19;margin-top:8px;padding-top:8px;font-weight:700;font-size:.9375rem}
+.receipt .note{margin:10px 0 0;font-size:.75rem;color:#4a473e}
+
+/* sections */
+section.blk{padding:var(--s6) 0;border-top:1px solid var(--border)}
+h2.sec{font-size:clamp(1.7rem,2.6vw,2.3rem);letter-spacing:-.02em;line-height:1.1;margin:0 0 8px;font-weight:800}
+.lede{color:var(--muted);margin:0 0 var(--s5);max-width:60ch}
+
+.specs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:56px}
+.specs table{width:100%;border-collapse:collapse}
+.specs th,.specs td{text-align:left;padding:13px 0;border-bottom:1px solid var(--border);vertical-align:top}
+.specs th{font-weight:600;width:42%;color:var(--muted)}
+.specs td{font-variant-numeric:tabular-nums}
+
+.inbag{background:var(--ink);color:#f3efe4;border-radius:var(--r);padding:var(--s5);}
+.inbag h2.sec{color:#fff}
+.inbag .lede{color:#c6c9c8}
+.cap{display:flex;height:44px;border-radius:4px;overflow:hidden;margin:0 0 28px;gap:3px}
+.cap span{display:grid;align-items:center;padding-left:12px;font-weight:700;font-size:.875rem;color:#10171c;white-space:nowrap;overflow:hidden}
+.bag-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.bag-grid h3{margin:0 0 4px;font-size:1.0625rem;display:flex;align-items:center;gap:10px}
+.bag-grid h3 i{width:12px;height:12px;border-radius:2px;flex:none}
+.bag-grid .v{font-size:1.9rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:0}
+.bag-grid p{margin:4px 0 0;color:#c6c9c8;font-size:.9375rem}
+.incl{margin-top:32px;padding-top:24px;border-top:1px solid #4a5258;display:flex;flex-wrap:wrap;gap:8px 28px;font-size:.9375rem}
+.incl strong{width:100%}
+.incl span::before{content:"+ ";color:#ffb089}
+
+.revwrap{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr);gap:56px}
+.big{font-size:4.5rem;font-weight:800;line-height:1;letter-spacing:-.04em;margin:0}
+.bars{display:grid;gap:6px;margin:18px 0}
+.bars div{display:grid;grid-template-columns:30px 1fr 36px;gap:10px;align-items:center;font-size:.875rem;font-variant-numeric:tabular-nums}
+.bars b{height:8px;background:var(--border);border-radius:99px;overflow:hidden;display:block}
+.bars b i{display:block;height:100%;background:#c9801a}
+.fit{font-size:.9375rem;margin-top:18px}
+.fit .meter{height:8px;background:linear-gradient(90deg,var(--border) 0 100%);border-radius:99px;position:relative;margin:8px 0 6px}
+.fit .meter i{position:absolute;left:54%;top:-4px;width:4px;height:16px;background:var(--ink);border-radius:2px}
+.fit .ends{display:flex;justify-content:space-between;color:var(--muted);font-size:.8125rem}
+article.rev{padding:0 0 28px;margin:0 0 28px;border-bottom:1px solid var(--border)}
+article.rev:last-child{border:0;margin:0}
+article.rev h3{margin:8px 0 6px;font-size:1.1875rem}
+article.rev p{margin:0 0 10px;max-width:62ch}
+.meta{font-size:.875rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.meta .v{color:var(--ok);font-weight:600}
+
+.ship{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border);border-radius:var(--r);background:var(--raised)}
+.ship>div{padding:28px;border-right:1px solid var(--border)}
+.ship>div:last-child{border:0}
+.ship h3{margin:0 0 10px;font-size:1.125rem}
+.ship ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:.9375rem}
+.ship li{display:flex;justify-content:space-between;gap:12px}
+.ship li span:last-child{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.ship p{margin:0;font-size:.9375rem}
+.faq{margin-top:20px}
+.faq details{border-bottom:1px solid var(--border)}
+.faq summary{cursor:pointer;min-height:52px;display:flex;align-items:center;font-weight:600;list-style:none;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";font-size:1.4rem}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{margin:0 0 16px;max-width:70ch;color:var(--muted)}
+
+.rel{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.card{text-decoration:none;display:block}
+.card .im{background:var(--field);border-radius:var(--r);aspect-ratio:1/1;display:grid;place-items:center;margin-bottom:12px;transition:transform var(--dur) var(--ease)}
+.card:hover .im{transform:translateY(-3px)}
+.card .im svg{width:62%}
+.card h3{margin:0;font-size:1.0625rem}
+.card p{margin:2px 0 0;color:var(--muted);font-size:.9375rem}
+.card .pr{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;margin-top:4px}
+
+footer{background:var(--ink);color:#d6d8d6;padding:40px 0;font-size:.9375rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between}
+footer a{display:inline-block;padding:10px 0;margin-right:16px}
+
+/* toast + sticky bar */
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:14px 18px;border-radius:var(--r);opacity:0;pointer-events:none;transition:all var(--dur) var(--ease);z-index:40;max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.sticky{display:none}
+
+@media (max-width:960px){
+  .pdp{grid-template-columns:1fr;gap:28px}
+  .gallery{position:static}
+  .specs,.revwrap{grid-template-columns:1fr;gap:28px}
+  .bag-grid{grid-template-columns:1fr 1fr}
+  .rel{grid-template-columns:1fr 1fr}
+  .ship{grid-template-columns:1fr}
+  .ship>div{border-right:0;border-bottom:1px solid var(--border)}
+  nav.main{display:none}
+}
+@media (max-width:560px){
+  .wrap{padding:0 16px}
+  .inbag{padding:24px 16px;margin:0 -16px;border-radius:0}
+  .cap span{padding-left:6px;font-size:.75rem}
+  .cap span small{display:none}
+  .big{font-size:3.5rem}
+  .opt.size{flex:1 1 100%}
+  .opt.size label{min-width:0;width:100%}
+  .buyrow .qty{width:100%}
+  .qty button{flex:1}
+  .qty output{flex:1}
+  .sticky{display:flex;position:fixed;left:0;right:0;bottom:0;background:var(--raised);border-top:1px solid var(--border);padding:10px 16px;gap:12px;align-items:center;z-index:30;transform:translateY(110%);transition:transform var(--dur) var(--ease)}
+  .sticky.on{transform:none}
+  .sticky div{flex:1;line-height:1.2;font-size:.875rem}
+  .sticky strong{font-size:1.125rem;display:block}
+  .sticky button{min-height:48px;padding:0 24px;border:0;border-radius:var(--r);background:var(--accent);color:#fff;font:700 1rem var(--font)}
+  body{padding-bottom:70px}
+  .toast{bottom:90px}
+}
+.crumbs a,.rating a,footer a{min-height:44px;display:inline-flex;align-items:center}
+.crumbs a{padding:0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to product</a>
+<div class="promo">Free shipping over $75 &middot; 60-day returns &middot; 10-year repair promise</div>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Harbour &amp; Co. home">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 2v17M13 4l9 13H13M13 8L6 17h7" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M3 22h20" stroke="currentColor" stroke-width="2"/></svg>
+      HARBOUR &amp; CO.
+    </a>
+    <nav class="main" aria-label="Primary">
+      <a href="#">Backpacks</a><a href="#">Duffels</a><a href="#">Accessories</a><a href="#repair">Repairs</a>
+    </nav>
+    <button class="cartbtn" id="cartBtn" type="button" aria-label="Cart, 0 items">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span class="n" id="cartN">0</span>
+    </button>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="#">Backpacks</a> / <a href="#">Carry-on</a> / Atlas 38</nav>
+
+  <div class="pdp">
+    <!-- GALLERY -->
+    <section class="gallery" aria-label="Product gallery">
+      <div class="stage" id="stage"><span class="tag" id="stageTag">Front</span><div id="stageSvg"></div></div>
+      <div class="thumbs" id="thumbs" role="group" aria-label="Choose a view"></div>
+      <p class="capt" id="capt"></p>
+    </section>
+
+    <!-- BUY -->
+    <div class="buy">
+      <h1>Atlas 38</h1>
+      <p class="sub">The 38 L carry-on backpack in recycled sailcloth. Fits the overhead bin on most airlines, and is made to be repaired, not replaced.</p>
+      <div class="rating">
+        <span class="stars" aria-hidden="true" id="stars"></span>
+        <strong>4.7</strong><span class="sr">out of 5 stars,</span>
+        <a href="#reviews">312 reviews</a>
+      </div>
+      <div class="price"><strong id="price">$149</strong><small>USD, tax shown at checkout</small></div>
+      <div class="status"><i></i><span>In stock. Ships in 2 days.</span></div>
+
+      <form id="form" novalidate>
+        <fieldset class="fieldset">
+          <legend>Colour <span id="colName">Harbour</span></legend>
+          <div class="opts" id="colors"></div>
+        </fieldset>
+        <fieldset class="fieldset">
+          <legend>Back length</legend>
+          <div class="opts">
+            <div class="opt size"><input type="radio" name="size" id="s1" value="S/M" checked><label for="s1">S/M<small>Torso 38-46 cm</small></label></div>
+            <div class="opt size"><input type="radio" name="size" id="s2" value="M/L"><label for="s2">M/L<small>Torso 44-54 cm</small></label></div>
+          </div>
+          <p class="sizehelp">Measure from the bump at the base of your neck to the hip bones. Between sizes? Take M/L: the harness adjusts down but not up. <a href="#specs">See spec</a></p>
+        </fieldset>
+        <div class="buyrow">
+          <div class="qty" role="group" aria-label="Quantity">
+            <button type="button" id="minus" aria-label="Decrease quantity">&minus;</button>
+            <output id="qty" aria-live="polite">1</output>
+            <button type="button" id="plus" aria-label="Increase quantity">+</button>
+          </div>
+          <button class="add" type="submit" id="add">Add to cart &middot; <span id="addPrice">$149</span></button>
+        </div>
+      </form>
+
+      <ul class="assure">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l5 5 11-11"/></svg><span><strong>Free returns for 60 days.</strong> Carry it on a real trip; send it back if it is not right.</span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l5 5 11-11"/></svg><span><strong>10-year repair promise.</strong> Zips, buckles and tears fixed at cost of postage.</span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l5 5 11-11"/></svg><span><strong>Secure checkout.</strong> Card, PayPal or Apple Pay. You pay when it ships.</span></li>
+      </ul>
+
+      <aside class="receipt" aria-labelledby="rcpt" aria-live="polite">
+        <h2 id="rcpt">Your order so far</h2>
+        <dl id="lines"></dl>
+        <p class="note">Shipping is calculated at checkout from your postcode. No other fees.</p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- SPECS -->
+  <section class="blk specs" id="specs" aria-labelledby="h-specs">
+    <div>
+      <h2 class="sec" id="h-specs">Key specs</h2>
+      <p class="lede">Sized to the strictest carry-on limits we could find, so you stop measuring at the gate. Every figure measured on a finished bag, empty.</p>
+    </div>
+    <table>
+      <tbody>
+        <tr><th scope="row">Capacity</th><td>38 L</td></tr>
+        <tr><th scope="row">Dimensions</th><td>55 &times; 35 &times; 20 cm (21.7 &times; 13.8 &times; 7.9 in)</td></tr>
+        <tr><th scope="row">Weight</th><td>1.18 kg (2 lb 10 oz)</td></tr>
+        <tr><th scope="row">Outer fabric</th><td>420D recycled sailcloth, PFC-free water-repellent finish</td></tr>
+        <tr><th scope="row">Lining</th><td>Recycled ripstop, light grey so you can see inside</td></tr>
+        <tr><th scope="row">Laptop</th><td>Padded sleeve up to 16 in</td></tr>
+        <tr><th scope="row">Harness</th><td>Stowable, 2 back lengths, sternum and hip strap</td></tr>
+        <tr><th scope="row">Hardware</th><td>YKK AquaGuard zips, aluminium hooks</td></tr>
+        <tr><th scope="row">Recycled content</th><td>86% by weight (about 31 bottles of PET per bag)</td></tr>
+        <tr><th scope="row">Warranty</th><td>10 years, repairs at cost of postage</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- IN THE BAG -->
+  <section class="blk" style="border:0;padding-top:0" aria-labelledby="h-bag">
+    <div class="inbag">
+      <h2 class="sec" id="h-bag">What is in the bag</h2>
+      <p class="lede">38 litres, divided the way you actually pack: one big space, one place for the things you reach for, one for the laptop, one for the small stuff.</p>
+      <div class="cap" role="img" aria-label="Capacity split: main 24 litres, front pocket 8 litres, laptop compartment 4 litres, top pocket 2 litres">
+        <span style="flex:24;background:#9fc0d8">24 L</span>
+        <span style="flex:8;background:#e9b872">8 L</span>
+        <span style="flex:4;background:#b6d19a"></span>
+        <span style="flex:2;background:#e5a28a"></span>
+      </div>
+      <div class="bag-grid">
+        <div><h3><i style="background:#9fc0d8"></i>Main compartment</h3><p class="v">24 L</p><p>Clamshell opening. Fits a week of clothes in two packing cubes, plus shoes in the base.</p></div>
+        <div><h3><i style="background:#e9b872"></i>Front quick pocket</h3><p class="v">8 L</p><p>Jacket, charger, toiletry bag. Opens flat so security can see it.</p></div>
+        <div><h3><i style="background:#b6d19a"></i>Laptop compartment</h3><p class="v">4 L</p><p>Padded sleeve for up to 16 in, raised 2 cm off the floor.</p></div>
+        <div><h3><i style="background:#e5a28a"></i>Top pocket</h3><p class="v">2 L</p><p>Lined. Passport, phone, sunglasses. Never buried.</p></div>
+      </div>
+      <div class="incl">
+        <strong>Also in the box</strong>
+        <span>Rain cover (stows in its own pocket)</span><span>2 compression straps</span><span>Harness stash panel</span><span>Repair patch and thread kit</span><span>Care card</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="blk" id="reviews" aria-labelledby="h-rev">
+    <h2 class="sec" id="h-rev">Reviews</h2>
+    <p class="lede">From buyers who have owned the bag for at least 30 days.</p>
+    <div class="revwrap">
+      <div>
+        <p class="big">4.7</p>
+        <div class="rating"><span class="stars" aria-hidden="true" id="stars2"></span><span>Based on 312 reviews</span></div>
+        <div class="bars" role="img" aria-label="Rating split: 5 stars 78 percent, 4 stars 16 percent, 3 stars 4 percent, 2 stars 1 percent, 1 star 1 percent">
+          <div><span>5</span><b><i style="width:78%"></i></b><span>78%</span></div>
+          <div><span>4</span><b><i style="width:16%"></i></b><span>16%</span></div>
+          <div><span>3</span><b><i style="width:4%"></i></b><span>4%</span></div>
+          <div><span>2</span><b><i style="width:1%"></i></b><span>1%</span></div>
+          <div><span>1</span><b><i style="width:1%"></i></b><span>1%</span></div>
+        </div>
+        <div class="fit"><strong>How it fits</strong>
+          <div class="meter" role="img" aria-label="Most reviewers say true to size"><i></i></div>
+          <div class="ends"><span>Runs small</span><span>True to size</span><span>Runs big</span></div>
+        </div>
+        <p class="fit">94% say it fit the airline carry-on limit on every flight they tried.</p>
+      </div>
+      <div>
+        <article class="rev">
+          <div class="stars" role="img" aria-label="5 out of 5 stars"></div>
+          <h3>Ten days, one bag, no checked luggage</h3>
+          <p>Took it through three budget airlines across Europe without a single gauge check. The clamshell opening is what sells it: I packed two cubes and a pair of shoes without digging. The fabric looks better scuffed than new.</p>
+          <div class="meta"><strong>Priya N.</strong><span>Pune, India</span><span class="v">Verified buyer</span><span>Harbour, S/M</span></div>
+        </article>
+        <article class="rev">
+          <div class="stars" role="img" aria-label="4 out of 5 stars"></div>
+          <h3>Great bag, shoulder straps could be thicker</h3>
+          <p>Comfortable up to about 8 kg. Past that I felt the straps on a long airport transfer. The hip belt helps a lot and I would not carry a full 38 L without it. Zips feel built to last, and support replied about the harness fit in an hour.</p>
+          <div class="meta"><strong>Marcus T.</strong><span>Leeds, UK</span><span class="v">Verified buyer</span><span>Kelp, M/L</span></div>
+        </article>
+        <article class="rev">
+          <div class="stars" role="img" aria-label="5 out of 5 stars"></div>
+          <h3>Sent a buckle back, got it fixed in a week</h3>
+          <p>A side buckle cracked after eight months of daily commuting. I sent it in under the repair promise and it came back with a new one and a handwritten note. Cost me postage only. That is why I bought a second one in Dune.</p>
+          <div class="meta"><strong>Alina K.</strong><span>Toronto, Canada</span><span class="v">Verified buyer</span><span>Dune, S/M</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHIPPING -->
+  <section class="blk" aria-labelledby="h-ship">
+    <h2 class="sec" id="h-ship">Shipping and returns</h2>
+    <p class="lede">Order by 3 pm Monday to Friday and it leaves our warehouse within 2 days. You get a tracking link the moment it ships.</p>
+    <div class="ship">
+      <div><h3>Shipping</h3>
+        <ul>
+          <li><span>Standard, 3-6 days</span><span>$6</span></li>
+          <li><span>Express, 1-2 days</span><span>$18</span></li>
+          <li><span>Orders over $75</span><span>Free</span></li>
+        </ul></div>
+      <div><h3>Returns</h3><p>Not right? Return it within 60 days for a full refund, unused or after a trip. We email a prepaid label; refunds land within 5 working days of the bag arriving.</p></div>
+      <div id="repair"><h3>Repairs</h3><p>Ten years of repairs. Send us the bag, pay postage one way, and we replace zips, buckles and straps or patch the fabric.</p></div>
+    </div>
+    <div class="faq">
+      <details><summary>Will it fit as a carry-on on my airline?</summary><p>At 55 x 35 x 20 cm it is within the limits of the major European and North American carriers and most budget airlines. A few budget fares allow only an under-seat item, so check your fare first.</p></details>
+      <details><summary>Is it waterproof?</summary><p>Water-repellent, not submersible. It handles heavy rain for a commute; the included rain cover is for downpours and baggage carts.</p></details>
+      <details><summary>Do you ship internationally?</summary><p>Yes, to 38 countries. Duties and taxes are shown before you pay, so there is nothing to collect at the door.</p></details>
+    </div>
+  </section>
+
+  <!-- RELATED -->
+  <section class="blk" aria-labelledby="h-rel">
+    <h2 class="sec" id="h-rel">Goes well with</h2>
+    <p class="lede">Built from the same sailcloth, in the same colours.</p>
+    <div class="rel" id="rel"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><strong style="color:#fff">HARBOUR &amp; CO.</strong><br>Bags made to be repaired. Since 2016.</div>
+    <div><a href="#">Shipping</a><a href="#">Returns</a><a href="#">Repairs</a><a href="#">Contact</a></div>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky" aria-hidden="true">
+  <div><strong id="stP">$149</strong><span id="stC">Harbour, S/M</span></div>
+  <button type="button" id="stAdd" tabindex="-1">Add to cart</button>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+  var COLORS={
+    Harbour:{bag:'#2f4558',dark:'#223342',light:'#496680',field:'#d6dee4'},
+    Dune:{bag:'#bfa985',dark:'#9c8765',light:'#d6c5a6',field:'#ebe3d3'},
+    Kelp:{bag:'#56673f',dark:'#3e4d2c',light:'#78895c',field:'#dde3d1'},
+    Buoy:{bag:'#b4532f',dark:'#8c3c1d',light:'#cf7650',field:'#efd9cc'}
+  };
+  var PRICE=149, state={color:'Harbour',view:0,qty:1};
+  var $=function(id){return document.getElementById(id)};
+
+  var star='<svg viewBox="0 0 24 24"><path d="M12 2l3 7 7 .6-5.3 4.7 1.7 7.2L12 17.8 5.6 21.5l1.7-7.2L2 9.6 9 9z"/></svg>';
+  $('stars').innerHTML=star.repeat(5); $('stars2').innerHTML=star.repeat(5);
+  document.querySelectorAll('article.rev .stars').forEach(function(el){
+    var n=el.getAttribute('aria-label').charAt(0)|0; el.innerHTML=star.repeat(n);
+  });
+
+  /* ---- SVG illustrations (all use CSS vars from the stage) ---- */
+  function bagBody(){
+    return '<path d="M52 70c0-30 22-48 68-48s68 18 68 48v226c0 14-10 24-24 24H76c-14 0-24-10-24-24z" fill="var(--bag)"/>'
+      +'<path d="M52 70c0-30 22-48 68-48s68 18 68 48v8H52z" fill="var(--bag-light)" opacity=".55"/>';
+  }
+  var VIEWS=[
+    {name:'Front',cap:'Front: top grab handle, front quick pocket, water-repellent sailcloth.',svg:function(){return '<svg viewBox="0 0 240 340" role="img" aria-label="Atlas 38 seen from the front">'
+      +'<ellipse cx="120" cy="330" rx="86" ry="8" fill="#000" opacity=".12"/>'
+      +bagBody()
+      +'<path d="M94 24c0-18 52-18 52 0" fill="none" stroke="var(--bag-dark)" stroke-width="9" stroke-linecap="round"/>'
+      +'<path d="M70 88h100v6H70z" fill="var(--bag-dark)"/><path d="M72 100c0-6 4-8 8-8h80c4 0 8 2 8 8v36H72z" fill="var(--bag-dark)" opacity=".55"/>'
+      +'<rect x="68" y="150" width="104" height="128" rx="14" fill="var(--bag-dark)"/>'
+      +'<path d="M72 166h96" stroke="#fff" stroke-opacity=".55" stroke-width="3" stroke-dasharray="3 5"/>'
+      +'<rect x="108" y="150" width="24" height="14" rx="3" fill="#e9e2d0"/>'
+      +'<path d="M120 46v36" stroke="var(--bag-dark)" stroke-width="3"/>'
+      +'<circle cx="120" cy="100" r="7" fill="#e9e2d0"/><path d="M116 100l3 3 5-6" fill="none" stroke="var(--bag-dark)" stroke-width="2"/>'
+      +'<path d="M52 150h-8v60h8M188 150h8v60h-8" fill="none" stroke="var(--bag-dark)" stroke-width="7" stroke-linecap="round"/>'
+      +'<rect x="92" y="290" width="56" height="20" rx="4" fill="#e9e2d0" opacity=".9"/><text x="120" y="304" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="800" font-size="12" fill="#223342">ATLAS 38</text>'
+      +'</svg>'}},
+    {name:'Side',cap:'Side: 20 cm deep, compression straps and slim harness profile.',svg:function(){return '<svg viewBox="0 0 240 340" role="img" aria-label="Atlas 38 seen from the side">'
+      +'<ellipse cx="120" cy="330" rx="60" ry="8" fill="#000" opacity=".12"/>'
+      +'<path d="M72 74c0-34 14-52 46-52s46 18 46 52v226c0 12-8 20-20 20H92c-12 0-20-8-20-20z" fill="var(--bag)"/>'
+      +'<path d="M72 74c0-34 14-52 46-52s46 18 46 52v8H72z" fill="var(--bag-light)" opacity=".55"/>'
+      +'<path d="M156 110c22 6 30 30 30 70s-8 70-30 80" fill="none" stroke="var(--bag-dark)" stroke-width="12" stroke-linecap="round"/>'
+      +'<rect x="76" y="130" width="12" height="150" rx="6" fill="var(--bag-dark)" opacity=".7"/>'
+      +'<path d="M72 160h92M72 220h92" stroke="var(--bag-dark)" stroke-width="7"/><rect x="118" y="153" width="14" height="14" rx="2" fill="#e9e2d0"/><rect x="118" y="213" width="14" height="14" rx="2" fill="#e9e2d0"/>'
+      +'<path d="M96 24c0-14 40-14 40 0" fill="none" stroke="var(--bag-dark)" stroke-width="8" stroke-linecap="round"/>'
+      +'<path d="M20 190h38M20 190v-12M20 190v12" stroke="var(--ink)" stroke-width="2" fill="none" opacity=".5"/><text x="20" y="214" font-family="Archivo,sans-serif" font-size="11" fill="var(--ink)" opacity=".7">20 cm</text>'
+      +'</svg>'}},
+    {name:'Open',cap:'Open: clamshell main compartment that lays flat, light lining so you can see your things.',svg:function(){return '<svg viewBox="0 0 240 340" role="img" aria-label="Atlas 38 open showing packing cubes and shoes">'
+      +'<ellipse cx="120" cy="330" rx="90" ry="8" fill="#000" opacity=".12"/>'
+      +bagBody()
+      +'<path d="M70 70c0-22 14-34 50-34s50 12 50 34v230c0 8-6 14-14 14H84c-8 0-14-6-14-14z" fill="#e3e0d8"/>'
+      +'<rect x="78" y="82" width="84" height="64" rx="8" fill="#d99a6c"/><path d="M84 96h72M84 108h72" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>'
+      +'<rect x="78" y="152" width="84" height="64" rx="8" fill="#8cb1c9"/><path d="M84 166h72M84 178h72" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>'
+      +'<path d="M80 232h38c8 0 12 6 12 14v22H80z" fill="#3b3d3f"/><path d="M134 232h28v36h-28z" fill="#6e7a52"/>'
+      +'<path d="M70 70v244M170 70v244" stroke="var(--bag-dark)" stroke-width="8"/>'
+      +'<path d="M70 70c0-22 14-34 50-34s50 12 50 34" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-dasharray="2 5"/>'
+      +'</svg>'}},
+    {name:'Detail',cap:'Detail: close-up of the 420D recycled sailcloth weave and the aluminium hook.',svg:function(){return '<svg viewBox="0 0 240 340" role="img" aria-label="Close-up of the sailcloth weave and hardware">'
+      +'<defs><pattern id="weave" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="var(--bag)"/><path d="M0 0h4v4H0zM4 4h4v4H4z" fill="var(--bag-light)" opacity=".55"/><path d="M0 4h8M4 0v8" stroke="var(--bag-dark)" stroke-width=".6" opacity=".6"/></pattern></defs>'
+      +'<rect x="14" y="30" width="212" height="280" rx="18" fill="url(#weave)"/>'
+      +'<path d="M14 190h212v34H14z" fill="var(--bag-dark)"/><path d="M14 200h212M14 214h212" stroke="#fff" stroke-opacity=".35" stroke-dasharray="4 6"/>'
+      +'<path d="M120 120v70" stroke="var(--bag-dark)" stroke-width="22"/>'
+      +'<path d="M104 118a16 16 0 0 1 32 0v28h-32z" fill="none" stroke="#cdd2d4" stroke-width="7"/><rect x="100" y="142" width="40" height="14" rx="4" fill="#cdd2d4"/>'
+      +'<circle cx="170" cy="266" r="30" fill="none" stroke="var(--ink)" stroke-opacity=".6" stroke-width="2"/><text x="170" y="270" text-anchor="middle" font-family="Archivo,sans-serif" font-size="10" font-weight="700" fill="#fff">420D</text>'
+      +'</svg>'}}
+  ];
+
+  function applyColor(){
+    var c=COLORS[state.color], s=$('stage').style, r=document.documentElement.style;
+    ['--bag','--bag-dark','--bag-light'].forEach(function(k,i){$('stage').style.setProperty(k,[c.bag,c.dark,c.light][i])});
+    s.background=c.field; $('stage').style.setProperty('--field',c.field);
+    document.querySelectorAll('#thumbs button').forEach(function(b){
+      b.style.setProperty('--bag',c.bag);b.style.setProperty('--bag-dark',c.dark);b.style.setProperty('--bag-light',c.light);b.style.background=c.field;
+    });
+    $('colName').textContent=state.color;
+  }
+  function renderView(){
+    $('stageSvg').innerHTML=VIEWS[state.view].svg();
+    $('stageTag').textContent=VIEWS[state.view].name;
+    $('capt').textContent=VIEWS[state.view].cap;
+    document.querySelectorAll('#thumbs button').forEach(function(b,i){b.setAttribute('aria-pressed',i===state.view)});
+  }
+  VIEWS.forEach(function(v,i){
+    var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','View '+(i+1)+' of 4: '+v.name);
+    b.innerHTML=v.svg().replace(/ role="img" aria-label="[^"]*"/,' aria-hidden="true"').replace('id="weave"','id="weaveT"').replace('url(#weave)','url(#weaveT)');
+    b.addEventListener('click',function(){state.view=i;renderView()});
+    $('thumbs').appendChild(b);
+  });
+
+  /* colours */
+  Object.keys(COLORS).forEach(function(n,i){
+    var d=document.createElement('div');d.className='opt';
+    d.innerHTML='<input type="radio" name="color" id="c'+i+'" value="'+n+'"'+(i===0?' checked':'')+'><label for="c'+i+'"><span class="sw" style="background:'+COLORS[n].bag+'"></span>'+n+'</label>';
+    d.querySelector('input').addEventListener('change',function(){state.color=n;applyColor();updateAll()});
+    $('colors').appendChild(d);
+  });
+
+  /* receipt + prices */
+  function fmt(n){return '$'+n.toFixed(2).replace(/\.00$/,'')}
+  function updateAll(){
+    var size=document.querySelector('input[name=size]:checked').value, sub=PRICE*state.qty, ship=sub>=75?0:6;
+    $('qty').textContent=state.qty;
+    $('addPrice').textContent=fmt(sub);
+    $('stP').textContent=fmt(sub);
+    $('stC').textContent=state.color+', '+size+(state.qty>1?' x'+state.qty:'');
+    $('lines').innerHTML=
+      '<div class="ln"><dt>Atlas 38, '+state.color+' '+size+' x'+state.qty+'</dt><dd>'+fmt(sub)+'</dd></div>'
+      +'<div class="ln"><dt>Standard shipping'+(ship?'':' (free over $75)')+'</dt><dd>'+(ship?fmt(ship):'$0')+'</dd></div>'
+      +'<div class="ln"><dt>Returns, 60 days</dt><dd>$0</dd></div>'
+      +'<div class="ln tot"><dt>Total before tax</dt><dd>'+fmt(sub+ship)+'</dd></div>';
+  }
+  document.querySelectorAll('input[name=size]').forEach(function(i){i.addEventListener('change',updateAll)});
+  $('minus').addEventListener('click',function(){if(state.qty>1){state.qty--;updateAll()}});
+  $('plus').addEventListener('click',function(){if(state.qty<9){state.qty++;updateAll()}});
+
+  /* cart */
+  var cart=0, tt;
+  function toast(msg){var t=$('toast');t.textContent=msg;t.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('on')},3200)}
+  function add(){
+    var size=document.querySelector('input[name=size]:checked').value;
+    cart+=state.qty;$('cartN').textContent=cart;$('cartBtn').setAttribute('aria-label','Cart, '+cart+' item'+(cart>1?'s':''));
+    toast('Added '+state.qty+' x Atlas 38, '+state.color+' '+size+'. Cart has '+cart+' item'+(cart>1?'s':'')+'.');
+  }
+  $('form').addEventListener('submit',function(e){e.preventDefault();add()});
+  $('stAdd').addEventListener('click',add);
+  $('cartBtn').addEventListener('click',function(){toast(cart?('Your cart has '+cart+' item'+(cart>1?'s':'')+'. Checkout opens here.'):'Your cart is empty.')});
+
+  /* sticky bar on small screens once main CTA scrolls away */
+  var st=$('sticky');
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      var gone=!es[0].isIntersecting && es[0].boundingClientRect.top<0;
+      st.classList.toggle('on',gone);st.setAttribute('aria-hidden',!gone);$('stAdd').tabIndex=gone?0:-1;
+    }).observe($('add'));
+  }
+
+  /* related */
+  var REL=[
+    {n:'Atlas 22 daypack',d:'22 L, same sailcloth',p:'$99',s:function(){return '<svg viewBox="0 0 240 340" aria-hidden="true"><path d="M60 100c0-34 22-52 60-52s60 18 60 52v180c0 12-8 20-20 20H80c-12 0-20-8-20-20z" fill="var(--bag)"/><rect x="82" y="190" width="76" height="80" rx="10" fill="var(--bag-dark)"/><path d="M98 52c0-14 44-14 44 0" fill="none" stroke="var(--bag-dark)" stroke-width="8" stroke-linecap="round"/></svg>'}},
+    {n:'Packing cubes, set of 3',d:'Recycled ripstop',p:'$34',s:function(){return '<svg viewBox="0 0 240 340" aria-hidden="true"><rect x="36" y="150" width="100" height="120" rx="10" fill="var(--bag)"/><rect x="110" y="100" width="96" height="110" rx="10" fill="var(--bag-light)"/><rect x="90" y="210" width="110" height="80" rx="10" fill="var(--bag-dark)"/><path d="M46 180h80M120 130h76M100 240h90" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-dasharray="3 5"/></svg>'}},
+    {n:'Atlas Sling 6',d:'6 L crossbody',p:'$59',s:function(){return '<svg viewBox="0 0 240 340" aria-hidden="true"><path d="M40 40l140 230" stroke="var(--bag-dark)" stroke-width="12" stroke-linecap="round"/><rect x="100" y="200" width="104" height="86" rx="30" fill="var(--bag)"/><rect x="122" y="224" width="60" height="26" rx="8" fill="var(--bag-dark)"/></svg>'}},
+    {n:'Rain cover, 30-45 L',d:'Stows in a pocket',p:'$22',s:function(){return '<svg viewBox="0 0 240 340" aria-hidden="true"><path d="M50 300V120c0-50 30-76 70-76s70 26 70 76v180c-20-14-40-14-70 0s-50 14-70 0z" fill="var(--bag-light)"/><path d="M80 120c0-24 14-36 40-36" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/></svg>'}}
+  ];
+  REL.forEach(function(r,i){
+    var c=['Harbour','Dune','Kelp','Buoy'][i], k=COLORS[c];
+    var a=document.createElement('a');a.className='card';a.href='#';
+    a.innerHTML='<div class="im" style="background:'+k.field+';--bag:'+k.bag+';--bag-dark:'+k.dark+';--bag-light:'+k.light+'">'+r.s()+'</div><h3>'+r.n+'</h3><p>'+r.d+'</p><p class="pr">'+r.p+'</p>';
+    a.addEventListener('click',function(e){e.preventDefault();toast(r.n+' opens here.')});
+    $('rel').appendChild(a);
+  });
+
+  applyColor();renderView();updateAll();
+  /* thumbs inherit colour after creation */
+  applyColor();
+})();
+</script>
+</body>
+</html>

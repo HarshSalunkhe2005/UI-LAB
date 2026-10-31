@@ -65,9 +65,13 @@ const PROBE = `(() => {
   const clippedAway = (e) => { const det = e.closest('details:not([open])'); if (det && !e.closest('summary')) return true; const r = e.getBoundingClientRect(); for (let a = e.parentElement; a && a !== document.body; a = a.parentElement) { const s = getComputedStyle(a); if (s.overflow !== 'visible' || s.overflowX !== 'visible' || s.overflowY !== 'visible' || s.clipPath !== 'none') { const q = a.getBoundingClientRect(); if (q.height < 2 || q.width < 2 || r.top >= q.bottom - 1 || r.bottom <= q.top + 1 || r.left >= q.right - 1 || r.right <= q.left + 1) return true } if (s.opacity === '0') return true } return false }
   // compare per-line client rects, not bounding boxes: a wrapped inline element's bounding box spans several lines
   const leaves = [...document.querySelectorAll('body *')].filter((e) => !e.children.length && e.textContent.trim().length > 1 && vis(e) && !e.closest('[aria-hidden=true],svg,script,style') && !clippedAway(e)).map((e) => ({ e, rs: [...e.getClientRects()].filter((r) => r.width > 8 && r.height > 8) })).filter((x) => x.rs.length)
+  // a position:fixed overlay (buy bar, cookie bar) sits over content that scrolls beneath it by design: not a collision
+  const fixedUp = (e) => { for (let a = e; a && a !== document.body; a = a.parentElement) if (getComputedStyle(a).position === 'fixed') return true; return false }
+  for (const l of leaves) l.fixed = fixedUp(l.e)
   const collisions = []
   const hit = (a, b) => { const w = Math.min(a.right, b.right) - Math.max(a.left, b.left), h = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top); return w > 2 && h > 2 && (w * h) / Math.min(a.width * a.height, b.width * b.height) > 0.33 }
   for (let i = 0; i < leaves.length && collisions.length < 12; i++) for (let j = i + 1; j < leaves.length; j++) {
+    if (leaves[i].fixed !== leaves[j].fixed) continue
     if (leaves[i].rs.some((a) => leaves[j].rs.some((b) => hit(a, b)))) collisions.push(leaves[i].e.textContent.trim().slice(0, 24) + ' x ' + leaves[j].e.textContent.trim().slice(0, 24))
   }
   const fam = (sel) => { const e = document.querySelector(sel); return e ? getComputedStyle(e).fontFamily.split(',')[0].replace(/["']/g, '').trim() : null }
@@ -76,7 +80,7 @@ const PROBE = `(() => {
   return {
     docWidth: document.documentElement.scrollWidth, viewport: vw, hOverflow: document.documentElement.scrollWidth > vw + 1,
     docHeight: document.documentElement.scrollHeight,
-    interactive: inter.length, smallTargets: small.length, collisions: collisions.length, collisionSamples: collisions.slice(0, 4),
+    interactive: inter.length, smallTargets: small.length, smallSamples: small.slice(0, 5).map((e) => e.tagName.toLowerCase() + ' "' + (e.textContent || e.getAttribute('aria-label') || '').trim().slice(0, 24) + '" ' + Math.round(e.getBoundingClientRect().width) + 'x' + Math.round(e.getBoundingClientRect().height)), collisions: collisions.length, collisionSamples: collisions.slice(0, 4),
     imgsMissingAlt: [...document.images].filter((i) => !i.hasAttribute('alt')).length,
     inputsUnlabelled: inputs.filter((e) => !labelled(e)).length,
     landmarks: ['header,[role=banner]', 'nav,[role=navigation]', 'main,[role=main]', 'footer,[role=contentinfo]'].map((s) => !!document.querySelector(s)),

@@ -21,7 +21,7 @@ t('every file named in the "Read this when" table exists', () => {
 })
 
 t('SKILL.md names each gate and the family rule', () => {
-  for (const k of ['Gate 2', 'Gate 5', 'Gate 6', 'Gate R', 'Gate C', 'world-index.md', 'different families']) assert.ok(skill.includes(k), `missing "${k}"`)
+  for (const k of ['Gate 2', 'Gate 5', 'Gate 6', 'Gate R', 'Gate C', 'world-index.md', 'different world families', 'Roll for variety']) assert.ok(skill.includes(k), `missing "${k}"`)
 })
 
 const slop = read('references/anti-slop.md')

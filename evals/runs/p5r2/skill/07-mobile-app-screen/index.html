@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fbf2dc">
+<title>Tally - Today</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Rubik:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --desk:#c9a66b; --paper:#fbf2dc; --card:#fff8e6; --ink:#2b1d0e; --muted:#4a3720; --rule:#8a6b3a; --soft:#e6d5ae;
+  --green:#2f7a3b; --on-green:#ffffff;
+  --water:#1f6f9a; --read:#a8431f; --walk:#2f7a3b; --stretch:#8a5a00; --write:#7a3b6e;
+  --font-display:'Rubik','Arial Rounded MT Bold',system-ui,sans-serif;
+  --font-text:'Lora',Georgia,serif;
+  --s1:4px; --s2:8px; --s3:14px; --s4:24px;
+  --radius:14px; --ease:cubic-bezier(.3,.9,.3,1);
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:var(--desk);color:var(--ink);font-family:var(--font-text);font-size:1.0625rem;line-height:1.4;
+  display:grid;place-items:center;-webkit-tap-highlight-color:transparent;overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-action:manipulation}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+/* device frame */
+.device{width:390px;height:min(844px,calc(100dvh - 32px));background:var(--paper);border-radius:46px;
+  border:10px solid var(--ink);position:relative;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:8px 8px 0 rgba(43,29,14,.35)}
+.status{flex:none;height:44px;display:flex;justify-content:space-between;align-items:center;padding:6px 26px 0;
+  font:600 .8125rem var(--font-display)}
+.status svg{display:block}
+.notch{position:absolute;top:8px;left:50%;width:92px;height:24px;margin-left:-46px;background:var(--ink);border-radius:14px}
+@media (max-width:500px){
+  body{display:block}
+  .device{width:100%;height:100dvh;border:0;border-radius:0;box-shadow:none}
+  .status,.notch{display:none}
+}
+
+main{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:0 20px 24px;scrollbar-width:none}
+main::-webkit-scrollbar{display:none}
+.view[hidden]{display:none}
+.top{display:flex;justify-content:space-between;align-items:flex-end;padding:12px 0 14px}
+h1{font:700 2.25rem/1 var(--font-display);letter-spacing:-.02em}
+.date{font:500 .8125rem var(--font-display);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.hello{font-size:.9375rem;color:var(--muted);text-align:right;max-width:130px}
+
+/* packet */
+.packet{background:var(--green);color:var(--on-green);border-radius:var(--radius);padding:18px 18px 16px;display:grid;
+  grid-template-columns:1fr 128px;gap:10px 14px;align-items:center;border:2px solid var(--ink);position:relative}
+.packet .lbl{font:500 .8125rem var(--font-display);text-transform:uppercase;letter-spacing:.08em}
+.big{font:700 5rem/.9 var(--font-display);letter-spacing:-.04em;font-variant-numeric:tabular-nums;display:block;margin:6px 0 2px;
+  transition:transform .4s var(--ease)}
+.big.pop{transform:scale(1.14)}
+.packet p.sub{font-size:.9375rem;line-height:1.3}
+.window{width:128px;height:150px;background:var(--paper);border:2px solid var(--ink);border-radius:64px 64px 12px 12px;overflow:hidden;grid-row:1/3;grid-column:2}
+.window svg{width:100%;height:100%;display:block}
+.rows{grid-column:1/3;display:flex;gap:6px;margin-top:4px}
+.rows i{flex:1;height:10px;border-radius:5px;background:rgba(255,255,255,.28);border:1.5px solid var(--ink);transition:background .3s}
+.rows i.on{background:var(--paper)}
+.prog{grid-column:1/3;display:flex;justify-content:space-between;font:500 .875rem var(--font-display);font-variant-numeric:tabular-nums}
+/* plant stages */
+.plant .stem{transform-origin:64px 128px;transition:transform .6s var(--ease)}
+.plant .part{opacity:0;transform:scale(.4);transform-box:fill-box;transform-origin:center bottom;transition:opacity .35s,transform .5s var(--ease)}
+.plant .part.show{opacity:1;transform:scale(1)}
+
+/* week */
+h2{font:600 .8125rem var(--font-display);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.week{margin-top:22px}
+.strip{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
+.day{min-height:68px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  font:500 .75rem var(--font-display);color:var(--muted);border:2px solid transparent;transition:background .2s}
+.day b{font:600 1rem var(--font-display);color:var(--ink);font-variant-numeric:tabular-nums}
+.day[aria-pressed=true]{background:var(--card);border-color:var(--ink)}
+.day.future{color:var(--muted)}
+.ring{width:26px;height:26px;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:4}
+.ring .t{stroke:var(--soft)}
+.ring .v{stroke:var(--green);stroke-linecap:round;transition:stroke-dasharray .4s var(--ease)}
+.cap{margin-top:8px;font-size:.9375rem;color:var(--muted);min-height:1.4em}
+
+/* habits */
+.habits{margin-top:20px}
+.head{display:flex;justify-content:space-between;align-items:baseline}
+.head span{font:500 .875rem var(--font-display);color:var(--muted);font-variant-numeric:tabular-nums}
+ul.list{list-style:none;padding:0;margin-top:6px;border-top:2px solid var(--ink)}
+.list li{border-bottom:1.5px solid var(--rule)}
+.habit{width:100%;min-height:68px;display:flex;align-items:center;gap:14px;text-align:left;padding:8px 2px;border-radius:10px;
+  transition:transform .15s var(--ease)}
+.habit:active{transform:scale(.975)}
+.glyph{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--hue);color:#fff}
+.glyph svg{width:24px;height:24px}
+.txt{flex:1;min-width:0}
+.name{display:block;font:600 1.0625rem/1.2 var(--font-display);transition:color .2s}
+.meta{display:block;font-size:.875rem;color:var(--muted);margin-top:2px}
+.box{flex:none;width:44px;height:44px;border-radius:50%;border:2.5px solid var(--rule);display:grid;place-items:center;
+  transition:background .25s,border-color .25s,transform .35s var(--ease)}
+.box svg{width:24px;height:24px}
+.box path{fill:none;stroke:#fff;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .35s .05s var(--ease)}
+.habit[aria-checked=true] .box{background:var(--hue);border-color:var(--hue);transform:scale(1.08)}
+.habit[aria-checked=true] .box path{stroke-dashoffset:0}
+.habit[aria-checked=true] .name{color:var(--muted);text-decoration:line-through;text-decoration-thickness:2px}
+
+/* other tabs */
+.stat{margin-top:18px}
+.bar{display:grid;grid-template-columns:86px 1fr 40px;gap:10px;align-items:center;min-height:44px;font:500 .9375rem var(--font-display)}
+.bar .tr{height:14px;background:var(--soft);border-radius:7px;overflow:hidden;border:1.5px solid var(--ink)}
+.bar .tr i{display:block;height:100%;background:var(--hue)}
+.bar em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums}
+.note{font-size:.9375rem;color:var(--muted);margin-top:14px}
+
+/* tab bar */
+.tabs{flex:none;display:grid;grid-template-columns:repeat(3,1fr);background:var(--card);border-top:2px solid var(--ink);
+  padding:6px 8px calc(8px + env(safe-area-inset-bottom));min-height:68px}
+.tab{min-height:54px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  font:500 .75rem var(--font-display);color:var(--muted)}
+.tab svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tab[aria-selected=true]{color:var(--ink);font-weight:600;background:var(--soft)}
+.tab[aria-selected=true] svg{stroke:var(--green)}
+
+.toast{position:absolute;left:20px;right:20px;bottom:84px;background:var(--ink);color:var(--paper);border-radius:12px;padding:12px 14px;
+  font:500 .9375rem var(--font-display);transform:translateY(24px);opacity:0;pointer-events:none;transition:transform .4s var(--ease),opacity .3s}
+.toast.on{transform:none;opacity:1}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="device">
+  <div class="notch" aria-hidden="true"></div>
+  <div class="status" aria-hidden="true"><span>9:41</span>
+    <svg width="48" height="12" viewBox="0 0 48 12"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/><rect x="24" y="1" width="22" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="26" y="3" width="15" height="6" rx="1.5"/></svg></div>
+
+  <main id="main">
+    <section class="view" id="v-today" aria-labelledby="h-today">
+      <div class="top">
+        <div><p class="date" id="dateLine">Sat 31 Oct</p><h1 id="h-today">Today</h1></div>
+        <p class="hello">Good morning, Harsh</p>
+      </div>
+
+      <div class="packet" aria-label="Streak">
+        <div>
+          <p class="lbl">Day streak</p>
+          <span class="big" id="streak" aria-live="polite">11</span>
+          <p class="sub" id="streakSub">Finish all 5 today to make it 12.</p>
+        </div>
+        <div class="window" aria-hidden="true">
+          <svg class="plant" viewBox="0 0 128 150" id="plant">
+            <rect x="0" y="126" width="128" height="24" fill="#8a6b3a"/>
+            <path d="M0 126 Q64 112 128 126" fill="#6b4f27"/>
+            <g class="stem" id="stem" style="transform:scaleY(.15)">
+              <path d="M64 128 L64 52" stroke="#2f7a3b" stroke-width="5" stroke-linecap="round"/>
+            </g>
+            <path class="part" data-n="1" d="M64 110 C44 112 34 100 32 90 C48 88 62 96 64 110Z" fill="#2f7a3b"/>
+            <path class="part" data-n="2" d="M64 98 C84 100 96 88 98 78 C80 76 66 84 64 98Z" fill="#3f9a4d"/>
+            <path class="part" data-n="3" d="M64 84 C46 84 36 72 34 62 C50 60 62 70 64 84Z" fill="#2f7a3b"/>
+            <path class="part" data-n="4" d="M64 72 C82 72 94 60 96 50 C80 48 66 58 64 72Z" fill="#3f9a4d"/>
+            <g class="part" data-n="5">
+              <circle cx="64" cy="40" r="7" fill="#8a5a00"/>
+              <g fill="#d9482b"><ellipse cx="64" cy="24" rx="8" ry="11"/><ellipse cx="64" cy="56" rx="8" ry="11"/><ellipse cx="48" cy="40" rx="11" ry="8"/><ellipse cx="80" cy="40" rx="11" ry="8"/></g>
+              <circle cx="64" cy="40" r="7" fill="#8a5a00"/>
+            </g>
+          </svg>
+        </div>
+        <div class="rows" id="rows" aria-hidden="true"></div>
+        <div class="prog"><span id="progTxt">0 of 5 sown today</span><span id="progPct">0%</span></div>
+      </div>
+
+      <div class="week">
+        <h2 id="h-week">This week</h2>
+        <div class="strip" id="strip" role="group" aria-labelledby="h-week"></div>
+        <p class="cap" id="cap" aria-live="polite"></p>
+      </div>
+
+      <div class="habits">
+        <div class="head"><h2 id="h-habits">Today's habits</h2><span id="left"></span></div>
+        <ul class="list" id="list"></ul>
+      </div>
+    </section>
+
+    <section class="view" id="v-habits" hidden aria-labelledby="h-habits2">
+      <div class="top"><div><p class="date">Your rows</p><h1 id="h-habits2">Habits</h1></div></div>
+      <ul class="list" id="hlist"></ul>
+      <p class="note">Streak counts a day only when every habit is done.</p>
+    </section>
+
+    <section class="view" id="v-stats" hidden aria-labelledby="h-stats">
+      <div class="top"><div><p class="date">Last 7 days</p><h1 id="h-stats">Stats</h1></div></div>
+      <div class="stat" id="bars"></div>
+      <p class="note" id="statNote"></p>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <nav class="tabs" role="tablist" aria-label="Main">
+    <button class="tab" role="tab" data-v="today" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V11"/><path d="M12 14C8 14 6 11 6 8c4 0 6 2 6 6Z"/><path d="M12 11c0-3 2-5 6-5 0 3-2 5-6 5Z"/></svg>Today</button>
+    <button class="tab" role="tab" data-v="habits" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>Habits</button>
+    <button class="tab" role="tab" data-v="stats" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V12M12 20V5M19 20v-5"/></svg>Stats</button>
+  </nav>
+</div>
+
+<script>
+(function(){
+  var ICON={
+    water:'<path d="M12 3C8 8 6 11 6 14a6 6 0 0 0 12 0c0-3-2-6-6-11Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
+    read:'<path d="M4 5h6a2 2 0 0 1 2 2v12a2 2 0 0 0-2-2H4ZM20 5h-6a2 2 0 0 0-2 2v12a2 2 0 0 1 2-2h6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
+    walk:'<circle cx="13" cy="4.5" r="2" fill="currentColor"/><path d="M10 21l2-6-3-3 2-5 4 3 3 1M12 15l4 2v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+    stretch:'<circle cx="12" cy="4.5" r="2" fill="currentColor"/><path d="M4 9l8 2 8-2M12 11v5l-4 5M12 16l4 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+    write:'<path d="M4 20l1-4L16 5l3 3L8 19Zm9-13l3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>'
+  };
+  var habits=[
+    {id:'water',name:'Drink 2 litres of water',run:9,hue:'var(--water)',done:true},
+    {id:'read',name:'Read 20 pages',run:6,hue:'var(--read)',done:true},
+    {id:'walk',name:'Walk for 30 minutes',run:11,hue:'var(--walk)',done:false},
+    {id:'stretch',name:'Stretch before bed',run:4,hue:'var(--stretch)',done:false},
+    {id:'write',name:'Write three lines',run:2,hue:'var(--write)',done:false}
+  ];
+  var BASE=11;
+  var week=[{d:'Mon',n:26,k:5},{d:'Tue',n:27,k:5},{d:'Wed',n:28,k:5},{d:'Thu',n:29,k:4},{d:'Fri',n:30,k:5},{d:'Sat',n:31,today:true},{d:'Sun',n:1,future:true}];
+  var $=function(id){return document.getElementById(id)};
+  var total=habits.length, sel=5;
+  var CHECK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  function ico(h){return '<svg viewBox="0 0 24 24" aria-hidden="true">'+ICON[h.id]+'</svg>'}
+  function count(){return habits.filter(function(h){return h.done}).length}
+
+  function buildList(){
+    var ul=$('list'); ul.innerHTML='';
+    habits.forEach(function(h,i){
+      var li=document.createElement('li');
+      li.innerHTML='<button class="habit" role="checkbox" style="--hue:'+h.hue+'"><span class="glyph">'+ico(h)+'</span>'+
+        '<span class="txt"><span class="name">'+h.name+'</span><span class="meta"></span></span><span class="box">'+CHECK+'</span></button>';
+      li.firstChild.addEventListener('click',function(){toggle(i)});
+      ul.appendChild(li);
+    });
+    var hl=$('hlist'); hl.innerHTML='';
+    habits.forEach(function(h){
+      var li=document.createElement('li');
+      li.innerHTML='<div class="habit" style="--hue:'+h.hue+';cursor:default"><span class="glyph">'+ico(h)+'</span><span class="txt"><span class="name">'+h.name+'</span><span class="meta"></span></span></div>';
+      hl.appendChild(li);
+    });
+    var rows=$('rows'); rows.innerHTML=''; habits.forEach(function(){rows.appendChild(document.createElement('i'))});
+  }
+  function buildStrip(){
+    var s=$('strip'); s.innerHTML='';
+    week.forEach(function(w,i){
+      var b=document.createElement('button'); b.className='day'+(w.future?' future':''); b.dataset.i=i;
+      b.innerHTML='<span>'+w.d+'</span><svg class="ring" viewBox="0 0 26 26" aria-hidden="true"><circle class="t" cx="13" cy="13" r="10"/><circle class="v" cx="13" cy="13" r="10" stroke-dasharray="0 63"/></svg><b>'+w.n+'</b>';
+      b.addEventListener('click',function(){sel=i;renderWeek()});
+      s.appendChild(b);
+    });
+  }
+  function frac(i){var w=week[i]; return w.today?count()/total:(w.future?0:w.k/total)}
+  function renderWeek(){
+    var C=2*Math.PI*10;
+    [].forEach.call($('strip').children,function(b,i){
+      b.setAttribute('aria-pressed',i===sel);
+      b.querySelector('.v').setAttribute('stroke-dasharray',(frac(i)*C).toFixed(1)+' '+C.toFixed(1));
+      var w=week[i];
+      b.setAttribute('aria-label',w.d+' '+w.n+(w.future?', not started':', '+Math.round(frac(i)*total)+' of '+total+' done'));
+    });
+    var w=week[sel];
+    $('cap').textContent=w.future?'Sunday has not started yet.':(w.today?'Today: ':w.d+' '+w.n+': ')+Math.round(frac(sel)*total)+' of '+total+' habits done'+(w.today||frac(sel)<1?'.':', streak kept.');
+  }
+  var lastStreak=null, toastT;
+  function render(){
+    var n=count(), all=n===total, streak=BASE+(all?1:0);
+    [].forEach.call($('list').querySelectorAll('.habit'),function(b,i){
+      var h=habits[i]; b.setAttribute('aria-checked',h.done);
+      b.setAttribute('aria-label',h.name+', '+(h.done?'done':'not done'));
+      b.querySelector('.meta').textContent=(h.run+(h.done?1:0))+' day run';
+    });
+    [].forEach.call($('hlist').querySelectorAll('.meta'),function(m,i){m.textContent=(habits[i].run+(habits[i].done?1:0))+' day run'});
+    [].forEach.call($('rows').children,function(r,i){r.className=i<n?'on':''});
+    $('streak').textContent=streak;
+    $('streakSub').textContent=all?'Every habit done. Streak is safe tonight.':'Finish '+(total-n===1?'the last one':'all '+total)+' today to make it '+(BASE+1)+'.';
+    $('progTxt').textContent=n+' of '+total+' sown today';
+    $('progPct').textContent=Math.round(n/total*100)+'%';
+    $('left').textContent=all?'All done':(total-n)+' left';
+    $('stem').style.transform='scaleY('+(.15+n/total*.85)+')';
+    [].forEach.call(document.querySelectorAll('.plant .part'),function(p){p.classList.toggle('show',+p.dataset.n<=n)});
+    renderWeek(); renderStats();
+    if(lastStreak!==null&&lastStreak!==streak){
+      var b=$('streak'); b.classList.add('pop'); setTimeout(function(){b.classList.remove('pop')},350);
+      toast(all?'Streak up to '+streak+' days':'Streak back to '+streak);
+    }
+    lastStreak=streak;
+  }
+  function renderStats(){
+    var h='';
+    week.slice(0,6).forEach(function(w,i){
+      var k=Math.round(frac(i)*total);
+      h+='<div class="bar" style="--hue:var(--green)"><span>'+w.d+' '+w.n+'</span><span class="tr"><i style="width:'+(k/total*100)+'%"></i></span><em>'+k+'/'+total+'</em></div>';
+    });
+    $('bars').innerHTML=h;
+    var sum=0; for(var i=0;i<6;i++)sum+=Math.round(frac(i)*total);
+    $('statNote').textContent=sum+' of '+(6*total)+' habits done since Monday.';
+  }
+  function toast(t){var e=$('toast'); e.textContent=t; e.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(function(){e.classList.remove('on')},1800)}
+  function toggle(i){habits[i].done=!habits[i].done; sel=5; render()}
+
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      document.querySelectorAll('.tab').forEach(function(x){x.setAttribute('aria-selected',x===t)});
+      ['today','habits','stats'].forEach(function(v){$('v-'+v).hidden=v!==t.dataset.v});
+      $('main').scrollTop=0;
+    });
+  });
+
+  buildList(); buildStrip(); render();
+})();
+</script>
+</body>
+</html>
