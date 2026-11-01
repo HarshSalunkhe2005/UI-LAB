@@ -3,6 +3,7 @@
 **Family:** Cinematic and Spatial. **Metaphor:** a product launch film you steer with the scroll wheel.
 **Use when:** a physical or single-object product (drink, shoe, headphones, device) is the star and you have a model, frame sequence or strong cut-out.
 **Never when:** there is no object worth looking at, the audience arrives to compare prices, or the page must work as a document.
+**Grounds:** saturated colour field, dark, light neutral.
 **Fonts:** Anton (display) + Hanken Grotesk (text). Google Fonts.
 
 ```css

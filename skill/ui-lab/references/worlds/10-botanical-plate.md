@@ -3,6 +3,7 @@
 **Family:** Soft and Living. **Metaphor:** a pressed specimen mounted on cotton paper with a numbered key.
 **Use when:** nature, craft, archive, museum shop, slow commerce, field guides.
 **Never when:** you have no hand-built or scanned illustration (stock vectors read as clip art).
+**Grounds:** light neutral, tinted mid-tone.
 **Fonts:** Fraunces (display) + JetBrains Mono (small-caps labels), Caveat for annotation only. Google Fonts.
 
 ```css

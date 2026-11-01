@@ -37,7 +37,7 @@ for (const w of worlds) {
   t(`world ${w.num} ${w.name}: structure`, () => {
     const fam = w.text.match(/\*\*Family:\*\* ([^.]+)\./)?.[1]
     assert.ok(FAMILIES.includes(fam), `family "${fam}" not one of the six`)
-    for (const k of ['**Metaphor:**', '**Use when:**', '**Never when:**', '**Fonts:**', '**Signature:**', '**Refuse:**', '**First screen:**']) assert.ok(w.text.includes(k), `missing ${k}`)
+    for (const k of ['**Metaphor:**', '**Use when:**', '**Never when:**', '**Grounds:**', '**Fonts:**', '**Signature:**', '**Refuse:**', '**First screen:**']) assert.ok(w.text.includes(k), `missing ${k}`)
     assert.ok(/\*\*Refuse:\*\* 1\..*2\..*3\./.test(w.text), 'refusals must be numbered 1, 2, 3')
     assert.ok(new RegExp(`\\| ${w.num} ${w.name.split(' ')[0]}`).test(index), 'not listed in world-index.md')
     assert.ok(index.includes(`### ${fam}`), 'family heading missing from the index')

@@ -3,6 +3,7 @@
 **Family:** Machine and Signal. **Metaphor:** a bulletin-board system: you log in, you type, it answers.
 **Use when:** portfolios and developer sites that want a conversational, text-first interface.
 **Never when:** a recruiter or a customer needs to find something in five seconds without typing.
+**Grounds:** dark, tinted mid-tone.
 **Fonts:** JetBrains Mono, one family. Google Fonts.
 
 ```css

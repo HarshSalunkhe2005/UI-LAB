@@ -3,6 +3,7 @@
 **Family:** Paper and Print. **Metaphor:** a well-kept text file with a few real controls.
 **Use when:** forecasts, status pages, schedules, scores, prices, logs; dense pages people check quickly and often. An Operate world.
 **Never when:** the page needs to persuade or to look expensive.
+**Grounds:** light neutral, tinted mid-tone, dark.
 **Fonts:** IBM Plex Mono, one family at one or two sizes. Google Fonts.
 
 ```css

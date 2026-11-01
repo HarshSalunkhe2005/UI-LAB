@@ -3,6 +3,7 @@
 **Family:** Cinematic and Spatial. **Metaphor:** a title sequence; the interface is the credits.
 **Use when:** portfolios, studios, launches, games, experiences, where the first impression is the product.
 **Never when:** the user has a task to finish quickly, the device is low-powered, or you cannot afford the assets (video, WebGL, photography).
+**Grounds:** dark, saturated colour field.
 **Fonts:** Syne (display) + Inter Tight (small UI text). Google Fonts.
 
 ```css

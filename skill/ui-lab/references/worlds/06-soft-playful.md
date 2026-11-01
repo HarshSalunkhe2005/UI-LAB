@@ -3,6 +3,7 @@
 **Family:** Soft and Living. **Metaphor:** a sticker sheet that reacts when you touch it.
 **Use when:** consumer apps, kids and education, light-hearted wellness, community products.
 **Never when:** money, health or legal risk is the main emotion, or the audience is expert and time-poor.
+**Grounds:** light neutral, saturated colour field, tinted mid-tone.
 **Fonts:** Bricolage Grotesque (display) + Nunito (text). Google Fonts.
 
 ```css

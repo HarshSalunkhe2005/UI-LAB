@@ -3,6 +3,7 @@
 **Family:** Loud and Graphic. **Metaphor:** a velvet table and a deck: shuffle, deal, turn.
 **Use when:** divination, games, wellbeing, storytelling products; anything that deals out a small set of outcomes.
 **Never when:** the real product is a SaaS tool with a mystic coat of paint.
+**Grounds:** dark, saturated colour field.
 **Fonts:** Cormorant Garamond (names) + Karla (labels, small caps). Google Fonts.
 
 ```css

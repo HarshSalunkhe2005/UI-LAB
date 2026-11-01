@@ -3,6 +3,7 @@
 **Family:** Instrument and Spec. **Metaphor:** a till receipt still warm from the printer.
 **Use when:** order, checkout, ticket, booking and confirmation pages; shops and services that want pricing to feel honest; anything with line items and a total.
 **Never when:** there is no itemised content, or a fee would be hidden by the format.
+**Grounds:** dark, light neutral, tinted mid-tone.
 **Fonts:** Space Mono, one family at two sizes. Google Fonts.
 
 ```css

@@ -3,6 +3,7 @@
 **Family:** Machine and Signal. **Metaphor:** a well-lit terminal with a single status light.
 **Use when:** developer tools, infrastructure, AI tooling, security, where the product has a real interface to show.
 **Never when:** the audience is non-technical, the product has no interface, or "dark with a glow" is the only reason.
+**Grounds:** dark, tinted mid-tone.
 **Fonts:** Geist (text and display) + Geist Mono (code and data only). Google Fonts.
 
 ```css

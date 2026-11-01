@@ -21,7 +21,7 @@ t('every file named in the "Read this when" table exists', () => {
 })
 
 t('SKILL.md names each gate and the family rule', () => {
-  for (const k of ['Gate 2', 'Gate 5', 'Gate 6', 'Gate R', 'Gate C', 'world-index.md', 'different world families', 'Roll for variety']) assert.ok(skill.includes(k), `missing "${k}"`)
+  for (const k of ['Gate 2', 'Gate 5', 'Gate 6', 'Gate R', 'Gate C', 'world-index.md', 'different world families', 'Roll for variety', 'roll the ground']) assert.ok(skill.includes(k), `missing "${k}"`)
 })
 
 const slop = read('references/anti-slop.md')
@@ -71,9 +71,18 @@ t('Gate 5 runs scripts/verify.mjs and every gate it maps has a section in fixes.
   assert.ok(skill.includes('scripts/verify.mjs'))
   const fixes = read('references/fixes.md')
   const verify = read('scripts/verify.mjs')
-  const anchors = Object.values(JSON.parse(verify.match(/const ANCHOR = (\{.*\})/)[1]))
-  assert.equal(anchors.length, 7)
+  const anchors = Object.values(JSON.parse(verify.match(/const ANCHOR = (\{[\s\S]*?\n\})/)[1]))
+  assert.equal(anchors.length, 10)
   for (const a of anchors) assert.ok(new RegExp('^### ' + a + '$', 'm').test(fixes), `fixes.md has no section for ${a}`)
+})
+t('every world lists its allowed ground treatments, and every treatment is one of the four', () => {
+  const OK = new Set(['light neutral', 'dark', 'saturated colour field', 'tinted mid-tone'])
+  for (const f of readdirSync(join(SK, 'references', 'worlds'))) {
+    const line = read(`references/worlds/${f}`).split('\n').find((l) => l.startsWith('**Grounds:**'))
+    assert.ok(line, `${f} has no Grounds line`)
+    const items = line.replace('**Grounds:**', '').replace(/\.$/, '').split(',').map((x) => x.trim())
+    assert.ok(items.length >= 1 && items.every((x) => OK.has(x)), `${f}: ${line}`)
+  }
 })
 
 console.log(`skill content: ${n} checks passed${failed ? ', some FAILED' : ''}`)

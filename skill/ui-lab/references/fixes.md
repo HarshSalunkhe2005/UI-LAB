@@ -25,6 +25,15 @@ No `:focus` or `:focus-visible` rule. Add a visible ring (2 px or more, offset) 
 ### collisions
 Two text boxes overlap by more than a third. Open the slice at that spot. Usual causes: a badge or stamp placed over a label, a sticky header over a heading, text under an illustration, a wrapped headline running into the next block. Give the element its own row or reserved space; check at 1440 and 375.
 
+### wrap
+A block of five or more words wraps to about one word per line (usually at 375 px, sometimes in a narrow desktop column). The log names the text and the slice. A column or grid track is too narrow for its content: a table squeezed into three columns, a side-by-side layout that did not stack, a fixed width. Stack the columns at small widths (`grid-template-columns: 1fr`), give the column a real minimum (`minmax(12rem, 1fr)`), or drop a column. A comparison such as before and after becomes two stacked blocks, not two thin columns.
+
+### tables
+At 375 px a table is wider than the screen outside a scroll wrapper, or a cell holding words is under 60 px wide. Do not squash the table. Stack each row into a small card (label above value), or keep only the columns a reader needs and expand the rest on tap, or put the table in an `overflow-x: auto` wrapper with the first column frozen.
+
+### highlight
+A highlighted or marked phrase in a heading (a background behind inline text) breaks across lines at 1440, so the highlight splits mid-phrase. Highlight a shorter phrase that fits on one line, put the phrase on its own line (`display: block` or a line break before it), or make the headline narrower or smaller so the phrase does not wrap. A highlight that wraps looks like a layout accident.
+
 ### audit-critical
 The static audit found a critical issue (for example missing alt text, an unlabelled form control, or a declared text colour pair that fails contrast). The log lists each with its line. Fix it in the source.
 

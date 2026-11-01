@@ -3,6 +3,7 @@
 **Family:** Machine and Signal. **Metaphor:** a station hall at dusk; the board is the voice of the building.
 **Use when:** rail, ferry, airline, event schedules; anything with times, places and states.
 **Never when:** there is no real timetable data, or the board would only be decoration.
+**Grounds:** dark, tinted mid-tone.
 **Fonts:** Barlow Condensed (headings) + IBM Plex Mono (board and numbers). Google Fonts.
 
 ```css

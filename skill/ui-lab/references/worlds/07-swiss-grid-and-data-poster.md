@@ -3,6 +3,7 @@
 **Family:** Instrument and Spec. **Metaphor:** a conference poster that happens to be interactive.
 **Use when:** reports, data stories, institutions, products whose pitch is clarity and trust.
 **Never when:** the brand needs warmth or ornament, or there is no real data to make the argument.
+**Grounds:** light neutral, saturated colour field, dark.
 **Fonts:** Inter Tight (display and text) with tabular figures, Schibsted Grotesk as an alternative. Google Fonts.
 
 ```css

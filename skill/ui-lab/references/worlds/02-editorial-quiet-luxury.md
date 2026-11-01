@@ -3,6 +3,7 @@
 **Family:** Paper and Print. **Metaphor:** a printed magazine spread that breathes.
 **Use when:** fashion, hospitality, architecture, ceramics, high-end services, where photography and restraint carry the value.
 **Never when:** the audience wants speed or comparison, you have no real photography, or the brand is playful.
+**Grounds:** light neutral, tinted mid-tone, dark.
 **Fonts:** Instrument Serif (display) + Geist (text). Google Fonts.
 
 ```css

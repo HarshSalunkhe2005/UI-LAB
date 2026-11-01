@@ -6,7 +6,7 @@
 
 ## How to choose
 
-1. **Roll** (Gate 2): draw a random number (`echo $RANDOM`, or `date +%N`), take it modulo 6, and start at that family. The families below are numbered 0 to 5 in the order listed (0 Paper and Print, 1 Loud and Graphic, 2 Machine and Signal, 3 Instrument and Spec, 4 Soft and Living, 5 Cinematic and Spatial).
+1. **Roll** (Gate 2; after the world is picked, roll the ground treatment too, from the world's **Grounds** line): draw a random number (`echo $RANDOM`, or `date +%N`), take it modulo 6, and start at that family. The families below are numbered 0 to 5 in the order listed (0 Paper and Print, 1 Loud and Graphic, 2 Machine and Signal, 3 Instrument and Spec, 4 Soft and Living, 5 Cinematic and Spatial).
 2. From the rolled family, going forward and wrapping, find the first family with a world whose "Fits" matches the product, audience and the job of the page. The best-fitting world there is candidate A. Continue to the next fitting family for candidate B. Two worlds from the same family are one candidate, not two.
 3. Run the swap test on each. Drop a world that would only be a skin on the content, and take the next fitting family.
 4. Adapt: take the logic and token structure; move hues, fonts and shapes toward this brand. Never use a world's hex values unchanged and call it done.

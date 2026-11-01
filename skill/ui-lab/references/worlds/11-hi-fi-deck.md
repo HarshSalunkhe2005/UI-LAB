@@ -3,6 +3,7 @@
 **Family:** Soft and Living. **Metaphor:** the front panel of a well-made machine: knurled, labelled, slightly warm.
 **Use when:** audio and instrument brands, hardware, anything whose pitch is how it sounds or feels.
 **Never when:** the product has no tangible control to demonstrate.
+**Grounds:** dark, tinted mid-tone.
 **Fonts:** Oswald (legends) + IBM Plex Mono (readouts). Google Fonts.
 
 ```css

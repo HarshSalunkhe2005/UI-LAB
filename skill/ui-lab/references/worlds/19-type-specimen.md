@@ -3,6 +3,7 @@
 **Family:** Loud and Graphic. **Metaphor:** a foundry's own showing: giant glyph, character set, size ladder, axes.
 **Use when:** type foundries, design tools, anything that sells a typeface or a system.
 **Never when:** you are not actually showing a typeface.
+**Grounds:** light neutral, saturated colour field, dark.
 **Fonts:** the typeface being shown, plus Inter Tight for neutral labels. Google Fonts.
 
 ```css

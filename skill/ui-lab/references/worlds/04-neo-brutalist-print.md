@@ -3,6 +3,7 @@
 **Family:** Loud and Graphic. **Metaphor:** a risograph poster stapled to a wall.
 **Use when:** indie products, zines, creative tools, anything whose personality is the pitch.
 **Never when:** the buyer is cautious (finance, health, enterprise procurement) or the content is dense reading.
+**Grounds:** light neutral, saturated colour field, tinted mid-tone.
 **Fonts:** Archivo Black (display) + Space Mono (small print), body in Space Grotesk. Google Fonts.
 
 ```css

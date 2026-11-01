@@ -3,6 +3,7 @@
 **Family:** Machine and Signal. **Metaphor:** a phosphor monitor in a dark room.
 **Use when:** developer tools with character, retro games, security themes, fiction.
 **Never when:** long reading is the main task or the audience needs a conventional interface.
+**Grounds:** dark.
 **Fonts:** VT323 (one family only), IBM Plex Mono as the readable fallback. Google Fonts.
 
 ```css

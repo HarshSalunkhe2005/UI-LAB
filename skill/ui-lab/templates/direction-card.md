@@ -10,6 +10,8 @@
 | Accent strategy | | | | |
 | Motion | | | | |
 
+**Rolls:** family number (0 to 5): ___   ground number (0 to 3): ___   ground treatment used: ___
+
 **Two candidate directions** (different ground, type voice and accent logic) and why one was chosen:
 - Candidate 1:
 - Candidate 2:

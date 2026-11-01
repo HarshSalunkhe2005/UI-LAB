@@ -3,6 +3,7 @@
 **Family:** Paper and Print. **Metaphor:** a newspaper that respects your attention: rules, columns, a clear order of importance.
 **Use when:** newsletters, journals, finance and policy writing, long-form, reference products. A Read world.
 **Never when:** the page is a tool, a shop or a marketing hero.
+**Grounds:** light neutral, tinted mid-tone.
 **Fonts:** Newsreader (text and display) + Libre Franklin (data and labels). Google Fonts.
 
 ```css

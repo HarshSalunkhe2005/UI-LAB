@@ -3,6 +3,7 @@
 **Family:** Instrument and Spec. **Metaphor:** the label on a pharmacy bottle, optimised for clarity under risk.
 **Use when:** medicine, health, safety, compliance: any place a misread costs something.
 **Never when:** the brief wants delight or atmosphere more than accuracy.
+**Grounds:** light neutral, saturated colour field.
 **Fonts:** Atkinson Hyperlegible (text and display). Google Fonts.
 
 ```css

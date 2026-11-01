@@ -3,6 +3,7 @@
 **Family:** Instrument and Spec. **Metaphor:** a drawing sheet pinned to the wall: title block, grid, dimension lines.
 **Use when:** engineering, architecture, construction, surveying, workshops; products whose output is a drawing or a calculation.
 **Never when:** blue is the only reason, or the calculator cannot state its limits.
+**Grounds:** saturated colour field, dark.
 **Fonts:** Barlow Condensed (titles) + IBM Plex Mono (notes and numbers). Google Fonts.
 
 ```css

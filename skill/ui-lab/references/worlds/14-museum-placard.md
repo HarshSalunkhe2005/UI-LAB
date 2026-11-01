@@ -3,6 +3,7 @@
 **Family:** Paper and Print. **Metaphor:** the label beside the object. The object is the page; the label is quiet.
 **Use when:** galleries, exhibitions, heritage sites, cultural institutions, anywhere a thing needs a caption.
 **Never when:** the page needs to sell or entertain louder than the object.
+**Grounds:** light neutral, tinted mid-tone, dark.
 **Fonts:** Source Serif 4 (text and title) + Public Sans (credit line). Google Fonts.
 
 ```css

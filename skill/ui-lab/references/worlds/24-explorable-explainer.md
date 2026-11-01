@@ -3,6 +3,7 @@
 **Family:** Cinematic and Spatial. **Metaphor:** a good textbook whose figures you can pick up.
 **Use when:** teaching, documentation, onboarding, science and data communication; pages whose job is making someone understand how something works. A Read world.
 **Never when:** nothing in the content can be manipulated.
+**Grounds:** light neutral, tinted mid-tone, dark.
 **Fonts:** Newsreader (explanation) + Hanken Grotesk (headings, controls) + JetBrains Mono (live numbers). Google Fonts.
 
 ```css

@@ -37,7 +37,7 @@ if (!existsSync(pagePath)) { console.error(`No index.html in ${abs}`); process.e
 const root = isDir ? abs : dirname(abs)
 const outDir = resolve(opt('--out', join(root, 'design', 'verify')))
 const logPath = join(dirname(outDir), 'verify.md')
-const MAX = Math.max(1, Number(opt('--slices', 12)))
+const MAX = Math.max(0, Number(opt('--slices', 12)))
 mkdirSync(outDir, { recursive: true })
 
 // ---- 1. audit ----------------------------------------------------------------------------------------------------
@@ -79,6 +79,8 @@ function frame(w) {
 }
 async function reveal(f) {
   const win = f.contentWindow
+  // a page with smooth scrolling would still be moving when the slice is taken
+  win.document.documentElement.style.scrollBehavior = 'auto'
   const total = win.document.documentElement.scrollHeight
   for (let y = 0; y < total; y += 400) { win.scrollTo(0, y); await wait(100) }
   win.scrollTo(0, 0)
@@ -158,10 +160,48 @@ if (browser) {
   }
 }
 
+
+// ---- 3b. contact sheets: every slice tiled small, one image per width, so looking at all of them costs two image reads
+const sheets = []
+const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;')
+if (browser && slices.length) {
+  for (const w of [1440, 375]) {
+    const mine = slices.filter((s) => s.w === w)
+    if (!mine.length) continue
+    const H = w === 1440 ? 900 : 812
+    const cols = w === 1440 ? 3 : 8
+    const cw = w === 1440 ? 480 : 190
+    const ch = w === 1440 ? 300 : 406
+    const imgW = w === 1440 ? 480 : 250
+    const cells = mine.map((s) => {
+      const hs = (probe[w].heads || []).filter((h) => h.y >= (s.i - 1) * H && h.y < s.i * H).slice(0, 2).map((h) => h.text.slice(0, 26)).join(' / ')
+      return `<figure><div class="f" style="width:${cw}px;height:${ch}px"><img src="${s.file}" style="width:${imgW}px"></div><figcaption>${s.i} of ${s.of} ${esc(hs)}</figcaption></figure>`
+    })
+    const css = 'html,body{margin:0;background:#2b2f36;color:#e8eaed;font:12px system-ui,sans-serif}.g{display:grid;gap:10px;padding:10px;grid-template-columns:repeat(' + cols + ',' + cw + 'px)}figure{margin:0}.f{overflow:hidden;background:#fff}figcaption{padding:3px 0;height:26px;overflow:hidden}'
+    const sheetPage = join(outDir, `sheet-${w}.html`)
+    writeFileSync(sheetPage, `<!doctype html><meta charset="utf-8"><title>sheet</title><style>${css}</style><div class="g">${cells.join('')}</div>`)
+    const rows = Math.ceil(mine.length / cols)
+    const file = join(outDir, `sheet-${w}.png`)
+    run(['--hide-scrollbars', '--virtual-time-budget=10000', `--window-size=${cols * (cw + 10) + 10},${rows * (ch + 36) + 20}`, `--screenshot=${file}`], pathToFileURL(sheetPage).href)
+    if (existsSync(file)) sheets.push(file)
+  }
+}
+
 // ---- 4. gates ----------------------------------------------------------------------------------------------------
 const d = probe?.[1440]
 const m3 = probe?.[375]
-const ANCHOR = {"console clean (both widths)":"console","no horizontal overflow at 375":"overflow","targets >= 44px at 375":"targets","one h1 and a main landmark":"h1-main","reduced-motion rule present":"reduced-motion","focus style present":"focus","no text collisions (1440 and 375)":"collisions"}
+const ANCHOR = {
+  "console clean (both widths)": "console",
+  "no horizontal overflow at 375": "overflow",
+  "targets >= 44px at 375": "targets",
+  "one h1 and a main landmark": "h1-main",
+  "reduced-motion rule present": "reduced-motion",
+  "focus style present": "focus",
+  "no text collisions (1440 and 375)": "collisions",
+  "no one-word-per-line wrapping": "wrap",
+  "tables fit at 375, cells at least 60px": "tables",
+  "no headline highlight split across lines at 1440": "highlight"
+}
 const gates = probe && d && m3 && !d.error && !m3.error ? [
   ['console clean (both widths)', errsOk(consoleErrors[1440]), consoleErrors[1440].slice(0, 3).join(' | ')],
   ['no horizontal overflow at 375', !m3.hOverflow, m3.hOverflow ? `document is ${m3.docWidth}px wide` : ''],
@@ -171,8 +211,13 @@ const gates = probe && d && m3 && !d.error && !m3.error ? [
   ['focus style present', d.focusStyle, ''],
   ['no text collisions (1440 and 375)', d.collisions === 0 && m3.collisions === 0,
     [...d.collisionSamples.map((s) => '1440: ' + s), ...m3.collisionSamples.map((s) => '375: ' + s)].join('; ')],
+  ['no one-word-per-line wrapping', d.wrap.length === 0 && m3.wrap.length === 0, [...d.wrap.map((w) => '1440: ' + where(w, 1440)), ...m3.wrap.map((w) => '375: ' + where(w, 375))].slice(0, 3).join('; ')],
+  ['tables fit at 375, cells at least 60px', m3.narrowCells.length === 0 && m3.tableOverflow.length === 0, [...m3.tableOverflow.map((w) => 'table wider than the screen: ' + where(w, 375)), ...m3.narrowCells.map((w) => `cell ${w.width}px: ` + where(w, 375))].slice(0, 3).join('; ')],
+  ['no headline highlight split across lines at 1440', d.highlightBreaks.length === 0, d.highlightBreaks.map((w) => where(w, 1440)).join('; ')],
 ] : null
 function errsOk(list) { return list.length === 0 }
+// where a finding sits: the text, and which slice of that width holds it
+function where(item, w) { return `"${item.text}" (slice ${Math.floor(item.y / (w === 1440 ? 900 : 812)) + 1})` }
 
 const crit = audit ? audit.summary.critical : null
 const pass = (gates ? gates.every((g) => g[1]) : false) && crit === 0
@@ -188,6 +233,7 @@ L.push(`**Method:** ${noBrowser ? 'STATIC AUDIT ONLY. NO BROWSER WAS FOUND, SO N
 if (noBrowser) L.push('> **WARNING: no Chrome or Edge was found. Layout, overflow, targets, console and collisions were NOT checked. Install one or set CHROME_PATH and run again. Do not call this page verified.**', '')
 if (measureFailed) L.push('> **WARNING: the browser ran but the measurement did not come back. Run again; if it repeats, open the page by hand.**', '')
 L.push('## Result', '', `**${pass ? 'PASS' : 'FAIL'}**`, '')
+if (sheets.length) L.push(`**Open these ${sheets.length} images before you write the handoff, and name one concrete thing you saw in each:** ${sheets.map((s) => '`' + basename(outDir) + '/' + basename(s) + '`').join(', ')}`, '')
 L.push(`- Static audit: ${sum}`)
 if (audit) for (const f of audit.findings.filter((x) => x.severity !== 'suggestion')) L.push(`  - ${f.severity.toUpperCase()} [${f.rule}] line ${f.line}: ${f.message}${f.heuristic ? ' (heuristic)' : ''}`)
 if (gates) {
@@ -201,7 +247,13 @@ if (gates) {
   if (d.h1Lines > 4) L.push('', `Note: the headline is about ${d.h1Lines} lines at 1440 (the limit is 4).`)
 }
 for (const n of [...new Set(notes)].slice(0, 5)) L.push('', `Note: ${n}`)
-L.push('', '## Slices to look at (open every one; this is the part the script cannot judge)', '')
+const review = []
+if (gates) for (const [w, pr] of [[1440, d], [375, m3]]) {
+  for (const b of pr.bands) review.push(`${w}: a band is ${b.height}px tall but its content is ${b.content}px: ${where(b, w)}. Half empty?`)
+  for (const o of pr.overlap) review.push(`${w}: text lies over a ${o.over}: ${where(o, w)}. Covering the picture?`)
+}
+if (review.length) L.push('', '## Review items (heuristic, not gates: look at these slices)', '', ...review.slice(0, 8).map((r) => '- ' + r))
+L.push('', '## Slices (the contact sheets show all of them; open single slices to check anything that looks wrong)', '')
 if (slices.length) for (const s of slices) L.push(`- ${s.w === 1440 ? '1440' : '375'} slice ${s.i} of ${s.of}: \`${basename(outDir)}/${s.file}\`   what is in it / any defect:`)
 else L.push('- no slices were saved')
 L.push('', '## Manual checks (fill these in; the script cannot do them)', '', '| Check | Result | Evidence |', '|---|---|---|',
@@ -222,5 +274,7 @@ if (measureFailed) console.log('  The browser ran but the measurement did not co
 if (gates) for (const g of gates) console.log(`  ${g[1] ? 'PASS' : 'FAIL'}  ${g[0]}${!g[1] && g[2] ? '  -> ' + g[2] : ''}${g[1] ? '' : '   [references/fixes.md#' + ANCHOR[g[0]] + ']'}`)
 console.log(`  slices saved: ${slices.length} in ${outDir}`)
 console.log(`  log: ${logPath}`)
-console.log(pass ? 'RESULT: PASS. Now open every slice listed in the log.' : 'RESULT: FAIL. Fix the failures above and run again.')
+if (sheets.length) for (const s of sheets) console.log(`  sheet: ${s}`)
+console.log(pass ? 'RESULT: PASS.' : 'RESULT: FAIL. Fix the failures above and run again.')
+if (sheets.length) console.log(`Open these ${sheets.length} images before writing the handoff, and name one concrete thing you saw in each.`)
 process.exit(noBrowser ? 2 : pass ? 0 : 1)

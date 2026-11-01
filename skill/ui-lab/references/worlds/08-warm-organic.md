@@ -3,6 +3,7 @@
 **Family:** Soft and Living. **Metaphor:** a hand-made label on good paper.
 **Use when:** food, wellness, craft, sustainability, local business.
 **Never when:** the product is technical or the tone is urgent or clinical.
+**Grounds:** light neutral, tinted mid-tone.
 **Fonts:** Fraunces (display, soft axis) + DM Sans (text). Google Fonts.
 
 ```css

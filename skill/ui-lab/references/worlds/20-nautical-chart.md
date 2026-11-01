@@ -3,6 +3,7 @@
 **Family:** Instrument and Spec. **Metaphor:** an Admiralty chart: contours, soundings, a compass rose.
 **Use when:** maps, data with depth or elevation, travel, science; anything with a continuous surface.
 **Never when:** you only have a stock map tile and a colour filter.
+**Grounds:** light neutral, tinted mid-tone, dark.
 **Fonts:** Crimson Pro italic (soundings and places) + Public Sans (legend). Google Fonts.
 
 ```css

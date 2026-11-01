@@ -3,6 +3,7 @@
 **Family:** Loud and Graphic. **Metaphor:** a printed packet with a window, a hand-lettered name and instructions on the back.
 **Use when:** gardening, grocery, food, seasonal and planting products, anything with a calendar of when.
 **Never when:** the content has no seasonality or instructions.
+**Grounds:** tinted mid-tone, saturated colour field, light neutral.
 **Fonts:** Rubik (variable, name) + Lora (instructions). Google Fonts.
 
 ```css
