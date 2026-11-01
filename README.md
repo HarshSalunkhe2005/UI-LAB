@@ -55,6 +55,7 @@ The full results, with the judges' own words, are in [`evals/results/`](evals/re
 | **Sites** (`src/patterns/sites/`) | 22 whole websites, one design world each, from a night-train departures board and a botanical field notebook to a tide planner, a museum exhibition, a playable CRT arcade and a kitchen recipe page. Open any pattern page and press *Launch full screen*. |
 | **References** (`src/references.ts`) | 68 teardowns of studied sites. Page `#/references`, also `/references.md` and `/references.json`. |
 | **Styles** (page `#/styles`) | Every design world on one page, filterable by what the visitor is doing. |
+| **Evidence** (page `#/evidence`) | Eight briefs, plain Sonnet next to Sonnet with the skill, with the blind verdict and the judges' reasoning on each row, losses included. Data in `src/evidence.ts`, pictures in `public/evidence/`. |
 | **Playbook** (`playbook/`) | The written judgement: how to brief, choose a design world, study a reference, build, check accessibility and verify. |
 | **Skill** (`skill/ui-lab`, `skills/ui-lab`, `tools/build-skill.mjs`) | The agent skill: hand-written source, the built copy the plugin ships, and the build and validation tools. |
 | **Evals** (`evals/`) | The blind-judging harness, the runs and the results above. |

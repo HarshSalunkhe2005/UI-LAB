@@ -8,6 +8,7 @@ import { CodeBlock, CopyButton } from './CodeBlock'
 import ResourcesPage from './ResourcesPage'
 import ReferencesPage from './ReferencesPage'
 import StylesPage from './StylesPage'
+import EvidencePage from './EvidencePage'
 import PlaybookPage from './PlaybookPage'
 import { CATEGORY_INFO, START_PATHS, HOW_IT_WORKS } from './categories'
 import { SiteLauncher, SiteStage, SiteSources } from './SiteViews'
@@ -100,7 +101,7 @@ function TopBar({ theme, onTheme, onSearch }: { theme: Theme; onTheme: () => voi
         <details className="relative md:hidden">
           <summary className="cursor-pointer list-none rounded-md border border-border px-2.5 py-1 text-sm text-fg-muted marker:content-none">Menu</summary>
           <div className="absolute right-0 mt-2 flex w-44 flex-col rounded-lg border border-border bg-surface p-1 shadow-lg">
-            {[['#/styles', 'Styles'], ['#/playbook', 'Playbook'], ['#/references', 'References'], ['#/resources', 'Resources'], ['/for-claude.md', 'For Claude']].map(([h, l]) => (
+            {[['#/styles', 'Styles'], ['#/playbook', 'Playbook'], ['#/references', 'References'], ['#/evidence', 'Evidence'], ['#/resources', 'Resources'], ['/for-claude.md', 'For Claude']].map(([h, l]) => (
               <a key={h} href={h} className="rounded-md px-3 py-2 text-sm hover:bg-surface-2">{l}</a>
             ))}
           </div>
@@ -113,6 +114,9 @@ function TopBar({ theme, onTheme, onSearch }: { theme: Theme; onTheme: () => voi
         </a>
         <a href="#/references" className="hidden text-sm text-fg-muted hover:text-fg md:inline">
           References
+        </a>
+        <a href="#/evidence" className="hidden text-sm text-fg-muted hover:text-fg md:inline">
+          Evidence
         </a>
         <a href="#/resources" className="hidden text-sm text-fg-muted hover:text-fg md:inline">
           Resources
@@ -419,6 +423,7 @@ function Home() {
             <a href="#/playbook" className="hover:text-fg">Playbook</a>
             <a href="#/styles" className="hover:text-fg">Styles</a>
             <a href="#/references" className="hover:text-fg">References</a>
+            <a href="#/evidence" className="hover:text-fg">Evidence</a>
             <a href="#/resources" className="hover:text-fg">Resources</a>
             <a href="/for-claude.md" className="hover:text-fg">For Claude</a>
             <a href={REPO} target="_blank" rel="noreferrer" className="hover:text-fg">GitHub</a>
@@ -630,6 +635,7 @@ export default function App() {
       { id: '', label: 'Home', group: 'Go to' },
       { id: 'playbook', label: 'Design playbook', group: 'Go to', hint: 'process worlds inspiration verify how to design start here' },
       { id: 'styles', label: 'Browse by style (design worlds)', group: 'Go to', hint: 'worlds styles look direction brand' },
+      { id: 'evidence', label: 'Evidence: plain agent vs the skill, side by side', group: 'Go to', hint: 'evidence eval before after skill blind judges results' },
       { id: 'references', label: 'Reference sites (teardowns)', group: 'Go to', hint: 'references teardown world class vibe coded v0 awwwards studies' },
       { id: 'playbook/prompts', label: 'Prompts to give your AI assistant', group: 'Go to', hint: 'claude chatgpt prompt copy paste ask how to ask' },
       { id: 'playbook/accessibility', label: 'Accessibility checklist', group: 'Go to', hint: 'a11y wcag keyboard contrast screen reader reduced motion' },
@@ -651,7 +657,7 @@ export default function App() {
     <>
       <a href="#main" onClick={(e) => { e.preventDefault(); document.getElementById('main')?.focus() }} className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[200] focus:rounded-md focus:bg-fg focus:px-3 focus:py-2 focus:text-bg">Skip to content</a>
       <TopBar theme={theme} onTheme={cycleTheme} onSearch={() => setSearchOpen(true)} />
-      <main id="main" tabIndex={-1} className="outline-none">{slug === 'playbook' || slug.startsWith('playbook/') ? <PlaybookPage doc={slug.split('/')[1]} /> : slug === 'resources' ? <ResourcesPage /> : slug === 'references' ? <ReferencesPage /> : slug === 'styles' ? <StylesPage /> : pattern ? <PatternPage pattern={pattern} /> : <Home />}</main>
+      <main id="main" tabIndex={-1} className="outline-none">{slug === 'playbook' || slug.startsWith('playbook/') ? <PlaybookPage doc={slug.split('/')[1]} /> : slug === 'resources' ? <ResourcesPage /> : slug === 'evidence' ? <EvidencePage /> : slug === 'references' ? <ReferencesPage /> : slug === 'styles' ? <StylesPage /> : pattern ? <PatternPage pattern={pattern} /> : <Home />}</main>
       <CommandPalette commands={commands} open={searchOpen} onOpenChange={setSearchOpen} onRun={go} />
     </>
   )
