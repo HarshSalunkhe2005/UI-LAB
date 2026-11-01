@@ -180,6 +180,8 @@ Scoreboard (blind, Opus + Sonnet judges):
 - (c) Ground roll after the world pick: {light neutral, dark, saturated, tinted mid}, limited per world.
 - **Re-eval:** 01 ×3, 07 ×3, 06 ×1, with 2 judges each, plus diversity on 01. Bar: 01 and 07 each at least 2/3 non-losses, with all gates passing.
 
+**5c progress (builder, resumed 1 Nov 23:20 IST):** started. Order: (a) gates, (b) sheets, (c) ground roll, then re-eval. If this paragraph is the latest state, the builder was cut off: check `git log` and `evals/runs/p5c/` and resume from the first step not yet committed.
+
 After 5c, move on regardless of the score:
 - **Phase 6, polish:**
   - Point the plugin at the built skill, since the old `skills/ui-lab/SKILL.md` still has local paths.
