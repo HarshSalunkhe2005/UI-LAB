@@ -1,0 +1,261 @@
+{
+  "audit": {
+    "critical": 0,
+    "warning": 0,
+    "suggestion": 0
+  },
+  "gates": [
+    {
+      "gate": "console clean (both widths)",
+      "pass": true
+    },
+    {
+      "gate": "no horizontal overflow at 375",
+      "pass": true
+    },
+    {
+      "gate": "targets >= 44px at 375",
+      "pass": true
+    },
+    {
+      "gate": "one h1 and a main landmark",
+      "pass": true
+    },
+    {
+      "gate": "reduced-motion rule present",
+      "pass": true
+    },
+    {
+      "gate": "focus style present",
+      "pass": true
+    },
+    {
+      "gate": "no text collisions (1440 and 375)",
+      "pass": true
+    },
+    {
+      "gate": "no one-word-per-line wrapping",
+      "pass": true
+    },
+    {
+      "gate": "tables fit at 375, cells at least 60px",
+      "pass": true
+    },
+    {
+      "gate": "no headline highlight split across lines at 1440",
+      "pass": true
+    }
+  ],
+  "probe": {
+    "375": {
+      "viewport": 375,
+      "docWidth": 360,
+      "docHeight": 9541,
+      "hOverflow": false,
+      "interactive": 15,
+      "smallTargets": 0,
+      "smallSamples": [],
+      "collisions": 0,
+      "collisionSamples": [],
+      "imgsMissingAlt": 0,
+      "inputsUnlabelled": 0,
+      "hasMain": true,
+      "h1Count": 1,
+      "h1Lines": 4,
+      "hasReducedMotion": true,
+      "focusStyle": true,
+      "wrap": [],
+      "narrowCells": [],
+      "tableOverflow": [],
+      "highlightBreaks": [
+        {
+          "text": "build next",
+          "y": 169,
+          "lines": 2
+        }
+      ],
+      "bands": [],
+      "overlap": [],
+      "heads": [
+        {
+          "text": "Your tickets already say what to build n",
+          "y": 98
+        },
+        {
+          "text": "From a pile of tickets to one page",
+          "y": 1477
+        },
+        {
+          "text": "It reads everything",
+          "y": 1718
+        },
+        {
+          "text": "It groups by need",
+          "y": 2213
+        },
+        {
+          "text": "You get the page",
+          "y": 2629
+        },
+        {
+          "text": "What changes in how you plan",
+          "y": 3111
+        },
+        {
+          "text": "Counts you can open",
+          "y": 3371
+        },
+        {
+          "text": "Revenue next to the request",
+          "y": 3675
+        },
+        {
+          "text": "Week-on-week movement",
+          "y": 4029
+        },
+        {
+          "text": "Written for your team's roadmap",
+          "y": 4333
+        },
+        {
+          "text": "Priced by readers, not by tickets",
+          "y": 6010
+        },
+        {
+          "text": "Squad",
+          "y": 6356
+        },
+        {
+          "text": "Product org",
+          "y": 6791
+        },
+        {
+          "text": "Enterprise",
+          "y": 7281
+        },
+        {
+          "text": "Questions PMs ask before they connect an",
+          "y": 7804
+        },
+        {
+          "text": "See what your tickets say this week",
+          "y": 8597
+        },
+        {
+          "text": "Product",
+          "y": 9000
+        },
+        {
+          "text": "Help",
+          "y": 9186
+        },
+        {
+          "text": "Company",
+          "y": 9324
+        }
+      ]
+    },
+    "1440": {
+      "viewport": 1440,
+      "docWidth": 1425,
+      "docHeight": 5521,
+      "hOverflow": false,
+      "interactive": 20,
+      "smallTargets": 0,
+      "smallSamples": [],
+      "collisions": 0,
+      "collisionSamples": [],
+      "imgsMissingAlt": 0,
+      "inputsUnlabelled": 0,
+      "hasMain": true,
+      "h1Count": 1,
+      "h1Lines": 5,
+      "hasReducedMotion": true,
+      "focusStyle": true,
+      "wrap": [],
+      "narrowCells": [],
+      "tableOverflow": [],
+      "highlightBreaks": [],
+      "bands": [],
+      "overlap": [],
+      "heads": [
+        {
+          "text": "Your tickets already say what to build n",
+          "y": 118
+        },
+        {
+          "text": "From a pile of tickets to one page",
+          "y": 1031
+        },
+        {
+          "text": "It reads everything",
+          "y": 1227
+        },
+        {
+          "text": "It groups by need",
+          "y": 1227
+        },
+        {
+          "text": "You get the page",
+          "y": 1227
+        },
+        {
+          "text": "What changes in how you plan",
+          "y": 1818
+        },
+        {
+          "text": "Counts you can open",
+          "y": 2015
+        },
+        {
+          "text": "Revenue next to the request",
+          "y": 2147
+        },
+        {
+          "text": "Week-on-week movement",
+          "y": 2302
+        },
+        {
+          "text": "Written for your team's roadmap",
+          "y": 2434
+        },
+        {
+          "text": "Priced by readers, not by tickets",
+          "y": 3495
+        },
+        {
+          "text": "Squad",
+          "y": 3812
+        },
+        {
+          "text": "Product org",
+          "y": 3812
+        },
+        {
+          "text": "Enterprise",
+          "y": 3812
+        },
+        {
+          "text": "Questions PMs ask before they connect an",
+          "y": 4434
+        },
+        {
+          "text": "See what your tickets say this week",
+          "y": 5023
+        },
+        {
+          "text": "Product",
+          "y": 5304
+        },
+        {
+          "text": "Help",
+          "y": 5304
+        },
+        {
+          "text": "Company",
+          "y": 5304
+        }
+      ]
+    }
+  }
+}

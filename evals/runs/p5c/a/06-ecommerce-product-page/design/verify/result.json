@@ -1,0 +1,253 @@
+{
+  "audit": {
+    "critical": 0,
+    "warning": 0,
+    "suggestion": 0
+  },
+  "gates": [
+    {
+      "gate": "console clean (both widths)",
+      "pass": true
+    },
+    {
+      "gate": "no horizontal overflow at 375",
+      "pass": true
+    },
+    {
+      "gate": "targets >= 44px at 375",
+      "pass": true
+    },
+    {
+      "gate": "one h1 and a main landmark",
+      "pass": true
+    },
+    {
+      "gate": "reduced-motion rule present",
+      "pass": true
+    },
+    {
+      "gate": "focus style present",
+      "pass": true
+    },
+    {
+      "gate": "no text collisions (1440 and 375)",
+      "pass": true
+    },
+    {
+      "gate": "no one-word-per-line wrapping",
+      "pass": true
+    },
+    {
+      "gate": "tables fit at 375, cells at least 60px",
+      "pass": true
+    },
+    {
+      "gate": "no headline highlight split across lines at 1440",
+      "pass": true
+    }
+  ],
+  "probe": {
+    "375": {
+      "viewport": 375,
+      "docWidth": 360,
+      "docHeight": 7446,
+      "hOverflow": false,
+      "interactive": 20,
+      "smallTargets": 0,
+      "smallSamples": [],
+      "collisions": 0,
+      "collisionSamples": [],
+      "imgsMissingAlt": 0,
+      "inputsUnlabelled": 0,
+      "hasMain": true,
+      "h1Count": 1,
+      "h1Lines": 1,
+      "hasReducedMotion": true,
+      "focusStyle": true,
+      "wrap": [],
+      "narrowCells": [],
+      "tableOverflow": [],
+      "highlightBreaks": [],
+      "bands": [],
+      "overlap": [
+        {
+          "text": "Ships in 2 days",
+          "y": 193,
+          "over": "svg"
+        }
+      ],
+      "heads": [
+        {
+          "text": "Atlas 38",
+          "y": 697
+        },
+        {
+          "text": "38 litres, split where you need it",
+          "y": 1858
+        },
+        {
+          "text": "Main 24 L",
+          "y": 2159
+        },
+        {
+          "text": "Front quick pocket 6 L",
+          "y": 2292
+        },
+        {
+          "text": "Shoe tunnel 5 L",
+          "y": 2425
+        },
+        {
+          "text": "Side pockets 2 × 1.5 L",
+          "y": 2536
+        },
+        {
+          "text": "Built to be carried, and kept",
+          "y": 2934
+        },
+        {
+          "text": "Carried through 312 airports",
+          "y": 3972
+        },
+        {
+          "text": "Fits under the seat on a budget airline",
+          "y": 4508
+        },
+        {
+          "text": "Comfortable for long walks, slightly sti",
+          "y": 4787
+        },
+        {
+          "text": "Zip snagged, support fixed it in a week",
+          "y": 5067
+        },
+        {
+          "text": "Arrives fast, goes back free",
+          "y": 5469
+        },
+        {
+          "text": "Delivery",
+          "y": 5573
+        },
+        {
+          "text": "Returns and care",
+          "y": 5961
+        },
+        {
+          "text": "Finish the kit",
+          "y": 6471
+        },
+        {
+          "text": "Atlas 20 daypack",
+          "y": 6558
+        },
+        {
+          "text": "Packing cubes, set of 3",
+          "y": 6771
+        },
+        {
+          "text": "Atlas duffel 55",
+          "y": 6984
+        }
+      ]
+    },
+    "1440": {
+      "viewport": 1440,
+      "docWidth": 1425,
+      "docHeight": 5041,
+      "hOverflow": false,
+      "interactive": 19,
+      "smallTargets": 0,
+      "smallSamples": [],
+      "collisions": 0,
+      "collisionSamples": [],
+      "imgsMissingAlt": 0,
+      "inputsUnlabelled": 0,
+      "hasMain": true,
+      "h1Count": 1,
+      "h1Lines": 1,
+      "hasReducedMotion": true,
+      "focusStyle": true,
+      "wrap": [],
+      "narrowCells": [],
+      "tableOverflow": [],
+      "highlightBreaks": [],
+      "bands": [],
+      "overlap": [],
+      "heads": [
+        {
+          "text": "Atlas 38",
+          "y": 201
+        },
+        {
+          "text": "38 litres, split where you need it",
+          "y": 1288
+        },
+        {
+          "text": "Main 24 L",
+          "y": 1607
+        },
+        {
+          "text": "Front quick pocket 6 L",
+          "y": 1607
+        },
+        {
+          "text": "Shoe tunnel 5 L",
+          "y": 1607
+        },
+        {
+          "text": "Side pockets 2 × 1.5 L",
+          "y": 1607
+        },
+        {
+          "text": "Built to be carried, and kept",
+          "y": 2032
+        },
+        {
+          "text": "Carried through 312 airports",
+          "y": 2730
+        },
+        {
+          "text": "Fits under the seat on a budget airline",
+          "y": 2869
+        },
+        {
+          "text": "Comfortable for long walks, slightly sti",
+          "y": 3020
+        },
+        {
+          "text": "Zip snagged, support fixed it in a week",
+          "y": 3198
+        },
+        {
+          "text": "Arrives fast, goes back free",
+          "y": 3568
+        },
+        {
+          "text": "Delivery",
+          "y": 3707
+        },
+        {
+          "text": "Returns and care",
+          "y": 3707
+        },
+        {
+          "text": "Finish the kit",
+          "y": 4235
+        },
+        {
+          "text": "Atlas 20 daypack",
+          "y": 4636
+        },
+        {
+          "text": "Packing cubes, set of 3",
+          "y": 4636
+        },
+        {
+          "text": "Atlas duffel 55",
+          "y": 4636
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,255 @@
+{
+  "audit": {
+    "critical": 0,
+    "warning": 1,
+    "suggestion": 0
+  },
+  "gates": [
+    {
+      "gate": "console clean (both widths)",
+      "pass": true
+    },
+    {
+      "gate": "no horizontal overflow at 375",
+      "pass": true
+    },
+    {
+      "gate": "targets >= 44px at 375",
+      "pass": true
+    },
+    {
+      "gate": "one h1 and a main landmark",
+      "pass": true
+    },
+    {
+      "gate": "reduced-motion rule present",
+      "pass": true
+    },
+    {
+      "gate": "focus style present",
+      "pass": true
+    },
+    {
+      "gate": "no text collisions (1440 and 375)",
+      "pass": true
+    },
+    {
+      "gate": "no one-word-per-line wrapping",
+      "pass": true
+    },
+    {
+      "gate": "tables fit at 375, cells at least 60px",
+      "pass": true
+    },
+    {
+      "gate": "no headline highlight split across lines at 1440",
+      "pass": true
+    }
+  ],
+  "probe": {
+    "375": {
+      "viewport": 375,
+      "docWidth": 360,
+      "docHeight": 7867,
+      "hOverflow": false,
+      "interactive": 15,
+      "smallTargets": 0,
+      "smallSamples": [],
+      "collisions": 0,
+      "collisionSamples": [],
+      "imgsMissingAlt": 0,
+      "inputsUnlabelled": 0,
+      "hasMain": true,
+      "h1Count": 1,
+      "h1Lines": 3,
+      "hasReducedMotion": true,
+      "focusStyle": true,
+      "wrap": [],
+      "narrowCells": [],
+      "tableOverflow": [],
+      "highlightBreaks": [],
+      "bands": [],
+      "overlap": [],
+      "heads": [
+        {
+          "text": "Your tickets already say what to build n",
+          "y": 102
+        },
+        {
+          "text": "From a pile of tickets to a page you can",
+          "y": 1421
+        },
+        {
+          "text": "Step 1Connect the help desk you already ",
+          "y": 1544
+        },
+        {
+          "text": "Step 2Relay groups tickets by what they ",
+          "y": 1967
+        },
+        {
+          "text": "Step 3The digest arrives Monday at 8:00,",
+          "y": 2493
+        },
+        {
+          "text": "What goes on the page, and what stays of",
+          "y": 2923
+        },
+        {
+          "text": "Ranked by customers, not by who shouted ",
+          "y": 3057
+        },
+        {
+          "text": "Revenue beside every request",
+          "y": 3352
+        },
+        {
+          "text": "The customer's own words",
+          "y": 3578
+        },
+        {
+          "text": "What changed since last week",
+          "y": 3799
+        },
+        {
+          "text": "Ship it, then watch the tickets stop",
+          "y": 3997
+        },
+        {
+          "text": "Priced by how many people read the diges",
+          "y": 4978
+        },
+        {
+          "text": "Squad",
+          "y": 5136
+        },
+        {
+          "text": "Product org",
+          "y": 5572
+        },
+        {
+          "text": "Company",
+          "y": 6047
+        },
+        {
+          "text": "Questions PMs ask before connecting anyt",
+          "y": 6661
+        },
+        {
+          "text": "Product",
+          "y": 7442
+        },
+        {
+          "text": "Help",
+          "y": 7442
+        },
+        {
+          "text": "Company",
+          "y": 7629
+        }
+      ]
+    },
+    "1440": {
+      "viewport": 1440,
+      "docWidth": 1425,
+      "docHeight": 5741,
+      "hOverflow": false,
+      "interactive": 19,
+      "smallTargets": 0,
+      "smallSamples": [],
+      "collisions": 0,
+      "collisionSamples": [],
+      "imgsMissingAlt": 0,
+      "inputsUnlabelled": 0,
+      "hasMain": true,
+      "h1Count": 1,
+      "h1Lines": 4,
+      "hasReducedMotion": true,
+      "focusStyle": true,
+      "wrap": [],
+      "narrowCells": [],
+      "tableOverflow": [],
+      "highlightBreaks": [],
+      "bands": [],
+      "overlap": [],
+      "heads": [
+        {
+          "text": "Your tickets already say what to build n",
+          "y": 146
+        },
+        {
+          "text": "From a pile of tickets to a page you can",
+          "y": 978
+        },
+        {
+          "text": "Step 1Connect the help desk you already ",
+          "y": 1207
+        },
+        {
+          "text": "Step 2Relay groups tickets by what they ",
+          "y": 1462
+        },
+        {
+          "text": "Step 3The digest arrives Monday at 8:00,",
+          "y": 1777
+        },
+        {
+          "text": "What goes on the page, and what stays of",
+          "y": 2212
+        },
+        {
+          "text": "Ranked by customers, not by who shouted ",
+          "y": 2427
+        },
+        {
+          "text": "Revenue beside every request",
+          "y": 2679
+        },
+        {
+          "text": "The customer's own words",
+          "y": 2811
+        },
+        {
+          "text": "What changed since last week",
+          "y": 2944
+        },
+        {
+          "text": "Ship it, then watch the tickets stop",
+          "y": 3059
+        },
+        {
+          "text": "Priced by how many people read the diges",
+          "y": 4079
+        },
+        {
+          "text": "Squad",
+          "y": 4281
+        },
+        {
+          "text": "Product org",
+          "y": 4281
+        },
+        {
+          "text": "Company",
+          "y": 4281
+        },
+        {
+          "text": "Questions PMs ask before connecting anyt",
+          "y": 4991
+        },
+        {
+          "text": "Product",
+          "y": 5480
+        },
+        {
+          "text": "Help",
+          "y": 5480
+        },
+        {
+          "text": "Company",
+          "y": 5480
+        }
+      ]
+    }
+  }
+}

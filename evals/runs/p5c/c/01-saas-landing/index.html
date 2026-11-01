@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Relay - what your customers are actually asking for</title>
+<meta name="description" content="Relay reads your support tickets and sends product managers a weekly digest of what customers are actually asking for, ranked and linked to the tickets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface:#ffd23f; --paper:#fffdf5; --raised:#ffffff; --ink:#111111; --ink-muted:#3b3410; --paper-muted:#4a463a;
+  --accent:#2536f5; --accent-ink:#ffffff; --border:#111111;
+  --font-display:'Archivo Black','Arial Black',sans-serif; --font-text:'Space Grotesk',system-ui,sans-serif; --font-mono:'Space Mono',ui-monospace,monospace;
+  --step--1:.875rem; --step-0:1.0625rem; --step-1:1.375rem; --step-2:2rem; --step-3:clamp(2rem,5vw,3.5rem); --step-4:clamp(2.75rem,8.4vw,7.5rem);
+  --space-1:4px; --space-2:8px; --space-3:16px; --space-4:24px; --space-5:48px; --space-6:clamp(56px,9vw,112px);
+  --shadow:6px 6px 0 var(--ink); --dur-fast:100ms; --dur:200ms; --ease:cubic-bezier(.3,1.6,.5,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--surface);color:var(--ink);font:400 var(--step-0)/1.55 var(--font-text);-webkit-text-size-adjust:100%;overflow-x:hidden}
+img,svg{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.dark :focus-visible,.blue :focus-visible,footer :focus-visible{outline-color:#fff}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1.02;letter-spacing:-.01em;margin:0}
+h2{font-size:var(--step-3);max-width:18ch}
+.skip{position:absolute;left:-9999px}.skip:focus{left:8px;top:8px;background:#fff;padding:12px;z-index:99}
+.vh{position:absolute;left:-9999px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 28px;background:var(--ink);color:#fff;border:2px solid var(--ink);font:700 1.0625rem var(--font-text);text-decoration:none;box-shadow:var(--shadow);transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease);cursor:pointer}
+.btn:hover{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
+.btn.alt{background:var(--raised);color:var(--ink)}
+.btn.on-dark{background:var(--surface);color:var(--ink);border-color:var(--surface);box-shadow:6px 6px 0 var(--accent)}
+.btn.on-dark:hover{box-shadow:3px 3px 0 var(--accent)}
+
+header{border-bottom:2px solid var(--ink)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;min-height:68px;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font:400 1.5rem var(--font-display);text-decoration:none;min-height:44px}
+.logo svg{width:32px;height:32px}
+nav{display:flex;align-items:center;gap:4px}
+nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;font-weight:700;text-decoration:none}
+nav a:hover{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:3px}
+nav a.cta{background:var(--ink);color:#fff;margin-left:8px;box-shadow:3px 3px 0 var(--accent)}
+nav a.cta:hover{text-decoration:none}
+
+.hero{padding:clamp(36px,6vw,72px) 0 0;position:relative}
+.hero h1{font-size:var(--step-4);line-height:.94;letter-spacing:-.025em;max-width:11.5em;text-transform:uppercase}
+.hero h1 em{font-style:normal;background:var(--ink);color:var(--surface);padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hero-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,4vw,56px);margin-top:clamp(28px,4vw,48px);align-items:start}
+.hero-copy p{font-size:var(--step-1);line-height:1.4;margin:0 0 var(--space-4);max-width:28ch;font-weight:500}
+.hero-copy .note{font-size:var(--step--1);margin:var(--space-3) 0 0;color:var(--ink-muted);max-width:none}
+.digest{background:var(--raised);border:2px solid var(--ink);box-shadow:10px 10px 0 var(--ink);margin:0 10px -56px 0;position:relative;z-index:2}
+.digest-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;padding:12px 18px;background:var(--ink);color:#fff;font:700 .8125rem var(--font-mono)}
+.digest-head span:last-child{color:var(--surface)}
+.digest ol{list-style:none;margin:0;padding:0}
+.digest li{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:4px 14px;align-items:baseline;padding:14px 18px;border-top:2px solid var(--ink)}
+.digest li:first-child{border-top:0}
+.digest .rank{font:400 1.75rem/1 var(--font-display)}
+.digest .what{font-weight:700;line-height:1.3}
+.digest .what small{display:block;font-weight:400;font-size:.875rem;color:var(--paper-muted);margin-top:2px}
+.digest .count{font:700 1.25rem var(--font-text);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.digest .count small{display:block;font-size:.75rem;font-weight:500;color:var(--paper-muted)}
+.up{color:#0a5c2b;font-weight:700}
+.digest li.top{background:#fff4c2}
+.digest-foot{padding:12px 18px;border-top:2px solid var(--ink);font-size:.875rem;color:var(--paper-muted)}
+
+section{padding:var(--space-6) 0}
+.paper{background:var(--paper);border-top:2px solid var(--ink)}
+.paper.first{padding-top:calc(var(--space-6) + 56px)}
+.dark{background:var(--ink);color:#fff}
+.blue{background:var(--accent);color:var(--accent-ink);border-top:2px solid var(--ink)}
+.lead{font-size:var(--step-1);max-width:34ch;margin:var(--space-3) 0 0;line-height:1.4}
+.paper .lead{color:var(--paper-muted)}
+
+.steps{margin-top:var(--space-5);display:grid;border:2px solid var(--ink);background:var(--raised)}
+.step{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);border-top:2px solid var(--ink)}
+.step:first-child{border-top:0}
+.step>div{padding:clamp(20px,3vw,36px)}
+.step .say{background:var(--surface);border-right:2px solid var(--ink)}
+.step h3{font-size:var(--step-2);margin-bottom:var(--space-2)}
+.step .say p{margin:0;max-width:34ch}
+.when{display:inline-block;font:700 .8125rem var(--font-mono);border:2px solid var(--ink);background:var(--raised);padding:2px 8px;margin-bottom:14px}
+.art{display:flex;flex-direction:column;justify-content:center;gap:10px;min-width:0}
+.tix{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:.9375rem;padding:10px 12px;border:2px solid var(--ink);background:var(--paper)}
+.tix b{font:700 .8125rem var(--font-mono)}
+.arrow{font:700 .8125rem var(--font-mono);color:var(--paper-muted)}
+.sources{display:flex;flex-wrap:wrap;gap:8px}
+.sources span{border:2px solid var(--ink);padding:6px 12px;font-weight:700;background:var(--paper)}
+.cluster{border:2px solid var(--ink);background:#fff4c2;padding:14px 16px}
+.cluster strong{display:block;font-size:1.125rem}
+.cluster p{margin:4px 0 0;font-size:.9375rem;color:var(--paper-muted)}
+.inbox{border:2px solid var(--ink);background:var(--paper)}
+.inbox div{padding:10px 14px;border-top:2px solid var(--ink);font-size:.9375rem}
+.inbox div:first-child{border-top:0}
+.inbox .sub{font-weight:700}
+.inbox .from{color:var(--paper-muted);font-size:.8125rem}
+
+.feat-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,80px);align-items:start}
+.dark h2{color:var(--surface)}
+.feat-lead{margin:var(--space-4) 0;font-size:var(--step-1);line-height:1.4;max-width:26ch}
+.spark{border:2px solid #fff;padding:16px;max-width:420px}
+.spark p{margin:8px 0 0;font-size:.9375rem}
+.spark svg{display:block;width:100%;height:auto}
+.feats{list-style:none;margin:0;padding:0;border-top:2px solid #fff}
+.feats li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 16px;padding:22px 0;border-bottom:2px solid #fff}
+.feats svg{width:40px;height:40px}
+.feats h3{font:700 1.375rem/1.2 var(--font-text);margin:0 0 4px;letter-spacing:0}
+.feats p{margin:0;color:#e9e6d8;max-width:52ch}
+
+.proof-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,5vw,72px);align-items:start}
+blockquote{margin:0}
+.big q{display:block;font:400 clamp(1.75rem,3.6vw,3rem)/1.12 var(--font-display);quotes:"\201C" "\201D"}
+.who{margin-top:var(--space-4);font-weight:500}
+.who b{display:block;font-size:1.125rem}
+.side{display:grid;gap:var(--space-4)}
+.side blockquote{background:var(--paper);color:var(--ink);border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);padding:22px}
+.side blockquote p{margin:0 0 12px;font-weight:500}
+.side cite{font-style:normal;font-size:.9375rem;color:var(--paper-muted)}
+.side cite b{color:var(--ink)}
+.stat{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px;border-top:2px solid #fff;padding-top:var(--space-4);margin-top:var(--space-5)}
+.stat strong{font:400 clamp(3rem,7vw,5.5rem)/1 var(--font-display)}
+
+.plans{list-style:none;margin:var(--space-5) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.plan{background:var(--raised);border:2px solid var(--ink);box-shadow:var(--shadow);padding:26px;display:grid;gap:12px;align-content:start;height:100%}
+.plan h3{font-size:1.75rem}
+.plan .for{margin:0;color:var(--paper-muted);min-height:4.5em}
+.price{font:400 3.25rem/1 var(--font-display);font-variant-numeric:tabular-nums}
+.price small{font:500 1rem var(--font-text);color:var(--paper-muted)}
+.plan ul{margin:4px 0 8px;padding:0;list-style:none;border-top:2px solid var(--ink)}
+.plan ul li{padding:9px 0;border-bottom:1px solid #cfc9b3}
+.plan ul li:first-child{font-weight:700}
+.fine{margin:var(--space-4) 0 0;color:var(--paper-muted);font-size:var(--step--1)}
+
+.faq{background:var(--surface);border-top:2px solid var(--ink)}
+.faq h2{font-size:clamp(1.75rem,3.2vw,2.75rem);max-width:none}
+.faq-grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(24px,5vw,72px);align-items:start}
+details{border-top:2px solid var(--ink)}
+details:last-of-type{border-bottom:2px solid var(--ink)}
+summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:60px;padding:12px 0;font-size:1.1875rem;font-weight:700;cursor:pointer}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:400 2rem/1 var(--font-display);flex:none}
+details[open] summary::after{content:"\2212"}
+details p{margin:0 0 18px;max-width:60ch;color:var(--ink-muted)}
+
+footer{background:var(--ink);color:#fff;padding:var(--space-5) 0 32px}
+.foot-top{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,3fr) minmax(0,3fr);gap:32px}
+.foot-cta{font:400 clamp(1.75rem,3.6vw,3rem)/1.02 var(--font-display);max-width:14ch;margin:0 0 20px;text-transform:uppercase}
+footer h2{font:700 .8125rem var(--font-mono);color:var(--surface);margin:0 0 8px;max-width:none;letter-spacing:.04em;text-transform:uppercase}
+footer ul{list-style:none;margin:0;padding:0}
+footer li a{display:flex;align-items:center;min-height:44px;text-decoration:none;font-weight:500}
+footer li a:hover{text-decoration:underline;text-underline-offset:4px}
+.legal{margin-top:var(--space-5);padding-top:20px;border-top:2px solid #fff;font-size:.875rem;color:#e9e6d8;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px}
+
+@media (max-width:900px){
+  .hero-grid,.feat-grid,.proof-grid,.faq-grid{grid-template-columns:1fr}
+  .step{grid-template-columns:1fr}.step .say{border-right:0;border-bottom:2px solid var(--ink)}
+  .plans{grid-template-columns:1fr}.plan .for{min-height:0}
+  .foot-top{grid-template-columns:1fr 1fr}.foot-top>div:first-child{grid-column:1/-1}
+  .hero-copy p{max-width:34ch}
+}
+@media (max-width:640px){
+  nav a:not(.cta){display:none}
+  nav a.cta{margin-left:0}
+  .digest{box-shadow:6px 6px 0 var(--ink);margin-right:6px}
+  .digest li{grid-template-columns:32px minmax(0,1fr);padding:12px 14px}
+  .digest .count{grid-column:2;text-align:left}
+  .digest .count small{display:inline;margin-left:6px}
+  .digest .rank{font-size:1.375rem}
+  .btn{width:100%}
+  .hero h1{font-size:clamp(1.9rem,9.6vw,2.6rem)}
+  .tix{grid-template-columns:1fr}
+  .logo{font-size:1.375rem}
+}
+@media (prefers-reduced-motion:no-preference){
+  .digest{animation:drop .6s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes drop{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Relay home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="#111"/><path d="M8 22V10h8a4 4 0 0 1 0 8h-8m6 0 5 4" fill="none" stroke="#ffd23f" stroke-width="3"/></svg>Relay
+    </a>
+    <nav aria-label="Primary">
+      <a href="#how">How it works</a><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
+      <a class="cta" href="#pricing">Get the digest</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<div id="top" class="hero">
+  <div class="wrap">
+    <h1>Your tickets <em>already wrote</em> your roadmap.</h1>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p>Every Monday, Relay reads last week's support tickets and sends you what customers are actually asking for: ranked, counted, and linked to the tickets behind it.</p>
+        <a class="btn" href="#pricing">Send me this week's digest</a>
+        <p class="note">Free for 14 days. Read-only access to Zendesk, Intercom or Help Scout.</p>
+      </div>
+      <figure class="digest" aria-label="Example Relay digest">
+        <div class="digest-head"><span>RELAY DIGEST / WEEK 42</span><span>3,418 tickets read</span></div>
+        <ol>
+          <li class="top"><span class="rank">1</span><span class="what">Bulk-edit permissions for roles<small>"I have to change 60 people one by one." Risk: 4 renewals in Q1</small></span><span class="count">212<small><span class="up">+58</span> vs last week</small></span></li>
+          <li><span class="rank">2</span><span class="what">Export dashboards to PDF<small>Mostly finance admins, ahead of board packs</small></span><span class="count">167<small><span class="up">+9</span> vs last week</small></span></li>
+          <li><span class="rank">3</span><span class="what">SSO that does not log out mid-session<small>Reads like a feature request; 71% of it is a bug</small></span><span class="count">141<small>flat</small></span></li>
+          <li><span class="rank">4</span><span class="what">Slack alerts per project, not per workspace<small>New this week</small></span><span class="count">96<small><span class="up">new</span></small></span></li>
+        </ol>
+        <div class="digest-foot">Every count opens the tickets behind it. 31 more themes below.</div>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<section class="paper first" id="how" aria-labelledby="how-h">
+  <div class="wrap">
+    <h2 id="how-h">Three steps. The first takes ten minutes.</h2>
+    <p class="lead">No tagging, no taxonomy to maintain, no ticket form to change.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="say"><span class="when">DAY 1, 10 MIN</span><h3>Connect a help desk</h3><p>Read-only. Relay pulls the last 90 days so your first digest has history to compare against.</p></div>
+        <div class="art"><div class="sources"><span>Zendesk</span><span>Intercom</span><span>Help Scout</span><span>Freshdesk</span></div><div class="tix"><b>#48213</b><span>"Is there any way to change roles for a whole team at once? We just hired 40 people."</span></div><div class="tix"><b>#48377</b><span>"Need to update permissions for everyone in Sales, doing it one by one is painful."</span></div></div>
+      </div>
+      <div class="step">
+        <div class="say"><span class="when">ALL WEEK, AUTOMATIC</span><h3>Relay groups what means the same thing</h3><p>Two customers who describe one problem in different words land together. Bugs and billing questions are split from requests.</p></div>
+        <div class="art"><div class="arrow">#48213 + #48377 + 210 others</div><div class="cluster"><strong>Bulk-edit permissions for roles</strong><p>212 tickets, 164 accounts, $1.9M ARR asking. 3 describe a workaround.</p></div></div>
+      </div>
+      <div class="step">
+        <div class="say"><span class="when">MONDAY, 7:00</span><h3>You read it with coffee</h3><p>One page in your inbox, Slack or Notion. Four minutes, and you walk into planning with numbers.</p></div>
+        <div class="art"><div class="inbox"><div class="sub">Relay: bulk permissions is up 58 this week</div><div class="from">digest@relay-digest.example / Mon 7:00</div><div>Top theme: 212 tickets from 164 accounts. Open the list, copy the quotes into your doc.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="features" aria-labelledby="feat-h">
+  <div class="wrap feat-grid">
+    <div>
+      <h2 id="feat-h">Counts, not vibes.</h2>
+      <p class="feat-lead">The loudest customer in Slack is not the most common request. Relay shows you which is which.</p>
+      <div class="spark">
+        <svg viewBox="0 0 360 120" role="img" aria-label="Line chart: tickets mentioning bulk permissions rose from 22 to 212 over twelve weeks">
+          <path d="M0 110H360" stroke="#fff" stroke-width="2"/>
+          <polyline fill="none" stroke="#ffd23f" stroke-width="4" stroke-linejoin="round" points="0,100 33,98 66,102 99,94 132,90 165,92 198,80 231,70 264,64 297,48 330,36 352,12"/>
+          <circle cx="352" cy="12" r="7" fill="#ffd23f"/>
+        </svg>
+        <p>"Bulk permissions", 12 weeks: 22 tickets to 212.</p>
+      </div>
+    </div>
+    <ul class="feats">
+      <li><svg viewBox="0 0 40 40" fill="none" stroke="#ffd23f" stroke-width="3" aria-hidden="true"><rect x="4" y="4" width="14" height="14"/><rect x="22" y="22" width="14" height="14"/><path d="M18 11h8v11M22 29h-8v-11"/></svg><div><h3>Themes that survive rewording</h3><p>"Change roles in bulk" and "update permissions for my whole team" are one request, not two.</p></div></li>
+      <li><svg viewBox="0 0 40 40" fill="none" stroke="#ffd23f" stroke-width="3" aria-hidden="true"><path d="M6 34V6M6 34h28"/><path d="M12 28v-8M20 28V12M28 28v-5"/></svg><div><h3>Revenue behind each request</h3><p>Connect your CRM and see ARR, plan and renewal date for the accounts asking.</p></div></li>
+      <li><svg viewBox="0 0 40 40" fill="none" stroke="#ffd23f" stroke-width="3" aria-hidden="true"><path d="M5 8h30v20H18l-8 7v-7H5z"/><path d="M12 15h16M12 21h10"/></svg><div><h3>Quotes, verbatim, one click away</h3><p>Every number opens the tickets. Paste the exact words into your spec instead of a paraphrase.</p></div></li>
+      <li><svg viewBox="0 0 40 40" fill="none" stroke="#ffd23f" stroke-width="3" aria-hidden="true"><circle cx="20" cy="20" r="14"/><path d="M20 10v10l7 5"/></svg><div><h3>Four-week trend per theme</h3><p>Spot what is rising before it hits the top of the list, and what quietly faded after you shipped.</p></div></li>
+      <li><svg viewBox="0 0 40 40" fill="none" stroke="#ffd23f" stroke-width="3" aria-hidden="true"><path d="M6 6l28 28M34 6L6 34"/></svg><div><h3>Bugs are not feature requests</h3><p>"Please add a way to stay logged in" is flagged as a bug, with the share that is one.</p></div></li>
+      <li><svg viewBox="0 0 40 40" fill="none" stroke="#ffd23f" stroke-width="3" aria-hidden="true"><path d="M5 12l15 11 15-11"/><rect x="5" y="8" width="30" height="24"/></svg><div><h3>Lands where you already read</h3><p>Email, Slack channel, or a Notion page that Relay appends to every Monday.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="blue" aria-labelledby="proof-h">
+  <div class="wrap">
+    <h2 id="proof-h" style="max-width:20ch;margin-bottom:var(--space-5)">PMs stopped guessing at planning.</h2>
+    <div class="proof-grid">
+      <blockquote class="big">
+        <q>We had argued about bulk permissions for two quarters. Relay put 212 tickets and four at-risk renewals on one page and the argument ended in ten minutes.</q>
+        <div class="who"><b>Priya Raman</b>Director of Product, Ledgerline (310 people)</div>
+        <div class="stat"><strong>11 hrs</strong><span>a month Priya's team used to spend hand-tagging tickets, now zero.</span></div>
+      </blockquote>
+      <div class="side">
+        <blockquote><p>It told me the SSO "feature request" was mostly a bug. Engineering fixed it that week.</p><cite><b>Tomas Berg</b>, Senior PM, Fieldnote</cite></blockquote>
+        <blockquote><p>I forward the Monday email to our head of support unedited. She stopped sending me spreadsheets.</p><cite><b>Aisha Okonkwo</b>, Product Manager, Parcelbright</cite></blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="paper" id="pricing" aria-labelledby="price-h">
+  <div class="wrap">
+    <h2 id="price-h">Priced by who reads it, not by tickets.</h2>
+    <p class="lead">Everyone on your product team reads it on every plan. Start free for 14 days, no card.</p>
+    <ul class="plans">
+      <li><article class="plan">
+        <h3>Squad</h3>
+        <p class="for">One product team, one help desk. For the PM who wants the Monday page and nothing else.</p>
+        <div class="price">$129<small> /month</small></div>
+        <ul><li>5 readers</li><li>1 help desk, 5,000 tickets a month</li><li>Email and Slack delivery</li><li>Four-week trends</li></ul>
+        <a class="btn alt" href="#top">Start free<span class="vh"> on Squad</span></a>
+      </article></li>
+      <li><article class="plan">
+        <h3>Product org</h3>
+        <p class="for">Several teams sharing a support queue, who need the revenue behind each request.</p>
+        <div class="price">$389<small> /month</small></div>
+        <ul><li>40 readers</li><li>3 help desks, 30,000 tickets a month</li><li>Revenue per request from your CRM</li><li>Notion and Jira links</li></ul>
+        <a class="btn" href="#top">Start free<span class="vh"> on Product org</span></a>
+      </article></li>
+      <li><article class="plan">
+        <h3>Enterprise</h3>
+        <p class="for">Many brands or a security review. Data residency and a named contact.</p>
+        <div class="price">Talk to us</div>
+        <ul><li>Unlimited readers and help desks</li><li>SSO, SCIM and audit log</li><li>EU or US data residency</li><li>Custom retention</li></ul>
+        <a class="btn alt" href="mailto:sales@relay-digest.example">Email sales<span class="vh"> about Enterprise</span></a>
+      </article></li>
+    </ul>
+    <p class="fine">Prices in USD, billed monthly. Pay yearly and get two months free.</p>
+  </div>
+</section>
+
+<section class="faq" id="faq" aria-labelledby="faq-h">
+  <div class="wrap faq-grid">
+    <h2 id="faq-h">Questions PMs ask before they connect anything</h2>
+    <div>
+      <details open><summary>Does Relay write to our help desk?</summary><p>No. The connection is read-only. Relay never creates, edits or closes a ticket.</p></details>
+      <details><summary>Is our customers' text used to train a model?</summary><p>No. Names, emails and obvious personal identifiers are removed before analysis, and nothing you send is used to train shared models.</p></details>
+      <details><summary>How do I know a count is right?</summary><p>Every number links to the tickets behind it. Open the list and check the work, or tell Relay a ticket does not belong and the theme updates.</p></details>
+      <details><summary>What if we get a few hundred tickets a week, not thousands?</summary><p>It still works. Themes need about ten tickets to show up, so smaller queues see fewer, sharper items.</p></details>
+      <details><summary>Which help desks do you support?</summary><p>Zendesk, Intercom, Help Scout and Freshdesk today. Others can send tickets by CSV or webhook.</p></details>
+      <details><summary>Can I cancel?</summary><p>Any time from the billing page. Yearly plans are refunded pro rata within 30 days.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div><p class="foot-cta">Walk into planning with the tickets.</p><a class="btn on-dark" href="#pricing">Get the digest</a></div>
+      <div><h2>Product</h2><ul><li><a href="#how">How it works</a></li><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+      <div><h2>Company</h2><ul><li><a href="mailto:hello@relay-digest.example">Contact</a></li><li><a href="mailto:security@relay-digest.example">Security</a></li><li><a href="#faq">Privacy</a></li></ul></div>
+    </div>
+    <div class="legal"><span>&copy; 2026 Relay Labs</span><span>Built for product managers who want the tickets, not the summary of the summary.</span></div>
+  </div>
+</footer>
+</body>
+</html>

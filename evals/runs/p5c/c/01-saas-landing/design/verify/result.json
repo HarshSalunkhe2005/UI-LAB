@@ -1,0 +1,269 @@
+{
+  "audit": {
+    "critical": 0,
+    "warning": 0,
+    "suggestion": 0
+  },
+  "gates": [
+    {
+      "gate": "console clean (both widths)",
+      "pass": true
+    },
+    {
+      "gate": "no horizontal overflow at 375",
+      "pass": true
+    },
+    {
+      "gate": "targets >= 44px at 375",
+      "pass": true
+    },
+    {
+      "gate": "one h1 and a main landmark",
+      "pass": true
+    },
+    {
+      "gate": "reduced-motion rule present",
+      "pass": true
+    },
+    {
+      "gate": "focus style present",
+      "pass": true
+    },
+    {
+      "gate": "no text collisions (1440 and 375)",
+      "pass": true
+    },
+    {
+      "gate": "no one-word-per-line wrapping",
+      "pass": true
+    },
+    {
+      "gate": "tables fit at 375, cells at least 60px",
+      "pass": true
+    },
+    {
+      "gate": "no headline highlight split across lines at 1440",
+      "pass": true
+    }
+  ],
+  "probe": {
+    "375": {
+      "viewport": 375,
+      "docWidth": 360,
+      "docHeight": 9981,
+      "hOverflow": false,
+      "interactive": 14,
+      "smallTargets": 0,
+      "smallSamples": [],
+      "collisions": 0,
+      "collisionSamples": [],
+      "imgsMissingAlt": 0,
+      "inputsUnlabelled": 0,
+      "hasMain": true,
+      "h1Count": 1,
+      "h1Lines": 4,
+      "hasReducedMotion": true,
+      "focusStyle": true,
+      "wrap": [],
+      "narrowCells": [],
+      "tableOverflow": [],
+      "highlightBreaks": [
+        {
+          "text": "already wrote",
+          "y": 132,
+          "lines": 2
+        }
+      ],
+      "bands": [],
+      "overlap": [],
+      "heads": [
+        {
+          "text": "Your tickets already wrote your roadmap.",
+          "y": 106
+        },
+        {
+          "text": "Three steps. The first takes ten minutes",
+          "y": 1363
+        },
+        {
+          "text": "Connect a help desk",
+          "y": 1682
+        },
+        {
+          "text": "Relay groups what means the same thing",
+          "y": 2308
+        },
+        {
+          "text": "You read it with coffee",
+          "y": 2863
+        },
+        {
+          "text": "Counts, not vibes.",
+          "y": 3416
+        },
+        {
+          "text": "Themes that survive rewording",
+          "y": 3857
+        },
+        {
+          "text": "Revenue behind each request",
+          "y": 4065
+        },
+        {
+          "text": "Quotes, verbatim, one click away",
+          "y": 4247
+        },
+        {
+          "text": "Four-week trend per theme",
+          "y": 4455
+        },
+        {
+          "text": "Bugs are not feature requests",
+          "y": 4663
+        },
+        {
+          "text": "Lands where you already read",
+          "y": 4845
+        },
+        {
+          "text": "PMs stopped guessing at planning.",
+          "y": 5119
+        },
+        {
+          "text": "Priced by who reads it, not by tickets.",
+          "y": 6382
+        },
+        {
+          "text": "Squad",
+          "y": 6695
+        },
+        {
+          "text": "Product org",
+          "y": 7264
+        },
+        {
+          "text": "Enterprise",
+          "y": 7860
+        },
+        {
+          "text": "Questions PMs ask before they connect an",
+          "y": 8606
+        },
+        {
+          "text": "Product",
+          "y": 9602
+        },
+        {
+          "text": "Company",
+          "y": 9602
+        }
+      ]
+    },
+    "1440": {
+      "viewport": 1440,
+      "docWidth": 1425,
+      "docHeight": 6333,
+      "hOverflow": false,
+      "interactive": 18,
+      "smallTargets": 0,
+      "smallSamples": [],
+      "collisions": 0,
+      "collisionSamples": [],
+      "imgsMissingAlt": 0,
+      "inputsUnlabelled": 0,
+      "hasMain": true,
+      "h1Count": 1,
+      "h1Lines": 3,
+      "hasReducedMotion": true,
+      "focusStyle": true,
+      "wrap": [],
+      "narrowCells": [],
+      "tableOverflow": [],
+      "highlightBreaks": [],
+      "bands": [],
+      "overlap": [],
+      "heads": [
+        {
+          "text": "Your tickets already wrote your roadmap.",
+          "y": 142
+        },
+        {
+          "text": "Three steps. The first takes ten minutes",
+          "y": 1053
+        },
+        {
+          "text": "Connect a help desk",
+          "y": 1373
+        },
+        {
+          "text": "Relay groups what means the same thing",
+          "y": 1627
+        },
+        {
+          "text": "You read it with coffee",
+          "y": 1928
+        },
+        {
+          "text": "Counts, not vibes.",
+          "y": 2342
+        },
+        {
+          "text": "Themes that survive rewording",
+          "y": 2366
+        },
+        {
+          "text": "Revenue behind each request",
+          "y": 2495
+        },
+        {
+          "text": "Quotes, verbatim, one click away",
+          "y": 2624
+        },
+        {
+          "text": "Four-week trend per theme",
+          "y": 2754
+        },
+        {
+          "text": "Bugs are not feature requests",
+          "y": 2883
+        },
+        {
+          "text": "Lands where you already read",
+          "y": 3012
+        },
+        {
+          "text": "PMs stopped guessing at planning.",
+          "y": 3345
+        },
+        {
+          "text": "Priced by who reads it, not by tickets.",
+          "y": 4382
+        },
+        {
+          "text": "Squad",
+          "y": 4650
+        },
+        {
+          "text": "Product org",
+          "y": 4650
+        },
+        {
+          "text": "Enterprise",
+          "y": 4650
+        },
+        {
+          "text": "Questions PMs ask before they connect an",
+          "y": 5408
+        },
+        {
+          "text": "Product",
+          "y": 5987
+        },
+        {
+          "text": "Company",
+          "y": 5987
+        }
+      ]
+    }
+  }
+}

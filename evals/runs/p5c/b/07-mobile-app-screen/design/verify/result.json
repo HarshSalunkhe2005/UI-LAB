@@ -1,0 +1,119 @@
+{
+  "audit": {
+    "critical": 0,
+    "warning": 3,
+    "suggestion": 0
+  },
+  "gates": [
+    {
+      "gate": "console clean (both widths)",
+      "pass": true
+    },
+    {
+      "gate": "no horizontal overflow at 375",
+      "pass": true
+    },
+    {
+      "gate": "targets >= 44px at 375",
+      "pass": true
+    },
+    {
+      "gate": "one h1 and a main landmark",
+      "pass": true
+    },
+    {
+      "gate": "reduced-motion rule present",
+      "pass": true
+    },
+    {
+      "gate": "focus style present",
+      "pass": true
+    },
+    {
+      "gate": "no text collisions (1440 and 375)",
+      "pass": true
+    },
+    {
+      "gate": "no one-word-per-line wrapping",
+      "pass": true
+    },
+    {
+      "gate": "tables fit at 375, cells at least 60px",
+      "pass": true
+    },
+    {
+      "gate": "no headline highlight split across lines at 1440",
+      "pass": true
+    }
+  ],
+  "probe": {
+    "375": {
+      "viewport": 375,
+      "docWidth": 375,
+      "docHeight": 812,
+      "hOverflow": false,
+      "interactive": 9,
+      "smallTargets": 0,
+      "smallSamples": [],
+      "collisions": 0,
+      "collisionSamples": [],
+      "imgsMissingAlt": 0,
+      "inputsUnlabelled": 0,
+      "hasMain": true,
+      "h1Count": 1,
+      "h1Lines": 1,
+      "hasReducedMotion": true,
+      "focusStyle": true,
+      "wrap": [],
+      "narrowCells": [],
+      "tableOverflow": [],
+      "highlightBreaks": [],
+      "bands": [],
+      "overlap": [],
+      "heads": [
+        {
+          "text": "Today",
+          "y": 20
+        },
+        {
+          "text": "Today’s habits",
+          "y": 391
+        }
+      ]
+    },
+    "1440": {
+      "viewport": 1440,
+      "docWidth": 1440,
+      "docHeight": 900,
+      "hOverflow": false,
+      "interactive": 9,
+      "smallTargets": 0,
+      "smallSamples": [],
+      "collisions": 0,
+      "collisionSamples": [],
+      "imgsMissingAlt": 0,
+      "inputsUnlabelled": 0,
+      "hasMain": true,
+      "h1Count": 1,
+      "h1Lines": 1,
+      "hasReducedMotion": true,
+      "focusStyle": true,
+      "wrap": [],
+      "narrowCells": [],
+      "tableOverflow": [],
+      "highlightBreaks": [],
+      "bands": [],
+      "overlap": [],
+      "heads": [
+        {
+          "text": "Today",
+          "y": 98
+        },
+        {
+          "text": "Today’s habits",
+          "y": 469
+        }
+      ]
+    }
+  }
+}
