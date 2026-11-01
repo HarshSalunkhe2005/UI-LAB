@@ -1,0 +1,60 @@
+<!doctype html>
+<!--
+pattern: code-block-copy
+title: Code block with a copy button and a gotcha callout
+category: Docs
+tier: lite
+when: Documentation. A readable code sample with one copy button, a language label, horizontal scroll that does not break the page, and a callout for the thing readers get wrong.
+a11y: The button has a visible name and announces success in a polite live region; code is in pre/code with tabindex=0 so keyboard users can scroll it; the callout uses a heading, not colour alone; contrast of code colours checked.
+adapt: Use your own syntax highlighter output inside code. Keep line length under 80 characters. Place the callout right after the sample it qualifies.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Code block</title>
+<style>
+:root{--surface:#fff;--ink:#17191c;--ink-muted:#555b63;--code-bg:#14181f;--code-ink:#e6e9ef;--accent:#1d4f6b;--warn-bg:#fff6e0;--warn:#7a4a00;--border:#dcdfe2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.65 system-ui,sans-serif;padding:32px 16px}
+.doc{max-width:720px;margin:0 auto}
+h1{font-size:1.75rem;margin:0 0 16px}
+.code{border-radius:10px;overflow:clip;background:var(--code-bg);margin:16px 0}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:0 8px 0 16px;color:#aeb6c4;font:600 .8125rem ui-monospace,Menlo,monospace;border-bottom:1px solid #2a313c}
+button{min-height:44px;padding:0 14px;border:0;background:transparent;color:#e6e9ef;font:inherit;font-weight:600;cursor:pointer;border-radius:6px}
+button:focus-visible{outline:3px solid #7fd4ff;outline-offset:-3px}
+pre{margin:0;padding:16px;overflow:auto;color:var(--code-ink);font:.9375rem/1.55 ui-monospace,Menlo,monospace}
+pre:focus-visible{outline:3px solid #7fd4ff;outline-offset:-3px}
+.note{background:var(--warn-bg);border-left:4px solid var(--warn);border-radius:6px;padding:12px 16px;margin:16px 0}
+.note h2{margin:0 0 4px;font-size:1rem;color:var(--warn)}
+.note p{margin:0}
+table{border-collapse:collapse;width:100%;margin:16px 0;font-size:.9375rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--border)}
+td:first-child{font-family:ui-monospace,Menlo,monospace}
+</style>
+</head>
+<body>
+<main class="doc">
+  <h1>Parsing and formatting</h1>
+  <p>Parse a string with an explicit format, then format it back out.</p>
+  <div class="code">
+    <div class="bar"><span>JavaScript</span><button type="button" id="copy">Copy</button></div>
+    <pre tabindex="0"><code id="c">import { parse, format } from 'quill'
+
+const d = parse('14/03/2027', 'DD/MM/YYYY')
+format(d, 'D MMMM YYYY') // "14 March 2027"</code></pre>
+  </div>
+  <span id="live" role="status" aria-live="polite" style="position:absolute;left:-9999px"></span>
+  <aside class="note" aria-labelledby="gt"><h2 id="gt">Gotcha</h2><p>Without a format, <code>parse</code> reads <code>03/04/2027</code> as month first. Always pass a format for non-ISO strings.</p></aside>
+  <table><caption style="position:absolute;left:-9999px">Format tokens</caption><thead><tr><th scope="col">Token</th><th scope="col">Output</th></tr></thead><tbody><tr><td>YYYY</td><td>2027</td></tr><tr><td>MMMM</td><td>March</td></tr><tr><td>D</td><td>14</td></tr></tbody></table>
+</main>
+<script>
+const b = document.getElementById('copy'), live = document.getElementById('live')
+b.addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(document.getElementById('c').textContent); b.textContent = 'Copied'; live.textContent = 'Code copied to clipboard' }
+  catch { b.textContent = 'Press Ctrl+C'; live.textContent = 'Copy failed. Select the code and press Control C.' }
+  setTimeout(() => { b.textContent = 'Copy' }, 2000)
+})
+</script>
+</body>
+</html>

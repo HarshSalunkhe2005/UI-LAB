@@ -1,0 +1,52 @@
+<!doctype html>
+<!--
+pattern: empty-state
+title: Empty and zero-results states that say what to do next
+category: Forms and states
+tier: lite
+when: Lists, search results and filtered tables that can return nothing. Say what is empty and why, then give the single next action.
+a11y: The message sits in a polite live region so a filter change is announced; the action is a real button; the illustration is aria-hidden; headings follow the page's structure.
+adapt: Differentiate three cases: nothing yet (first-use: explain and offer to create), nothing found (filters: offer reset), nothing to do (good news: say so plainly).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Empty states</title>
+<style>
+:root{--surface:#f4f6f5;--surface-raised:#fff;--ink:#141a18;--ink-muted:#4b5551;--accent:#1d4f6b;--accent-ink:#fff;--border:#cfd5d2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:15px/1.5 system-ui,sans-serif;padding:24px 16px}
+.grid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{background:var(--surface-raised);border:1px solid var(--border);border-radius:10px;padding:28px 20px;text-align:center;display:grid;gap:8px;justify-items:center}
+.card svg{width:56px;height:56px;color:var(--ink-muted)}
+h2{margin:0;font-size:1.0625rem}
+p{margin:0;color:var(--ink-muted);max-width:24em}
+button{min-height:44px;padding:0 18px;border:1.5px solid var(--accent);border-radius:8px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:600;cursor:pointer;margin-top:6px}
+button.quiet{background:transparent;color:var(--accent)}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+@media (max-width:720px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="grid">
+  <section class="card" aria-labelledby="a">
+    <svg viewBox="0 0 56 56" aria-hidden="true"><rect x="8" y="14" width="40" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><path d="M8 24h40" stroke="currentColor" stroke-width="3"/></svg>
+    <h2 id="a">No digests yet</h2>
+    <p>Connect a help desk and your first digest arrives in about 20 minutes.</p>
+    <button type="button">Connect a help desk</button>
+  </section>
+  <section class="card" aria-labelledby="b">
+    <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="25" cy="25" r="14" fill="none" stroke="currentColor" stroke-width="3"/><path d="M36 36l12 12" stroke="currentColor" stroke-width="3"/></svg>
+    <h2 id="b" role="status" aria-live="polite">No sailings match</h2>
+    <p>Nothing runs on H6 Cray Point on a Monday with "needs attention" on.</p>
+    <button type="button" class="quiet">Clear filters</button>
+  </section>
+  <section class="card" aria-labelledby="c">
+    <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="18" fill="none" stroke="currentColor" stroke-width="3"/><path d="M19 29l6 6 12-13" fill="none" stroke="currentColor" stroke-width="3"/></svg>
+    <h2 id="c">Nothing needs attention</h2>
+    <p>All 56 sailings today are on time or on schedule.</p>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<!--
+pattern: form-field-errors
+title: Form with inline errors, error summary and focus handling
+category: Forms and states
+tier: lite
+when: Any form that can fail validation. Errors appear next to the field in words, are tied to the input, and an error summary receives focus after a failed submit.
+a11y: Visible labels; hints and errors linked with aria-describedby; aria-invalid on bad fields; a summary with links to each field, focused after submit; required stated in text; the form is not cleared on error; autocomplete values set.
+adapt: Validate on submit first, then on blur once a field has been touched. Keep messages specific ("Enter a date like 14 March 2027"), never "Invalid input".
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Form errors</title>
+<style>
+:root{--surface:#fff;--ink:#17191c;--ink-muted:#555a60;--accent:#233b52;--accent-ink:#fff;--danger:#a52a1d;--border:#9ea4aa}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.5 system-ui,sans-serif;padding:32px 16px}
+form{max-width:480px;margin:0 auto;display:grid;gap:18px}
+h1{margin:0;font-size:1.5rem}
+.field{display:grid;gap:4px}
+label{font-weight:600}
+.hint{font-size:.875rem;color:var(--ink-muted)}
+.err{font-size:.9375rem;color:var(--danger);font-weight:600}
+input,select{min-height:48px;padding:0 12px;border:1.5px solid var(--border);border-radius:8px;font:inherit;background:#fff;color:var(--ink)}
+input[aria-invalid=true]{border-color:var(--danger);box-shadow:inset 3px 0 0 var(--danger)}
+input:focus-visible,select:focus-visible,button:focus-visible,.summary a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button{min-height:52px;border:0;border-radius:8px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:700;cursor:pointer}
+.summary{border:2px solid var(--danger);border-radius:8px;padding:12px 16px}
+.summary h2{margin:0 0 6px;font-size:1rem;color:var(--danger)}
+.summary ul{margin:0;padding-left:18px}
+</style>
+</head>
+<body>
+<form id="f" novalidate>
+  <h1>Request a table</h1>
+  <div id="summary" class="summary" role="alert" tabindex="-1" hidden></div>
+  <div class="field"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required aria-describedby="name-h"><span class="hint" id="name-h">Required.</span><span class="err" id="name-e"></span></div>
+  <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-h"><span class="hint" id="email-h">Required. We email a confirmation.</span><span class="err" id="email-e"></span></div>
+  <div class="field"><label for="guests">Guests</label><input id="guests" name="guests" type="number" min="1" max="6" inputmode="numeric" required aria-describedby="guests-h"><span class="hint" id="guests-h">Required. 1 to 6; larger parties use private dining.</span><span class="err" id="guests-e"></span></div>
+  <button type="submit">Request this table</button>
+</form>
+<script>
+const f = document.getElementById('f'), summary = document.getElementById('summary')
+const rules = {
+  name: (v) => (v.trim() ? '' : 'Enter your name.'),
+  email: (v) => (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'Enter an email like name@example.com.'),
+  guests: (v) => (Number(v) >= 1 && Number(v) <= 6 ? '' : 'Enter a number of guests from 1 to 6.'),
+}
+f.addEventListener('submit', (e) => {
+  e.preventDefault()
+  const errors = []
+  for (const k of Object.keys(rules)) {
+    const input = f.elements[k], msg = rules[k](input.value)
+    document.getElementById(k + '-e').textContent = msg
+    const d = input.getAttribute('aria-describedby').split(' ').filter((x) => x !== k + '-e')
+    if (msg) { input.setAttribute('aria-invalid', 'true'); d.push(k + '-e'); errors.push({ k, msg }) } else input.removeAttribute('aria-invalid')
+    input.setAttribute('aria-describedby', d.join(' '))
+  }
+  if (errors.length) {
+    summary.hidden = false
+    summary.innerHTML = `<h2>There ${errors.length === 1 ? 'is 1 problem' : 'are ' + errors.length + ' problems'} with your request</h2><ul>${errors.map((x) => `<li><a href="#${x.k}">${x.msg}</a></li>`).join('')}</ul>`
+    summary.focus()
+  } else { summary.hidden = true; alert('Request sent (demo).') }
+})
+</script>
+</body>
+</html>

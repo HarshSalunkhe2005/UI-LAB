@@ -182,6 +182,8 @@ Scoreboard (blind, Opus + Sonnet judges):
 
 **5c DONE (builder, 1 Nov 2026):** gates, contact sheets and ground roll built (`57ed491`); re-eval run, results in `evals/results/phase5c.md`. Bar NOT met: 01 = L, T, L (1 of 3), 07 = T, L, L (1 of 3), 06 control = W; all gates 7/7, diversity 4/5 again. Per the plan, next is Phase 6 regardless of the score (not started).
 
+**Phase 6 DONE (builder, 2 Nov 2026; one item skipped):** (1) plugin now ships the BUILT pro skill: `npm run skill` regenerates `skills/ui-lab/`, no local paths, a test keeps it in sync; stray `use.mjs` removed; (2) README rewritten for outside users with an honest evidence section; (4) Hearth registered (meta entry + thumbnail, stale 'World 25' comment removed); (5) counts consistent (263 patterns, 22 sites, skill ships 12 patterns, 24 worlds) and checked by `npm test`; (6) `context/LICENSE_PROPOSAL.md` for Harsh to choose, nothing applied. SKIPPED: (3) the before/after site page (budget). Phase 7 not started.
+
 After 5c, move on regardless of the score:
 - **Phase 6, polish:**
   - Point the plugin at the built skill, since the old `skills/ui-lab/SKILL.md` still has local paths.

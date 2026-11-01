@@ -103,6 +103,7 @@ async function main() {
   const headers = [...set.keys()].filter((p) => /\/patterns\/[^/]+\.html$/.test(p)).map((p) => ({ ...parsePatternHeader(p, set.get(p)), path: p }))
 
   const summary = []
+  let proFiles = []
   for (const [variant, zipName] of [['pro', `${NAME}.zip`], ['lite', `${NAME}-lite.zip`]]) {
     const stage = join(OUT, 'stage', variant)
     const keep = headers.filter((h) => variant === 'pro' || h.tier === 'lite')
@@ -120,10 +121,18 @@ async function main() {
       mkdirSync(dirname(dest), { recursive: true })
       writeFileSync(dest, f.data)
     }
+    if (variant === 'pro') proFiles = files
     const zip = writeZip(files)
     writeFileSync(join(OUT, zipName), zip)
     const bytes = files.reduce((n, f) => n + f.data.length, 0)
     summary.push(`${zipName}: ${files.length} files (${keep.length} patterns), ${(bytes / 1024).toFixed(0)} KB unpacked, ${(zip.length / 1024).toFixed(0)} KB zipped`)
+  }
+  // the plugin (see .claude-plugin) ships the built pro skill from skills/ui-lab, so that repo copy is regenerated here
+  rmSync(join(ROOT, 'skills', NAME), { recursive: true, force: true })
+  for (const f of proFiles) {
+    const dest = join(ROOT, 'skills', ...f.name.split('/'))
+    mkdirSync(dirname(dest), { recursive: true })
+    writeFileSync(dest, f.data)
   }
   console.log(`Built.\n  ${summary.join('\n  ')}\n  stage dirs: release/stage/{pro,lite}/${NAME}/`)
 }

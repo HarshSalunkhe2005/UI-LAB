@@ -106,4 +106,41 @@ test('recipe: scaling is linear and units convert', () => {
   assert.equal(convert(tomatoes, 4, true).unit, 'oz')
 })
 
+// ---- repo consistency: the counts in the docs match the registry, and nothing that ships carries a local path ----
+import { readFileSync as rf, readdirSync as rd, existsSync as ex, statSync as st } from 'node:fs'
+import { join as pj, sep } from 'node:path'
+// meta.ts imports its siblings without an extension; teach the loader to find them (same trick as tools/build-skill.mjs)
+import { registerHooks } from 'node:module'
+registerHooks({
+  resolve(spec, ctx, next) {
+    try { return next(spec, ctx) } catch (e) {
+      if (spec.startsWith('.') && !/\.\w+$/.test(spec)) return next(`${spec}.ts`, ctx)
+      throw e
+    }
+  },
+})
+const { META } = await import('../../src/meta.ts')
+const ROOT = new URL('../../', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')
+const sites = META.filter((m) => m.category === 'Sites').length
+test('README and plugin.json state the real pattern and site counts', () => {
+  const readme = rf(pj(ROOT, 'README.md'), 'utf8')
+  const plugin = rf(pj(ROOT, '.claude-plugin', 'plugin.json'), 'utf8')
+  assert.ok(readme.includes(`${META.length} working patterns (${sites} of them whole sites)`), `README should say ${META.length} patterns, ${sites} sites`)
+  assert.ok(readme.includes(`${sites} whole websites`), `README should say ${sites} whole websites`)
+  assert.ok(plugin.includes(`${META.length} copyable patterns`), `plugin.json should say ${META.length} patterns`)
+})
+const walk = (d) => rd(d).flatMap((n) => { const p = pj(d, n); return st(p).isDirectory() ? walk(p) : [p] })
+test('files the plugin ships contain no local paths and match the built skill', () => {
+  const shipped = [...walk(pj(ROOT, 'skills')), pj(ROOT, '.claude-plugin', 'plugin.json'), pj(ROOT, '.claude-plugin', 'marketplace.json')]
+  for (const f of shipped) assert.ok(!/[A-Za-z]:[\\/]Users[\\/]|\/Users\/[A-Za-z]|Harsh's reference library/.test(rf(f, 'utf8')), `${f} contains a local path`)
+  const stage = pj(ROOT, 'release', 'stage', 'pro', 'ui-lab')
+  if (ex(stage)) {
+    const rel = (base, f) => f.slice(base.length + 1).split(sep).join('/')
+    const a = walk(stage).map((f) => rel(stage, f)).sort()
+    const b = walk(pj(ROOT, 'skills', 'ui-lab')).map((f) => rel(pj(ROOT, 'skills', 'ui-lab'), f)).sort()
+    assert.deepEqual(b, a, 'skills/ui-lab is out of date: run npm run skill')
+    for (const f of a) assert.equal(rf(pj(ROOT, 'skills', 'ui-lab', f), 'utf8'), rf(pj(stage, f), 'utf8'), `${f} differs from the built skill`)
+  }
+})
+
 console.log(`${passed} passed${process.exitCode ? ', some failed' : ''}`)

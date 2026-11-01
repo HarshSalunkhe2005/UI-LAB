@@ -1,0 +1,48 @@
+<!doctype html>
+<!--
+pattern: kpi-lead-figure
+title: One lead figure with supporting figures
+category: Dense UI
+tier: lite
+when: A dashboard summary. One number carries the answer to the user's first question, set against its target; the rest are smaller and quieter. Replaces a row of equal KPI tiles.
+a11y: The lead figure and its comparison are plain text read in order; colour is never the only signal (the sentence says "below target"); numbers use tabular figures.
+adapt: Choose the lead figure from the decision the user arrives with. Always show the comparison (target, yesterday, last week). Use the signal colour only when action is needed.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lead figure</title>
+<style>
+:root{--surface:#e8ecea;--surface-raised:#f7f8f6;--ink:#101615;--ink-muted:#46504d;--signal:#b8301a;--border:#c5cdc9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:15px/1.45 system-ui,sans-serif;padding:24px}
+.panel{max-width:420px;background:var(--surface-raised);border:1px solid var(--border);border-radius:10px;padding:20px}
+h2{margin:0 0 8px;font-size:1rem}
+.lead{display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums}
+.lead b{font-size:4.5rem;line-height:1;letter-spacing:-.03em;color:var(--signal)}
+.lead span{font-size:1.75rem;color:var(--signal)}
+.compare{margin:6px 0 0;color:var(--ink-muted)}
+.compare strong{color:var(--ink)}
+.rule{border:0;border-top:1px solid var(--border);margin:18px 0}
+dl{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px;margin:0}
+dt{font-size:.8125rem;color:var(--ink-muted)}
+dd{margin:0;font-size:1.5rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+dd small{display:block;font-size:.8125rem;font-weight:400;color:var(--ink-muted);letter-spacing:0}
+</style>
+</head>
+<body>
+<section class="panel" aria-labelledby="t">
+  <h2 id="t">On-time rate today</h2>
+  <p class="lead" role="text"><b>88</b><span>%</span></p>
+  <p class="compare"><strong>2 pts below</strong> the 90% target. 2 pts down on the prior 7 days (90%). 341 sailings operated.</p>
+  <hr class="rule">
+  <dl>
+    <div><dt>Passengers</dt><dd>62,826<small>-12.1% vs prior 7 days</small></dd></div>
+    <div><dt>Load factor</dt><dd>65%<small>0 vs prior 7 days</small></dd></div>
+    <div><dt>Delay minutes</dt><dd>774<small>+27.5% vs prior 7 days</small></dd></div>
+    <div><dt>Cancellations</dt><dd>4<small>0 vs prior 7 days</small></dd></div>
+  </dl>
+</section>
+</body>
+</html>

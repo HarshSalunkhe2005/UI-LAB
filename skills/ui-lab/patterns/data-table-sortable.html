@@ -1,0 +1,84 @@
+<!doctype html>
+<!--
+pattern: data-table-sortable
+title: Sortable table that becomes stacked cards at 375
+category: Dense UI
+tier: lite
+when: Any list of records with several columns that users scan, sort and act on. Never ship a table that clips or blind-scrolls on a phone.
+a11y: A real table with caption and th scope; sort buttons inside th with aria-sort on the active column; right-aligned tabular numbers; status as text plus colour; at narrow widths each cell shows its label from data-label.
+adapt: Keep one row height. Add a sticky header for long tables. Choose the default sort for the user's task (worst first). On mobile consider defaulting a filter to the action subset.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sortable table</title>
+<style>
+:root{--surface:#e8ecea;--surface-raised:#f7f8f6;--ink:#101615;--ink-muted:#46504d;--signal:#b8301a;--border:#c5cdc9;--accent:#1d4f6b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:14px/1.4 system-ui,sans-serif;padding:24px}
+.msort{display:none;align-items:center;gap:8px;padding:0 16px 12px}
+.msort select{min-height:44px;font:inherit;border:1px solid var(--border);border-radius:8px;padding:0 10px;background:#fff;color:var(--ink)}
+.wrap{max-width:860px;background:var(--surface-raised);border:1px solid var(--border);border-radius:10px}
+caption{text-align:left;padding:14px 16px;font-weight:700;font-size:1rem}
+table{width:100%;border-collapse:collapse}
+th,td{padding:0 16px;height:44px;text-align:left;border-top:1px solid var(--border)}
+thead th:first-child{border-top-left-radius:9px}thead th:last-child{border-top-right-radius:9px}
+thead th{position:sticky;top:0;background:var(--surface-raised);font-size:.8125rem;color:var(--ink-muted)}
+th button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:44px;font-weight:700;color:var(--ink)}
+th button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+th[aria-sort=ascending] button::after{content:"\25B2";font-size:.6rem}th[aria-sort=descending] button::after{content:"\25BC";font-size:.6rem}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:999px;border:1px solid currentColor;font-weight:600;font-size:.8125rem}
+.chip.bad{color:var(--signal)}.chip.ok{color:#2c6b3f}
+@media (max-width:640px){
+  .msort{display:flex}
+  thead{position:absolute;left:-9999px}
+  tr{display:block;border-top:1px solid var(--border);padding:10px 16px}
+  td{display:flex;justify-content:space-between;border:0;height:auto;min-height:32px;padding:2px 0;text-align:right}
+  td::before{content:attr(data-label);color:var(--ink-muted);text-align:left}
+  th,td{padding-left:0;padding-right:0}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+<div class="msort"><label for="ms">Sort by</label><select id="ms"><option value="time">Time</option><option value="route">Route</option><option value="load">Load</option></select></div>
+<table id="t">
+  <caption>Today's sailings</caption>
+  <thead><tr>
+    <th scope="col" aria-sort="ascending"><button data-k="time">Time</button></th>
+    <th scope="col"><button data-k="route">Route</button></th>
+    <th scope="col" class="num"><button data-k="load">Load</button></th>
+    <th scope="col">Status</th>
+  </tr></thead>
+  <tbody></tbody>
+</table>
+</main>
+<script>
+const rows = [
+  { time: '07:00', route: 'H6 Cray Point', load: 63, status: 'Delayed', bad: true },
+  { time: '07:45', route: 'H4 Pemberton', load: 97, status: 'Boarding', bad: false },
+  { time: '08:07', route: 'H1 Kellan Island', load: 98, status: 'Scheduled', bad: false },
+  { time: '09:00', route: 'H6 Cray Point', load: 0, status: 'Cancelled', bad: true },
+]
+let key = 'time', dir = 1
+const body = document.querySelector('tbody')
+function draw() {
+  rows.sort((a, b) => (a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0) * dir)
+  body.innerHTML = rows.map((r) => `<tr><td data-label="Time">${r.time}</td><td data-label="Route">${r.route}</td><td class="num" data-label="Load">${r.load}%</td><td data-label="Status"><span class="chip ${r.bad ? 'bad' : 'ok'}">${r.status}</span></td></tr>`).join('')
+  document.querySelectorAll('th').forEach((th) => {
+    const b = th.querySelector('button')
+    if (b) th.setAttribute('aria-sort', b.dataset.k === key ? (dir === 1 ? 'ascending' : 'descending') : 'none')
+  })
+}
+document.querySelectorAll('th button').forEach((b) => b.addEventListener('click', () => {
+  dir = key === b.dataset.k ? -dir : 1
+  key = b.dataset.k
+  draw()
+}))
+document.getElementById('ms').addEventListener('change', (e) => { key = e.target.value; dir = 1; draw() })
+draw()
+</script>
+</body>
+</html>

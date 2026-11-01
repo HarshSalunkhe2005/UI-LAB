@@ -242,4 +242,19 @@ export const NEW_SITES: PatternMeta[] = [
     a11y: 'The game is optional and announced as such; controls work with arrow keys, WASD and on-screen buttons with 64px targets; score and game-over are text and a status message; the leaderboard is a real table; flicker is off under reduced motion and the screen effect never covers text with low contrast.',
     deps: ['@fontsource/vt323', '@fontsource/ibm-plex-mono', 'sites/_shared.ts'],
   },
+  {
+    slug: 'site-hearth',
+    title: 'Site: HEARTH (recipe page for the kitchen)',
+    category: 'Sites',
+    summary: 'A recipe page built for someone with floury hands: a servings stepper rescales every amount (written as cooks say them, 1½ and ¾), a switch flips metric and US measures, steps tick off, each timed step has its own countdown, and Cook mode makes the type large. Sound is off unless you press the bell.',
+    when: [
+      'Recipes, instructions, checklists and any page used while the reader is doing something else',
+      'Reference for amounts that scale and format as fractions, a unit switch, per-step timers with an optional bell, and a large-type mode',
+    ],
+    file: 'sites/hearth/index.tsx',
+    files: ['sites/hearth/index.tsx', 'sites/hearth/recipe.ts', 'sites/hearth/styles.css'],
+    tags: ['site', 'full page', 'recipe', 'cook mode', 'timer', 'servings', 'units', 'checklist', 'operate', 'tool'],
+    a11y: 'Servings is a labelled group with a stepper and a spoken value; the unit and sound controls are switches with names; each timer is role=timer with start, pause and reset buttons that say what they do; step progress is announced in a status line; Cook mode enlarges type and keeps the content order.',
+    deps: ['@fontsource-variable/fraunces', '@fontsource-variable/hanken-grotesk', 'sites/_shared.ts'],
+  },
 ]

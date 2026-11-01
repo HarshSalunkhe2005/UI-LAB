@@ -1,12 +1,15 @@
 {
   "name": "ui-lab",
-  "description": "Harsh Salunkhe's UI Lab plugin: premium frontend design procedure and pattern library.",
-  "owner": { "name": "Harsh Salunkhe", "email": "nightfuryharsh@gmail.com" },
+  "description": "Harsh Salunkhe's UI Lab plugin: a gated design skill for coding agents and the pattern library behind it.",
+  "owner": {
+    "name": "Harsh Salunkhe",
+    "email": "nightfuryharsh@gmail.com"
+  },
   "plugins": [
     {
       "name": "ui-lab",
       "source": "./",
-      "description": "UI Lab: design procedure, worlds, patterns and bug catalogue for premium frontends."
+      "description": "UI Lab: a gated design procedure, 24 design worlds, 12 canonical patterns and one-command verification for non-generic frontends."
     }
   ]
 }

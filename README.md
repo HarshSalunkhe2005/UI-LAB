@@ -1,49 +1,73 @@
 # UI Lab
 
-A library of working website designs and building blocks, with a written guide to choosing between them. Every entry runs live, shows its code, and says how it behaves for people who use a keyboard or a screen reader.
+A design skill for coding agents, and the library behind it.
 
-**Live:** https://ui-lab-weld.vercel.app
+**The skill** makes an AI coding agent follow a short, gated procedure before it writes UI: write the brief, name the house style it would fall into by default and leave it, pick a direction from design worlds that differ, build, then render the page at 1440 px and a true 375 px and fix what the checks find before calling it done. It works in Claude Code and any agent that reads a `SKILL.md` skills folder.
 
-## Who it is for
+**The library** is 263 working patterns (22 of them whole sites), each with a live demo, its code, when to use it and an accessibility note. Everything in it runs live, shows its code, and says how it behaves for people who use a keyboard or a screen reader.
 
-- **Designers and developers** who want a site that looks authored, not generic, and want to see real examples before they build.
-- **People who use an AI assistant** (Claude and others) to build sites, and want better results than "make it premium". The library includes copy-paste prompts and a guide the assistant can read itself.
-- **Anyone learning** what good web design and accessibility look like in practice.
+**Live site:** https://ui-lab-weld.vercel.app
 
-## Three ways to start
+## Install the skill
 
-1. **See finished websites.** Twenty-one complete sites, each in a different design style, open full screen: a night-train departures board, a botanical field notebook, a working tape deck, a broadsheet newsletter, a tide planner, a museum exhibition, a terminal portfolio, a plain-text forecast, and thirteen more, including a bakery, an app landing page, a data report and an engineering blueprint and a receipt-style shop and an explorable guide a type specimen and a playable CRT arcade.
-2. **Find a part to copy.** Over 250 patterns (buttons, sections, scroll effects, charts, screens). Search by what you need, or filter by category. Each page has the live demo, the code, "when to use it" and an accessibility note.
-3. **Use it with an AI assistant.** Give your assistant [`/for-claude.md`](https://ui-lab-weld.vercel.app/for-claude.md). It maps what you are building to the right design style, a proof site to study, and the techniques to take. See [`playbook/prompts.md`](playbook/prompts.md) for prompts to copy.
+With the Claude Code plugin marketplace:
 
-## What is inside
+```
+/plugin marketplace add HarshSalunkhe2005/UI-LAB
+/plugin install ui-lab@ui-lab
+```
+
+Or by hand: copy the folder [`skills/ui-lab`](skills/ui-lab) into `~/.claude/skills/` (on Windows `%USERPROFILE%\.claude\skills\`), so that `~/.claude/skills/ui-lab/SKILL.md` exists. Nothing else is installed, and nothing is fetched at run time. The only script that starts a process is `scripts/verify.mjs`, which runs your own local Chrome or Edge on your own page.
+
+## The three modes
+
+| Mode | Use it for | What you get |
+|---|---|---|
+| **Build** | A new page, screen or component | A brief, a house-style check, a direction card with real tokens, a first slice built end to end, then a verified page and a handoff |
+| **Redesign** | An existing UI | Preserve-first: the content, order and wiring stay, the skin changes; before and after are compared at both widths |
+| **Critique** | Any UI, yours or someone else's | A scored report with concrete fixes, seeded by a static audit of the source |
+
+The skill's own files are in [`skill/ui-lab`](skill/ui-lab) (source) and are built into `skills/ui-lab` and `release/ui-lab.zip` with `npm run skill`. The package contains 24 design worlds in 6 families, a catalogue of the defaults to avoid, 12 patterns for the situations agents rebuild badly, a 36-rule static audit, and `scripts/verify.mjs`: one command that renders at 1440 and a true 375, measures ten mechanical gates, saves contact sheets of every screen of the page and writes the verification log.
+
+## What the evidence says
+
+Tested blind: plain Sonnet against Sonnet with the skill on the same briefs, judged by one Opus and one Sonnet reviewer who only see screenshots. A pair counts as a skill win only if both prefer it.
+
+- **Across eight briefs the skill won 6, tied 2 and lost 0.** It wins on specific, dense or structured work: an analytics dashboard, a restaurant site, a developer portfolio, a docs page, a product page and a redesign of a generic landing page.
+- **It is not better than plain Sonnet on generic marketing landing pages or mobile app screens.** In the latest re-run (three builds of each, after adding the one-command verification), the SaaS landing page got 0 wins, 1 tie and 2 losses, and so did the app screen. The reviewers preferred the plainer, more finished page. On those briefs the skill's pages were more distinctive but less polished.
+- **Variance is high.** The same prompt gives a win, a tie and a loss in different runs, and most votes are close.
+- **Three pages from one brief still look alike.** Reviewers rate three runs of the same landing page brief as one direction in three costumes, mostly because the brief itself suggests the layout.
+
+The full results, with the judges' own words, are in [`evals/results/`](evals/results).
+
+## Using the library with an AI assistant
+
+- Give your assistant [`/for-claude.md`](https://ui-lab-weld.vercel.app/for-claude.md). It maps what you are building to a design world, a proof site to study and the techniques to take. [`src/router.ts`](src/router.ts) is its source, validated at build time.
+- [`playbook/prompts.md`](playbook/prompts.md) has prompts to copy; [`playbook/00-start-here.md`](playbook/00-start-here.md) is the written procedure.
+- Machine-readable: `/llms.txt`, `/llms-full.txt`, `/patterns.json`, `/references.json`, `/docs/<slug>.md`.
+- Slash commands for working in this repo are in [`.claude/commands/`](.claude/commands): `/brief`, `/build-site`, `/teardown`, `/verify`, `/add-pattern`, `/add-world`.
+
+## What is in the repo
 
 | Part | What it is |
 |---|---|
 | **Patterns** (`src/patterns/`) | One self-contained, copyable file each, grouped by category. The index is [`src/meta.ts`](src/meta.ts) plus `meta-moves.ts`, `meta-niche.ts`, `meta-css.ts` and `meta-sites.ts`. |
-| **Sites** (`src/patterns/sites/`) | Whole websites, one design world each. Open any pattern page and press *Launch full screen*. |
-| **Signature moves** | One striking technique each, rebuilt in our own code from award-winning and popular sites we studied. |
-| **Niche worlds** | Designs for specific subjects: timetables, plants, audio gear, newspapers, medicine labels, museums. |
-| **Modern CSS** | Browser features that replace JavaScript, each with a safe fallback. |
-| **References** (`src/references.ts`) | 68 teardowns: 30 world-class sites, 20 vibe-coded UIs, the latest Awwwards winners and a few community picks. Page `#/references`, also `/references.md` and `/references.json`. |
-| **Styles** (page `#/styles`) | Every design world on one page with a picture of its proof site, filterable by what the visitor is doing. Built from `src/router.ts`. |
-| **Playbook** (`playbook/`) | The written judgement: how to brief, choose a design world (21 of them), study a reference, build, check accessibility and verify. [Start here](playbook/00-start-here.md). |
-
-## For AI assistants
-
-- [`src/router.ts`](src/router.ts): brief to design world to proof to technique. Published as `/for-claude.md` and validated at build time (a wrong pattern name fails the build).
-- [`CLAUDE.md`](CLAUDE.md) and [`AGENTS.md`](AGENTS.md): the rules and conventions for working in this repo.
-- Project slash commands in [`.claude/commands/`](.claude/commands): `/brief`, `/build-site`, `/teardown`, `/verify`, `/add-pattern`, `/add-world`.
-- Machine-readable: `/llms.txt`, `/llms-full.txt`, `/patterns.json`, `/references.json`, `/docs/<slug>.md`.
-- A Claude skill packaging the procedure: [`skills/ui-lab`](skills/ui-lab/SKILL.md).
+| **Sites** (`src/patterns/sites/`) | 22 whole websites, one design world each, from a night-train departures board and a botanical field notebook to a tide planner, a museum exhibition, a playable CRT arcade and a kitchen recipe page. Open any pattern page and press *Launch full screen*. |
+| **References** (`src/references.ts`) | 68 teardowns of studied sites. Page `#/references`, also `/references.md` and `/references.json`. |
+| **Styles** (page `#/styles`) | Every design world on one page, filterable by what the visitor is doing. |
+| **Playbook** (`playbook/`) | The written judgement: how to brief, choose a design world, study a reference, build, check accessibility and verify. |
+| **Skill** (`skill/ui-lab`, `skills/ui-lab`, `tools/build-skill.mjs`) | The agent skill: hand-written source, the built copy the plugin ships, and the build and validation tools. |
+| **Evals** (`evals/`) | The blind-judging harness, the runs and the results above. |
 
 ## Run it
 
 ```bash
 npm install
-npm run dev      # http://localhost:5180
-npm run build    # typecheck, static build and the AI files; fails on broken metadata
-npm test         # tests for the pure logic (game engine, tide model, forecast generator)
+npm run dev        # http://localhost:5180
+npm run build      # typecheck, static build and the AI files; fails on broken metadata
+npm test           # tests for the pure logic and the pattern counts
+npm run skill      # build and validate the skill package (release/ui-lab.zip and the plugin copy)
+npm run skill:test # clean-install test plus tests for the skill, its scripts and its worlds
 ```
 
 ## Adding to it
@@ -52,28 +76,16 @@ npm test         # tests for the pure logic (game engine, tide model, forecast g
 2. **A whole site:** see "Adding a whole site" in [`AGENTS.md`](AGENTS.md). It needs scoped CSS, a registered entry and a thumbnail (the build checks).
 3. **A reference:** use the `/teardown` command, or read [`playbook/inspiration.md`](playbook/inspiration.md).
 
-## Layout
-
-```
-src/
-  tokens/tokens.css      # framework-agnostic design tokens; copy into any project
-  index.css              # Tailwind v4 + tokens exposed as utilities (bg-surface, text-fg-muted…)
-  meta*.ts               # the index of every pattern: plain data, read by the app AND the build
-  router.ts              # brief -> world -> proof -> technique (published as /for-claude.md)
-  references.ts          # teardowns of studied sites
-  patterns/              # foundations, components, motion, text, backgrounds, 3D, sites, moves, niche, css, …
-playbook/                # the written guidance (also served at /playbook/*.md)
-tools/                   # site-stack detector, CSS scoping tool for whole sites
-skills/ui-lab/SKILL.md   # the playbook packaged as a Claude skill
-ai-index.ts              # Vite plugin: llms.txt, patterns.json, docs/*.md, raw/*, for-claude.md, and metadata validation
-```
-
 ## Rules
 
 - A live demo, or it does not go in. Links alone belong in `RESOURCES.md`.
 - Style through tokens, never hard-coded theme colours (demo content may use its own palette).
 - Every motion pattern respects `prefers-reduced-motion`; every interactive one works with a keyboard.
 - Techniques are re-implemented in our own code. Nothing is copied from the sites we study.
+
+## License
+
+No license has been chosen yet, so all rights are reserved for now. If you want to use something from this repository, open an issue.
 
 ## Stack
 

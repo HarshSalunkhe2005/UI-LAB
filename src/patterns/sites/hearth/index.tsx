@@ -6,7 +6,7 @@ import { useSiteScroll } from '../_shared'
 import { BASE_SERVES, INGREDIENTS, STEPS, TITLE, convert } from './recipe'
 
 /*
- * HEARTH: a recipe page built for the kitchen. World 25 (Recipe Card / Cook Mode).
+ * HEARTH: a recipe page built for the kitchen.
  * Signature: it adapts to someone with floury hands. Servings scale every amount (written as cooks say them: 1½, ¾),
  * a unit switch changes metric and US measures, steps tick off, each timed step has its own countdown, and Cook mode
  * makes the type large and asks the screen to stay awake. Sound is off unless you press the bell.

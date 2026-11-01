@@ -1,0 +1,60 @@
+<!doctype html>
+<!--
+pattern: hero-evidence
+title: Hero that shows the product's evidence
+category: Hero
+tier: lite
+when: The product turns an input into an output (tickets into a digest, logs into alerts). Show the transformation on the first screen instead of describing it.
+a11y: The illustration is real text in the DOM, not an image; the diagram is decorative arrows with aria-hidden; one h1; the button is a link with a clear name.
+adapt: Replace tokens with the direction's tokens. Keep three inputs, one output panel and real numbers. At 375 the inputs stack above the output.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hero with evidence</title>
+<style>
+:root{--surface:#f3c93e;--surface-raised:#fff;--ink:#14181b;--ink-muted:#3a4047;--accent:#14392f;--accent-ink:#fff;--border:#14181b;--radius:10px;--dur:300ms;--ease:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+.hero{max-width:1200px;margin:0 auto;padding:64px 24px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:48px;align-items:center}
+h1{font-size:clamp(2.5rem,6vw,4.5rem);line-height:1;letter-spacing:-.03em;margin:0 0 20px}
+.lede{font-size:1.125rem;color:var(--ink);max-width:34em;margin:0 0 28px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 24px;border-radius:var(--radius);background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.flow{display:grid;gap:12px}
+.ticket{background:var(--surface-raised);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 14px;font-size:.9375rem;max-width:30em}
+.ticket small{display:block;color:var(--ink-muted);font-size:.8125rem;margin-bottom:2px}
+.ticket:nth-child(2){margin-left:24px}.ticket:nth-child(3){margin-left:48px}
+.arrow{justify-self:center;color:var(--ink)}
+.digest{background:var(--accent);color:var(--accent-ink);border-radius:var(--radius);padding:18px}
+.digest h2{margin:0 0 12px;font-size:1rem;display:flex;justify-content:space-between}
+.row{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:10px 0;border-top:1px solid rgba(255,255,255,.25)}
+.row b{font-variant-numeric:tabular-nums}
+.bar{grid-column:1/-1;height:6px;border-radius:3px;background:rgba(255,255,255,.25);overflow:hidden}
+.bar i{display:block;height:100%;background:#f3c93e;transform-origin:left;animation:grow var(--dur) var(--ease) both}
+@keyframes grow{from{transform:scaleX(0)}}
+@media (max-width:760px){.hero{grid-template-columns:1fr;padding:40px 16px;gap:32px}.ticket:nth-child(n){margin-left:0}}
+@media (prefers-reduced-motion:reduce){.bar i{animation:none}}
+</style>
+</head>
+<body>
+<main class="hero">
+  <div>
+    <h1>Your customers already told you what to build.</h1>
+    <p class="lede">Relay reads every support ticket your team closes and sends one page each Monday: the requests that came up most, how many accounts and how much revenue sit behind each.</p>
+    <a class="btn" href="#sample">Get my first digest</a>
+  </div>
+  <div class="flow" aria-label="From tickets to a ranked digest">
+    <div class="ticket"><small>Ticket #48213</small>"I have to change roles for 60 people one at a time."</div>
+    <div class="ticket"><small>Ticket #48377</small>"We onboarded 20 contractors and permissions took our admin two days."</div>
+    <div class="arrow" aria-hidden="true">&#8595;</div>
+    <div class="digest">
+      <h2><span>Week 41 digest</span><span>1,284 tickets read</span></h2>
+      <div class="row"><span>Bulk role assignment</span><b>94 tickets</b><span class="bar"><i style="width:94%"></i></span></div>
+      <div class="row"><span>Export to Snowflake</span><b>58 tickets</b><span class="bar"><i style="width:58%"></i></span></div>
+    </div>
+  </div>
+</main>
+</body>
+</html>
