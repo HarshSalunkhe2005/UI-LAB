@@ -139,6 +139,60 @@ The baseline scored 17/17/11 out of 20, so a plain modern agent is already decen
 - **The skill's value is concentrated in four places:** rendered verification (defects nobody checked), hard briefs (dashboards, dense apps, redesigns), Critique/Redesign modes, and escaping the house style. Phases 2–5 prioritise these over adding more taste prose.
 - **Two scales:** the eval rubric (/20 per run) and the project rubric (/15 overall).
 
+## 5c. Status checkpoint (1 Nov 2026), paused here
+
+Commits (all by HarshSalunkhe2005):
+- `6b10226` P0 evals
+- `4addd70` P1 package
+- `216e70a` P2 SKILL.md
+- `49a0c72` + `7a02fdb` P3 content
+- `d33aeba` + `51a0953` P4 audit
+- `659294b` P5 eval
+- `bc62955` + `5f978a5` P5b enforcement
+
+Results are in `evals/results/phase*.md`.
+
+What exists now:
+- **Package:** `skill/ui-lab/`, built by `npm run skill` into `release/ui-lab.zip` and `-lite.zip`. Both pass a 9-check replica of Agensi's scan. `npm run skill:test` runs the clean install plus tests.
+- **SKILL.md:** about 140 lines, gated. Three modes (Build / Redesign / Critique), a house-style gate, a world-family + random roll, and an inline table of 12 patterns.
+- **References:** 24 per-world token files plus `world-index`, anti-slop (40 entries, A–D), `dense-ui` and `fixes.md`.
+- **Scripts:**
+  - `audit-ui.mjs`: 36 static rules.
+  - `verify.mjs`: one command that renders at 1440 and a true 375, checks 7 gates, writes `design/verify.md`, and exits non-zero on failure.
+  - `contrast.mjs`
+- **Token load:** a typical task loads about 14.6k tokens. CI caps it at 18k.
+
+Scoreboard (blind, Opus + Sonnet judges):
+- **P5:** 6 wins, 2 ties, 0 losses out of 8. Short of the 7/8 bar.
+- **P5b re-eval:**
+  - 01 SaaS: L, L, T. Fails the bar.
+  - 07 mobile: L, W, T. Passes.
+  - 06 control: W.
+  - Gates: 7/7 on every run. Every agent runs `verify.mjs`.
+- **Remaining weaknesses:**
+  - Agents don't open most render slices, and the judged defects are in those slices.
+  - Brief 01's three runs converge (off-white + near-black).
+  - Plain Sonnet's editorial landing pages are strong.
+
+**NEXT = Phase 5c.** The builder hit its usage limit before making any changes:
+- (a) More `verify.mjs` gates: pathological wrap at 375, table cells under 60px or overflowing, text/image overlap, stranded partial bands, a highlight broken mid-phrase.
+- (b) A contact sheet: one tiled image per width (`design/verify/sheet-375.png`, `sheet-1440.png`). The handoff must name one thing seen in each.
+- (c) Ground roll after the world pick: {light neutral, dark, saturated, tinted mid}, limited per world.
+- **Re-eval:** 01 ×3, 07 ×3, 06 ×1, with 2 judges each, plus diversity on 01. Bar: 01 and 07 each at least 2/3 non-losses, with all gates passing.
+
+After 5c, move on regardless of the score:
+- **Phase 6, polish:**
+  - Point the plugin at the built skill, since the old `skills/ui-lab/SKILL.md` still has local paths.
+  - README.
+  - A site page with before/after.
+  - Hearth: register it or remove it.
+  - Make the pattern counts consistent.
+  - A license proposal.
+- **Phase 7, listing kit:** `release/LISTING.md`. Agensi drafts go through the connector's `submit_skill` preview only, and are confirmed only by Harsh.
+- **Proposed strategy:** a free Lite listing (free UI skills get 100–311 uses, paid ones top out at 88) plus Pro at about $12–15. The pitch: "beats a plain agent in blind tests". The payout is Zoneless (USDC), so check the tax side first.
+
+Builder session: "UI LAB", Sonnet 5.5 medium. Keep it to ≤3 parallel subagents, and have it checkpoint before its usage limit hits.
+
 ## 6. Rules for the builder session
 
 - Work only in `C:\Users\Harsh\Projects\UI-Lab`. Follow `CLAUDE.md`/`AGENTS.md` there.
