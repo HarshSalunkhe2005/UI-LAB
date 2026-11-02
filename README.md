@@ -17,7 +17,9 @@ With the Claude Code plugin marketplace:
 /plugin install ui-lab@ui-lab
 ```
 
-Or by hand: copy the folder [`skills/ui-lab`](skills/ui-lab) into `~/.claude/skills/` (on Windows `%USERPROFILE%\.claude\skills\`), so that `~/.claude/skills/ui-lab/SKILL.md` exists. Nothing else is installed, and nothing is fetched at run time. The only script that starts a process is `scripts/verify.mjs`, which runs your own local Chrome or Edge on your own page.
+Or by hand: copy the folder [`skills/ui-lab`](skills/ui-lab) into `~/.claude/skills/` (on Windows `%USERPROFILE%\.claude\skills\`), so that `~/.claude/skills/ui-lab/SKILL.md` exists. This is the free **Lite** build. Nothing else is installed, and nothing is fetched at run time.
+
+**Pro** is a paid build on Agensi. It adds the one-command verification (`scripts/verify.mjs`, which runs your own local Chrome or Edge on your own page), the 36-rule static audit, worked examples, brief and site-type references and two more patterns. The Lite skill is complete on its own: same procedure, same 24 worlds.
 
 ## The three modes
 
@@ -27,7 +29,7 @@ Or by hand: copy the folder [`skills/ui-lab`](skills/ui-lab) into `~/.claude/ski
 | **Redesign** | An existing UI | Preserve-first: the content, order and wiring stay, the skin changes; before and after are compared at both widths |
 | **Critique** | Any UI, yours or someone else's | A scored report with concrete fixes, seeded by a static audit of the source |
 
-The skill's own files are in [`skill/ui-lab`](skill/ui-lab) (source) and are built into `skills/ui-lab` and `release/ui-lab.zip` with `npm run skill`. The package contains 24 design worlds in 6 families, a catalogue of the defaults to avoid, 12 patterns for the situations agents rebuild badly, a 36-rule static audit, and `scripts/verify.mjs`: one command that renders at 1440 and a true 375, measures ten mechanical gates, saves contact sheets of every screen of the page and writes the verification log.
+The skill's source is in [`skill/ui-lab`](skill/ui-lab); `npm run skill` builds the Lite package into `skills/ui-lab` (what the plugin installs) and writes both zips to `release/`. Lite has the procedure, 24 design worlds in 6 families, a catalogue of the defaults to avoid, 10 patterns for the situations agents rebuild badly, and the fixes catalogue. Pro adds a 36-rule static audit, 2 more patterns, and `scripts/verify.mjs`: one command that renders at 1440 and a true 375, measures ten mechanical gates, saves contact sheets of every screen of the page and writes the verification log.
 
 ## What the evidence says
 
@@ -57,7 +59,7 @@ The full results, with the judges' own words, are in [`evals/results/`](evals/re
 | **Styles** (page `#/styles`) | Every design world on one page, filterable by what the visitor is doing. |
 | **Evidence** (page `#/evidence`) | Eight briefs, plain Sonnet next to Sonnet with the skill, with the blind verdict and the judges' reasoning on each row, losses included. Data in `src/evidence.ts`, pictures in `public/evidence/`. |
 | **Playbook** (`playbook/`) | The written judgement: how to brief, choose a design world, study a reference, build, check accessibility and verify. |
-| **Skill** (`skill/ui-lab`, `skills/ui-lab`, `tools/build-skill.mjs`) | The agent skill: hand-written source, the built copy the plugin ships, and the build and validation tools. |
+| **Skill** (`skill/ui-lab`, `skills/ui-lab`, `tools/build-skill.mjs`) | The agent skill: hand-written source, the Lite copy the plugin ships, and the build and validation tools. |
 | **Evals** (`evals/`) | The blind-judging harness, the runs and the results above. |
 
 ## Run it
@@ -67,7 +69,7 @@ npm install
 npm run dev        # http://localhost:5180
 npm run build      # typecheck, static build and the AI files; fails on broken metadata
 npm test           # tests for the pure logic and the pattern counts
-npm run skill      # build and validate the skill package (release/ui-lab.zip and the plugin copy)
+npm run skill      # build and validate the skill package (release/ui-lab-lite.zip, release/ui-lab-pro.zip and the Lite plugin copy)
 npm run skill:test # clean-install test plus tests for the skill, its scripts and its worlds
 ```
 
@@ -86,7 +88,7 @@ npm run skill:test # clean-install test plus tests for the skill, its scripts an
 
 ## License
 
-No license has been chosen yet, so all rights are reserved for now. If you want to use something from this repository, open an issue.
+MIT, see [`LICENSE`](LICENSE), for everything in this repository, including the Lite skill. The paid Pro build on Agensi is a separate package under its own single-user licence; it is not part of this repository.
 
 ## Stack
 

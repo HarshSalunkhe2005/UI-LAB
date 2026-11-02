@@ -3,7 +3,7 @@
 //   skill/ui-lab/        every authored file (SKILL.md, README, references, templates, patterns, scripts, examples)
 //   patterns/*.html      their header comments generate patterns/INDEX.md
 //
-// Output: release/stage/<variant>/ui-lab/ (inspectable) and release/ui-lab.zip, release/ui-lab-lite.zip.
+// Output: release/stage/<variant>/ui-lab/ (inspectable) and release/ui-lab-pro.zip, release/ui-lab-lite.zip.
 // "pro" is everything; "lite" drops the parts marked {{pro}}...{{/pro}} / {{pro-line}}, the paths in LITE_EXCLUDE,
 // and patterns whose header says "tier: pro".
 // Run: node tools/build-skill.mjs   (npm run skill also validates)
@@ -20,7 +20,7 @@ const NAME = 'ui-lab'
 
 const LITE_EXCLUDE = [
   'references/teardowns.md', 'references/briefs.md', 'references/site-types.md', 'references/glossary.md',
-  'scripts/', 'examples/',
+  'scripts/', 'examples/', 'LICENSE-PRO.md',
 ]
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -103,8 +103,8 @@ async function main() {
   const headers = [...set.keys()].filter((p) => /\/patterns\/[^/]+\.html$/.test(p)).map((p) => ({ ...parsePatternHeader(p, set.get(p)), path: p }))
 
   const summary = []
-  let proFiles = []
-  for (const [variant, zipName] of [['pro', `${NAME}.zip`], ['lite', `${NAME}-lite.zip`]]) {
+  let liteFiles = []
+  for (const [variant, zipName] of [['pro', `${NAME}-pro.zip`], ['lite', `${NAME}-lite.zip`]]) {
     const stage = join(OUT, 'stage', variant)
     const keep = headers.filter((h) => variant === 'pro' || h.tier === 'lite')
     const files = []
@@ -121,15 +121,15 @@ async function main() {
       mkdirSync(dirname(dest), { recursive: true })
       writeFileSync(dest, f.data)
     }
-    if (variant === 'pro') proFiles = files
+    if (variant === 'lite') liteFiles = files
     const zip = writeZip(files)
     writeFileSync(join(OUT, zipName), zip)
     const bytes = files.reduce((n, f) => n + f.data.length, 0)
     summary.push(`${zipName}: ${files.length} files (${keep.length} patterns), ${(bytes / 1024).toFixed(0)} KB unpacked, ${(zip.length / 1024).toFixed(0)} KB zipped`)
   }
-  // the plugin (see .claude-plugin) ships the built pro skill from skills/ui-lab, so that repo copy is regenerated here
+  // the plugin (see .claude-plugin) ships the LITE build from skills/ui-lab, a tracked path; the Pro build is written only to release/ (gitignored)
   rmSync(join(ROOT, 'skills', NAME), { recursive: true, force: true })
-  for (const f of proFiles) {
+  for (const f of liteFiles) {
     const dest = join(ROOT, 'skills', ...f.name.split('/'))
     mkdirSync(dirname(dest), { recursive: true })
     writeFileSync(dest, f.data)

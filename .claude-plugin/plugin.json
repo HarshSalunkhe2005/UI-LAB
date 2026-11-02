@@ -1,14 +1,14 @@
 {
   "name": "ui-lab",
   "version": "1.1.0",
-  "description": "A gated design procedure for coding agents: 24 design worlds, 12 canonical patterns, a house-style check and a one-command render-and-measure verification for building non-generic frontends. The library behind it has 263 copyable patterns.",
+  "description": "A gated design procedure for coding agents: 24 design worlds, 10 canonical patterns, a house-style check and a fixes catalogue for building non-generic frontends. The library behind it has 263 copyable patterns. A paid Pro build adds one-command verification.",
   "author": {
     "name": "Harsh Salunkhe",
     "email": "nightfuryharsh@gmail.com"
   },
   "homepage": "https://ui-lab-weld.vercel.app",
   "repository": "https://github.com/HarshSalunkhe2005/UI-LAB",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "keywords": [
     "ui",
     "frontend",

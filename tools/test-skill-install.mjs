@@ -25,7 +25,7 @@ const walk = (d, base = d) => readdirSync(d).flatMap((n) => {
   return statSync(p).isDirectory() ? walk(p, base) : [relative(base, p).split(sep).join('/')]
 }).sort()
 
-for (const zipName of ['ui-lab.zip', 'ui-lab-lite.zip']) {
+for (const zipName of ['ui-lab-pro.zip', 'ui-lab-lite.zip']) {
   console.log(`\n${zipName}`)
   const zipPath = join(ROOT, 'release', zipName)
   const home = mkdtempSync(join(tmpdir(), 'uilab-home-'))

@@ -1,6 +1,6 @@
 # Fixes: what failed verification, and what already-solved problems look like
 
-`scripts/verify.mjs` prints a gate name for every failure. Find the failing check below, apply the fix, check again. After the gate fixes comes the catalogue of problems already solved, grouped by area. Each row: what you see, the cause, the fix.
+Find the failing check below, apply the fix, check again. After the gate fixes comes the catalogue of problems already solved, grouped by area. Each row: what you see, the cause, the fix.
 
 ## Gate failures
 
@@ -92,7 +92,7 @@ The static audit found a critical issue (for example missing alt text, an unlabe
 | `role="status"` on a list is flagged and breaks its children | Role not allowed there | Wrap the list in `<div role="status">` |
 | `aria-selected` on a button inside a grid | Belongs on the cell or option | Move it to the `gridcell` or `option` |
 | Accordion content is announced when closed | Hidden by height or opacity only | Use `<details>` or `hidden`; keep closed content out of the tab order |
-| Colour contrast fails only in hover or disabled states | States were not checked | Check every state's pair with `scripts/contrast.mjs` |
+| Colour contrast fails only in hover or disabled states | States were not checked | Check every state's pair |
 | Smooth scrolling hijacks tests and reduced-motion users | `scroll-behavior: smooth` is global | Apply inside `@media (prefers-reduced-motion: no-preference)`; set `auto` before scripted scrolls |
 | A centred popover opens in the page corner | Top-layer popover is positioned against the viewport | Set `top` and `left` from the trigger's rect when it opens |
 

@@ -9,7 +9,7 @@
     {
       "name": "ui-lab",
       "source": "./",
-      "description": "UI Lab: a gated design procedure, 24 design worlds, 12 canonical patterns and one-command verification for non-generic frontends."
+      "description": "UI Lab: a gated design procedure, 24 design worlds and 10 canonical patterns for non-generic frontends (Lite)."
     }
   ]
 }

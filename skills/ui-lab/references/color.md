@@ -29,7 +29,7 @@ Define these tokens first and use only them in components:
 - Check every pair that appears: ink on surface, ink-muted on surface and on surface-raised, accent-ink on accent, accent text on surface, each state colour as text, text over images (use a scrim), hover and disabled states.
 - Placeholder text and disabled controls still need readable text if the information matters.
 - Do not use colour alone for meaning: add a sign, icon, word or shape.
-- Compute rather than eyeball. Relative luminance per WCAG 2.x: linearise each sRGB channel, weight 0.2126, 0.7152, 0.0722; ratio = (lighter + 0.05) / (darker + 0.05). `scripts/contrast.mjs <fg> <bg>` does this.
+- Compute rather than eyeball. Relative luminance per WCAG 2.x: linearise each sRGB channel, weight 0.2126, 0.7152, 0.0722; ratio = (lighter + 0.05) / (darker + 0.05).
 
 ## Building tints and shades
 

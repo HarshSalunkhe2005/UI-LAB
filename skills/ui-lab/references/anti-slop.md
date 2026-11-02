@@ -9,7 +9,7 @@ Used at Gate 2. A match is not a ban. It is a question: did the brief, the audie
 3. Choose two candidate directions from different families (`world-index.md`), pick one, and make sure it differs from the default on at least three axes. Each change needs a reason from the brief.
 4. Check section D: the obvious replacements are defaults too.
 
-**Signal column.** `audit: <rule>` means the static audit script (`scripts/audit-ui.mjs`) already detects it from source. `manual` means a human or the render pass has to see it. Entries tagged `(heuristic)` come from pattern matching and can be wrong. A static signal proves a symptom, not a verdict: confirm in the render.
+**Signal column.** `audit: <rule>` means the static audit script already detects it from source. `manual` means a human or the render pass has to see it. Entries tagged `(heuristic)` come from pattern matching and can be wrong. A static signal proves a symptom, not a verdict: confirm in the render.
 
 ## A. 2023-era slop
 

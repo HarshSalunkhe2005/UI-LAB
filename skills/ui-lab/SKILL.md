@@ -53,10 +53,8 @@ Put the tokens in `:root` first. Build the signature moment end to end with real
 | A form with errors | `form-field-errors.html` |
 | An empty state | `empty-state.html` |
 | A navigation that must work at 375 | `nav-responsive.html` |
-| A product gallery | `product-gallery.html` |
 | An FAQ | `faq-details.html` |
 | A code block with a copy button | `code-block-copy.html` |
-| A toast or live status message | `toast-live.html` |
 | A docs outline that follows the scroll | `toc-scrollspy.html` |
 
 Nothing else is packaged. For anything not in the table, build it from the world's tokens. Small screens are designed, not squashed: decide at 375 what moves, what collapses and what disappears.
@@ -73,9 +71,9 @@ Dense UI rules (details in `references/dense-ui.md`):
 
 Code that was never rendered is a guess. Do not write "works" or "responsive" in the handoff unless you rendered it.
 
-**Path A: you can render.** Run one command: `node scripts/verify.mjs <project-dir>`. It runs the audit, loads your page in a local Chrome or Edge in a frame that is really 375 px wide (headless browsers refuse narrower windows, so a plain 375 screenshot comes back wider) and at 1440, measures checklist items 1 to 6 and the h1, saves screen-sized slices to `design/verify/`, and writes `design/verify.md` with the real numbers. It prints PASS or FAIL for every gate and exits non-zero on a failure. Fix every FAIL in one batch, run it again, and repeat until it exits 0 (the confirming round). It also builds two contact sheets, `design/verify/sheet-375.png` and `sheet-1440.png`, with every slice tiled small: open both before you write the handoff, and name one concrete thing you saw in each (a section, a defect, a number) in the handoff's verification line. Open single slices to check anything that looks wrong, then fill in the manual rows at the bottom of the log: contrast, keyboard, dead controls, balance. Its gates now also catch one-word-per-line wrapping, squeezed tables and a highlight split across lines; the review items it lists (a band much taller than its content, text over a picture) are heuristics to look at, not gates. The script cannot judge a slice; you can. Do not write the log yourself: the script writes it, and a log you typed by hand is not evidence. If `scripts/verify.mjs` exits 2, no browser was found: treat that as Path B. The audit findings tagged heuristic come from pattern matching and can be wrong: confirm them in a slice before acting. Something rendering wrong? `references/fixes.md` lists each failure and the fix.
+**Path A: you can render.**Use a browser tool, or headless Chrome or Edge with a screenshot flag, at 1440x900 and 375x812. Headless browsers refuse windows narrower than about 500 px, so for the 375 view load the page in a 375 px wide iframe or use the browser's device emulation. Open the screenshots and look at every screen-sized slice, then record the result in `design/verify.md` from `templates/verify-log.md`.
 
-**Path B: you cannot render.** Run `node scripts/audit-ui.mjs <project-dir>` (verify.mjs does this and says so when it has no browser) and fix every critical and warning it reports. State its limits in the handoff: it is a static lint that cannot see layout, collisions, images, overlays or the 375 px view, and its heuristic findings can be wrong. Write NOT RENDERED in the handoff with the list of checks you could not do; a clean audit is not a pass of the checklist below.
+**Path B: you cannot render.**Write NOT RENDERED in the handoff with the list of checks you could not do; a clean audit is not a pass of the checklist below.
 
 Defects that only show at native scale, such as a highlight crowding the line above or a badge covering a number, are found only by looking at each slice. An empty manual row means that step was skipped, and the handoff must say so.
 
@@ -86,7 +84,7 @@ Mechanical checklist, all pass/fail:
 4. Exactly one `h1` per page (extra views in a one-page app use `h2`); landmarks `header`, `nav`, `main`, `footer` present where the page has those parts; images have `alt`; form controls have labels.
 5. Visible focus on every control (tab through the page); no keyboard trap.
 6. `prefers-reduced-motion: reduce` is handled: nothing loops or moves for decoration.
-7. Text contrast at least 4.5:1 (3:1 for large text); check pairs with `node scripts/contrast.mjs <fg> <bg>`.
+7. Text contrast at least 4.5:1 (3:1 for large text).
 8. No collisions or clipping: stamps over text, sticky headers over headings, labels cut off, tables cut off at 375, text under illustrations.
 9. Every control does something: no dead buttons, no dead anchors.
 10. Look at every screen-sized slice, not only the top: a downscaled full-page image hides defects. For each: hierarchy clear in three seconds? Then squint: do the sections differ in ground, density or scale, and is there one place with real visual weight? A page that is correct but uniform and flat is not done.
@@ -104,7 +102,7 @@ Fill `templates/handoff.md` into `design/handoff.md`: what was built and how to 
 Preserve first. Skin, do not rewire.
 
 1. **Inventory before touching anything.** Render every distinct screen at 1440 and 375 and keep the screenshots. List what must survive: routes, copy that is functionally or legally fixed, data shapes, component APIs, handlers, tests, the order of sections if the user kept it. Write it in `design/preserve.md`.
-2. **Critique the current state** with `templates/critique-report.md` (Gate C). This is your before. Run `node scripts/audit-ui.mjs` on the source first to seed it.
+2. **Critique the current state** with `templates/critique-report.md` (Gate C). This is your before.
 3. Run Gate 2 against what exists: what is the current default, and which axes will you change, with candidates from two world families? A redesign that changes only colours is a recolour; say so or change more.
 4. Change tokens, type, layout and markup. Do not change behaviour, data or routes unless the user agrees. When you must (a broken pattern), list the change in the handoff.
 5. Rebuild at the same entry point so the user can compare. Do not edit the original in place unless asked; keep it or work in a copy.
@@ -113,7 +111,7 @@ Preserve first. Skin, do not rewire.
 ## Gate C. Critique
 
 Output is `templates/critique-report.md`, filled. Rules:
-- Render first (Gate 5, Path A). Critique of unseen UI is opinion. Then run `node scripts/audit-ui.mjs <path>` on the source to seed the report: its findings are evidence for the accessibility, typography and house-style rows (quote the file and line, and the anti-slop id). Do not copy heuristic findings in without checking them against the screenshots.
+- Render first (Gate 5, Path A). Critique of unseen UI is opinion.
 - Score each area 0, 1 or 2 with the evidence you saw: a quoted element, a measured number, a screenshot region.
 - List the top three defects by cost to a real user or reviewer, not by ease.
 - Every defect gets a concrete fix as a before and after diff of CSS or markup (a value or a rule, never "improve contrast").
@@ -133,11 +131,7 @@ Output is `templates/critique-report.md`, filled. Rules:
 | Forms, focus, contrast, keyboard, screen readers | `references/accessibility.md` |
 | Something fails verification or renders wrong | `references/fixes.md` |
 | One of the twelve situations in the Gate 4 table | that pattern file |
-| The brief is thin | `references/briefs.md` |
-| Structure for a known site type (SaaS, shop, docs, portfolio, dashboard) | `references/site-types.md` |
 | Writing an artifact | the matching file in `templates/` |
-| Any project with source files (second pair of eyes), no browser, or seeding a critique | `scripts/audit-ui.mjs` |
-| Checking a colour pair | `scripts/contrast.mjs` |
 
 Load only what the trigger names. A typical task needs this file, the anti-slop list, the world index, two worlds, one or two references and the templates.
 

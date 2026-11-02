@@ -53,10 +53,10 @@ Put the tokens in `:root` first. Build the signature moment end to end with real
 | A form with errors | `form-field-errors.html` |
 | An empty state | `empty-state.html` |
 | A navigation that must work at 375 | `nav-responsive.html` |
-| A product gallery | `product-gallery.html` |
+| A product gallery | `product-gallery.html` | {{pro-line}}
 | An FAQ | `faq-details.html` |
 | A code block with a copy button | `code-block-copy.html` |
-| A toast or live status message | `toast-live.html` |
+| A toast or live status message | `toast-live.html` | {{pro-line}}
 | A docs outline that follows the scroll | `toc-scrollspy.html` |
 
 Nothing else is packaged. For anything not in the table, build it from the world's tokens. Small screens are designed, not squashed: decide at 375 what moves, what collapses and what disappears.

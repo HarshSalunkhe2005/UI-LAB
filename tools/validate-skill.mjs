@@ -1,5 +1,5 @@
 // Local replica of the marketplace scan for a skill zip: the 8 published checks plus a dead-reference check.
-// Usage: node tools/validate-skill.mjs release/ui-lab.zip [more.zip ...]
+// Usage: node tools/validate-skill.mjs release/ui-lab-pro.zip [more.zip ...]
 // Exit code 1 if any check fails. Warnings never fail the run.
 // Node built-ins only. Reads the zip; writes nothing.
 import { readFileSync } from 'node:fs'

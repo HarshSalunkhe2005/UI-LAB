@@ -130,17 +130,26 @@ test('README and plugin.json state the real pattern and site counts', () => {
   assert.ok(plugin.includes(`${META.length} copyable patterns`), `plugin.json should say ${META.length} patterns`)
 })
 const walk = (d) => rd(d).flatMap((n) => { const p = pj(d, n); return st(p).isDirectory() ? walk(p) : [p] })
-test('files the plugin ships contain no local paths and match the built skill', () => {
+test('files the plugin ships contain no local paths and match the built Lite skill', () => {
   const shipped = [...walk(pj(ROOT, 'skills')), pj(ROOT, '.claude-plugin', 'plugin.json'), pj(ROOT, '.claude-plugin', 'marketplace.json')]
   for (const f of shipped) assert.ok(!/[A-Za-z]:[\\/]Users[\\/]|\/Users\/[A-Za-z]|Harsh's reference library/.test(rf(f, 'utf8')), `${f} contains a local path`)
-  const stage = pj(ROOT, 'release', 'stage', 'pro', 'ui-lab')
+  const stage = pj(ROOT, 'release', 'stage', 'lite', 'ui-lab')
   if (ex(stage)) {
     const rel = (base, f) => f.slice(base.length + 1).split(sep).join('/')
     const a = walk(stage).map((f) => rel(stage, f)).sort()
     const b = walk(pj(ROOT, 'skills', 'ui-lab')).map((f) => rel(pj(ROOT, 'skills', 'ui-lab'), f)).sort()
-    assert.deepEqual(b, a, 'skills/ui-lab is out of date: run npm run skill')
-    for (const f of a) assert.equal(rf(pj(ROOT, 'skills', 'ui-lab', f), 'utf8'), rf(pj(stage, f), 'utf8'), `${f} differs from the built skill`)
+    assert.deepEqual(b, a, 'skills/ui-lab is out of date: run npm run skill (the plugin copy is the Lite build)')
+    for (const f of a) assert.equal(rf(pj(ROOT, 'skills', 'ui-lab', f), 'utf8'), rf(pj(stage, f), 'utf8'), `${f} differs from the built Lite skill`)
   }
 })
 
+import { execFileSync } from 'node:child_process'
+test('open core: no Pro-only file sits under a tracked path the public plugin installs from', () => {
+  const tracked = execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8' }).split('\n').filter(Boolean)
+  assert.deepEqual(tracked.filter((f) => f.startsWith('release/') || /-pro\.zip$/.test(f)), [], 'a release artefact is tracked')
+  const PRO_ONLY = [/^skills\/ui-lab\/scripts\//, /^skills\/ui-lab\/examples\//, /^skills\/ui-lab\/LICENSE-PRO\.md$/, /^skills\/ui-lab\/references\/(briefs|site-types|glossary|teardowns)\.md$/, /^skills\/ui-lab\/patterns\/(product-gallery|toast-live)\.html$/]
+  const leaked = tracked.filter((f) => PRO_ONLY.some((re) => re.test(f)))
+  assert.deepEqual(leaked, [], `Pro-only files are tracked under skills/: ${leaked.join(', ')}`)
+  for (const f of tracked.filter((x) => x.startsWith('skills/'))) assert.ok(!/\{\{\/?(pro|lite)/.test(rf(pj(ROOT, f), 'utf8')), `${f} still has a build marker`)
+})
 console.log(`${passed} passed${process.exitCode ? ', some failed' : ''}`)
